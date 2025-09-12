@@ -1,0 +1,122 @@
+name: Generate Dataset Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Release version (e.g., v1.0.0)'
+        required: true
+        default: 'v1.0.0'
+
+jobs:
+  generate-release:
+    name: Generate Dataset Release
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+      
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.9'
+        
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+        
+    - name: Generate dataset
+      run: |
+        python scripts/run_pipeline.py
+        
+    - name: Create release package
+      run: |
+        mkdir -p release
+        cp data/final/family_friendly_dataset.json release/
+        cp data/final/validation_results_*.json release/ 2>/dev/null || true
+        cp README.md release/
+        cp requirements.txt release/
+        
+        # Create a compressed archive
+        tar -czf family-friendly-dataset-release.tar.gz -C release .
+        
+    - name: Generate release notes
+      run: |
+        python -c "
+        import json
+        from datetime import datetime
+        
+        # Load dataset metadata
+        with open('data/final/family_friendly_dataset.json', 'r') as f:
+            dataset = json.load(f)
+        
+        metadata = dataset.get('metadata', {})
+        validation = dataset.get('validation_summary', {})
+        
+        notes = f'''# Family-Friendly Dataset Release
+        
+        This release contains a curated collection of family-friendly content across multiple categories.
+        
+        ## 📊 Dataset Statistics
+        - **Total Items:** {metadata.get('total_items', 0)}
+        - **Validity Rate:** {metadata.get('validity_rate', 0):.1f}%
+        - **Categories:** {len(metadata.get('categories', []))}
+        - **Generated:** {metadata.get('creation_date', 'Unknown')}
+        
+        ## 📚 Content Categories
+        '''
+        
+        for category in metadata.get('categories', []):
+            if category in dataset:
+                count = len(dataset[category])
+                notes += f'- **{category.title()}:** {count} items\\n'
+        
+        notes += f'''
+        ## ✅ Quality Assurance
+        - Valid items: {validation.get('overall_valid', 0)}
+        - Validation errors: {validation.get('errors_count', 0)}
+        - Validation warnings: {validation.get('warnings_count', 0)}
+        
+        ## 📥 Files Included
+        - `family_friendly_dataset.json` - Main dataset file
+        - `validation_results_*.json` - Validation report
+        - `README.md` - Documentation
+        - `requirements.txt` - Python dependencies
+        
+        ## 🔧 Usage
+        ```python
+        import json
+        
+        # Load the dataset
+        with open('family_friendly_dataset.json', 'r') as f:
+            dataset = json.load(f)
+        
+        # Access different categories
+        books = dataset['books']
+        movies = dataset['movies']
+        games = dataset['games']
+        ```
+        '''
+        
+        with open('release_notes.md', 'w') as f:
+            f.write(notes)
+        "
+        
+    - name: Create Release
+      uses: softprops/action-gh-release@v1
+      with:
+        tag_name: ${{ github.event.inputs.version || github.ref_name }}
+        name: Family-Friendly Dataset ${{ github.event.inputs.version || github.ref_name }}
+        body_path: release_notes.md
+        files: |
+          family-friendly-dataset-release.tar.gz
+          data/final/family_friendly_dataset.json
+        draft: false
+        prerelease: false
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

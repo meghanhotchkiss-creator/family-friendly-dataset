@@ -1,0 +1,68 @@
+# Family-Friendly Dataset Configuration
+
+dataset:
+  name: "Family-Friendly Content Dataset"
+  version: "1.0.0"
+  description: "A curated collection of family-friendly books, movies, and games"
+  
+# Content filtering settings
+filtering:
+  max_age_rating: 16
+  allowed_ratings:
+    - "G"
+    - "PG" 
+    - "PG-13"
+    - "E"
+    - "E10+"
+    - "TV-Y"
+    - "TV-G"
+    - "TV-PG"
+  
+  inappropriate_keywords:
+    - "violence"
+    - "explicit"
+    - "mature"
+    - "adult"
+    - "inappropriate" 
+    - "graphic"
+    - "disturbing"
+    - "scary"
+    - "frightening"
+  
+  mild_warnings_allowed:
+    - "mild"
+    - "brief"
+    - "minimal"
+    - "fantasy violence"
+    - "cartoon violence"
+    - "mild peril"
+
+# Data quality requirements
+quality:
+  required_fields:
+    books:
+      - "title"
+      - "author"
+    movies:
+      - "title"
+      - "director"
+    games:
+      - "title"
+      - "platform"
+    default:
+      - "title"
+  
+  rating_range:
+    min: 0
+    max: 5
+  
+  year_range:
+    min: 1900
+    max: 2026
+
+# Output settings
+output:
+  include_metadata: true
+  include_validation_report: true
+  pretty_print: true
+  encoding: "utf-8"
