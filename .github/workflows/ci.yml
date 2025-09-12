@@ -1,0 +1,171 @@
+name: Family-Friendly Dataset CI
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main ]
+  schedule:
+    # Run daily at 2 AM UTC to refresh dataset
+    - cron: '0 2 * * *'
+
+jobs:
+  test-scripts:
+    name: Test Pipeline Scripts
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+      
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.9'
+        
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+        
+    - name: Lint Python code
+      run: |
+        pip install flake8
+        # Stop the build if there are Python syntax errors or undefined names
+        flake8 scripts/ --count --select=E9,F63,F7,F82 --show-source --statistics
+        # Treat all errors as warnings
+        flake8 scripts/ --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
+        
+    - name: Test data collection script
+      run: |
+        python scripts/collect_data.py
+        
+    - name: Test data processing script
+      run: |
+        python scripts/process_data.py
+        
+    - name: Test dataset validation script
+      run: |
+        python scripts/validate_dataset.py
+        
+    - name: Run full pipeline
+      run: |
+        python scripts/run_pipeline.py
+        
+    - name: Upload dataset artifacts
+      uses: actions/upload-artifact@v3
+      if: success()
+      with:
+        name: family-friendly-dataset
+        path: |
+          data/final/family_friendly_dataset.json
+          data/final/validation_results_*.json
+        retention-days: 30
+
+  validate-dataset:
+    name: Validate Dataset Quality
+    runs-on: ubuntu-latest
+    needs: test-scripts
+    
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+      
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.9'
+        
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+        
+    - name: Download dataset artifacts
+      uses: actions/download-artifact@v3
+      with:
+        name: family-friendly-dataset
+        path: data/final/
+        
+    - name: Validate dataset quality
+      run: |
+        python -c "
+        import json
+        import sys
+        
+        # Load the final dataset
+        with open('data/final/family_friendly_dataset.json', 'r') as f:
+            dataset = json.load(f)
+        
+        # Check minimum quality requirements
+        metadata = dataset.get('metadata', {})
+        total_items = metadata.get('total_items', 0)
+        validity_rate = metadata.get('validity_rate', 0)
+        
+        print(f'Total items: {total_items}')
+        print(f'Validity rate: {validity_rate}%')
+        
+        # Ensure minimum dataset size and quality
+        if total_items < 5:
+            print('❌ Dataset too small (minimum 5 items required)')
+            sys.exit(1)
+            
+        if validity_rate < 90:
+            print('❌ Dataset validity rate too low (minimum 90% required)')
+            sys.exit(1)
+            
+        print('✅ Dataset quality validation passed!')
+        "
+        
+    - name: Generate dataset report
+      run: |
+        python -c "
+        import json
+        from datetime import datetime
+        
+        # Load dataset and validation results
+        with open('data/final/family_friendly_dataset.json', 'r') as f:
+            dataset = json.load(f)
+        
+        # Generate summary report
+        metadata = dataset.get('metadata', {})
+        validation = dataset.get('validation_summary', {})
+        
+        report = f'''
+        # Family-Friendly Dataset Report
+        
+        **Generated:** {datetime.now().strftime('%Y-%m-%d %H:%M:%S UTC')}
+        
+        ## Dataset Summary
+        - **Total Items:** {metadata.get('total_items', 0)}
+        - **Validity Rate:** {metadata.get('validity_rate', 0):.1f}%
+        - **Categories:** {', '.join(metadata.get('categories', []))}
+        - **Version:** {metadata.get('version', 'Unknown')}
+        
+        ## Validation Results
+        - **Valid Items:** {validation.get('overall_valid', 0)}
+        - **Invalid Items:** {validation.get('overall_invalid', 0)}
+        - **Errors:** {validation.get('errors_count', 0)}
+        - **Warnings:** {validation.get('warnings_count', 0)}
+        
+        ## Category Breakdown
+        '''
+        
+        for category in metadata.get('categories', []):
+            if category in dataset:
+                count = len(dataset[category])
+                report += f'- **{category.title()}:** {count} items\\n'
+        
+        print(report)
+        
+        # Save report
+        with open('dataset_report.md', 'w') as f:
+            f.write(report)
+        "
+        
+    - name: Upload dataset report
+      uses: actions/upload-artifact@v3
+      with:
+        name: dataset-report
+        path: dataset_report.md
+        retention-days: 30
