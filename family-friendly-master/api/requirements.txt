@@ -1,9 +1,0 @@
-fastapi
-uvicorn
-pandas
-google-cloud-bigquery
-python-jose
-firebase-admin
-stripe
-sentence-transformers
-faiss-cpu
