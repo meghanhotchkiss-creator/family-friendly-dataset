@@ -1,8 +1,10 @@
+import os
+from pathlib import Path
+
+import pandas as pd
 from fastapi import FastAPI, Depends, HTTPException
 from fastapi.security import APIKeyHeader, OAuth2PasswordBearer
 from jose import JWTError, jwt
-import pandas as pd
-import os
 
 API_KEY = os.getenv("FAMILY_API_KEY", "supersecretkey")
 api_key_header = APIKeyHeader(name="X-API-Key", auto_error=False)
@@ -19,7 +21,8 @@ if FIREBASE_PROJECT_ID:
         cred = credentials.ApplicationDefault()
         firebase_admin.initialize_app(cred, {"projectId": FIREBASE_PROJECT_ID})
 
-DATA_URL = "https://raw.githubusercontent.com/yourusername/family-friendly-dataset/main/data/processed/family_friendly_dataset.csv"
+DEFAULT_DATASET_PATH = Path(__file__).resolve().parents[1] / "data" / "processed" / "family_friendly_dataset.csv"
+DATA_URL = os.getenv("FAMILY_DATASET_URL", str(DEFAULT_DATASET_PATH))
 USE_BIGQUERY = os.getenv("USE_BIGQUERY", "false").lower() == "true"
 
 if USE_BIGQUERY:
@@ -28,7 +31,10 @@ if USE_BIGQUERY:
     bq_client = bigquery.Client()
 
 def load_dataset():
-    return pd.read_csv(DATA_URL)
+    try:
+        return pd.read_csv(DATA_URL)
+    except Exception as exc:
+        raise HTTPException(status_code=500, detail=f"Failed to load dataset from {DATA_URL}") from exc
 
 def verify_api_key(api_key: str = Depends(api_key_header)):
     if api_key != API_KEY:
