@@ -19,6 +19,7 @@ if FIREBASE_PROJECT_ID:
         cred = credentials.ApplicationDefault()
         firebase_admin.initialize_app(cred, {"projectId": FIREBASE_PROJECT_ID})
 
+# URL of the processed dataset CSV hosted in the repository
 DATA_URL = "https://raw.githubusercontent.com/yourusername/family-friendly-dataset/main/data/processed/family_friendly_dataset.csv"
 USE_BIGQUERY = os.getenv("USE_BIGQUERY", "false").lower() == "true"
 
