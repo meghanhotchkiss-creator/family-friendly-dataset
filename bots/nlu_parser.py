@@ -1,6 +1,19 @@
 import spacy
 
-nlp = spacy.load("en_core_web_sm")
+_NLP = None
+
+
+def get_nlp():
+    global _NLP
+    if _NLP is None:
+        try:
+            _NLP = spacy.load("en_core_web_sm")
+        except OSError as exc:
+            raise RuntimeError(
+                "spaCy English model 'en_core_web_sm' is not installed. "
+                "Please install it with 'python -m spacy download en_core_web_sm'."
+            ) from exc
+    return _NLP
 
 STATES = {
     "california": "CA", "texas": "TX", "florida": "FL", "new york": "NY",
@@ -8,7 +21,7 @@ STATES = {
 }
 
 def parse_query(text: str):
-    doc = nlp(text.lower())
+    doc = get_nlp()(text.lower())
     state, indoor, price, category = None, None, None, None
 
     if "indoor" in text:
