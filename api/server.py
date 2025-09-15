@@ -4,6 +4,9 @@ from jose import JWTError, jwt
 import pandas as pd
 import os
 
+from payments import router as payments_router
+from points import router as points_router
+
 API_KEY = os.getenv("FAMILY_API_KEY", "supersecretkey")
 api_key_header = APIKeyHeader(name="X-API-Key", auto_error=False)
 
@@ -53,6 +56,9 @@ def verify_firebase_token(token: str = Depends(oauth2_scheme)):
         raise HTTPException(status_code=403, detail="Invalid Firebase token")
 
 app = FastAPI(title="Family Friendly Dataset API", version="4.0")
+
+app.include_router(payments_router, prefix="/payments")
+app.include_router(points_router, prefix="/points")
 
 def get_data(state: str, indoor: str, limit: int):
     if USE_BIGQUERY:
