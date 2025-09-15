@@ -3,6 +3,7 @@ from fastapi.security import APIKeyHeader, OAuth2PasswordBearer
 from jose import JWTError, jwt
 import pandas as pd
 import os
+from functools import lru_cache
 
 API_KEY = os.getenv("FAMILY_API_KEY", "supersecretkey")
 api_key_header = APIKeyHeader(name="X-API-Key", auto_error=False)
@@ -19,7 +20,8 @@ if FIREBASE_PROJECT_ID:
         cred = credentials.ApplicationDefault()
         firebase_admin.initialize_app(cred, {"projectId": FIREBASE_PROJECT_ID})
 
-DATA_URL = "https://raw.githubusercontent.com/yourusername/family-friendly-dataset/main/data/processed/family_friendly_dataset.csv"
+DEFAULT_DATA_SOURCE = "https://raw.githubusercontent.com/yourusername/family-friendly-dataset/main/data/processed/family_friendly_dataset.csv"
+DATA_SOURCE = os.getenv("FAMILY_DATA_URL", DEFAULT_DATA_SOURCE)
 USE_BIGQUERY = os.getenv("USE_BIGQUERY", "false").lower() == "true"
 
 if USE_BIGQUERY:
@@ -27,8 +29,18 @@ if USE_BIGQUERY:
     BQ_TABLE = os.getenv("BQ_TABLE", "your_project.family_dataset.activities")
     bq_client = bigquery.Client()
 
+@lru_cache(maxsize=1)
 def load_dataset():
-    return pd.read_csv(DATA_URL)
+    try:
+        return pd.read_csv(DATA_SOURCE)
+    except FileNotFoundError as exc:
+        raise HTTPException(
+            status_code=500,
+            detail=(
+                f"Dataset not found at '{DATA_SOURCE}'. "
+                "Set the FAMILY_DATA_URL environment variable to a valid path or URL."
+            ),
+        ) from exc
 
 def verify_api_key(api_key: str = Depends(api_key_header)):
     if api_key != API_KEY:
