@@ -1,6 +1,20 @@
+from functools import lru_cache
+
 import spacy
 
-nlp = spacy.load("en_core_web_sm")
+
+@lru_cache(maxsize=1)
+def load_spacy_model():
+    try:
+        return spacy.load("en_core_web_sm")
+    except OSError as exc:
+        raise RuntimeError(
+            "The spaCy English model 'en_core_web_sm' is required. "
+            "Install it with `python -m spacy download en_core_web_sm`."
+        ) from exc
+
+
+nlp = load_spacy_model()
 
 STATES = {
     "california": "CA", "texas": "TX", "florida": "FL", "new york": "NY",
