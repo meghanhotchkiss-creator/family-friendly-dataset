@@ -1,0 +1,297 @@
+# =======================================
+# automation-bot/.github/workflows/ci.yml
+# =======================================
+name: CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+
+jobs:
+  build-test:
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:15
+        env:
+          POSTGRES_USER: bot
+          POSTGRES_PASSWORD: bot
+          POSTGRES_DB: bot
+        ports:
+          - 5432:5432
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install deps
+        run: pip install -r requirements.txt
+      - name: Run tests
+        run: pytest --maxfail=1 --disable-warnings -q
+      - name: Lint
+        run: pip install flake8 && flake8 app
+
+  docker:
+    runs-on: ubuntu-latest
+    needs: build-test
+    steps:
+      - uses: actions/checkout@v4
+      - name: Login to DockerHub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKER_USER }}
+          password: ${{ secrets.DOCKER_PASS }}
+      - name: Build and push
+        uses: docker/build-push-action@v6
+        with:
+          push: true
+          tags: ${{ secrets.DOCKER_USER }}/automation-bot:latest
+
+  security:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Bandit Scan
+        run: pip install bandit && bandit -r app
+      - name: Trivy Scan
+        uses: aquasecurity/trivy-action@0.20.0
+        with:
+          scan-type: fs
+          severity: HIGH,CRITICAL
+          exit-code: 0
+
+# =======================================
+# automation-bot/app/main.py
+# =======================================
+import torch
+from fastapi import FastAPI, Request
+from langchain.chat_models import ChatOpenAI
+from langchain.prompts import ChatPromptTemplate
+from langchain.chains import LLMChain
+from langchain.vectorstores import FAISS
+from langchain.embeddings import OpenAIEmbeddings
+import psycopg2
+from playwright.async_api import async_playwright
+
+app = FastAPI()
+
+# --- Config ---
+OPENAI_API_KEY = "replace-with-your-key"
+DB_DSN = "dbname=bot user=bot password=bot host=automation-bot-db"
+
+# --- LLM + RAG ---
+llm = ChatOpenAI(model_name="gpt-4o-mini", temperature=0.2, openai_api_key=OPENAI_API_KEY)
+embeddings = OpenAIEmbeddings(openai_api_key=OPENAI_API_KEY)
+vectorstore = FAISS.load_local("./data/faiss_index", embeddings)
+prompt = ChatPromptTemplate.from_template("Assistant: {request}")
+chain = LLMChain(llm=llm, prompt=prompt)
+
+# --- Classifier ---
+class IntentClassifier(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.fc1 = torch.nn.Linear(10, 16)
+        self.relu = torch.nn.ReLU()
+        self.fc2 = torch.nn.Linear(16, 3)
+        self.softmax = torch.nn.LogSoftmax(dim=1)
+    def forward(self, x): return self.softmax(self.fc2(self.relu(self.fc1(x))))
+
+model = IntentClassifier()
+with torch.no_grad():
+    torch.nn.init.xavier_uniform_(model.fc1.weight)
+    torch.nn.init.xavier_uniform_(model.fc2.weight)
+
+# --- Tools ---
+def db_query(sql: str):
+    conn = psycopg2.connect(DB_DSN)
+    cur = conn.cursor()
+    cur.execute(sql)
+    rows = cur.fetchall()
+    conn.commit(); cur.close(); conn.close()
+    return rows
+
+async def fill_form(url: str, data: dict):
+    async with async_playwright() as p:
+        browser = await p.chromium.launch()
+        page = await browser.new_page()
+        await page.goto(url)
+        for field, value in data.items(): await page.fill(field, value)
+        await page.click("button[type=submit]")
+        await browser.close()
+        return "Form submitted"
+
+# --- Bot Logic ---
+def automation_bot(user_input: str):
+    intent = torch.argmax(model(torch.randn(1, 10))).item()
+    docs = vectorstore.similarity_search(user_input, k=3)
+    context = "\n".join([d.page_content for d in docs]) if docs else ""
+    response = chain.run(request=f"{user_input}\nContext:{context}")
+    return {"intent": intent, "llm_response": response}
+
+@app.post("/chat")
+async def chat(req: Request):
+    data = await req.json()
+    return automation_bot(data["message"])
+
+# =======================================
+# automation-bot/requirements.txt
+# =======================================
+openai
+langchain
+langgraph
+torch
+faiss-cpu
+psycopg2-binary
+playwright
+fastapi
+uvicorn
+python-dotenv
+pytest
+flake8
+bandit
+prometheus-client
+
+# =======================================
+# automation-bot/Dockerfile
+# =======================================
+FROM python:3.11-slim
+WORKDIR /app
+COPY requirements.txt .
+RUN pip install -r requirements.txt && playwright install chromium
+COPY . .
+CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000"]
+
+# =======================================
+# automation-bot/docker-compose.yml
+# =======================================
+version: '3.9'
+services:
+  bot:
+    build: .
+    ports: ["8000:8000"]
+    environment:
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+      - DB_DSN=dbname=bot user=bot password=bot host=db
+    depends_on: [db]
+  db:
+    image: postgres:15
+    environment:
+      POSTGRES_USER: bot
+      POSTGRES_PASSWORD: bot
+      POSTGRES_DB: bot
+    ports: ["5432:5432"]
+
+# =======================================
+# automation-bot/k8s/all.yaml
+# =======================================
+apiVersion: apps/v1
+kind: Deployment
+metadata: {name: automation-bot}
+spec:
+  replicas: 2
+  selector: {matchLabels: {app: automation-bot}}
+  template:
+    metadata: {labels: {app: automation-bot}}
+    spec:
+      containers:
+      - name: bot
+        image: your-dockerhub-user/automation-bot:latest
+        ports: [{containerPort: 8000}]
+        env:
+        - name: OPENAI_API_KEY
+          valueFrom: {secretKeyRef: {name: automation-bot-secrets, key: OPENAI_API_KEY}}
+        - name: DB_DSN
+          value: "dbname=bot user=bot password=bot host=automation-bot-db"
+---
+apiVersion: v1
+kind: Service
+metadata: {name: automation-bot}
+spec:
+  selector: {app: automation-bot}
+  ports: [{port: 8000, targetPort: 8000}]
+---
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata: {name: automation-bot-hpa}
+spec:
+  scaleTargetRef: {apiVersion: apps/v1, kind: Deployment, name: automation-bot}
+  minReplicas: 2
+  maxReplicas: 10
+  metrics: [{type: Resource, resource: {name: cpu, target: {type: Utilization, averageUtilization: 70}}}]
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata: {name: automation-bot-db}
+spec:
+  replicas: 1
+  selector: {matchLabels: {app: automation-bot-db}}
+  template:
+    metadata: {labels: {app: automation-bot-db}}
+    spec:
+      containers:
+      - name: db
+        image: postgres:15
+        env:
+        - {name: POSTGRES_USER, value: bot}
+        - {name: POSTGRES_PASSWORD, value: bot}
+        - {name: POSTGRES_DB, value: bot}
+---
+apiVersion: v1
+kind: Service
+metadata: {name: automation-bot-db}
+spec:
+  selector: {app: automation-bot-db}
+  ports: [{port: 5432, targetPort: 5432}]
+---
+apiVersion: v1
+kind: Secret
+metadata: {name: automation-bot-secrets}
+type: Opaque
+stringData: {OPENAI_API_KEY: "replace-with-your-key"}
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata: {name: automation-bot-ingress, annotations: {"nginx.ingress.kubernetes.io/rewrite-target": "/"}}
+spec:
+  rules:
+  - host: bot.example.com
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend: {service: {name: automation-bot, port: {number: 8000}}}
+---
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata: {name: automation-bot-monitor, labels: {release: prometheus}}
+spec:
+  selector: {matchLabels: {app: automation-bot}}
+  endpoints: [{port: http, interval: 30s}]
+
+# =======================================
+# automation-bot/helm/Chart.yaml
+# =======================================
+apiVersion: v2
+name: automation-bot
+description: Helm chart
+type: application
+version: 0.1.0
+appVersion: "1.0.0"
+
+# =======================================
+# automation-bot/terraform/main.tf
+# =======================================
+terraform {
+  required_providers {
+    aws = {source="hashicorp/aws", version="~>5.0"}
+    google = {source="hashicorp/google", version="~>5.0"}
+    azurerm = {source="hashicorp/azurerm", version="~>3.0"}
+    kubernetes = {source="hashicorp/kubernetes", version="~>2.20"}
+    helm = {source="hashicorp/helm", version="~>2.12"}
+  }
+}
+provider "aws" {region = var.region}
+provider "google" {project = var.gcp_project, region = var.region}
+provider "azurerm" {features={}}
+# (Modules for eks, gke, aks can be plugged here)
