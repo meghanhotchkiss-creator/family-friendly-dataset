@@ -1,0 +1,31 @@
+CREATE TABLE Families (
+  family_id SERIAL PRIMARY KEY,
+  name TEXT,
+  members JSONB,            -- ages, preferences
+  budget_range TEXT,
+  home_location TEXT
+);
+
+CREATE TABLE Trips (
+  trip_id SERIAL PRIMARY KEY,
+  family_id INT REFERENCES Families(family_id),
+  destination TEXT,
+  start_date DATE,
+  end_date DATE,
+  itinerary JSONB
+);
+
+CREATE TABLE Feedback (
+  feedback_id SERIAL PRIMARY KEY,
+  trip_id INT REFERENCES Trips(trip_id),
+  family_id INT REFERENCES Families(family_id),
+  rating INT CHECK (rating >=1 AND rating <=5),
+  comments TEXT
+);
+
+CREATE TABLE GlobalPatterns (
+  pattern_id SERIAL PRIMARY KEY,
+  cluster_name TEXT,
+  top_destinations JSONB,
+  seasonal_preferences JSONB
+);
