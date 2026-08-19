@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Scout Fox Travel — Beta Program</title>
+  <meta name="description" content="Join the Scout Fox Travel beta and help shape family trip planning." />
+  <meta name="robots" content="noindex" />
+  <style>
+    :root {
+      --navy: #2c3e50;
+      --navy-dark: #22303d;
+      --accent: #0073e6;
+      --accent-dark: #005bb5;
+      --bg: #f9f9f9;
+      --surface: #ffffff;
+      --text: #333333;
+      --muted: #5c6b7a;
+      --border: #d9e0e6;
+      --notice-bg: #fff8e6;
+      --notice-border: #e0b23c;
+      --error: #b3261e;
+      --ok-bg: #e8f5ec;
+      --ok-border: #2e7d4f;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      margin: 0;
+      padding: 0;
+      line-height: 1.6;
+    }
+
+    header {
+      background: var(--navy);
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 10px;
+      padding: 15px 30px;
+    }
+
+    header .wordmark {
+      font-weight: bold;
+      font-size: 1.1rem;
+    }
+
+    nav a {
+      color: white;
+      text-decoration: none;
+      margin-left: 20px;
+      font-weight: bold;
+    }
+
+    nav a:hover,
+    nav a:focus { text-decoration: underline; }
+
+    .wrap {
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 0 20px 60px;
+    }
+
+    .hero {
+      padding: 50px 0 10px;
+    }
+
+    h1 {
+      color: var(--navy);
+      margin-bottom: 10px;
+      line-height: 1.25;
+    }
+
+    h2 {
+      color: var(--navy);
+      margin-top: 40px;
+      border-bottom: 2px solid var(--border);
+      padding-bottom: 8px;
+    }
+
+    .lede {
+      font-size: 1.1rem;
+      color: var(--muted);
+      margin-top: 0;
+    }
+
+    /* Pre-release notice. Testers should never be unclear about what they are using. */
+    .notice {
+      background: var(--notice-bg);
+      border-left: 5px solid var(--notice-border);
+      padding: 15px 18px;
+      margin: 25px 0;
+      border-radius: 4px;
+    }
+
+    .notice p { margin: 0 0 8px; }
+    .notice p:last-child { margin-bottom: 0; }
+
+    ul.plain { padding-left: 20px; }
+    ul.plain li { margin-bottom: 8px; }
+
+    form {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 24px;
+      margin-top: 20px;
+    }
+
+    fieldset {
+      border: 0;
+      margin: 0;
+      padding: 0;
+    }
+
+    /* The visible <h2> already labels each form, so the legend is announced to
+       screen readers only rather than repeated on screen. */
+    .visually-hidden-legend {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      margin: -1px;
+      padding: 0;
+      overflow: hidden;
+      clip: rect(0 0 0 0);
+      white-space: nowrap;
+      border: 0;
+    }
+
+    label {
+      display: block;
+      margin-top: 16px;
+      font-weight: bold;
+      color: var(--navy);
+    }
+
+    .hint {
+      display: block;
+      font-weight: normal;
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+
+    input[type="text"],
+    input[type="email"],
+    select,
+    textarea {
+      width: 100%;
+      padding: 10px;
+      margin-top: 6px;
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      font-family: inherit;
+      font-size: 1rem;
+      background: var(--surface);
+      color: var(--text);
+    }
+
+    input:focus,
+    select:focus,
+    textarea:focus {
+      outline: 3px solid rgba(0, 115, 230, 0.35);
+      outline-offset: 1px;
+      border-color: var(--accent);
+    }
+
+    textarea { min-height: 120px; resize: vertical; }
+
+    button {
+      background: var(--accent);
+      color: white;
+      border: none;
+      padding: 12px 24px;
+      margin-top: 22px;
+      cursor: pointer;
+      border-radius: 5px;
+      font-size: 1rem;
+      font-weight: bold;
+    }
+
+    button:hover,
+    button:focus { background: var(--accent-dark); }
+
+    .field-error {
+      color: var(--error);
+      font-size: 0.9rem;
+      margin-top: 6px;
+      display: none;
+    }
+
+    .field-error.show { display: block; }
+
+    .form-status {
+      margin-top: 18px;
+      padding: 14px 16px;
+      border-radius: 4px;
+      display: none;
+    }
+
+    .form-status.show { display: block; }
+
+    .form-status.ok {
+      background: var(--ok-bg);
+      border-left: 5px solid var(--ok-border);
+    }
+
+    .form-status.warn {
+      background: var(--notice-bg);
+      border-left: 5px solid var(--notice-border);
+    }
+
+    footer {
+      background: var(--navy);
+      color: white;
+      text-align: center;
+      padding: 20px 15px;
+    }
+
+    footer a { color: #cfe4ff; }
+
+    @media (max-width: 600px) {
+      header { padding: 15px 20px; }
+      nav a { margin-left: 0; margin-right: 16px; }
+      .hero { padding-top: 30px; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <span class="wordmark">Scout Fox Travel</span>
+    <nav>
+      <a href="/">Home</a>
+      <a href="#signup">Join</a>
+      <a href="#feedback">Feedback</a>
+    </nav>
+  </header>
+
+  <div class="wrap">
+    <section class="hero">
+      <h1>Help us build Scout Fox Travel</h1>
+      <p class="lede">
+        We are looking for families to try Scout Fox Travel before it launches
+        and tell us honestly what does and does not work.
+      </p>
+
+      <div class="notice">
+        <p><strong>This is pre-release software.</strong></p>
+        <p>
+          Features are incomplete, results may be wrong or missing, and things
+          will break. That is expected — finding those problems is the point of
+          the beta. Please do not rely on Scout Fox Travel to plan a trip you
+          have already booked.
+        </p>
+      </div>
+    </section>
+
+    <section>
+      <h2>What we are asking of you</h2>
+      <ul class="plain">
+        <li>Try planning a real family trip using the tool.</li>
+        <li>Tell us where the suggestions felt wrong, irrelevant, or unsafe for your kids' ages.</li>
+        <li>Report anything that errors, hangs, or looks broken.</li>
+        <li>Expect roughly one short email from us every couple of weeks.</li>
+      </ul>
+    </section>
+
+    <section id="signup">
+      <h2>Join the beta</h2>
+      <form id="signup-form" novalidate>
+        <fieldset>
+          <legend class="visually-hidden-legend">Beta signup</legend>
+
+          <label for="signup-name">
+            Name
+            <span class="hint">What should we call you?</span>
+          </label>
+          <input type="text" id="signup-name" name="name" autocomplete="name" required />
+          <p class="field-error" id="signup-name-error">Please enter a name.</p>
+
+          <label for="signup-email">
+            Email
+            <span class="hint">Where we send beta invites and updates.</span>
+          </label>
+          <input type="email" id="signup-email" name="email" autocomplete="email" required />
+          <p class="field-error" id="signup-email-error">Please enter a valid email address.</p>
+
+          <label for="signup-family">
+            Who travels with you?
+            <span class="hint">Optional. Ages of kids help us judge whether suggestions fit.</span>
+          </label>
+          <input type="text" id="signup-family" name="family" placeholder="e.g. two adults, kids aged 4 and 9" />
+
+          <label for="signup-notes">
+            Anything else?
+            <span class="hint">Optional. Where you travel, what you wish existed.</span>
+          </label>
+          <textarea id="signup-notes" name="notes"></textarea>
+
+          <button type="submit">Request an invite</button>
+        </fieldset>
+        <div class="form-status" id="signup-status" role="status" aria-live="polite"></div>
+      </form>
+    </section>
+
+    <section id="feedback">
+      <h2>Report a problem</h2>
+      <p>
+        Already testing? Tell us what happened. Specific beats polite — the exact
+        thing you clicked and the exact thing you saw is the most useful report.
+      </p>
+      <form id="feedback-form" novalidate>
+        <fieldset>
+          <legend class="visually-hidden-legend">Beta feedback</legend>
+
+          <label for="feedback-email">
+            Your email
+            <span class="hint">So we can ask follow-up questions.</span>
+          </label>
+          <input type="email" id="feedback-email" name="email" autocomplete="email" required />
+          <p class="field-error" id="feedback-email-error">Please enter a valid email address.</p>
+
+          <label for="feedback-severity">How bad is it?</label>
+          <select id="feedback-severity" name="severity">
+            <option value="broken">Blocked me completely</option>
+            <option value="wrong" selected>Worked, but gave a wrong or odd result</option>
+            <option value="confusing">Confusing or hard to use</option>
+            <option value="idea">Not a bug, just an idea</option>
+          </select>
+
+          <label for="feedback-what">
+            What did you do, and what happened?
+            <span class="hint">Include what you searched for and what came back.</span>
+          </label>
+          <textarea id="feedback-what" name="details" required></textarea>
+          <p class="field-error" id="feedback-what-error">Please tell us what happened.</p>
+
+          <button type="submit">Send feedback</button>
+        </fieldset>
+        <div class="form-status" id="feedback-status" role="status" aria-live="polite"></div>
+      </form>
+    </section>
+  </div>
+
+  <footer>
+    <p>&copy; 2025 Scout Fox Travel &middot; Beta program</p>
+  </footer>
+
+  <script>
+    /*
+     * Where signups and feedback are delivered.
+     *
+     * endpoint  Set this to an HTTPS URL that accepts a JSON POST (your own API,
+     *           Formspree, Basin, etc.). When set, it is used first.
+     * email     Fallback used when no endpoint is configured. The submission is
+     *           handed to the visitor's mail client, pre-filled.
+     *
+     * If BOTH are blank the forms do not pretend to succeed: they tell the
+     * visitor that submission is not configured yet. Never leave both blank on
+     * a live page, or testers will type real feedback into a dead form.
+     */
+    var BETA_CONFIG = {
+      endpoint: '',
+      email: 'info@scoutfoxgo.com'
+    };
+
+    function setStatus(el, kind, message) {
+      el.className = 'form-status show ' + kind;
+      el.textContent = message;
+    }
+
+    function showFieldError(id, show) {
+      var el = document.getElementById(id);
+      if (el) { el.className = show ? 'field-error show' : 'field-error'; }
+    }
+
+    function isEmail(value) {
+      // Deliberately permissive. Rejecting unusual but valid addresses is worse
+      // than accepting a typo we can catch when the invite bounces.
+      return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value.trim());
+    }
+
+    function collect(form) {
+      var data = {};
+      var fields = form.querySelectorAll('input, select, textarea');
+      for (var i = 0; i < fields.length; i++) {
+        if (fields[i].name) { data[fields[i].name] = fields[i].value.trim(); }
+      }
+      return data;
+    }
+
+    function asPlainText(subject, data) {
+      var lines = [];
+      for (var key in data) {
+        if (Object.prototype.hasOwnProperty.call(data, key) && data[key]) {
+          lines.push(key + ': ' + data[key]);
+        }
+      }
+      return 'mailto:' + encodeURIComponent(BETA_CONFIG.email)
+        + '?subject=' + encodeURIComponent(subject)
+        + '&body=' + encodeURIComponent(lines.join('\n'));
+    }
+
+    function deliver(form, statusEl, subject, successMessage) {
+      var data = collect(form);
+
+      if (BETA_CONFIG.endpoint) {
+        setStatus(statusEl, 'ok', 'Sending…');
+        fetch(BETA_CONFIG.endpoint, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(data)
+        }).then(function (response) {
+          if (!response.ok) { throw new Error('HTTP ' + response.status); }
+          form.reset();
+          setStatus(statusEl, 'ok', successMessage);
+        }).catch(function () {
+          // Do not claim success we cannot verify. Give the visitor a route that works.
+          setStatus(statusEl, 'warn',
+            'That did not go through. Please email us at ' + BETA_CONFIG.email + ' instead.');
+        });
+        return;
+      }
+
+      if (BETA_CONFIG.email) {
+        window.location.href = asPlainText(subject, data);
+        setStatus(statusEl, 'ok',
+          'Your email app should now be open with this filled in. Press send to finish.');
+        return;
+      }
+
+      setStatus(statusEl, 'warn',
+        'This form is not connected yet, so nothing was sent. Sorry — please check back shortly.');
+    }
+
+    document.getElementById('signup-form').addEventListener('submit', function (event) {
+      event.preventDefault();
+      var name = document.getElementById('signup-name').value.trim();
+      var email = document.getElementById('signup-email').value.trim();
+      var nameBad = !name;
+      var emailBad = !isEmail(email);
+      showFieldError('signup-name-error', nameBad);
+      showFieldError('signup-email-error', emailBad);
+      if (nameBad || emailBad) { return; }
+      deliver(this, document.getElementById('signup-status'),
+        'Scout Fox Travel beta signup',
+        'Thanks. We have your request and will be in touch with an invite.');
+    });
+
+    document.getElementById('feedback-form').addEventListener('submit', function (event) {
+      event.preventDefault();
+      var email = document.getElementById('feedback-email').value.trim();
+      var details = document.getElementById('feedback-what').value.trim();
+      var emailBad = !isEmail(email);
+      var detailsBad = !details;
+      showFieldError('feedback-email-error', emailBad);
+      showFieldError('feedback-what-error', detailsBad);
+      if (emailBad || detailsBad) { return; }
+      deliver(this, document.getElementById('feedback-status'),
+        'Scout Fox Travel beta feedback',
+        'Thanks — this is genuinely useful. We read every report.');
+    });
+  </script>
+</body>
+</html>
