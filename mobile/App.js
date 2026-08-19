@@ -6,8 +6,12 @@ export default function App() {
   const [indoor, setIndoor] = useState('Any');
   const [results, setResults] = useState([]);
 
-  const API_URL = 'http://localhost:8000/recommend'; // replace with deployed Cloud Run URL
-  const API_KEY = 'mysecretkey';
+  // Set these in app.json -> expo.extra, or via EXPO_PUBLIC_* env vars at
+  // build time. The key ships inside the app bundle, so it is public:
+  // use a free-tier, rate-limited key.
+  const API_BASE = process.env.EXPO_PUBLIC_SCOUTFOX_API_URL || 'http://localhost:8000';
+  const API_URL = `${API_BASE.replace(/\/$/, '')}/recommend`;
+  const API_KEY = process.env.EXPO_PUBLIC_SCOUTFOX_API_KEY || '';
 
   const fetchResults = async () => {
     let params = `?state=${state}&limit=5`;

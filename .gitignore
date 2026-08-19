@@ -1,3 +1,10 @@
 # Python bytecode
 __pycache__/
 *.py[cod]
+
+# Local secrets
+.env
+.env.local
+
+# Node
+node_modules/

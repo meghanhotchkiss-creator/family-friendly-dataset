@@ -7,3 +7,4 @@ firebase-admin
 stripe
 sentence-transformers
 faiss-cpu
+requests

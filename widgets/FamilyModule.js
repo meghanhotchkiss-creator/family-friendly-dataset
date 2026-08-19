@@ -1,30 +1,23 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import { API_URL, authHeaders } from "./config";
 
-const API_URL = "https://family-api-xxxxxx.a.run.app";  
-const API_KEY = "demo_pro_key";                         
 
 export default function FamilyModule() {
   const [points, setPoints] = useState(0);
   const [activities, setActivities] = useState([]);
 
   useEffect(() => {
-    axios.get(`${API_URL}/points/points_balance`, {
-      headers: { "X-API-Key": API_KEY }
-    }).then(res => setPoints(res.data.points));
+    axios.get(`${API_URL}/points/points_balance`, { headers: authHeaders() }).then(res => setPoints(res.data.points));
   }, []);
 
   const loadActivities = async () => {
-    const res = await axios.get(`${API_URL}/recommend?state=CA&limit=5`, {
-      headers: { "X-API-Key": API_KEY }
-    });
+    const res = await axios.get(`${API_URL}/recommend?state=CA&limit=5`, { headers: authHeaders() });
     setActivities(res.data);
   };
 
   const bookActivity = async (id) => {
-    const res = await axios.post(`${API_URL}/points/book_activity?activity_id=${id}`, {}, {
-      headers: { "X-API-Key": API_KEY }
-    });
+    const res = await axios.post(`${API_URL}/points/book_activity?activity_id=${id}`, {}, { headers: authHeaders() });
     alert(`Booking created! You earned ${res.data.earned_points} points.`);
     setPoints(res.data.total_points);
     window.open(res.data.affiliate_link, "_blank");

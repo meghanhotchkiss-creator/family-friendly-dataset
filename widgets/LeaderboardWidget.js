@@ -1,21 +1,16 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import { API_URL, authHeaders } from "./config";
 
-const API_URL = "https://family-api-xxxxxx.a.run.app";  
-const API_KEY = "demo_pro_key";                         
 
 export default function LeaderboardWidget() {
   const [leaderboard, setLeaderboard] = useState([]);
   const [history, setHistory] = useState([]);
 
   useEffect(() => {
-    axios.get(`${API_URL}/points/leaderboard`, {
-      headers: { "X-API-Key": API_KEY }
-    }).then(res => setLeaderboard(res.data));
+    axios.get(`${API_URL}/points/leaderboard`, { headers: authHeaders() }).then(res => setLeaderboard(res.data));
 
-    axios.get(`${API_URL}/points/points_history`, {
-      headers: { "X-API-Key": API_KEY }
-    }).then(res => setHistory(res.data.history));
+    axios.get(`${API_URL}/points/points_history`, { headers: authHeaders() }).then(res => setHistory(res.data.history));
   }, []);
 
   return (

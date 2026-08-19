@@ -2,7 +2,8 @@ import streamlit as st
 import requests
 import os
 
-API_URL = os.getenv("API_URL", "http://localhost:8000/recommend")
+API_BASE = os.getenv("SCOUTFOX_API_URL", "http://localhost:8000").rstrip("/")
+API_URL = os.getenv("API_URL", f"{API_BASE}/recommend")
 API_KEY = os.getenv("FAMILY_API_KEY", "mysecretkey")
 
 st.set_page_config(page_title="Family-Friendly Activities", layout="wide")

@@ -3,7 +3,7 @@ from discord.ext import commands
 from nlu_parser import parse_query
 
 DISCORD_TOKEN = os.getenv("DISCORD_BOT_TOKEN")
-API_URL = "http://localhost:8000/recommend"
+API_URL = os.getenv("SCOUTFOX_API_URL", "http://localhost:8000").rstrip("/") + "/recommend"
 API_KEY = os.getenv("FAMILY_API_KEY", "mysecretkey")
 
 intents = discord.Intents.default()

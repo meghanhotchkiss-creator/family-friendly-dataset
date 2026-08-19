@@ -1,0 +1,123 @@
+name,state,city,type,indoor_or_outdoor,min_age,max_age,price_band,url,verified
+Griffith Observatory,CA,Los Angeles,science_center,both,4,99,free,https://griffithobservatory.org,false
+La Brea Tar Pits and Museum,CA,Los Angeles,museum,both,3,99,$$,https://tarpits.org,false
+California Science Center,CA,Los Angeles,science_center,indoor,2,99,free,https://californiasciencecenter.org,false
+Natural History Museum of Los Angeles County,CA,Los Angeles,museum,indoor,3,99,$$,https://nhm.org,false
+Balboa Park,CA,San Diego,park,outdoor,0,99,free,https://balboapark.org,false
+San Diego Zoo,CA,San Diego,zoo,outdoor,0,99,$$$,https://zoo.sandiegozoo.org,false
+Birch Aquarium at Scripps,CA,La Jolla,aquarium,indoor,2,99,$$,https://aquarium.ucsd.edu,false
+Monterey Bay Aquarium,CA,Monterey,aquarium,indoor,2,99,$$$,https://montereybayaquarium.org,false
+Exploratorium,CA,San Francisco,science_center,indoor,3,99,$$,https://exploratorium.edu,false
+Golden Gate Park,CA,San Francisco,park,outdoor,0,99,free,https://sfrecpark.org,false
+California Academy of Sciences,CA,San Francisco,science_center,indoor,2,99,$$$,https://calacademy.org,false
+Children's Fairyland,CA,Oakland,park,outdoor,1,10,$$,https://fairyland.org,false
+Yosemite National Park,CA,Yosemite Valley,park,outdoor,0,99,$$,https://www.nps.gov/yose,false
+Houston Zoo,TX,Houston,zoo,outdoor,0,99,$$,https://houstonzoo.org,false
+Houston Museum of Natural Science,TX,Houston,museum,indoor,3,99,$$,https://hmns.org,false
+Children's Museum Houston,TX,Houston,museum,indoor,0,12,$$,https://cmhouston.org,false
+Space Center Houston,TX,Houston,science_center,indoor,4,99,$$$,https://spacecenter.org,false
+Perot Museum of Nature and Science,TX,Dallas,science_center,indoor,2,99,$$,https://perotmuseum.org,false
+Dallas Zoo,TX,Dallas,zoo,outdoor,0,99,$$,https://dallaszoo.com,false
+Dallas Arboretum and Botanical Garden,TX,Dallas,garden,outdoor,0,99,$$,https://dallasarboretum.org,false
+San Antonio Zoo,TX,San Antonio,zoo,outdoor,0,99,$$,https://sazoo.org,false
+The DoSeum,TX,San Antonio,museum,indoor,0,10,$$,https://thedoseum.org,false
+Zilker Metropolitan Park,TX,Austin,park,outdoor,0,99,free,https://austintexas.gov,false
+Thinkery,TX,Austin,museum,indoor,0,10,$$,https://thinkeryaustin.org,false
+Big Bend National Park,TX,Big Bend,park,outdoor,4,99,$$,https://www.nps.gov/bibe,false
+Museum of Science and Industry Tampa,FL,Tampa,science_center,indoor,3,99,$$,https://mosi.org,false
+Tampa's Lowry Park Zoo,FL,Tampa,zoo,outdoor,0,99,$$,https://zootampa.org,false
+The Florida Aquarium,FL,Tampa,aquarium,indoor,0,99,$$$,https://flaquarium.org,false
+Miami Seaquarium,FL,Miami,aquarium,both,2,99,$$$,https://miamiseaquarium.com,false
+Phillip and Patricia Frost Museum of Science,FL,Miami,science_center,indoor,2,99,$$$,https://frostscience.org,false
+Zoo Miami,FL,Miami,zoo,outdoor,0,99,$$,https://zoomiami.org,false
+Everglades National Park,FL,Homestead,park,outdoor,4,99,$$,https://www.nps.gov/ever,false
+Kennedy Space Center Visitor Complex,FL,Merritt Island,science_center,both,4,99,$$$,https://kennedyspacecenter.com,false
+Orlando Science Center,FL,Orlando,science_center,indoor,2,99,$$,https://osc.org,false
+Central Park,NY,New York,park,outdoor,0,99,free,https://centralparknyc.org,false
+American Museum of Natural History,NY,New York,museum,indoor,3,99,$$$,https://amnh.org,false
+Brooklyn Children's Museum,NY,Brooklyn,museum,indoor,0,10,$$,https://brooklynkids.org,false
+New York Hall of Science,NY,Queens,science_center,indoor,2,99,$$,https://nysci.org,false
+Bronx Zoo,NY,Bronx,zoo,outdoor,0,99,$$$,https://bronxzoo.com,false
+New York Botanical Garden,NY,Bronx,garden,outdoor,0,99,$$$,https://nybg.org,false
+Intrepid Museum,NY,New York,museum,both,4,99,$$$,https://intrepidmuseum.org,false
+Strong National Museum of Play,NY,Rochester,museum,indoor,0,12,$$,https://museumofplay.org,false
+Niagara Falls State Park,NY,Niagara Falls,park,outdoor,0,99,free,https://niagarafallsstatepark.com,false
+Arizona Science Center,AZ,Phoenix,science_center,indoor,2,99,$$,https://azscience.org,false
+Phoenix Zoo,AZ,Phoenix,zoo,outdoor,0,99,$$,https://phoenixzoo.org,false
+Desert Botanical Garden,AZ,Phoenix,garden,outdoor,0,99,$$,https://dbg.org,false
+Children's Museum of Phoenix,AZ,Phoenix,museum,indoor,0,10,$$,https://childrensmuseumofphoenix.org,false
+Arizona-Sonora Desert Museum,AZ,Tucson,zoo,outdoor,3,99,$$,https://desertmuseum.org,false
+Grand Canyon National Park,AZ,Grand Canyon Village,park,outdoor,4,99,$$,https://www.nps.gov/grca,false
+Saguaro National Park,AZ,Tucson,park,outdoor,4,99,$$,https://www.nps.gov/sagu,false
+Center of Science and Industry,OH,Columbus,science_center,indoor,2,99,$$,https://cosi.org,false
+Columbus Zoo and Aquarium,OH,Powell,zoo,outdoor,0,99,$$,https://columbuszoo.org,false
+Cincinnati Zoo and Botanical Garden,OH,Cincinnati,zoo,outdoor,0,99,$$,https://cincinnatizoo.org,false
+Cincinnati Museum Center,OH,Cincinnati,museum,indoor,2,99,$$,https://cincymuseum.org,false
+Great Lakes Science Center,OH,Cleveland,science_center,indoor,2,99,$$,https://greatscience.com,false
+Cleveland Metroparks Zoo,OH,Cleveland,zoo,outdoor,0,99,$$,https://clevelandmetroparks.com,false
+Cuyahoga Valley National Park,OH,Brecksville,park,outdoor,0,99,free,https://www.nps.gov/cuva,false
+Georgia Aquarium,GA,Atlanta,aquarium,indoor,0,99,$$$,https://georgiaaquarium.org,false
+Zoo Atlanta,GA,Atlanta,zoo,outdoor,0,99,$$,https://zooatlanta.org,false
+Fernbank Museum of Natural History,GA,Atlanta,museum,both,2,99,$$,https://fernbankmuseum.org,false
+Children's Museum of Atlanta,GA,Atlanta,museum,indoor,0,9,$$,https://childrensmuseumatlanta.org,false
+Atlanta Botanical Garden,GA,Atlanta,garden,outdoor,0,99,$$,https://atlantabg.org,false
+Piedmont Park,GA,Atlanta,park,outdoor,0,99,free,https://piedmontpark.org,false
+Museum of Science and Industry,IL,Chicago,science_center,indoor,2,99,$$$,https://msichicago.org,false
+Shedd Aquarium,IL,Chicago,aquarium,indoor,0,99,$$$,https://sheddaquarium.org,false
+Field Museum,IL,Chicago,museum,indoor,3,99,$$$,https://fieldmuseum.org,false
+Adler Planetarium,IL,Chicago,science_center,indoor,4,99,$$,https://adlerplanetarium.org,false
+Lincoln Park Zoo,IL,Chicago,zoo,outdoor,0,99,free,https://lpzoo.org,false
+Chicago Children's Museum,IL,Chicago,museum,indoor,0,10,$$,https://chicagochildrensmuseum.org,false
+Millennium Park,IL,Chicago,park,outdoor,0,99,free,https://chicago.gov,false
+Brookfield Zoo,IL,Brookfield,zoo,outdoor,0,99,$$,https://czs.org,false
+National Air and Space Museum,DC,Washington,museum,indoor,3,99,free,https://airandspace.si.edu,false
+National Museum of Natural History,DC,Washington,museum,indoor,3,99,free,https://naturalhistory.si.edu,false
+Smithsonian National Zoo,DC,Washington,zoo,outdoor,0,99,free,https://nationalzoo.si.edu,false
+National Museum of American History,DC,Washington,museum,indoor,5,99,free,https://americanhistory.si.edu,false
+Pacific Science Center,WA,Seattle,science_center,indoor,2,99,$$,https://pacificsciencecenter.org,false
+Woodland Park Zoo,WA,Seattle,zoo,outdoor,0,99,$$,https://zoo.org,false
+Seattle Aquarium,WA,Seattle,aquarium,indoor,0,99,$$,https://seattleaquarium.org,false
+Museum of Flight,WA,Seattle,museum,indoor,4,99,$$,https://museumofflight.org,false
+Mount Rainier National Park,WA,Ashford,park,outdoor,4,99,$$,https://www.nps.gov/mora,false
+Museum of Science,MA,Boston,science_center,indoor,2,99,$$$,https://mos.org,false
+New England Aquarium,MA,Boston,aquarium,indoor,0,99,$$$,https://neaq.org,false
+Boston Children's Museum,MA,Boston,museum,indoor,0,10,$$,https://bostonchildrensmuseum.org,false
+Franklin Park Zoo,MA,Boston,zoo,outdoor,0,99,$$,https://zoonewengland.org,false
+The Franklin Institute,PA,Philadelphia,science_center,indoor,3,99,$$$,https://fi.edu,false
+Please Touch Museum,PA,Philadelphia,museum,indoor,0,8,$$,https://pleasetouchmuseum.org,false
+Philadelphia Zoo,PA,Philadelphia,zoo,outdoor,0,99,$$,https://philadelphiazoo.org,false
+Carnegie Science Center,PA,Pittsburgh,science_center,indoor,2,99,$$,https://carnegiesciencecenter.org,false
+Denver Museum of Nature and Science,CO,Denver,museum,indoor,2,99,$$,https://dmns.org,false
+Denver Zoo,CO,Denver,zoo,outdoor,0,99,$$,https://denverzoo.org,false
+Rocky Mountain National Park,CO,Estes Park,park,outdoor,4,99,$$,https://www.nps.gov/romo,false
+Children's Museum of Denver,CO,Denver,museum,both,0,8,$$,https://mychildsmuseum.org,false
+Adventure Science Center,TN,Nashville,science_center,indoor,2,99,$$,https://adventuresci.org,false
+Nashville Zoo,TN,Nashville,zoo,outdoor,0,99,$$,https://nashvillezoo.org,false
+Great Smoky Mountains National Park,TN,Gatlinburg,park,outdoor,0,99,free,https://www.nps.gov/grsm,false
+Saint Louis Science Center,MO,St. Louis,science_center,indoor,2,99,free,https://slsc.org,false
+Saint Louis Zoo,MO,St. Louis,zoo,outdoor,0,99,free,https://stlzoo.org,false
+City Museum,MO,St. Louis,museum,both,3,99,$$,https://citymuseum.org,false
+Science Museum of Minnesota,MN,St. Paul,science_center,indoor,2,99,$$,https://smm.org,false
+Minnesota Zoo,MN,Apple Valley,zoo,both,0,99,$$,https://mnzoo.org,false
+North Carolina Museum of Natural Sciences,NC,Raleigh,museum,indoor,2,99,free,https://naturalsciences.org,false
+Museum of Life and Science,NC,Durham,science_center,both,0,99,$$,https://lifeandscience.org,false
+Great Lakes Bay Children's Museum,MI,Bay City,museum,indoor,0,10,$$,https://greatlakesbaycm.org,false
+Detroit Zoo,MI,Royal Oak,zoo,outdoor,0,99,$$,https://detroitzoo.org,false
+Henry Ford Museum of American Innovation,MI,Dearborn,museum,indoor,4,99,$$$,https://thehenryford.org,false
+Discovery Children's Museum,NV,Las Vegas,museum,indoor,0,10,$$,https://discoverykidslv.org,false
+Springs Preserve,NV,Las Vegas,garden,both,0,99,$$,https://springspreserve.org,false
+Bishop Museum,HI,Honolulu,museum,both,3,99,$$,https://bishopmuseum.org,false
+Honolulu Zoo,HI,Honolulu,zoo,outdoor,0,99,$$,https://honoluluzoo.org,false
+Natural History Museum of Utah,UT,Salt Lake City,museum,indoor,2,99,$$,https://nhmu.utah.edu,false
+Zion National Park,UT,Springdale,park,outdoor,4,99,$$,https://www.nps.gov/zion,false
+Oregon Museum of Science and Industry,OR,Portland,science_center,indoor,2,99,$$,https://omsi.edu,false
+Oregon Zoo,OR,Portland,zoo,outdoor,0,99,$$,https://oregonzoo.org,false
+Milwaukee Public Museum,WI,Milwaukee,museum,indoor,3,99,$$,https://mpm.edu,false
+Betty Brinn Children's Museum,WI,Milwaukee,museum,indoor,0,10,$$,https://bbcmkids.org,false
+Audubon Aquarium of the Americas,LA,New Orleans,aquarium,indoor,0,99,$$,https://audubonnatureinstitute.org,false
+Louisiana Children's Museum,LA,New Orleans,museum,both,0,10,$$,https://lcm.org,false
+Riverbanks Zoo and Garden,SC,Columbia,zoo,outdoor,0,99,$$,https://riverbanks.org,false
+Maryland Science Center,MD,Baltimore,science_center,indoor,2,99,$$,https://mdsci.org,false
+National Aquarium,MD,Baltimore,aquarium,indoor,0,99,$$$,https://aqua.org,false
+Virginia Aquarium and Marine Science Center,VA,Virginia Beach,aquarium,indoor,0,99,$$,https://virginiaaquarium.com,false
+Shenandoah National Park,VA,Luray,park,outdoor,0,99,$$,https://www.nps.gov/shen,false

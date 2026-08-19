@@ -3,14 +3,81 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>ScoutFox Family Explorer</title>
+  <title>Scout Fox Family Explorer</title>
+  <meta name="description" content="Find family-friendly activities by state, indoors or out.">
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <h1>Welcome to ScoutFox Family Explorer</h1>
-  <button id="loadActivities">Load Activities</button>
-  <div id="results"></div>
+  <header class="site-header">
+    <a class="wordmark" href="/">Scout Fox Travel</a>
+    <nav>
+      <a href="/">Home</a>
+      <a href="/beta/">Beta</a>
+    </nav>
+  </header>
 
+  <main>
+    <h1>Family Activity Explorer</h1>
+    <p class="lede">
+      Search real family-friendly places by state. <span id="count" class="count"></span>
+    </p>
+
+    <form id="finder" class="finder">
+      <div class="field">
+        <label for="state">State</label>
+        <select id="state" name="state">
+          <option value="CA">Loading…</option>
+        </select>
+      </div>
+
+      <div class="field">
+        <label for="indoor">Indoor or outdoor</label>
+        <select id="indoor" name="indoor">
+          <option value="any" selected>Any</option>
+          <option value="indoor">Indoor</option>
+          <option value="outdoor">Outdoor</option>
+          <option value="both">Both</option>
+        </select>
+      </div>
+
+      <div class="field">
+        <label for="query">Search by name <span class="hint">optional — overrides the filters</span></label>
+        <input type="text" id="query" name="query" placeholder="e.g. aquarium, zoo, science">
+      </div>
+
+      <div class="field field-narrow">
+        <label for="limit">Results</label>
+        <select id="limit" name="limit">
+          <option value="10" selected>10</option>
+          <option value="25">25</option>
+          <option value="50">50</option>
+        </select>
+      </div>
+
+      <button type="submit">Find activities</button>
+    </form>
+
+    <div id="status" class="status" role="status" aria-live="polite"></div>
+    <div id="results" class="results"></div>
+  </main>
+
+  <footer>
+    <p>&copy; 2026 Scout Fox Travel</p>
+  </footer>
+
+  <!--
+    API endpoint and browser key.
+
+    Replace apiUrl with the deployed API once it is on Cloud Run. The key is
+    public by definition -- it reaches every visitor's browser -- so it must be
+    a free-tier, rate-limited key.
+  -->
+  <script>
+    window.SCOUTFOX_CONFIG = {
+      apiUrl: "http://localhost:8000",
+      apiKey: ""
+    };
+  </script>
   <script src="app.js"></script>
 </body>
 </html>

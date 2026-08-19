@@ -5,7 +5,7 @@ from nlu_parser import parse_query
 
 SLACK_BOT_TOKEN = os.getenv("SLACK_BOT_TOKEN")
 SLACK_APP_TOKEN = os.getenv("SLACK_APP_TOKEN")
-API_URL = "http://localhost:8000/recommend"
+API_URL = os.getenv("SCOUTFOX_API_URL", "http://localhost:8000").rstrip("/") + "/recommend"
 API_KEY = os.getenv("FAMILY_API_KEY", "mysecretkey")
 
 app = App(token=SLACK_BOT_TOKEN)
