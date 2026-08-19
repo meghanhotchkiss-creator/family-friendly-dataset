@@ -13,6 +13,52 @@ stage says who does it, how long it takes, and what breaks if you skip it.
 
 ---
 
+## Your list — the things only you can do
+
+Everything else on this page is mine to do once these are unblocked. These
+eleven are yours because they need an account, a payment, a password, or a
+decision. **The first four are what actually matter this week.**
+
+### Do these four first
+
+| # | What | Who | Time | Unblocks |
+| --- | --- | --- | --- | --- |
+| 1 | **Open a new Claude session on `ScoutFoxGo/ScoutFoxAI`** and paste the travel-ingestion spec in | Either | 2 min to start | The whole global travel layer. I cannot reach that repo from the session we are in — it is pinned to your personal account |
+| 2 | **Get the free NPS key** at developer.nps.gov/get-started and hand it over (or put it straight into the deploy env) | Either | 5 min | Hundreds more real activities, immediately |
+| 3 | **Review and merge PR #38**, then rotate the three exposed credentials | Meghan reviews, Arsalan merges | 30 min | Safe to deploy. Right now three working keys are readable in a public repo |
+| 4 | **Open the Google Cloud account** with billing enabled | Meghan (billing), Arsalan (setup) | 20 min | Stage 4 — and therefore everything users ever see |
+
+### Then these, in your own time
+
+| # | What | Who | Time | Note |
+| --- | --- | --- | --- | --- |
+| 5 | Turn on MFA for Netlify, and confirm it on GitHub, Vercel and Google | Meghan | 20 min | Netlify is confirmed off, single owner, no recovery path. The team is also `enforce_mfa: not_enforced` |
+| 6 | Decide the Command Center desk page: password-protected, or a public-safe version | Meghan | 2 min | Netlify password protection needs a paid plan and covers the **whole site**, not one page. A public-safe version is free and I can do it today |
+| 7 | Pick the primary domain of the three | Meghan | 5 min | `scoutfoxtravel.com`, `scoutfoxplanning.com`, `scoutfoxgo.com` are all live with no stated relationship |
+| 8 | Find out who holds the domains and where the registrar login lives | Meghan | 15 min | Not recorded anywhere. A lost domain is unrecoverable |
+| 9 | Apply to an affiliate programme | Meghan | 30 min + wait | The revenue model. Needs business and tax details I do not have |
+| 10 | Decide whether Sylex Studio keeps Vercel access | Meghan | 2 min | An outside contractor can currently promote to production |
+| 11 | Send me a real logo file | Meghan | 5 min | The live homepage renders a placeholder image that reads "Scout Fox Logo" |
+
+### What I do once each is unblocked
+
+| You do | I then do |
+| --- | --- |
+| Start the ScoutFoxAI session | Inspect `scoutfox-platform`, propose a phased plan, then build the ingestion and freshness layers |
+| Hand over the NPS key | Rebuild the dataset and report the real row count |
+| Merge #38 | Confirm the tests still pass and the branch is clean to deploy |
+| Open Google Cloud | Walk stage 4 with you, or run the deploy if you give me access |
+| Decide on the desk page | Ship the public-safe version, or enable protection once the plan allows |
+| Send a logo | Replace the placeholder and push |
+
+### Not waiting on you
+
+Already done and pushed: the dataset and its pipeline, the mounted routes, the
+connected frontend, the container fix, 45 tests, and every document in this
+folder.
+
+---
+
 ## Before you start — the one-paragraph situation
 
 Scout Fox had an API with no data behind it. The recommendation endpoints read
