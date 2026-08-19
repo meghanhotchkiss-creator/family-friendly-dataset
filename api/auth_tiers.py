@@ -7,12 +7,18 @@ from typing import Callable, Dict
 from fastapi import Depends, HTTPException
 from fastapi.security import APIKeyHeader
 
-# Mapping of demo API keys to their corresponding access tiers.
-USER_TIERS: Dict[str, str] = {
+from seed_loader import user_tiers as _seeded_user_tiers
+
+# Keys that exist even when data/seeds/users.json is unavailable, so the API
+# is still usable on a bare checkout.
+FALLBACK_USER_TIERS: Dict[str, str] = {
     "demo_free_key": "free",
     "demo_pro_key": "pro",
     "demo_business_key": "business",
 }
+
+# Mapping of API keys to their access tiers, seeded from data/seeds/users.json.
+USER_TIERS: Dict[str, str] = {**FALLBACK_USER_TIERS, **_seeded_user_tiers()}
 
 # Hierarchy of tiers for comparison when enforcing access levels.
 _TIER_LEVELS = {"free": 0, "pro": 1, "business": 2}
@@ -54,4 +60,4 @@ def verify_tier(required_tier: str) -> Callable[..., str]:
     return dependency
 
 
-__all__ = ["USER_TIERS", "verify_tier"]
+__all__ = ["FALLBACK_USER_TIERS", "USER_TIERS", "verify_tier"]

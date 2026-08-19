@@ -1,0 +1,827 @@
+[
+  {
+    "entry_id": 1,
+    "api_key": "demo_free_key",
+    "event": "daily_checkin",
+    "points": 10,
+    "activity_id": null,
+    "created_at": "2025-01-06"
+  },
+  {
+    "entry_id": 2,
+    "api_key": "demo_free_key",
+    "event": "daily_checkin",
+    "points": 10,
+    "activity_id": null,
+    "created_at": "2025-01-07"
+  },
+  {
+    "entry_id": 3,
+    "api_key": "demo_free_key",
+    "event": "daily_checkin",
+    "points": 10,
+    "activity_id": null,
+    "created_at": "2025-01-08"
+  },
+  {
+    "entry_id": 4,
+    "api_key": "demo_free_key",
+    "event": "daily_checkin",
+    "points": 10,
+    "activity_id": null,
+    "created_at": "2025-01-09"
+  },
+  {
+    "entry_id": 5,
+    "api_key": "demo_free_key",
+    "event": "daily_checkin",
+    "points": 10,
+    "activity_id": null,
+    "created_at": "2025-01-10"
+  },
+  {
+    "entry_id": 6,
+    "api_key": "demo_pro_key",
+    "event": "upgrade_pro",
+    "points": 50,
+    "activity_id": null,
+    "created_at": "2025-01-06"
+  },
+  {
+    "entry_id": 7,
+    "api_key": "demo_pro_key",
+    "event": "affiliate_booking",
+    "points": 20,
+    "activity_id": "tx-001",
+    "created_at": "2025-01-09"
+  },
+  {
+    "entry_id": 8,
+    "api_key": "demo_pro_key",
+    "event": "affiliate_booking",
+    "points": 20,
+    "activity_id": "tx-002",
+    "created_at": "2025-01-14"
+  },
+  {
+    "entry_id": 9,
+    "api_key": "demo_pro_key",
+    "event": "daily_checkin",
+    "points": 10,
+    "activity_id": null,
+    "created_at": "2025-01-19"
+  },
+  {
+    "entry_id": 10,
+    "api_key": "demo_pro_key",
+    "event": "daily_checkin",
+    "points": 10,
+    "activity_id": null,
+    "created_at": "2025-01-20"
+  },
+  {
+    "entry_id": 11,
+    "api_key": "demo_pro_key",
+    "event": "daily_checkin",
+    "points": 10,
+    "activity_id": null,
+    "created_at": "2025-01-21"
+  },
+  {
+    "entry_id": 12,
+    "api_key": "demo_business_key",
+    "event": "upgrade_pro",
+    "points": 50,
+    "activity_id": null,
+    "created_at": "2025-01-06"
+  },
+  {
+    "entry_id": 13,
+    "api_key": "demo_business_key",
+    "event": "upgrade_business",
+    "points": 100,
+    "activity_id": null,
+    "created_at": "2025-01-09"
+  },
+  {
+    "entry_id": 14,
+    "api_key": "demo_business_key",
+    "event": "affiliate_booking",
+    "points": 20,
+    "activity_id": "ny-001",
+    "created_at": "2025-01-12"
+  },
+  {
+    "entry_id": 15,
+    "api_key": "demo_business_key",
+    "event": "affiliate_booking",
+    "points": 20,
+    "activity_id": "ny-002",
+    "created_at": "2025-01-17"
+  },
+  {
+    "entry_id": 16,
+    "api_key": "demo_business_key",
+    "event": "affiliate_booking",
+    "points": 20,
+    "activity_id": "ny-003",
+    "created_at": "2025-01-22"
+  },
+  {
+    "entry_id": 17,
+    "api_key": "demo_business_key",
+    "event": "affiliate_booking",
+    "points": 20,
+    "activity_id": "ny-004",
+    "created_at": "2025-01-27"
+  },
+  {
+    "entry_id": 18,
+    "api_key": "demo_business_key",
+    "event": "affiliate_booking",
+    "points": 20,
+    "activity_id": "ny-005",
+    "created_at": "2025-02-01"
+  },
+  {
+    "entry_id": 19,
+    "api_key": "demo_business_key",
+    "event": "affiliate_booking",
+    "points": 20,
+    "activity_id": "ny-006",
+    "created_at": "2025-02-06"
+  },
+  {
+    "entry_id": 20,
+    "api_key": "demo_business_key",
+    "event": "affiliate_booking",
+    "points": 20,
+    "activity_id": "ny-007",
+    "created_at": "2025-02-11"
+  },
+  {
+    "entry_id": 21,
+    "api_key": "demo_business_key",
+    "event": "affiliate_booking",
+    "points": 20,
+    "activity_id": "ny-008",
+    "created_at": "2025-02-16"
+  },
+  {
+    "entry_id": 22,
+    "api_key": "demo_business_key",
+    "event": "affiliate_booking",
+    "points": 20,
+    "activity_id": "ny-009",
+    "created_at": "2025-02-21"
+  },
+  {
+    "entry_id": 23,
+    "api_key": "demo_business_key",
+    "event": "affiliate_booking",
+    "points": 20,
+    "activity_id": "ny-010",
+    "created_at": "2025-02-26"
+  },
+  {
+    "entry_id": 24,
+    "api_key": "demo_business_key",
+    "event": "daily_checkin",
+    "points": 10,
+    "activity_id": null,
+    "created_at": "2025-03-03"
+  },
+  {
+    "entry_id": 25,
+    "api_key": "demo_business_key",
+    "event": "daily_checkin",
+    "points": 10,
+    "activity_id": null,
+    "created_at": "2025-03-04"
+  },
+  {
+    "entry_id": 26,
+    "api_key": "demo_business_key",
+    "event": "daily_checkin",
+    "points": 10,
+    "activity_id": null,
+    "created_at": "2025-03-05"
+  },
+  {
+    "entry_id": 27,
+    "api_key": "demo_business_key",
+    "event": "daily_checkin",
+    "points": 10,
+    "activity_id": null,
+    "created_at": "2025-03-06"
+  },
+  {
+    "entry_id": 28,
+    "api_key": "demo_business_key",
+    "event": "daily_checkin",
+    "points": 10,
+    "activity_id": null,
+    "created_at": "2025-03-07"
+  },
+  {
+    "entry_id": 29,
+    "api_key": "demo_business_key",
+    "event": "daily_checkin",
+    "points": 10,
+    "activity_id": null,
+    "created_at": "2025-03-08"
+  },
+  {
+    "entry_id": 30,
+    "api_key": "demo_business_key",
+    "event": "daily_checkin",
+    "points": 10,
+    "activity_id": null,
+    "created_at": "2025-03-09"
+  },
+  {
+    "entry_id": 31,
+    "api_key": "demo_business_key",
+    "event": "daily_checkin",
+    "points": 10,
+    "activity_id": null,
+    "created_at": "2025-03-10"
+  },
+  {
+    "entry_id": 32,
+    "api_key": "demo_business_key",
+    "event": "daily_checkin",
+    "points": 10,
+    "activity_id": null,
+    "created_at": "2025-03-11"
+  },
+  {
+    "entry_id": 33,
+    "api_key": "demo_business_key",
+    "event": "daily_checkin",
+    "points": 10,
+    "activity_id": null,
+    "created_at": "2025-03-12"
+  },
+  {
+    "entry_id": 34,
+    "api_key": "demo_business_key",
+    "event": "daily_checkin",
+    "points": 10,
+    "activity_id": null,
+    "created_at": "2025-03-13"
+  },
+  {
+    "entry_id": 35,
+    "api_key": "demo_business_key",
+    "event": "daily_checkin",
+    "points": 10,
+    "activity_id": null,
+    "created_at": "2025-03-14"
+  },
+  {
+    "entry_id": 36,
+    "api_key": "demo_business_key",
+    "event": "daily_checkin",
+    "points": 10,
+    "activity_id": null,
+    "created_at": "2025-03-15"
+  },
+  {
+    "entry_id": 37,
+    "api_key": "demo_business_key",
+    "event": "daily_checkin",
+    "points": 10,
+    "activity_id": null,
+    "created_at": "2025-03-16"
+  },
+  {
+    "entry_id": 38,
+    "api_key": "demo_business_key",
+    "event": "daily_checkin",
+    "points": 10,
+    "activity_id": null,
+    "created_at": "2025-03-17"
+  },
+  {
+    "entry_id": 39,
+    "api_key": "demo_free_key_2",
+    "event": "daily_checkin",
+    "points": 10,
+    "activity_id": null,
+    "created_at": "2025-01-06"
+  },
+  {
+    "entry_id": 40,
+    "api_key": "demo_free_key_2",
+    "event": "daily_checkin",
+    "points": 10,
+    "activity_id": null,
+    "created_at": "2025-01-07"
+  },
+  {
+    "entry_id": 41,
+    "api_key": "demo_free_key_2",
+    "event": "daily_checkin",
+    "points": 10,
+    "activity_id": null,
+    "created_at": "2025-01-08"
+  },
+  {
+    "entry_id": 42,
+    "api_key": "demo_pro_key_2",
+    "event": "upgrade_pro",
+    "points": 50,
+    "activity_id": null,
+    "created_at": "2025-01-06"
+  },
+  {
+    "entry_id": 43,
+    "api_key": "demo_pro_key_2",
+    "event": "affiliate_booking",
+    "points": 20,
+    "activity_id": "az-001",
+    "created_at": "2025-01-09"
+  },
+  {
+    "entry_id": 44,
+    "api_key": "demo_pro_key_2",
+    "event": "affiliate_booking",
+    "points": 20,
+    "activity_id": "az-002",
+    "created_at": "2025-01-14"
+  },
+  {
+    "entry_id": 45,
+    "api_key": "demo_pro_key_2",
+    "event": "affiliate_booking",
+    "points": 20,
+    "activity_id": "az-003",
+    "created_at": "2025-01-19"
+  },
+  {
+    "entry_id": 46,
+    "api_key": "demo_pro_key_2",
+    "event": "affiliate_booking",
+    "points": 20,
+    "activity_id": "az-004",
+    "created_at": "2025-01-24"
+  },
+  {
+    "entry_id": 47,
+    "api_key": "demo_pro_key_2",
+    "event": "affiliate_booking",
+    "points": 20,
+    "activity_id": "az-005",
+    "created_at": "2025-01-29"
+  },
+  {
+    "entry_id": 48,
+    "api_key": "demo_pro_key_2",
+    "event": "affiliate_booking",
+    "points": 20,
+    "activity_id": "az-006",
+    "created_at": "2025-02-03"
+  },
+  {
+    "entry_id": 49,
+    "api_key": "demo_pro_key_2",
+    "event": "affiliate_booking",
+    "points": 20,
+    "activity_id": "az-007",
+    "created_at": "2025-02-08"
+  },
+  {
+    "entry_id": 50,
+    "api_key": "demo_pro_key_2",
+    "event": "affiliate_booking",
+    "points": 20,
+    "activity_id": "az-008",
+    "created_at": "2025-02-13"
+  },
+  {
+    "entry_id": 51,
+    "api_key": "demo_pro_key_2",
+    "event": "daily_checkin",
+    "points": 10,
+    "activity_id": null,
+    "created_at": "2025-02-18"
+  },
+  {
+    "entry_id": 52,
+    "api_key": "demo_pro_key_2",
+    "event": "daily_checkin",
+    "points": 10,
+    "activity_id": null,
+    "created_at": "2025-02-19"
+  },
+  {
+    "entry_id": 53,
+    "api_key": "demo_pro_key_2",
+    "event": "daily_checkin",
+    "points": 10,
+    "activity_id": null,
+    "created_at": "2025-02-20"
+  },
+  {
+    "entry_id": 54,
+    "api_key": "demo_pro_key_2",
+    "event": "daily_checkin",
+    "points": 10,
+    "activity_id": null,
+    "created_at": "2025-02-21"
+  },
+  {
+    "entry_id": 55,
+    "api_key": "demo_pro_key_2",
+    "event": "daily_checkin",
+    "points": 10,
+    "activity_id": null,
+    "created_at": "2025-02-22"
+  },
+  {
+    "entry_id": 56,
+    "api_key": "demo_business_key_2",
+    "event": "upgrade_pro",
+    "points": 50,
+    "activity_id": null,
+    "created_at": "2025-01-06"
+  },
+  {
+    "entry_id": 57,
+    "api_key": "demo_business_key_2",
+    "event": "upgrade_business",
+    "points": 100,
+    "activity_id": null,
+    "created_at": "2025-01-09"
+  },
+  {
+    "entry_id": 58,
+    "api_key": "demo_business_key_2",
+    "event": "affiliate_booking",
+    "points": 20,
+    "activity_id": "il-001",
+    "created_at": "2025-01-12"
+  },
+  {
+    "entry_id": 59,
+    "api_key": "demo_business_key_2",
+    "event": "affiliate_booking",
+    "points": 20,
+    "activity_id": "il-002",
+    "created_at": "2025-01-17"
+  },
+  {
+    "entry_id": 60,
+    "api_key": "demo_business_key_2",
+    "event": "affiliate_booking",
+    "points": 20,
+    "activity_id": "il-003",
+    "created_at": "2025-01-22"
+  },
+  {
+    "entry_id": 61,
+    "api_key": "demo_business_key_2",
+    "event": "affiliate_booking",
+    "points": 20,
+    "activity_id": "il-004",
+    "created_at": "2025-01-27"
+  },
+  {
+    "entry_id": 62,
+    "api_key": "demo_business_key_2",
+    "event": "affiliate_booking",
+    "points": 20,
+    "activity_id": "il-005",
+    "created_at": "2025-02-01"
+  },
+  {
+    "entry_id": 63,
+    "api_key": "demo_business_key_2",
+    "event": "affiliate_booking",
+    "points": 20,
+    "activity_id": "il-006",
+    "created_at": "2025-02-06"
+  },
+  {
+    "entry_id": 64,
+    "api_key": "demo_business_key_2",
+    "event": "affiliate_booking",
+    "points": 20,
+    "activity_id": "il-007",
+    "created_at": "2025-02-11"
+  },
+  {
+    "entry_id": 65,
+    "api_key": "demo_business_key_2",
+    "event": "affiliate_booking",
+    "points": 20,
+    "activity_id": "il-008",
+    "created_at": "2025-02-16"
+  },
+  {
+    "entry_id": 66,
+    "api_key": "demo_business_key_2",
+    "event": "affiliate_booking",
+    "points": 20,
+    "activity_id": "il-009",
+    "created_at": "2025-02-21"
+  },
+  {
+    "entry_id": 67,
+    "api_key": "demo_business_key_2",
+    "event": "affiliate_booking",
+    "points": 20,
+    "activity_id": "il-010",
+    "created_at": "2025-02-26"
+  },
+  {
+    "entry_id": 68,
+    "api_key": "demo_business_key_2",
+    "event": "affiliate_booking",
+    "points": 20,
+    "activity_id": "il-011",
+    "created_at": "2025-03-03"
+  },
+  {
+    "entry_id": 69,
+    "api_key": "demo_business_key_2",
+    "event": "affiliate_booking",
+    "points": 20,
+    "activity_id": "il-012",
+    "created_at": "2025-03-08"
+  },
+  {
+    "entry_id": 70,
+    "api_key": "demo_business_key_2",
+    "event": "affiliate_booking",
+    "points": 20,
+    "activity_id": "il-013",
+    "created_at": "2025-03-13"
+  },
+  {
+    "entry_id": 71,
+    "api_key": "demo_business_key_2",
+    "event": "affiliate_booking",
+    "points": 20,
+    "activity_id": "il-014",
+    "created_at": "2025-03-18"
+  },
+  {
+    "entry_id": 72,
+    "api_key": "demo_business_key_2",
+    "event": "affiliate_booking",
+    "points": 20,
+    "activity_id": "il-015",
+    "created_at": "2025-03-23"
+  },
+  {
+    "entry_id": 73,
+    "api_key": "demo_business_key_2",
+    "event": "affiliate_booking",
+    "points": 20,
+    "activity_id": "il-001",
+    "created_at": "2025-03-28"
+  },
+  {
+    "entry_id": 74,
+    "api_key": "demo_business_key_2",
+    "event": "affiliate_booking",
+    "points": 20,
+    "activity_id": "il-002",
+    "created_at": "2025-04-02"
+  },
+  {
+    "entry_id": 75,
+    "api_key": "demo_business_key_2",
+    "event": "affiliate_booking",
+    "points": 20,
+    "activity_id": "il-003",
+    "created_at": "2025-04-07"
+  },
+  {
+    "entry_id": 76,
+    "api_key": "demo_business_key_2",
+    "event": "affiliate_booking",
+    "points": 20,
+    "activity_id": "il-004",
+    "created_at": "2025-04-12"
+  },
+  {
+    "entry_id": 77,
+    "api_key": "demo_business_key_2",
+    "event": "affiliate_booking",
+    "points": 20,
+    "activity_id": "il-005",
+    "created_at": "2025-04-17"
+  },
+  {
+    "entry_id": 78,
+    "api_key": "demo_business_key_2",
+    "event": "affiliate_booking",
+    "points": 20,
+    "activity_id": "il-006",
+    "created_at": "2025-04-22"
+  },
+  {
+    "entry_id": 79,
+    "api_key": "demo_business_key_2",
+    "event": "affiliate_booking",
+    "points": 20,
+    "activity_id": "il-007",
+    "created_at": "2025-04-27"
+  },
+  {
+    "entry_id": 80,
+    "api_key": "demo_business_key_2",
+    "event": "affiliate_booking",
+    "points": 20,
+    "activity_id": "il-008",
+    "created_at": "2025-05-02"
+  },
+  {
+    "entry_id": 81,
+    "api_key": "demo_business_key_2",
+    "event": "affiliate_booking",
+    "points": 20,
+    "activity_id": "il-009",
+    "created_at": "2025-05-07"
+  },
+  {
+    "entry_id": 82,
+    "api_key": "demo_business_key_2",
+    "event": "affiliate_booking",
+    "points": 20,
+    "activity_id": "il-010",
+    "created_at": "2025-05-12"
+  },
+  {
+    "entry_id": 83,
+    "api_key": "demo_business_key_2",
+    "event": "daily_checkin",
+    "points": 10,
+    "activity_id": null,
+    "created_at": "2025-05-17"
+  },
+  {
+    "entry_id": 84,
+    "api_key": "demo_business_key_2",
+    "event": "daily_checkin",
+    "points": 10,
+    "activity_id": null,
+    "created_at": "2025-05-18"
+  },
+  {
+    "entry_id": 85,
+    "api_key": "demo_business_key_2",
+    "event": "daily_checkin",
+    "points": 10,
+    "activity_id": null,
+    "created_at": "2025-05-19"
+  },
+  {
+    "entry_id": 86,
+    "api_key": "demo_business_key_2",
+    "event": "daily_checkin",
+    "points": 10,
+    "activity_id": null,
+    "created_at": "2025-05-20"
+  },
+  {
+    "entry_id": 87,
+    "api_key": "demo_business_key_2",
+    "event": "daily_checkin",
+    "points": 10,
+    "activity_id": null,
+    "created_at": "2025-05-21"
+  },
+  {
+    "entry_id": 88,
+    "api_key": "demo_business_key_2",
+    "event": "daily_checkin",
+    "points": 10,
+    "activity_id": null,
+    "created_at": "2025-05-22"
+  },
+  {
+    "entry_id": 89,
+    "api_key": "demo_business_key_2",
+    "event": "daily_checkin",
+    "points": 10,
+    "activity_id": null,
+    "created_at": "2025-05-23"
+  },
+  {
+    "entry_id": 90,
+    "api_key": "demo_business_key_2",
+    "event": "daily_checkin",
+    "points": 10,
+    "activity_id": null,
+    "created_at": "2025-05-24"
+  },
+  {
+    "entry_id": 91,
+    "api_key": "demo_business_key_2",
+    "event": "daily_checkin",
+    "points": 10,
+    "activity_id": null,
+    "created_at": "2025-05-25"
+  },
+  {
+    "entry_id": 92,
+    "api_key": "demo_business_key_2",
+    "event": "daily_checkin",
+    "points": 10,
+    "activity_id": null,
+    "created_at": "2025-05-26"
+  },
+  {
+    "entry_id": 93,
+    "api_key": "demo_business_key_2",
+    "event": "daily_checkin",
+    "points": 10,
+    "activity_id": null,
+    "created_at": "2025-05-27"
+  },
+  {
+    "entry_id": 94,
+    "api_key": "demo_business_key_2",
+    "event": "daily_checkin",
+    "points": 10,
+    "activity_id": null,
+    "created_at": "2025-05-28"
+  },
+  {
+    "entry_id": 95,
+    "api_key": "demo_business_key_2",
+    "event": "daily_checkin",
+    "points": 10,
+    "activity_id": null,
+    "created_at": "2025-05-29"
+  },
+  {
+    "entry_id": 96,
+    "api_key": "demo_business_key_2",
+    "event": "daily_checkin",
+    "points": 10,
+    "activity_id": null,
+    "created_at": "2025-05-30"
+  },
+  {
+    "entry_id": 97,
+    "api_key": "demo_business_key_2",
+    "event": "daily_checkin",
+    "points": 10,
+    "activity_id": null,
+    "created_at": "2025-05-31"
+  },
+  {
+    "entry_id": 98,
+    "api_key": "demo_business_key_2",
+    "event": "daily_checkin",
+    "points": 10,
+    "activity_id": null,
+    "created_at": "2025-06-01"
+  },
+  {
+    "entry_id": 99,
+    "api_key": "demo_business_key_2",
+    "event": "daily_checkin",
+    "points": 10,
+    "activity_id": null,
+    "created_at": "2025-06-02"
+  },
+  {
+    "entry_id": 100,
+    "api_key": "demo_business_key_2",
+    "event": "daily_checkin",
+    "points": 10,
+    "activity_id": null,
+    "created_at": "2025-06-03"
+  },
+  {
+    "entry_id": 101,
+    "api_key": "demo_business_key_2",
+    "event": "daily_checkin",
+    "points": 10,
+    "activity_id": null,
+    "created_at": "2025-06-04"
+  },
+  {
+    "entry_id": 102,
+    "api_key": "demo_business_key_2",
+    "event": "daily_checkin",
+    "points": 10,
+    "activity_id": null,
+    "created_at": "2025-06-05"
+  },
+  {
+    "entry_id": 103,
+    "api_key": "demo_business_key_2",
+    "event": "redeem",
+    "points": -35,
+    "activity_id": null,
+    "created_at": "2025-06-06",
+    "note": "Redeemed for a printed trip guide"
+  }
+]

@@ -1,0 +1,790 @@
+[
+  {
+    "trip_id": 1,
+    "family_id": 1,
+    "destination": "San Francisco, CA",
+    "start_date": "2025-03-14",
+    "end_date": "2025-03-16",
+    "itinerary": {
+      "days": [
+        {
+          "day": 1,
+          "activities": [
+            {
+              "activity_id": "ca-001",
+              "name": "California Academy of Sciences"
+            },
+            {
+              "activity_id": "ca-007",
+              "name": "Golden Gate Park"
+            }
+          ],
+          "note": "Museum in the morning, park after nap."
+        },
+        {
+          "day": 2,
+          "activities": [
+            {
+              "activity_id": "ca-002",
+              "name": "Exploratorium"
+            }
+          ],
+          "note": "Rainy-day backup that became the highlight."
+        },
+        {
+          "day": 3,
+          "activities": [
+            {
+              "activity_id": "ca-015",
+              "name": "Muir Woods National Monument"
+            }
+          ],
+          "note": "Flat boardwalk worked with the stroller."
+        }
+      ]
+    }
+  },
+  {
+    "trip_id": 2,
+    "family_id": 1,
+    "destination": "San Diego, CA",
+    "start_date": "2025-07-05",
+    "end_date": "2025-07-08",
+    "itinerary": {
+      "days": [
+        {
+          "day": 1,
+          "activities": [
+            {
+              "activity_id": "ca-003",
+              "name": "San Diego Zoo"
+            }
+          ],
+          "note": "Arrived at opening to beat the heat."
+        },
+        {
+          "day": 2,
+          "activities": [
+            {
+              "activity_id": "ca-009",
+              "name": "Balboa Park"
+            }
+          ],
+          "note": "Free lawns and playground between museums."
+        },
+        {
+          "day": 3,
+          "activities": [
+            {
+              "activity_id": "ca-013",
+              "name": "Aquarium of the Pacific"
+            }
+          ],
+          "note": "Day trip up to Long Beach."
+        }
+      ]
+    }
+  },
+  {
+    "trip_id": 3,
+    "family_id": 2,
+    "destination": "Houston, TX",
+    "start_date": "2025-04-11",
+    "end_date": "2025-04-13",
+    "itinerary": {
+      "days": [
+        {
+          "day": 1,
+          "activities": [
+            {
+              "activity_id": "tx-001",
+              "name": "Space Center Houston"
+            }
+          ],
+          "note": "Tram tour sold out by noon; book ahead."
+        },
+        {
+          "day": 2,
+          "activities": [
+            {
+              "activity_id": "tx-002",
+              "name": "Houston Museum of Natural Science"
+            },
+            {
+              "activity_id": "tx-010",
+              "name": "Houston Zoo"
+            }
+          ],
+          "note": "Both sit in Hermann Park."
+        },
+        {
+          "day": 3,
+          "activities": [
+            {
+              "activity_id": "tx-015",
+              "name": "Kemah Boardwalk"
+            }
+          ],
+          "note": "Easy last morning before the flight."
+        }
+      ]
+    }
+  },
+  {
+    "trip_id": 4,
+    "family_id": 2,
+    "destination": "San Antonio, TX",
+    "start_date": "2025-11-21",
+    "end_date": "2025-11-23",
+    "itinerary": {
+      "days": [
+        {
+          "day": 1,
+          "activities": [
+            {
+              "activity_id": "tx-009",
+              "name": "The DoSeum"
+            }
+          ],
+          "note": "Two hours was not enough."
+        },
+        {
+          "day": 2,
+          "activities": [
+            {
+              "activity_id": "tx-003",
+              "name": "San Antonio River Walk"
+            }
+          ],
+          "note": "Riverboat ride at dusk."
+        }
+      ]
+    }
+  },
+  {
+    "trip_id": 5,
+    "family_id": 3,
+    "destination": "New York, NY",
+    "start_date": "2025-02-15",
+    "end_date": "2025-02-18",
+    "itinerary": {
+      "days": [
+        {
+          "day": 1,
+          "activities": [
+            {
+              "activity_id": "ny-001",
+              "name": "American Museum of Natural History"
+            }
+          ],
+          "note": "Timed entry, went straight to dinosaurs."
+        },
+        {
+          "day": 2,
+          "activities": [
+            {
+              "activity_id": "ny-006",
+              "name": "Intrepid Museum"
+            },
+            {
+              "activity_id": "ny-012",
+              "name": "The High Line"
+            }
+          ],
+          "note": "Cold but clear."
+        },
+        {
+          "day": 3,
+          "activities": [
+            {
+              "activity_id": "ny-011",
+              "name": "Museum of the Moving Image"
+            }
+          ],
+          "note": "Worth the trip out to Queens."
+        },
+        {
+          "day": 4,
+          "activities": [
+            {
+              "activity_id": "ny-009",
+              "name": "New York Public Library Schwarzman Building"
+            }
+          ],
+          "note": "Free tour before the train home."
+        }
+      ]
+    }
+  },
+  {
+    "trip_id": 6,
+    "family_id": 3,
+    "destination": "Niagara Falls, NY",
+    "start_date": "2025-08-02",
+    "end_date": "2025-08-04",
+    "itinerary": {
+      "days": [
+        {
+          "day": 1,
+          "activities": [
+            {
+              "activity_id": "ny-007",
+              "name": "Niagara Falls State Park"
+            }
+          ],
+          "note": "Bring a change of clothes."
+        },
+        {
+          "day": 2,
+          "activities": [
+            {
+              "activity_id": "ny-015",
+              "name": "Letchworth State Park"
+            }
+          ],
+          "note": "Quieter than the falls and just as good."
+        }
+      ]
+    }
+  },
+  {
+    "trip_id": 7,
+    "family_id": 4,
+    "destination": "Tampa, FL",
+    "start_date": "2025-05-24",
+    "end_date": "2025-05-26",
+    "itinerary": {
+      "days": [
+        {
+          "day": 1,
+          "activities": [
+            {
+              "activity_id": "fl-003",
+              "name": "The Florida Aquarium"
+            }
+          ],
+          "note": "Splash pad saved the afternoon."
+        },
+        {
+          "day": 2,
+          "activities": [
+            {
+              "activity_id": "fl-007",
+              "name": "Glazer Children's Museum"
+            }
+          ],
+          "note": "Perfect for the two-year-old."
+        },
+        {
+          "day": 3,
+          "activities": [
+            {
+              "activity_id": "il-003",
+              "name": "Museum of Science and Industry"
+            }
+          ],
+          "note": "Mixed reviews from the kids."
+        }
+      ]
+    }
+  },
+  {
+    "trip_id": 8,
+    "family_id": 4,
+    "destination": "Key Largo, FL",
+    "start_date": "2025-09-13",
+    "end_date": "2025-09-15",
+    "itinerary": {
+      "days": [
+        {
+          "day": 1,
+          "activities": [
+            {
+              "activity_id": "fl-011",
+              "name": "John Pennekamp Coral Reef State Park"
+            }
+          ],
+          "note": "Glass-bottom boat instead of snorkeling."
+        },
+        {
+          "day": 2,
+          "activities": [
+            {
+              "activity_id": "fl-002",
+              "name": "Everglades National Park"
+            }
+          ],
+          "note": "Boardwalk only; short but memorable."
+        }
+      ]
+    }
+  },
+  {
+    "trip_id": 9,
+    "family_id": 5,
+    "destination": "Grand Canyon, AZ",
+    "start_date": "2025-10-10",
+    "end_date": "2025-10-13",
+    "itinerary": {
+      "days": [
+        {
+          "day": 1,
+          "activities": [
+            {
+              "activity_id": "az-001",
+              "name": "Grand Canyon National Park"
+            }
+          ],
+          "note": "Rim Trail plus the free shuttle."
+        },
+        {
+          "day": 2,
+          "activities": [
+            {
+              "activity_id": "az-013",
+              "name": "Petrified Forest National Park"
+            }
+          ],
+          "note": "Long drive, worth one day."
+        },
+        {
+          "day": 3,
+          "activities": [
+            {
+              "activity_id": "az-014",
+              "name": "Lowell Observatory"
+            }
+          ],
+          "note": "Night viewing in Flagstaff."
+        }
+      ]
+    }
+  },
+  {
+    "trip_id": 10,
+    "family_id": 5,
+    "destination": "Tucson, AZ",
+    "start_date": "2025-03-28",
+    "end_date": "2025-03-30",
+    "itinerary": {
+      "days": [
+        {
+          "day": 1,
+          "activities": [
+            {
+              "activity_id": "az-002",
+              "name": "Arizona-Sonora Desert Museum"
+            }
+          ],
+          "note": "Raptor free flight at 10am."
+        },
+        {
+          "day": 2,
+          "activities": [
+            {
+              "activity_id": "az-010",
+              "name": "Saguaro National Park"
+            }
+          ],
+          "note": "Scenic loop drive with two short trails."
+        },
+        {
+          "day": 3,
+          "activities": [
+            {
+              "activity_id": "az-009",
+              "name": "Reid Park Zoo"
+            }
+          ],
+          "note": "Small and shaded; good final morning."
+        }
+      ]
+    }
+  },
+  {
+    "trip_id": 11,
+    "family_id": 6,
+    "destination": "Chicago, IL",
+    "start_date": "2025-06-20",
+    "end_date": "2025-06-23",
+    "itinerary": {
+      "days": [
+        {
+          "day": 1,
+          "activities": [
+            {
+              "activity_id": "il-001",
+              "name": "Shedd Aquarium"
+            },
+            {
+              "activity_id": "il-006",
+              "name": "Millennium Park"
+            }
+          ],
+          "note": "Crown Fountain after the aquarium."
+        },
+        {
+          "day": 2,
+          "activities": [
+            {
+              "activity_id": "il-003",
+              "name": "Museum of Science and Industry"
+            }
+          ],
+          "note": "Submarine tour is a separate ticket."
+        },
+        {
+          "day": 3,
+          "activities": [
+            {
+              "activity_id": "il-009",
+              "name": "Chicago Botanic Garden"
+            }
+          ],
+          "note": "Drove out to Glencoe."
+        },
+        {
+          "day": 4,
+          "activities": [
+            {
+              "activity_id": "il-014",
+              "name": "Navy Pier"
+            }
+          ],
+          "note": "Ferris wheel before heading home."
+        }
+      ]
+    }
+  },
+  {
+    "trip_id": 12,
+    "family_id": 6,
+    "destination": "Cleveland, OH",
+    "start_date": "2025-01-17",
+    "end_date": "2025-01-19",
+    "itinerary": {
+      "days": [
+        {
+          "day": 1,
+          "activities": [
+            {
+              "activity_id": "oh-010",
+              "name": "Great Lakes Science Center"
+            }
+          ],
+          "note": "Indoor day, snow outside."
+        },
+        {
+          "day": 2,
+          "activities": [
+            {
+              "activity_id": "oh-004",
+              "name": "Cleveland Museum of Natural History"
+            },
+            {
+              "activity_id": "oh-006",
+              "name": "Greater Cleveland Aquarium"
+            }
+          ],
+          "note": "Both in one day."
+        }
+      ]
+    }
+  },
+  {
+    "trip_id": 13,
+    "family_id": 7,
+    "destination": "Atlanta, GA",
+    "start_date": "2025-04-04",
+    "end_date": "2025-04-06",
+    "itinerary": {
+      "days": [
+        {
+          "day": 1,
+          "activities": [
+            {
+              "activity_id": "ga-001",
+              "name": "Georgia Aquarium"
+            }
+          ],
+          "note": "Whale sharks lived up to the hype."
+        },
+        {
+          "day": 2,
+          "activities": [
+            {
+              "activity_id": "ga-002",
+              "name": "Zoo Atlanta"
+            },
+            {
+              "activity_id": "ga-007",
+              "name": "Atlanta Botanical Garden"
+            }
+          ],
+          "note": "Pandas early, gardens after lunch."
+        },
+        {
+          "day": 3,
+          "activities": [
+            {
+              "activity_id": "ga-006",
+              "name": "Center for Puppetry Arts"
+            }
+          ],
+          "note": "Booked the make-a-puppet workshop."
+        }
+      ]
+    }
+  },
+  {
+    "trip_id": 14,
+    "family_id": 7,
+    "destination": "Savannah, GA",
+    "start_date": "2025-10-24",
+    "end_date": "2025-10-26",
+    "itinerary": {
+      "days": [
+        {
+          "day": 1,
+          "activities": [
+            {
+              "activity_id": "ga-009",
+              "name": "Forsyth Park"
+            }
+          ],
+          "note": "Playground plus the fountain."
+        },
+        {
+          "day": 2,
+          "activities": [
+            {
+              "activity_id": "ga-008",
+              "name": "Tybee Island Beach"
+            }
+          ],
+          "note": "Off-season, nearly empty."
+        }
+      ]
+    }
+  },
+  {
+    "trip_id": 15,
+    "family_id": 8,
+    "destination": "Columbus, OH",
+    "start_date": "2025-02-07",
+    "end_date": "2025-02-09",
+    "itinerary": {
+      "days": [
+        {
+          "day": 1,
+          "activities": [
+            {
+              "activity_id": "oh-002",
+              "name": "COSI"
+            }
+          ],
+          "note": "Little KidSpace for the one-year-old."
+        },
+        {
+          "day": 2,
+          "activities": [
+            {
+              "activity_id": "oh-011",
+              "name": "Franklin Park Conservatory and Botanical Gardens"
+            }
+          ],
+          "note": "Warm indoor biomes in February."
+        }
+      ]
+    }
+  },
+  {
+    "trip_id": 16,
+    "family_id": 8,
+    "destination": "Hocking Hills, OH",
+    "start_date": "2025-09-05",
+    "end_date": "2025-09-07",
+    "itinerary": {
+      "days": [
+        {
+          "day": 1,
+          "activities": [
+            {
+              "activity_id": "oh-013",
+              "name": "Hocking Hills State Park"
+            }
+          ],
+          "note": "Old Man's Cave loop; carried the toddler."
+        },
+        {
+          "day": 2,
+          "activities": [
+            {
+              "activity_id": "oh-007",
+              "name": "Cuyahoga Valley National Park"
+            }
+          ],
+          "note": "Towpath trail and the scenic railroad."
+        }
+      ]
+    }
+  },
+  {
+    "trip_id": 17,
+    "family_id": 9,
+    "destination": "Chicago, IL",
+    "start_date": "2025-07-18",
+    "end_date": "2025-07-20",
+    "itinerary": {
+      "days": [
+        {
+          "day": 1,
+          "activities": [
+            {
+              "activity_id": "il-002",
+              "name": "Field Museum"
+            }
+          ],
+          "note": "SUE first, then Egypt."
+        },
+        {
+          "day": 2,
+          "activities": [
+            {
+              "activity_id": "il-013",
+              "name": "Peggy Notebaert Nature Museum"
+            },
+            {
+              "activity_id": "il-004",
+              "name": "Lincoln Park Zoo"
+            }
+          ],
+          "note": "Butterflies then the free zoo."
+        },
+        {
+          "day": 3,
+          "activities": [
+            {
+              "activity_id": "il-005",
+              "name": "Adler Planetarium"
+            }
+          ],
+          "note": "Sky show at 11am."
+        }
+      ]
+    }
+  },
+  {
+    "trip_id": 18,
+    "family_id": 10,
+    "destination": "Big Bend, TX",
+    "start_date": "2025-11-07",
+    "end_date": "2025-11-11",
+    "itinerary": {
+      "days": [
+        {
+          "day": 1,
+          "activities": [
+            {
+              "activity_id": "tx-012",
+              "name": "Big Bend National Park"
+            }
+          ],
+          "note": "Santa Elena Canyon trail."
+        },
+        {
+          "day": 2,
+          "activities": [
+            {
+              "activity_id": "tx-012",
+              "name": "Big Bend National Park"
+            }
+          ],
+          "note": "Stargazing night; brought binoculars."
+        },
+        {
+          "day": 3,
+          "activities": [
+            {
+              "activity_id": "tx-013",
+              "name": "Austin Central Library"
+            }
+          ],
+          "note": "Rooftop stop on the drive back."
+        }
+      ]
+    }
+  },
+  {
+    "trip_id": 19,
+    "family_id": 11,
+    "destination": "Sacramento, CA",
+    "start_date": "2025-05-10",
+    "end_date": "2025-05-11",
+    "itinerary": {
+      "days": [
+        {
+          "day": 1,
+          "activities": [
+            {
+              "activity_id": "ca-014",
+              "name": "Sacramento Zoo"
+            }
+          ],
+          "note": "Half day, then home."
+        },
+        {
+          "day": 2,
+          "activities": [
+            {
+              "activity_id": "ca-007",
+              "name": "Golden Gate Park"
+            }
+          ],
+          "note": "Carousel for the three-year-old."
+        }
+      ]
+    }
+  },
+  {
+    "trip_id": 20,
+    "family_id": 12,
+    "destination": "Rochester, NY",
+    "start_date": "2025-12-27",
+    "end_date": "2025-12-29",
+    "itinerary": {
+      "days": [
+        {
+          "day": 1,
+          "activities": [
+            {
+              "activity_id": "ny-008",
+              "name": "The Strong National Museum of Play"
+            }
+          ],
+          "note": "Full day; came back the next morning."
+        },
+        {
+          "day": 2,
+          "activities": [
+            {
+              "activity_id": "ny-008",
+              "name": "The Strong National Museum of Play"
+            }
+          ],
+          "note": "Butterfly garden was the quiet spot."
+        },
+        {
+          "day": 3,
+          "activities": [
+            {
+              "activity_id": "ny-010",
+              "name": "Buffalo Zoo"
+            }
+          ],
+          "note": "Short winter visit on the way home."
+        }
+      ]
+    }
+  }
+]

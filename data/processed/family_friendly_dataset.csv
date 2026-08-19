@@ -1,0 +1,121 @@
+id,name,type,category,city,state,indoor_or_outdoor,price_tier,min_age,max_age,avg_duration_hours,rating,tags,description
+ca-001,California Academy of Sciences,Natural History Museum,museum,San Francisco,CA,indoor,$$,3,99,3.5,4.7,aquarium;planetarium;rainforest,"Aquarium, planetarium and rainforest under one living roof."
+ca-002,Exploratorium,Science Center,museum,San Francisco,CA,indoor,$$,4,99,3.0,4.7,hands-on;science;interactive,Hands-on science exhibits kids are encouraged to touch.
+ca-003,San Diego Zoo,Zoo,zoo,San Diego,CA,outdoor,$$$,1,99,5.0,4.8,animals;pandas;safari,"Sprawling zoo with more than 3,500 animals and a guided bus tour."
+ca-004,Monterey Bay Aquarium,Aquarium,aquarium,Monterey,CA,indoor,$$$,2,99,3.5,4.8,sea otters;kelp forest;touch pools,"Kelp forest tank, sea otters and open-air touch pools."
+ca-005,Griffith Observatory,Observatory,museum,Los Angeles,CA,indoor,free,5,99,2.5,4.7,space;telescope;city views,Free public telescopes and space exhibits above the city.
+ca-006,Santa Monica Pier,Boardwalk,landmark,Santa Monica,CA,outdoor,free,0,99,2.5,4.5,beach;rides;arcade,Historic pier with a small amusement park and beach access.
+ca-007,Golden Gate Park,Urban Park,park,San Francisco,CA,outdoor,free,0,99,3.0,4.7,playgrounds;gardens;carousel,"Huge city park with playgrounds, gardens and a carousel."
+ca-008,La Brea Tar Pits and Museum,Paleontology Museum,museum,Los Angeles,CA,indoor,$$,4,99,2.0,4.5,fossils;ice age;dig site,Ice Age fossils excavated from active tar pits on site.
+ca-009,Balboa Park,Cultural Park,park,San Diego,CA,outdoor,free,0,99,4.0,4.8,gardens;museums;playground,"Gardens, museums and open lawns in one walkable park."
+ca-010,Children's Discovery Museum of San Jose,Children's Museum,museum,San Jose,CA,indoor,$$,1,10,2.5,4.6,toddlers;play;water table,Purple landmark museum built for hands-on toddler play.
+ca-011,Yosemite National Park,National Park,park,Yosemite Valley,CA,outdoor,$$,0,99,8.0,4.9,hiking;waterfalls;granite,"Granite cliffs, waterfalls and easy valley-floor trails."
+ca-012,Los Angeles Central Library,Public Library,library,Los Angeles,CA,indoor,free,0,99,1.5,4.6,story time;free wifi;quiet,Landmark library with children's wing and free story hours.
+ca-013,Aquarium of the Pacific,Aquarium,aquarium,Long Beach,CA,indoor,$$$,2,99,3.0,4.6,sharks;lorikeets;touch pools,Pacific-focused aquarium with shark and lorikeet encounters.
+ca-014,Sacramento Zoo,Zoo,zoo,Sacramento,CA,outdoor,$$,1,99,2.5,4.4,animals;stroller friendly;compact,"Compact, stroller-friendly zoo that suits a half-day visit."
+ca-015,Muir Woods National Monument,Redwood Forest,park,Mill Valley,CA,outdoor,$,3,99,2.5,4.7,redwoods;boardwalk;easy trail,Flat boardwalk loop beneath old-growth coast redwoods.
+tx-001,Space Center Houston,Science Center,museum,Houston,TX,indoor,$$$,4,99,4.5,4.7,nasa;rockets;tram tour,Official NASA visitor center with a tram tour to Mission Control.
+tx-002,Houston Museum of Natural Science,Natural History Museum,museum,Houston,TX,indoor,$$,3,99,3.5,4.7,dinosaurs;butterflies;gems,"Dinosaur hall, butterfly center and a planetarium."
+tx-003,San Antonio River Walk,Waterfront Promenade,landmark,San Antonio,TX,outdoor,free,0,99,2.5,4.6,riverboat;dining;stroll,Shaded riverside walkway with narrated boat rides.
+tx-004,Dallas World Aquarium,Aquarium,aquarium,Dallas,TX,indoor,$$$,2,99,2.5,4.4,rainforest;sloths;manatees,Rainforest walk-through paired with aquarium tunnels.
+tx-005,Fort Worth Zoo,Zoo,zoo,Fort Worth,TX,outdoor,$$,1,99,4.0,4.8,animals;train;shaded,Consistently top-ranked zoo with a kid-sized train.
+tx-006,Perot Museum of Nature and Science,Science Center,museum,Dallas,TX,indoor,$$,3,99,3.0,4.7,dinosaurs;engineering;kids lab,Five floors of science plus a dedicated children's lab.
+tx-007,Zilker Metropolitan Park,Urban Park,park,Austin,TX,outdoor,free,0,99,3.0,4.7,springs;playground;kayaks,"Riverside park with a playscape, trails and spring-fed pool."
+tx-008,Texas State Aquarium,Aquarium,aquarium,Corpus Christi,TX,indoor,$$,2,99,3.0,4.6,dolphins;sharks;splash park,Gulf of Mexico species plus an outdoor splash park.
+tx-009,The DoSeum,Children's Museum,museum,San Antonio,TX,indoor,$$,1,10,3.0,4.7,hands-on;water play;climbing,"San Antonio's museum for kids, built around hands-on play."
+tx-010,Houston Zoo,Zoo,zoo,Houston,TX,outdoor,$$,1,99,4.0,4.6,animals;carousel;playground,Large zoo inside Hermann Park with a carousel nearby.
+tx-011,Thinkery,Children's Museum,museum,Austin,TX,indoor,$$,0,10,2.5,4.6,toddlers;light lab;water,Austin children's museum with a dedicated baby area.
+tx-012,Big Bend National Park,National Park,park,Terlingua,TX,outdoor,$$,5,99,8.0,4.8,desert;hiking;stargazing,"Desert canyons, river trails and world-class dark skies."
+tx-013,Austin Central Library,Public Library,library,Austin,TX,indoor,free,0,99,1.5,4.8,rooftop;story time;reading porch,Award-winning library with a rooftop garden and story times.
+tx-014,Dallas Arboretum and Botanical Garden,Botanical Garden,park,Dallas,TX,outdoor,$$,0,99,3.0,4.8,gardens;children's garden;lake views,Lakeside gardens with an eight-acre children's adventure garden.
+tx-015,Kemah Boardwalk,Boardwalk,landmark,Kemah,TX,outdoor,$,2,99,3.0,4.4,rides;bayfront;games,Bayfront boardwalk with amusement rides and midway games.
+fl-001,Kennedy Space Center Visitor Complex,Science Center,museum,Merritt Island,FL,indoor,$$$,4,99,6.0,4.8,rockets;shuttle;astronauts,"Shuttle Atlantis, rocket garden and astronaut encounters."
+fl-002,Everglades National Park,National Park,park,Homestead,FL,outdoor,$$,4,99,5.0,4.7,alligators;boardwalk;airboat,Boardwalk trails through sawgrass with alligator sightings.
+fl-003,The Florida Aquarium,Aquarium,aquarium,Tampa,FL,indoor,$$,1,99,3.0,4.7,sharks;splash pad;coral,Indoor galleries plus an outdoor splash pad for little kids.
+fl-004,Zoo Miami,Zoo,zoo,Miami,FL,outdoor,$$,1,99,4.5,4.5,animals;monorail;safari cycles,Large open-air zoo with a monorail and rentable safari cycles.
+fl-005,Museum of Science and Industry,Science Center,museum,Tampa,FL,indoor,$$,3,99,3.0,4.4,hands-on;planetarium;coasters,Hands-on science floors and a domed planetarium.
+fl-006,Clearwater Marine Aquarium,Marine Rescue Center,aquarium,Clearwater,FL,indoor,$$,2,99,3.0,4.5,dolphins;rescue;sea turtles,Working rescue hospital for dolphins and sea turtles.
+fl-007,Glazer Children's Museum,Children's Museum,museum,Tampa,FL,indoor,$$,0,10,2.5,4.6,role play;water works;toddlers,Role-play city built at kid scale next to Curtis Hixon Park.
+fl-008,Jacksonville Zoo and Gardens,Zoo,zoo,Jacksonville,FL,outdoor,$$,1,99,4.0,4.7,animals;splash park;train,Zoo and botanical gardens with a splash park and railroad.
+fl-009,St. Augustine Historic District,Historic District,historic_site,St. Augustine,FL,outdoor,free,5,99,3.5,4.7,colonial;fort;walking tour,"Oldest US city center, walkable with a Spanish stone fort."
+fl-010,Orlando Science Center,Science Center,museum,Orlando,FL,indoor,$$,2,99,3.5,4.6,dinosaurs;kidstown;observatory,Four themed floors including a toddler-only KidsTown.
+fl-011,John Pennekamp Coral Reef State Park,State Park,park,Key Largo,FL,outdoor,$,5,99,4.0,4.7,snorkeling;glass bottom boat;reef,"First US undersea park, with glass-bottom boat tours."
+fl-012,Jacksonville Public Library Main Library,Public Library,library,Jacksonville,FL,indoor,free,0,99,1.5,4.4,story time;children's wing;free,Downtown main branch with a large dedicated children's wing.
+fl-013,Busch Gardens Tampa Bay,Theme Park,theme_park,Tampa,FL,outdoor,$$$,3,99,8.0,4.5,coasters;animals;sesame street,"Coasters, an African animal trail and a Sesame Street land."
+fl-014,Naples Botanical Garden,Botanical Garden,park,Naples,FL,outdoor,$$,0,99,2.5,4.8,gardens;kids garden;birds,Tropical gardens with a children's garden and butterfly house.
+fl-015,Miami Children's Museum,Children's Museum,museum,Miami,FL,indoor,$$,1,10,2.5,4.3,role play;port;music studio,"Bayfront museum of miniature shops, a port and a music studio."
+ny-001,American Museum of Natural History,Natural History Museum,museum,New York,NY,indoor,$$$,3,99,4.0,4.8,dinosaurs;planetarium;whale,"Dinosaur halls, the blue whale and the Rose Center planetarium."
+ny-002,Central Park,Urban Park,park,New York,NY,outdoor,free,0,99,3.0,4.8,playgrounds;carousel;boating,"Twenty-one playgrounds, a carousel and rowboats on the lake."
+ny-003,Bronx Zoo,Zoo,zoo,Bronx,NY,outdoor,$$$,1,99,5.0,4.7,animals;congo gorillas;monorail,"One of the largest urban zoos, with a monorail through Asia."
+ny-004,New York Aquarium,Aquarium,aquarium,Brooklyn,NY,indoor,$$,2,99,3.0,4.4,sharks;sea lions;boardwalk,Oceanfront aquarium beside the Coney Island boardwalk.
+ny-005,Brooklyn Children's Museum,Children's Museum,museum,Brooklyn,NY,indoor,$$,0,10,2.5,4.5,world culture;sensory room;toddlers,The world's first museum designed specifically for children.
+ny-006,Intrepid Museum,Military and Space Museum,museum,New York,NY,indoor,$$$,4,99,3.5,4.7,aircraft carrier;submarine;space shuttle,"Aircraft carrier deck, a submarine and the shuttle Enterprise."
+ny-007,Niagara Falls State Park,State Park,park,Niagara Falls,NY,outdoor,free,0,99,4.0,4.8,waterfalls;observation tower;mist,"Oldest state park in the US, right at the brink of the falls."
+ny-008,The Strong National Museum of Play,Play Museum,museum,Rochester,NY,indoor,$$,0,99,4.0,4.8,toys;video games;butterfly garden,Toy and video game halls plus an indoor butterfly garden.
+ny-009,New York Public Library Schwarzman Building,Public Library,library,New York,NY,indoor,free,5,99,1.5,4.8,rose reading room;exhibits;free tours,Landmark reading rooms with free guided tours and exhibits.
+ny-010,Buffalo Zoo,Zoo,zoo,Buffalo,NY,outdoor,$$,1,99,3.0,4.4,animals;rainforest;compact,"Third-oldest US zoo, compact enough for younger kids."
+ny-011,Museum of the Moving Image,Media Museum,museum,Queens,NY,indoor,$$,6,99,2.5,4.6,animation;video games;film,Hands-on animation and video game history exhibits.
+ny-012,The High Line,Elevated Park,park,New York,NY,outdoor,free,3,99,1.5,4.6,elevated;gardens;city views,Elevated rail line turned into a mile-and-a-half garden walk.
+ny-013,Long Island Children's Museum,Children's Museum,museum,Garden City,NY,indoor,$$,0,10,2.5,4.5,bubbles;climbing;toddlers,Fourteen hands-on galleries including a bubble room.
+ny-014,Coney Island Beach and Boardwalk,Beach,beach,Brooklyn,NY,outdoor,free,0,99,3.5,4.4,beach;rides;hot dogs,"Classic boardwalk, sandy beach and vintage amusement rides."
+ny-015,Letchworth State Park,State Park,park,Castile,NY,outdoor,$,4,99,5.0,4.9,gorge;waterfalls;hiking,"The Grand Canyon of the East, with three major waterfalls."
+az-001,Grand Canyon National Park,National Park,park,Grand Canyon Village,AZ,outdoor,$$,3,99,6.0,4.9,canyon;rim trail;shuttle,Paved rim trail and free shuttles make it stroller-viable.
+az-002,Arizona-Sonora Desert Museum,Zoo and Botanical Garden,zoo,Tucson,AZ,outdoor,$$,3,99,3.5,4.8,desert animals;raptor free flight;cactus,"Part zoo, part garden, all set in the open Sonoran Desert."
+az-003,Phoenix Zoo,Zoo,zoo,Phoenix,AZ,outdoor,$$,1,99,4.0,4.6,animals;splash pad;stingray bay,Large zoo with a splash pad and a stingray touch bay.
+az-004,Arizona Science Center,Science Center,museum,Phoenix,AZ,indoor,$$,3,99,3.0,4.6,hands-on;planetarium;forces,Five galleries of hands-on science plus a planetarium.
+az-005,Children's Museum of Phoenix,Children's Museum,museum,Phoenix,AZ,indoor,$$,0,10,2.5,4.7,climber;noodle forest;toddlers,Three floors of play including a three-story climber.
+az-006,Desert Botanical Garden,Botanical Garden,park,Phoenix,AZ,outdoor,$$,0,99,2.5,4.8,cactus;butterflies;trails,Five looping desert trails and a seasonal butterfly pavilion.
+az-007,OdySea Aquarium,Aquarium,aquarium,Scottsdale,AZ,indoor,$$$,2,99,3.0,4.5,sharks;rotating theater;penguins,"Largest aquarium in the Southwest, with a rotating theater."
+az-008,Musical Instrument Museum,Music Museum,museum,Phoenix,AZ,indoor,$$,5,99,3.0,4.8,world music;audio guide;play gallery,Instruments from every country plus a hands-on play gallery.
+az-009,Reid Park Zoo,Zoo,zoo,Tucson,AZ,outdoor,$,1,99,2.5,4.6,animals;compact;giraffe feeding,"Small, shaded zoo that works well for a toddler morning."
+az-010,Saguaro National Park,National Park,park,Tucson,AZ,outdoor,$,4,99,4.0,4.8,cactus;desert;scenic drive,Giant saguaro forests with short loop drives and easy trails.
+az-011,Papago Park,Urban Park,park,Phoenix,AZ,outdoor,free,0,99,2.0,4.6,hole in the rock;fishing;trails,"Red sandstone buttes, easy trails and stocked fishing ponds."
+az-012,Burton Barr Central Library,Public Library,library,Phoenix,AZ,indoor,free,0,99,1.5,4.6,story time;teen space;free wifi,Five-story central library with a big children's place.
+az-013,Petrified Forest National Park,National Park,park,Holbrook,AZ,outdoor,$$,5,99,4.0,4.7,fossils;painted desert;scenic drive,Fossilized logs and Painted Desert overlooks along one drive.
+az-014,Lowell Observatory,Observatory,museum,Flagstaff,AZ,indoor,$$,5,99,3.0,4.7,telescopes;pluto;night sky,Where Pluto was discovered; nightly public telescope viewing.
+az-015,Slide Rock State Park,State Park,park,Sedona,AZ,outdoor,$$,4,99,3.5,4.6,natural water slide;swimming;red rock,Natural sandstone chute kids slide down in Oak Creek.
+oh-001,Cincinnati Zoo and Botanical Garden,Zoo,zoo,Cincinnati,OH,outdoor,$$,1,99,4.5,4.8,animals;hippos;train,"Second-oldest US zoo, known for its hippos and gardens."
+oh-002,COSI,Science Center,museum,Columbus,OH,indoor,$$,2,99,4.0,4.8,hands-on;dinosaurs;little kidspace,Big hands-on science center with a toddler-only KidSpace.
+oh-003,Columbus Zoo and Aquarium,Zoo,zoo,Powell,OH,outdoor,$$,1,99,5.0,4.8,animals;aquarium;adjacent water park,Sprawling zoo with an aquarium and an adjoining water park.
+oh-004,Cleveland Museum of Natural History,Natural History Museum,museum,Cleveland,OH,indoor,$$,3,99,3.0,4.6,dinosaurs;planetarium;wildlife center,"Dinosaur casts, a planetarium and an outdoor wildlife center."
+oh-005,Rock and Roll Hall of Fame,Music Museum,museum,Cleveland,OH,indoor,$$$,8,99,3.0,4.6,music;interactive;lakefront,Lakefront music museum with listening and mixing stations.
+oh-006,Greater Cleveland Aquarium,Aquarium,aquarium,Cleveland,OH,indoor,$$,2,99,2.0,4.4,shark tunnel;touch pool;compact,Compact aquarium built inside a former powerhouse.
+oh-007,Cuyahoga Valley National Park,National Park,park,Brecksville,OH,outdoor,free,0,99,4.0,4.7,towpath;waterfall;scenic railroad,"Flat towpath trail, Brandywine Falls and a scenic railroad."
+oh-008,Cincinnati Museum Center at Union Terminal,Museum Complex,museum,Cincinnati,OH,indoor,$$,2,99,4.0,4.8,children's museum;natural history;omnimax,Three museums and an Omnimax inside an Art Deco train station.
+oh-009,Toledo Zoo and Aquarium,Zoo,zoo,Toledo,OH,outdoor,$$,1,99,4.0,4.8,animals;aquarium;aerial ride,Highly rated zoo with an aquarium and an aerial gondola.
+oh-010,Great Lakes Science Center,Science Center,museum,Cleveland,OH,indoor,$$,3,99,3.0,4.6,nasa glenn;hands-on;dome theater,Hands-on exhibits plus a NASA Glenn visitor center.
+oh-011,Franklin Park Conservatory and Botanical Gardens,Conservatory,park,Columbus,OH,indoor,$$,0,99,2.5,4.7,glasshouse;butterflies;children's garden,Victorian glasshouse biomes and an outdoor children's garden.
+oh-012,Public Library of Cincinnati and Hamilton County,Public Library,library,Cincinnati,OH,indoor,free,0,99,1.5,4.7,story time;maker space;free,Large main library with story times and a family maker space.
+oh-013,Hocking Hills State Park,State Park,park,Logan,OH,outdoor,free,4,99,5.0,4.9,caves;waterfalls;gorge trails,"Recess caves, gorge trails and waterfalls in one state park."
+oh-014,Imagination Station,Science Center,museum,Toledo,OH,indoor,$$,2,99,3.0,4.6,hands-on;water table;high wire,Riverfront hands-on science center with a high-wire cycle.
+oh-015,Cedar Point,Theme Park,theme_park,Sandusky,OH,outdoor,$$$,3,99,9.0,4.6,coasters;beach;camp snoopy,Lakeside coaster park with a Camp Snoopy area for small kids.
+ga-001,Georgia Aquarium,Aquarium,aquarium,Atlanta,GA,indoor,$$$,1,99,4.0,4.7,whale sharks;beluga;dolphins,"One of the world's largest aquariums, home to whale sharks."
+ga-002,Zoo Atlanta,Zoo,zoo,Atlanta,GA,outdoor,$$,1,99,3.5,4.6,pandas;gorillas;treetop trail,Known for giant pandas and a treetop rope adventure.
+ga-003,Fernbank Museum of Natural History,Natural History Museum,museum,Atlanta,GA,indoor,$$,2,99,3.5,4.7,dinosaurs;forest trails;giant screen,Dinosaur hall attached to 75 acres of outdoor forest trails.
+ga-004,Children's Museum of Atlanta,Children's Museum,museum,Atlanta,GA,indoor,$$,0,9,2.5,4.5,hands-on;toddler zone;art studio,Downtown museum built entirely for kids eight and under.
+ga-005,Stone Mountain Park,Recreation Park,park,Stone Mountain,GA,outdoor,$$,0,99,5.0,4.5,cable car;hiking;summit,"Granite dome with a cable car, trails and family attractions."
+ga-006,Center for Puppetry Arts,Puppetry Museum and Theater,museum,Atlanta,GA,indoor,$$,2,99,2.5,4.8,jim henson;puppet shows;make a puppet,Live puppet shows plus the Jim Henson collection.
+ga-007,Atlanta Botanical Garden,Botanical Garden,park,Atlanta,GA,outdoor,$$,0,99,2.5,4.8,canopy walk;children's garden;orchids,"Canopy walkway, orchid house and a splash-friendly kids garden."
+ga-008,Tybee Island Beach,Beach,beach,Tybee Island,GA,outdoor,free,0,99,4.0,4.6,beach;lighthouse;tide pools,"Wide, shallow Atlantic beach with a climbable lighthouse."
+ga-009,Forsyth Park,Urban Park,park,Savannah,GA,outdoor,free,0,99,1.5,4.8,fountain;playground;oaks,Live-oak park with the famous fountain and a large playground.
+ga-010,Museum of Aviation,Aviation Museum,museum,Warner Robins,GA,indoor,free,4,99,3.0,4.7,aircraft;hangars;free admission,Free museum with four hangars of historic military aircraft.
+ga-011,Chattahoochee River National Recreation Area,River Park,park,Sandy Springs,GA,outdoor,$,3,99,3.0,4.6,river trails;tubing;fishing,Riverside trails and summer tubing just outside Atlanta.
+ga-012,Atlanta-Fulton Public Library Central Library,Public Library,library,Atlanta,GA,indoor,free,0,99,1.5,4.3,story time;children's room;free,Central branch with regular preschool story times.
+ga-013,Callaway Gardens,Resort Gardens,park,Pine Mountain,GA,outdoor,$$,0,99,5.0,4.6,butterfly center;beach;bike trails,"Butterfly conservatory, bike trails and a freshwater beach."
+ga-014,Tellus Science Museum,Science Museum,museum,Cartersville,GA,indoor,$$,3,99,3.0,4.7,fossils;minerals;planetarium,"Mineral gallery, dinosaurs, a planetarium and a fossil dig."
+ga-015,Amicalola Falls State Park,State Park,park,Dawsonville,GA,outdoor,$,5,99,3.5,4.8,waterfall;stairs;overlook,"Tallest cascading waterfall in Georgia, with stair overlooks."
+il-001,Shedd Aquarium,Aquarium,aquarium,Chicago,IL,indoor,$$$,1,99,3.5,4.7,belugas;caribbean reef;otters,Lakefront aquarium with belugas and a Caribbean reef tank.
+il-002,Field Museum,Natural History Museum,museum,Chicago,IL,indoor,$$$,3,99,4.0,4.8,sue the t rex;egypt;dinosaurs,Home of SUE the T. rex and a walk-through Egyptian tomb.
+il-003,Museum of Science and Industry,Science Center,museum,Chicago,IL,indoor,$$$,3,99,4.5,4.8,submarine;coal mine;idea factory,"U-505 submarine, a coal mine ride and a toddler Idea Factory."
+il-004,Lincoln Park Zoo,Zoo,zoo,Chicago,IL,outdoor,free,0,99,3.0,4.7,free admission;farm;gorillas,Free year-round city zoo with a working farm for kids.
+il-005,Adler Planetarium,Planetarium,museum,Chicago,IL,indoor,$$,4,99,2.5,4.6,space;sky shows;skyline views,Sky shows and space history with the best skyline view in town.
+il-006,Millennium Park,Urban Park,park,Chicago,IL,outdoor,free,0,99,2.0,4.8,the bean;crown fountain;splash,"The Bean, plus the Crown Fountain kids can wade through."
+il-007,Chicago Children's Museum,Children's Museum,museum,Chicago,IL,indoor,$$,0,10,3.0,4.5,water works;dinosaur dig;climbing,Navy Pier museum with a water works and a dinosaur dig pit.
+il-008,Brookfield Zoo,Zoo,zoo,Brookfield,IL,outdoor,$$,1,99,5.0,4.7,dolphins;hamill family play zoo;carousel,Large suburban zoo with a play zoo built for young children.
+il-009,Chicago Botanic Garden,Botanical Garden,park,Glencoe,IL,outdoor,$,0,99,3.0,4.8,islands;model railroad;kids garden,"Twenty-seven gardens across nine islands, plus a train garden."
+il-010,Harold Washington Library Center,Public Library,library,Chicago,IL,indoor,free,0,99,1.5,4.5,children's library;winter garden;free,Central library with a full children's floor and a winter garden.
+il-011,Starved Rock State Park,State Park,park,Oglesby,IL,outdoor,free,4,99,5.0,4.8,canyons;waterfalls;river bluffs,Eighteen sandstone canyons with seasonal waterfalls.
+il-012,Abraham Lincoln Presidential Museum,History Museum,museum,Springfield,IL,indoor,$$,6,99,3.0,4.8,lincoln;holograms;immersive,Immersive Lincoln biography with theater-style special effects.
+il-013,Peggy Notebaert Nature Museum,Nature Museum,museum,Chicago,IL,indoor,$$,0,99,2.0,4.5,butterfly haven;river;toddler play,Walk-through butterfly haven plus a toddler nature play area.
+il-014,Navy Pier,Waterfront Pier,landmark,Chicago,IL,outdoor,free,0,99,3.0,4.5,ferris wheel;boat rides;fireworks,"Lakefront pier with a Ferris wheel, boat rides and fireworks."
+il-015,Cosley Zoo,Zoo,zoo,Wheaton,IL,outdoor,$,0,10,1.5,4.7,farm animals;compact;stroller friendly,Small farm-focused zoo sized for preschoolers.
