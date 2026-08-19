@@ -31,7 +31,7 @@
     "scout:demo": "node --disable-warning=ExperimentalWarning scout/cli/scout-demo.ts",
     "bootstrap": "npm run db:migrate && npm run travel:import:all && npm run travel:normalize && npm run graph:topic:build && npm run graph:user:build && npm run truth:resolve",
     "typecheck": "tsc --noEmit -p tsconfig.json",
-    "test": "node --disable-warning=ExperimentalWarning --test --test-concurrency=1 tests/scout/",
+    "test": "node --disable-warning=ExperimentalWarning --test --test-concurrency=1 \"tests/scout/**/*.test.ts\"",
     "check": "npm run typecheck && npm test"
   },
   "devDependencies": {
