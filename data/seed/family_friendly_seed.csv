@@ -1,0 +1,135 @@
+activity_id,name,city,state,indoor_or_outdoor,min_age,max_age,price_usd,duration_minutes,category,description,source,is_seed_data
+seed-0001,Bramble Court Playground,Jacksonville,FL,outdoor,0,10,0,180,Playground,"Fictional playground in Jacksonville. Seed data, not a real venue.",synthetic-seed,true
+seed-0002,Copper Ridge Splash pad,Jacksonville,FL,outdoor,1,12,5,60,Splash pad,"Fictional splash pad in Jacksonville. Seed data, not a real venue.",synthetic-seed,true
+seed-0003,Riverside Botanical garden,Jacksonville,FL,outdoor,0,99,8,60,Botanical garden,"Fictional botanical garden in Jacksonville. Seed data, not a real venue.",synthetic-seed,true
+seed-0004,Fair Oaks Zoo,Jacksonville,FL,outdoor,0,99,13,45,Zoo,"Fictional zoo in Jacksonville. Seed data, not a real venue.",synthetic-seed,true
+seed-0005,Cedar Hollow Science museum,Jacksonville,FL,indoor,4,99,27,90,Science museum,"Fictional science museum in Jacksonville. Seed data, not a real venue.",synthetic-seed,true
+seed-0006,Harbourview Aquarium,Jacksonville,FL,indoor,0,99,14,45,Aquarium,"Fictional aquarium in Jacksonville. Seed data, not a real venue.",synthetic-seed,true
+seed-0007,Fair Oaks Indoor play centre,Jacksonville,FL,indoor,0,8,10,180,Indoor play centre,"Fictional indoor play centre in Jacksonville. Seed data, not a real venue.",synthetic-seed,true
+seed-0008,Lantern Hill Public library,Jacksonville,FL,indoor,0,99,0,180,Public library,"Fictional public library in Jacksonville. Seed data, not a real venue.",synthetic-seed,true
+seed-0009,Old Mill Art gallery,Jacksonville,FL,indoor,6,99,8,120,Art gallery,"Fictional art gallery in Jacksonville. Seed data, not a real venue.",synthetic-seed,true
+seed-0010,Northgate Climbing gym,Jacksonville,FL,indoor,5,99,25,60,Climbing gym,"Fictional climbing gym in Jacksonville. Seed data, not a real venue.",synthetic-seed,true
+seed-0011,Copper Ridge Playground,Orlando,FL,outdoor,0,10,0,90,Playground,"Fictional playground in Orlando. Seed data, not a real venue.",synthetic-seed,true
+seed-0012,Ashgrove Nature trail,Orlando,FL,outdoor,3,99,8,180,Nature trail,"Fictional nature trail in Orlando. Seed data, not a real venue.",synthetic-seed,true
+seed-0013,Bramble Court Botanical garden,Orlando,FL,outdoor,0,99,5,90,Botanical garden,"Fictional botanical garden in Orlando. Seed data, not a real venue.",synthetic-seed,true
+seed-0014,Copper Ridge Zoo,Orlando,FL,outdoor,0,99,23,120,Zoo,"Fictional zoo in Orlando. Seed data, not a real venue.",synthetic-seed,true
+seed-0015,Harbourview Science museum,Orlando,FL,indoor,4,99,18,120,Science museum,"Fictional science museum in Orlando. Seed data, not a real venue.",synthetic-seed,true
+seed-0016,Ashgrove Children's museum,Orlando,FL,indoor,1,10,13,120,Children's museum,"Fictional children's museum in Orlando. Seed data, not a real venue.",synthetic-seed,true
+seed-0017,Sunnyfield Aquarium,Orlando,FL,indoor,0,99,29,90,Aquarium,"Fictional aquarium in Orlando. Seed data, not a real venue.",synthetic-seed,true
+seed-0018,Northgate Public library,Orlando,FL,indoor,0,99,0,45,Public library,"Fictional public library in Orlando. Seed data, not a real venue.",synthetic-seed,true
+seed-0019,Bramble Court Art gallery,Orlando,FL,indoor,6,99,17,90,Art gallery,"Fictional art gallery in Orlando. Seed data, not a real venue.",synthetic-seed,true
+seed-0020,Copper Ridge Climbing gym,Orlando,FL,indoor,5,99,25,90,Climbing gym,"Fictional climbing gym in Orlando. Seed data, not a real venue.",synthetic-seed,true
+seed-0021,Northgate Playground,Miami,FL,outdoor,0,10,0,45,Playground,"Fictional playground in Miami. Seed data, not a real venue.",synthetic-seed,true
+seed-0022,Kingsway Nature trail,Miami,FL,outdoor,3,99,1,90,Nature trail,"Fictional nature trail in Miami. Seed data, not a real venue.",synthetic-seed,true
+seed-0023,Harbourview Science museum,Miami,FL,indoor,4,99,11,45,Science museum,"Fictional science museum in Miami. Seed data, not a real venue.",synthetic-seed,true
+seed-0024,Fair Oaks Aquarium,Miami,FL,indoor,0,99,36,90,Aquarium,"Fictional aquarium in Miami. Seed data, not a real venue.",synthetic-seed,true
+seed-0025,Northgate Indoor play centre,Miami,FL,indoor,0,8,7,60,Indoor play centre,"Fictional indoor play centre in Miami. Seed data, not a real venue.",synthetic-seed,true
+seed-0026,Harbourview Public library,Miami,FL,indoor,0,99,0,60,Public library,"Fictional public library in Miami. Seed data, not a real venue.",synthetic-seed,true
+seed-0027,Harbourview Art gallery,Miami,FL,indoor,6,99,6,180,Art gallery,"Fictional art gallery in Miami. Seed data, not a real venue.",synthetic-seed,true
+seed-0028,Copper Ridge Climbing gym,Miami,FL,indoor,5,99,21,120,Climbing gym,"Fictional climbing gym in Miami. Seed data, not a real venue.",synthetic-seed,true
+seed-0029,Copper Ridge Nature trail,New York,NY,outdoor,3,99,0,180,Nature trail,"Fictional nature trail in New York. Seed data, not a real venue.",synthetic-seed,true
+seed-0030,Willow Bend Splash pad,New York,NY,outdoor,1,12,5,180,Splash pad,"Fictional splash pad in New York. Seed data, not a real venue.",synthetic-seed,true
+seed-0031,Alder Creek Botanical garden,New York,NY,outdoor,0,99,9,120,Botanical garden,"Fictional botanical garden in New York. Seed data, not a real venue.",synthetic-seed,true
+seed-0032,Riverside Zoo,New York,NY,outdoor,0,99,32,120,Zoo,"Fictional zoo in New York. Seed data, not a real venue.",synthetic-seed,true
+seed-0033,Cedar Hollow Science museum,New York,NY,indoor,4,99,20,180,Science museum,"Fictional science museum in New York. Seed data, not a real venue.",synthetic-seed,true
+seed-0034,Cedar Hollow Children's museum,New York,NY,indoor,1,10,17,45,Children's museum,"Fictional children's museum in New York. Seed data, not a real venue.",synthetic-seed,true
+seed-0035,Northgate Aquarium,New York,NY,indoor,0,99,24,180,Aquarium,"Fictional aquarium in New York. Seed data, not a real venue.",synthetic-seed,true
+seed-0036,Ashgrove Indoor play centre,New York,NY,indoor,0,8,6,60,Indoor play centre,"Fictional indoor play centre in New York. Seed data, not a real venue.",synthetic-seed,true
+seed-0037,Copper Ridge Public library,New York,NY,indoor,0,99,0,60,Public library,"Fictional public library in New York. Seed data, not a real venue.",synthetic-seed,true
+seed-0038,Sunnyfield Art gallery,New York,NY,indoor,6,99,6,90,Art gallery,"Fictional art gallery in New York. Seed data, not a real venue.",synthetic-seed,true
+seed-0039,Harbourview Climbing gym,New York,NY,indoor,5,99,18,90,Climbing gym,"Fictional climbing gym in New York. Seed data, not a real venue.",synthetic-seed,true
+seed-0040,Sunnyfield Playground,Brooklyn,NY,outdoor,0,10,0,120,Playground,"Fictional playground in Brooklyn. Seed data, not a real venue.",synthetic-seed,true
+seed-0041,Sunnyfield Splash pad,Brooklyn,NY,outdoor,1,12,0,180,Splash pad,"Fictional splash pad in Brooklyn. Seed data, not a real venue.",synthetic-seed,true
+seed-0042,Harbourview Science museum,Brooklyn,NY,indoor,4,99,18,45,Science museum,"Fictional science museum in Brooklyn. Seed data, not a real venue.",synthetic-seed,true
+seed-0043,Willow Bend Public library,Brooklyn,NY,indoor,0,99,0,180,Public library,"Fictional public library in Brooklyn. Seed data, not a real venue.",synthetic-seed,true
+seed-0044,Bramble Court Art gallery,Brooklyn,NY,indoor,6,99,13,60,Art gallery,"Fictional art gallery in Brooklyn. Seed data, not a real venue.",synthetic-seed,true
+seed-0045,Cedar Hollow Climbing gym,Brooklyn,NY,indoor,5,99,17,90,Climbing gym,"Fictional climbing gym in Brooklyn. Seed data, not a real venue.",synthetic-seed,true
+seed-0046,Harbourview Playground,Boston,MA,outdoor,0,10,0,60,Playground,"Fictional playground in Boston. Seed data, not a real venue.",synthetic-seed,true
+seed-0047,Kingsway Nature trail,Boston,MA,outdoor,3,99,6,60,Nature trail,"Fictional nature trail in Boston. Seed data, not a real venue.",synthetic-seed,true
+seed-0048,Ashgrove Splash pad,Boston,MA,outdoor,1,12,3,90,Splash pad,"Fictional splash pad in Boston. Seed data, not a real venue.",synthetic-seed,true
+seed-0049,Cedar Hollow Botanical garden,Boston,MA,outdoor,0,99,13,120,Botanical garden,"Fictional botanical garden in Boston. Seed data, not a real venue.",synthetic-seed,true
+seed-0050,Bramble Court Zoo,Boston,MA,outdoor,0,99,18,90,Zoo,"Fictional zoo in Boston. Seed data, not a real venue.",synthetic-seed,true
+seed-0051,Harbourview Children's museum,Boston,MA,indoor,1,10,8,180,Children's museum,"Fictional children's museum in Boston. Seed data, not a real venue.",synthetic-seed,true
+seed-0052,Bramble Court Aquarium,Boston,MA,indoor,0,99,27,120,Aquarium,"Fictional aquarium in Boston. Seed data, not a real venue.",synthetic-seed,true
+seed-0053,Bramble Court Splash pad,Chicago,IL,outdoor,1,12,0,60,Splash pad,"Fictional splash pad in Chicago. Seed data, not a real venue.",synthetic-seed,true
+seed-0054,Riverside Botanical garden,Chicago,IL,outdoor,0,99,18,90,Botanical garden,"Fictional botanical garden in Chicago. Seed data, not a real venue.",synthetic-seed,true
+seed-0055,Kingsway Science museum,Chicago,IL,indoor,4,99,27,60,Science museum,"Fictional science museum in Chicago. Seed data, not a real venue.",synthetic-seed,true
+seed-0056,Harbourview Children's museum,Chicago,IL,indoor,1,10,11,45,Children's museum,"Fictional children's museum in Chicago. Seed data, not a real venue.",synthetic-seed,true
+seed-0057,Riverside Indoor play centre,Chicago,IL,indoor,0,8,6,90,Indoor play centre,"Fictional indoor play centre in Chicago. Seed data, not a real venue.",synthetic-seed,true
+seed-0058,Bramble Court Public library,Chicago,IL,indoor,0,99,0,60,Public library,"Fictional public library in Chicago. Seed data, not a real venue.",synthetic-seed,true
+seed-0059,Sunnyfield Art gallery,Chicago,IL,indoor,6,99,17,90,Art gallery,"Fictional art gallery in Chicago. Seed data, not a real venue.",synthetic-seed,true
+seed-0060,Copper Ridge Climbing gym,Chicago,IL,indoor,5,99,26,45,Climbing gym,"Fictional climbing gym in Chicago. Seed data, not a real venue.",synthetic-seed,true
+seed-0061,Riverside Nature trail,Austin,TX,outdoor,3,99,7,180,Nature trail,"Fictional nature trail in Austin. Seed data, not a real venue.",synthetic-seed,true
+seed-0062,Riverside Splash pad,Austin,TX,outdoor,1,12,4,180,Splash pad,"Fictional splash pad in Austin. Seed data, not a real venue.",synthetic-seed,true
+seed-0063,Sunnyfield Science museum,Austin,TX,indoor,4,99,15,90,Science museum,"Fictional science museum in Austin. Seed data, not a real venue.",synthetic-seed,true
+seed-0064,Northgate Children's museum,Austin,TX,indoor,1,10,22,60,Children's museum,"Fictional children's museum in Austin. Seed data, not a real venue.",synthetic-seed,true
+seed-0065,Lantern Hill Indoor play centre,Austin,TX,indoor,0,8,17,180,Indoor play centre,"Fictional indoor play centre in Austin. Seed data, not a real venue.",synthetic-seed,true
+seed-0066,Alder Creek Public library,Austin,TX,indoor,0,99,0,90,Public library,"Fictional public library in Austin. Seed data, not a real venue.",synthetic-seed,true
+seed-0067,Fair Oaks Art gallery,Austin,TX,indoor,6,99,16,45,Art gallery,"Fictional art gallery in Austin. Seed data, not a real venue.",synthetic-seed,true
+seed-0068,Bramble Court Climbing gym,Austin,TX,indoor,5,99,22,120,Climbing gym,"Fictional climbing gym in Austin. Seed data, not a real venue.",synthetic-seed,true
+seed-0069,Ashgrove Playground,Denver,CO,outdoor,0,10,0,45,Playground,"Fictional playground in Denver. Seed data, not a real venue.",synthetic-seed,true
+seed-0070,Ashgrove Nature trail,Denver,CO,outdoor,3,99,2,60,Nature trail,"Fictional nature trail in Denver. Seed data, not a real venue.",synthetic-seed,true
+seed-0071,Bramble Court Botanical garden,Denver,CO,outdoor,0,99,19,90,Botanical garden,"Fictional botanical garden in Denver. Seed data, not a real venue.",synthetic-seed,true
+seed-0072,Cedar Hollow Science museum,Denver,CO,indoor,4,99,24,180,Science museum,"Fictional science museum in Denver. Seed data, not a real venue.",synthetic-seed,true
+seed-0073,Lantern Hill Children's museum,Denver,CO,indoor,1,10,20,45,Children's museum,"Fictional children's museum in Denver. Seed data, not a real venue.",synthetic-seed,true
+seed-0074,Harbourview Aquarium,Denver,CO,indoor,0,99,26,90,Aquarium,"Fictional aquarium in Denver. Seed data, not a real venue.",synthetic-seed,true
+seed-0075,Lantern Hill Climbing gym,Denver,CO,indoor,5,99,26,90,Climbing gym,"Fictional climbing gym in Denver. Seed data, not a real venue.",synthetic-seed,true
+seed-0076,Harbourview Playground,Nashville,TN,outdoor,0,10,0,180,Playground,"Fictional playground in Nashville. Seed data, not a real venue.",synthetic-seed,true
+seed-0077,Riverside Nature trail,Nashville,TN,outdoor,3,99,1,45,Nature trail,"Fictional nature trail in Nashville. Seed data, not a real venue.",synthetic-seed,true
+seed-0078,Bramble Court Botanical garden,Nashville,TN,outdoor,0,99,11,90,Botanical garden,"Fictional botanical garden in Nashville. Seed data, not a real venue.",synthetic-seed,true
+seed-0079,Copper Ridge Zoo,Nashville,TN,outdoor,0,99,15,90,Zoo,"Fictional zoo in Nashville. Seed data, not a real venue.",synthetic-seed,true
+seed-0080,Willow Bend Science museum,Nashville,TN,indoor,4,99,16,120,Science museum,"Fictional science museum in Nashville. Seed data, not a real venue.",synthetic-seed,true
+seed-0081,Copper Ridge Children's museum,Nashville,TN,indoor,1,10,18,90,Children's museum,"Fictional children's museum in Nashville. Seed data, not a real venue.",synthetic-seed,true
+seed-0082,Riverside Aquarium,Nashville,TN,indoor,0,99,35,60,Aquarium,"Fictional aquarium in Nashville. Seed data, not a real venue.",synthetic-seed,true
+seed-0083,Old Mill Indoor play centre,Nashville,TN,indoor,0,8,12,60,Indoor play centre,"Fictional indoor play centre in Nashville. Seed data, not a real venue.",synthetic-seed,true
+seed-0084,Kingsway Public library,Nashville,TN,indoor,0,99,0,60,Public library,"Fictional public library in Nashville. Seed data, not a real venue.",synthetic-seed,true
+seed-0085,Bramble Court Art gallery,Nashville,TN,indoor,6,99,0,45,Art gallery,"Fictional art gallery in Nashville. Seed data, not a real venue.",synthetic-seed,true
+seed-0086,Bramble Court Playground,Seattle,WA,outdoor,0,10,0,45,Playground,"Fictional playground in Seattle. Seed data, not a real venue.",synthetic-seed,true
+seed-0087,Riverside Nature trail,Seattle,WA,outdoor,3,99,4,45,Nature trail,"Fictional nature trail in Seattle. Seed data, not a real venue.",synthetic-seed,true
+seed-0088,Copper Ridge Splash pad,Seattle,WA,outdoor,1,12,4,120,Splash pad,"Fictional splash pad in Seattle. Seed data, not a real venue.",synthetic-seed,true
+seed-0089,Kingsway Zoo,Seattle,WA,outdoor,0,99,25,180,Zoo,"Fictional zoo in Seattle. Seed data, not a real venue.",synthetic-seed,true
+seed-0090,Willow Bend Children's museum,Seattle,WA,indoor,1,10,16,120,Children's museum,"Fictional children's museum in Seattle. Seed data, not a real venue.",synthetic-seed,true
+seed-0091,Riverside Aquarium,Seattle,WA,indoor,0,99,33,90,Aquarium,"Fictional aquarium in Seattle. Seed data, not a real venue.",synthetic-seed,true
+seed-0092,Kingsway Indoor play centre,Seattle,WA,indoor,0,8,15,180,Indoor play centre,"Fictional indoor play centre in Seattle. Seed data, not a real venue.",synthetic-seed,true
+seed-0093,Kingsway Public library,Seattle,WA,indoor,0,99,0,90,Public library,"Fictional public library in Seattle. Seed data, not a real venue.",synthetic-seed,true
+seed-0094,Ashgrove Art gallery,Seattle,WA,indoor,6,99,2,180,Art gallery,"Fictional art gallery in Seattle. Seed data, not a real venue.",synthetic-seed,true
+seed-0095,Bramble Court Splash pad,San Francisco,CA,outdoor,1,12,2,180,Splash pad,"Fictional splash pad in San Francisco. Seed data, not a real venue.",synthetic-seed,true
+seed-0096,Lantern Hill Botanical garden,San Francisco,CA,outdoor,0,99,7,180,Botanical garden,"Fictional botanical garden in San Francisco. Seed data, not a real venue.",synthetic-seed,true
+seed-0097,Lantern Hill Zoo,San Francisco,CA,outdoor,0,99,29,60,Zoo,"Fictional zoo in San Francisco. Seed data, not a real venue.",synthetic-seed,true
+seed-0098,Sunnyfield Children's museum,San Francisco,CA,indoor,1,10,24,90,Children's museum,"Fictional children's museum in San Francisco. Seed data, not a real venue.",synthetic-seed,true
+seed-0099,Harbourview Aquarium,San Francisco,CA,indoor,0,99,30,180,Aquarium,"Fictional aquarium in San Francisco. Seed data, not a real venue.",synthetic-seed,true
+seed-0100,Fair Oaks Indoor play centre,San Francisco,CA,indoor,0,8,17,180,Indoor play centre,"Fictional indoor play centre in San Francisco. Seed data, not a real venue.",synthetic-seed,true
+seed-0101,Kingsway Public library,San Francisco,CA,indoor,0,99,0,90,Public library,"Fictional public library in San Francisco. Seed data, not a real venue.",synthetic-seed,true
+seed-0102,Willow Bend Art gallery,San Francisco,CA,indoor,6,99,20,120,Art gallery,"Fictional art gallery in San Francisco. Seed data, not a real venue.",synthetic-seed,true
+seed-0103,Alder Creek Climbing gym,San Francisco,CA,indoor,5,99,21,120,Climbing gym,"Fictional climbing gym in San Francisco. Seed data, not a real venue.",synthetic-seed,true
+seed-0104,Fair Oaks Nature trail,Los Angeles,CA,outdoor,3,99,6,180,Nature trail,"Fictional nature trail in Los Angeles. Seed data, not a real venue.",synthetic-seed,true
+seed-0105,Old Mill Botanical garden,Los Angeles,CA,outdoor,0,99,6,90,Botanical garden,"Fictional botanical garden in Los Angeles. Seed data, not a real venue.",synthetic-seed,true
+seed-0106,Willow Bend Zoo,Los Angeles,CA,outdoor,0,99,27,45,Zoo,"Fictional zoo in Los Angeles. Seed data, not a real venue.",synthetic-seed,true
+seed-0107,Harbourview Science museum,Los Angeles,CA,indoor,4,99,18,60,Science museum,"Fictional science museum in Los Angeles. Seed data, not a real venue.",synthetic-seed,true
+seed-0108,Alder Creek Children's museum,Los Angeles,CA,indoor,1,10,9,60,Children's museum,"Fictional children's museum in Los Angeles. Seed data, not a real venue.",synthetic-seed,true
+seed-0109,Ashgrove Aquarium,Los Angeles,CA,indoor,0,99,26,120,Aquarium,"Fictional aquarium in Los Angeles. Seed data, not a real venue.",synthetic-seed,true
+seed-0110,Old Mill Public library,Los Angeles,CA,indoor,0,99,0,45,Public library,"Fictional public library in Los Angeles. Seed data, not a real venue.",synthetic-seed,true
+seed-0111,Harbourview Art gallery,Los Angeles,CA,indoor,6,99,16,45,Art gallery,"Fictional art gallery in Los Angeles. Seed data, not a real venue.",synthetic-seed,true
+seed-0112,Ashgrove Climbing gym,Los Angeles,CA,indoor,5,99,12,180,Climbing gym,"Fictional climbing gym in Los Angeles. Seed data, not a real venue.",synthetic-seed,true
+seed-0113,Copper Ridge Playground,Washington,DC,outdoor,0,10,0,180,Playground,"Fictional playground in Washington. Seed data, not a real venue.",synthetic-seed,true
+seed-0114,Northgate Splash pad,Washington,DC,outdoor,1,12,2,90,Splash pad,"Fictional splash pad in Washington. Seed data, not a real venue.",synthetic-seed,true
+seed-0115,Ashgrove Science museum,Washington,DC,indoor,4,99,15,45,Science museum,"Fictional science museum in Washington. Seed data, not a real venue.",synthetic-seed,true
+seed-0116,Harbourview Indoor play centre,Washington,DC,indoor,0,8,19,180,Indoor play centre,"Fictional indoor play centre in Washington. Seed data, not a real venue.",synthetic-seed,true
+seed-0117,Willow Bend Public library,Washington,DC,indoor,0,99,0,90,Public library,"Fictional public library in Washington. Seed data, not a real venue.",synthetic-seed,true
+seed-0118,Alder Creek Art gallery,Washington,DC,indoor,6,99,11,180,Art gallery,"Fictional art gallery in Washington. Seed data, not a real venue.",synthetic-seed,true
+seed-0119,Old Mill Climbing gym,Washington,DC,indoor,5,99,20,90,Climbing gym,"Fictional climbing gym in Washington. Seed data, not a real venue.",synthetic-seed,true
+seed-0120,Northgate Playground,London,Greater London,outdoor,0,10,0,60,Playground,"Fictional playground in London. Seed data, not a real venue.",synthetic-seed,true
+seed-0121,Alder Creek Botanical garden,London,Greater London,outdoor,0,99,19,180,Botanical garden,"Fictional botanical garden in London. Seed data, not a real venue.",synthetic-seed,true
+seed-0122,Fair Oaks Aquarium,London,Greater London,indoor,0,99,39,90,Aquarium,"Fictional aquarium in London. Seed data, not a real venue.",synthetic-seed,true
+seed-0123,Lantern Hill Public library,London,Greater London,indoor,0,99,0,60,Public library,"Fictional public library in London. Seed data, not a real venue.",synthetic-seed,true
+seed-0124,Kingsway Art gallery,London,Greater London,indoor,6,99,16,60,Art gallery,"Fictional art gallery in London. Seed data, not a real venue.",synthetic-seed,true
+seed-0125,Alder Creek Climbing gym,London,Greater London,indoor,5,99,20,60,Climbing gym,"Fictional climbing gym in London. Seed data, not a real venue.",synthetic-seed,true
+seed-0126,Lantern Hill Playground,Toronto,Ontario,outdoor,0,10,0,60,Playground,"Fictional playground in Toronto. Seed data, not a real venue.",synthetic-seed,true
+seed-0127,Old Mill Nature trail,Toronto,Ontario,outdoor,3,99,3,45,Nature trail,"Fictional nature trail in Toronto. Seed data, not a real venue.",synthetic-seed,true
+seed-0128,Copper Ridge Splash pad,Toronto,Ontario,outdoor,1,12,1,180,Splash pad,"Fictional splash pad in Toronto. Seed data, not a real venue.",synthetic-seed,true
+seed-0129,Harbourview Science museum,Toronto,Ontario,indoor,4,99,20,180,Science museum,"Fictional science museum in Toronto. Seed data, not a real venue.",synthetic-seed,true
+seed-0130,Ashgrove Children's museum,Toronto,Ontario,indoor,1,10,11,180,Children's museum,"Fictional children's museum in Toronto. Seed data, not a real venue.",synthetic-seed,true
+seed-0131,Alder Creek Indoor play centre,Toronto,Ontario,indoor,0,8,18,60,Indoor play centre,"Fictional indoor play centre in Toronto. Seed data, not a real venue.",synthetic-seed,true
+seed-0132,Fair Oaks Public library,Toronto,Ontario,indoor,0,99,0,90,Public library,"Fictional public library in Toronto. Seed data, not a real venue.",synthetic-seed,true
+seed-0133,Lantern Hill Art gallery,Toronto,Ontario,indoor,6,99,4,180,Art gallery,"Fictional art gallery in Toronto. Seed data, not a real venue.",synthetic-seed,true
+seed-0134,Alder Creek Climbing gym,Toronto,Ontario,indoor,5,99,27,120,Climbing gym,"Fictional climbing gym in Toronto. Seed data, not a real venue.",synthetic-seed,true

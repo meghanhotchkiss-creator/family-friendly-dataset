@@ -1,6 +1,9 @@
+import logging
 import os
 import stripe
 from fastapi import APIRouter, HTTPException
+
+logger = logging.getLogger(__name__)
 
 router = APIRouter()
 
@@ -18,5 +21,8 @@ def create_checkout_session():
             cancel_url=os.getenv("CANCEL_URL", "https://yourapp.com/cancel"),
         )
         return {"checkout_url": session.url}
-    except Exception as e:
-        raise HTTPException(status_code=400, detail=str(e))
+    except Exception as exc:
+        # Stripe exception text can carry configuration detail (price IDs,
+        # account state, key mode). Log it server-side; return a generic error.
+        logger.exception("Stripe checkout session creation failed")
+        raise HTTPException(status_code=502, detail="Unable to start checkout") from exc
