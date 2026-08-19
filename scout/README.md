@@ -117,8 +117,19 @@ Two gaps the tracks hit against the frozen schema, both fixed additively:
 - **`topics.confidence_json`.** Topics persisted only the scalar, and the reader rebuilt the object by feeding that final value back in as an *authority* — so `computeConfidence` re-applied the verification weight and the number shrank on every read (0.95 → 0.8075, and `human_verified` silently became `unverified`). The full `Confidence` now round-trips exactly.
 - **`radar_deltas.source_record_id`.** Radar files a claim per actionable delta but had no link to it, so verification re-identified the claim by `(source, entity, field, content_hash)` with newest-wins — which a same-valued row could capture, and which finds nothing once the Truth Engine supersedes the row. Deltas now carry the claim id; the hash lookup remains only as a fallback for rows written before the column existed.
 
+## What is real, and what is not
+
+| | |
+|---|---|
+| **Real** | 86 airport IATA/ICAO codes, names and coordinates; 58 country ISO codes and regions; 163 city names; 179 place names and their cities; 19 GTFS stops |
+| **Not real** | Every *number* about a place — rating, `min_age`, `max_age`, `duration_minutes` — is Scout seed data. `touristiness` and `local_favor` are computed by formula in `travel:normalize`, not observed. Loyalty transfer ratios are real-world-shaped but unverified. Award quotes and weather values are synthetic. |
+
+This is visible at runtime rather than only in a doc: every one of those values
+resolves through `Scout seed dataset (0.30 low)`, and `GET /place?id=…` returns
+the provenance alongside the value.
+
 ## Known gaps
 
 - **Providers are fixture-backed here.** Egress is blocked and commercial feeds need credentials. The adapters are real; the bytes are recorded.
-- **The places aggregator's wire contract is Scout-defined.** No public API carries `min_age`/`max_age`/`typical_visit_minutes`, which is where this dataset's value lives. The other four adapters target genuinely real endpoints.
+- **The places provider serves Scout's own seed data, and is labelled as such.** No public API carries `min_age`/`max_age`/`typical_visit_minutes`, which is where this dataset's value lives, so that adapter is the *slot* a real aggregator will occupy — its pagination, header auth and normalisation are real work — while the rows are Scout's. It sits at `sourceClass: 'seed'` / authority 0.35 and its base URL is a reserved `.invalid` host, so nothing can mistake it for a vendor and any real provider added later automatically outranks it. The other four adapters target genuinely real endpoints.
 - **US seed places carry city-centroid coordinates**, flagged `precision: "city"`. No venue-level precision was invented for them.

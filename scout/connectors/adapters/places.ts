@@ -28,18 +28,28 @@ import type {
   RegionCode,
   Result,
 } from '../../contracts/index.ts';
-import { INDOOR_OUTDOOR, PLACE_CATEGORIES, REGION_CODES, err, ok } from '../../contracts/index.ts';
+import { INDOOR_OUTDOOR, PLACE_CATEGORIES, REGION_CODES, SOURCE_AUTHORITY, err, ok } from '../../contracts/index.ts';
 import { checkHealth, fetchResponseOf, parseJsonBody, requestOk } from './geography.ts';
 
-export const PLACES_PROVIDER_ID = 'provider:familyplaces';
+export const PLACES_PROVIDER_ID = 'provider:scout-seed';
 
 export const PLACES_PROVIDER_META = {
   id: PLACES_PROVIDER_ID,
-  name: 'FamilyPlaces aggregator',
-  homepage: 'https://api.familyplaces.io',
+  name: 'Scout seed dataset',
+  homepage: null,
 } as const;
 
-const BASE_URL = 'https://api.familyplaces.io/v1';
+/**
+ * A reserved-by-RFC-2606 `.invalid` host, chosen so nothing here can be
+ * mistaken for a real vendor: this hostname is guaranteed never to resolve.
+ *
+ * There is no public places API carrying `min_age` / `max_age` /
+ * `typical_visit_minutes`, which is precisely the data this dataset is about.
+ * So this adapter is the SLOT a real aggregator will occupy -- its pagination,
+ * header auth, price-level and rating normalisation are real work -- while the
+ * rows it serves today are Scout's own seed data, and are labelled as such.
+ */
+const BASE_URL = 'https://seed.scout.invalid/v1';
 
 /** Upstream page size. The US region needs two pages at this limit. */
 export const PLACES_PAGE_LIMIT = 100;
@@ -211,8 +221,9 @@ export function createPlacesProvider(): Provider<RawPlace> {
   return {
     id: PLACES_PROVIDER_ID,
     kind: 'places',
-    sourceClass: 'major_aggregator',
-    authority: 0.8,
+    // Seed data must never outrank a real source. SOURCE_AUTHORITY.seed = 0.35.
+    sourceClass: 'seed',
+    authority: SOURCE_AUTHORITY.seed,
     freshnessTier: 'periodic',
     regionScope: [],
 

@@ -32,7 +32,8 @@ export interface ProviderDescriptor {
   readonly provider: Provider;
   /** Human name, used for the `sources` row and for CLI output. */
   readonly name: string;
-  readonly homepage: string;
+  /** Null for a provider with no real homepage, e.g. Scout's own seed data. */
+  readonly homepage: string | null;
 }
 
 /**
