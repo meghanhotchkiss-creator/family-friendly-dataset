@@ -17,6 +17,8 @@ import { registerWatch, getWatch } from '../../scout/radar/watches.ts';
 import { scanWatch } from '../../scout/radar/scan.ts';
 import { verifyPending } from '../../scout/radar/verify.ts';
 import { resolveAll } from '../../scout/intelligence/truth-engine.ts';
+import { seedCoreTopics, getTopicBySlug } from '../../scout/intelligence/topic-graph.ts';
+import { propagateToSourceRecord } from '../../scout/radar/verify.ts';
 import { unwrap, type Transport } from '../../scout/contracts/index.ts';
 import { nowIso, freezeClock, unfreezeClock } from '../../scout/runtime/clock.ts';
 
@@ -163,6 +165,79 @@ test('Radar records claims but never writes to places itself', async () => {
       OFFICIAL, PLACE,
     );
     assert.ok((claims[0]?.n ?? 0) > 0, 'Radar must record claims for the Truth Engine');
+  } finally {
+    db.close();
+  }
+});
+
+test('topic confidence round-trips exactly instead of shrinking on every read', () => {
+  // Regression: topics persisted only the scalar, and the reader rebuilt the
+  // object by feeding that final value back in as an AUTHORITY. computeConfidence
+  // then re-applied the verification weight, so 0.95 read back as 0.8075 and a
+  // human_verified topic silently became unverified.
+  const db = seedDb();
+  try {
+    unwrap(seedCoreTopics(db));
+    const slug = db.get<{ slug: string }>('SELECT slug FROM topics LIMIT 1')?.slug;
+    assert.ok(slug);
+
+    const stored = db.get<{ confidence: number }>('SELECT confidence FROM topics WHERE slug = ?', slug);
+    const topic = getTopicBySlug(db, slug);
+    assert.ok(topic);
+    assert.ok(Math.abs(topic.confidence.value - (stored?.confidence ?? -1)) < 1e-12,
+      'restored confidence must equal what was written');
+    assert.equal(topic.confidence.verification, 'human_verified',
+      'verification state must survive the round-trip');
+
+    const unpersisted = db.get<{ n: number }>('SELECT COUNT(*) n FROM topics WHERE confidence_json IS NULL');
+    assert.equal(unpersisted?.n, 0, 'every topic must persist its full Confidence');
+  } finally {
+    db.close();
+  }
+});
+
+test('a delta links to the exact claim it filed, not one that merely hashes the same', async () => {
+  // Regression: verification used to re-identify the claim by
+  // (source, entity, field, content_hash) with "newest wins", so a decoy row
+  // carrying the same value would capture the verification outcome.
+  const db = seedDb();
+  try {
+    const watchId = unwrap(registerWatch(db, {
+      sourceId: OFFICIAL, entityType: 'place', entityId: PLACE,
+      locator: 'https://official.example/venue.json', freshnessTier: 'periodic',
+    }));
+    const watch = getWatch(db, watchId);
+    assert.ok(watch);
+
+    const scan = unwrap(await scanWatch(db, watch, { transport: siteTransport({ price_tier: '$$$' }) }));
+    const delta = scan.deltas.find((d) => d.field === 'price_tier');
+    assert.ok(delta, 'expected a price_tier delta');
+    assert.ok(delta.sourceRecordId, 'delta must carry the id of the claim it filed');
+
+    const claim = db.get<{ id: string; value_json: string; content_hash: string }>(
+      'SELECT id, value_json, content_hash FROM source_records WHERE id = ?', delta.sourceRecordId!,
+    );
+    assert.ok(claim, 'the linked claim must exist');
+    assert.equal(JSON.parse(claim.value_json), '$$$');
+
+    // A newer row from the same source, same field, same value hash: under the
+    // old "newest wins" hash lookup this would have absorbed the outcome.
+    const later = new Date(Date.parse(nowIso()) + 120_000).toISOString();
+    db.run(
+      `INSERT INTO source_records (id, source_id, entity_type, entity_id, field, value_json,
+         observed_at, content_hash, verification, superseded_by)
+       VALUES (?,?,?,?,?,?,?,?,?,NULL)`,
+      'sr_decoy', OFFICIAL, 'place', PLACE, 'price_tier', JSON.stringify('$$$'),
+      later, claim.content_hash, 'unverified',
+    );
+
+    const updated = propagateToSourceRecord(db, delta, OFFICIAL, 'human_verified');
+    assert.equal(updated, delta.sourceRecordId, 'must update the linked claim');
+
+    const decoy = db.get<{ verification: string }>('SELECT verification FROM source_records WHERE id = ?', 'sr_decoy');
+    assert.equal(decoy?.verification, 'unverified', 'the decoy must be untouched');
+    const linked = db.get<{ verification: string }>('SELECT verification FROM source_records WHERE id = ?', delta.sourceRecordId!);
+    assert.equal(linked?.verification, 'human_verified');
   } finally {
     db.close();
   }

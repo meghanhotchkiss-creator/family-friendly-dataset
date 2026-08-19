@@ -119,6 +119,7 @@ export function rowToDelta(row: Record<string, unknown>): RadarDelta {
     semanticScore: Number(row.semantic_score),
     kind: row.kind as DeltaKind,
     verification: row.verification as VerificationState,
+    sourceRecordId: (row.source_record_id as string) ?? null,
     createdAt: String(row.created_at),
   };
 }
@@ -337,6 +338,8 @@ export async function scanWatch(
       semanticScore: diff.semanticScore,
       kind: diff.kind,
       verification: 'unverified',
+      // Filled in below, once the claim for this change has been recorded.
+      sourceRecordId: null,
       createdAt: finishedAt,
     });
   }
@@ -355,9 +358,10 @@ export async function scanWatch(
   );
 
   // Hand every actionable change to the Truth Engine as a claim from this
-  // watch's source. Radar does not touch `places`.
+  // watch's source. Radar does not touch `places`. The claim id is stored on
+  // the delta so verification can reach it without re-deriving it by hash.
   for (const delta of deltas) {
-    recordClaim(db, {
+    const claimId = recordClaim(db, {
       sourceId: watch.sourceId,
       entityType: delta.entityType,
       entityId: delta.entityId,
@@ -366,6 +370,8 @@ export async function scanWatch(
       observedAt: finishedAt,
       verification: 'unverified',
     });
+    db.run('UPDATE radar_deltas SET source_record_id = ? WHERE id = ?', claimId, delta.id);
+    delta.sourceRecordId = claimId;
   }
 
   return outcome;

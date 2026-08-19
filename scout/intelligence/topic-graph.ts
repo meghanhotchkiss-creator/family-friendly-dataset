@@ -10,7 +10,8 @@
  */
 
 import type { Db } from '../db/index.ts';
-import type { Place, Result, Topic, TopicCandidate, TopicStatus } from '../contracts/index.ts';
+import { jsonColumn } from '../db/index.ts';
+import type { Confidence, Place, Result, Topic, TopicCandidate, TopicStatus } from '../contracts/index.ts';
 import {
   ok,
   err,
@@ -191,13 +192,14 @@ export function seedCoreTopics(db: Db): Result<{ created: number }> {
       for (const topic of ordered) {
         const existed = db.get<{ id: string }>('SELECT id FROM topics WHERE slug = ?', topic.slug);
         db.run(
-          `INSERT INTO topics (id, slug, label, parent_topic_id, status, support_count, confidence, created_at)
-           VALUES (?,?,?,?,?,?,?,?)
+          `INSERT INTO topics (id, slug, label, parent_topic_id, status, support_count, confidence, confidence_json, created_at)
+           VALUES (?,?,?,?,?,?,?,?,?)
            ON CONFLICT(slug) DO UPDATE SET
              label = excluded.label,
              parent_topic_id = excluded.parent_topic_id,
              status = 'core',
-             confidence = excluded.confidence`,
+             confidence = excluded.confidence,
+             confidence_json = excluded.confidence_json`,
           topicIdFor(topic.slug),
           topic.slug,
           topic.label,
@@ -205,6 +207,7 @@ export function seedCoreTopics(db: Db): Result<{ created: number }> {
           'core',
           0,
           confidence.value,
+          JSON.stringify(confidence),
           now,
         );
         if (!existed) created += 1;
@@ -403,18 +406,20 @@ export function promoteCandidates(
         const id = topicIdFor(slug);
 
         db.run(
-          `INSERT INTO topics (id, slug, label, parent_topic_id, status, support_count, confidence, created_at)
-           VALUES (?,?,?,NULL,?,?,?,?)
+          `INSERT INTO topics (id, slug, label, parent_topic_id, status, support_count, confidence, confidence_json, created_at)
+           VALUES (?,?,?,NULL,?,?,?,?,?)
            ON CONFLICT(slug) DO UPDATE SET
              status = excluded.status,
              support_count = excluded.support_count,
-             confidence = excluded.confidence`,
+             confidence = excluded.confidence,
+             confidence_json = excluded.confidence_json`,
           id,
           slug,
           labelFor(candidate.term),
           status,
           candidate.support.length,
           confidence.value,
+          JSON.stringify(confidence),
           now,
         );
 
@@ -479,9 +484,12 @@ export function getTopicBySlug(db: Db, slug: string): Topic | null {
     parentTopicId: (row.parent_topic_id as string) ?? null,
     status: row.status as TopicStatus,
     supportCount: Number(row.support_count),
-    // `topics` has no confidence_json column, so only the scalar survives: the
-    // object is rebuilt with that scalar as its authority component.
-    confidence: computeConfidence({ authorities: [Number(row.confidence)] }),
+    // Restored whole. Reconstructing it from the scalar used to feed the final
+    // value back in as an authority, so computeConfidence re-applied the
+    // verification weight and the number shrank on every read (0.95 came back
+    // as 0.81, and human_verified came back as unverified).
+    confidence: jsonColumn<Confidence | null>(row.confidence_json, null)
+      ?? computeConfidence({ authorities: [Number(row.confidence)] }),
     createdAt: String(row.created_at),
   };
 }

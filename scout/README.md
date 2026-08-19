@@ -44,7 +44,7 @@ Every number the platform shows can be explained from its four components.
 npm install
 npm run bootstrap     # migrate + import + normalize + topics + user graph + truth
 npm run scout:demo    # the nine-step proof scenario
-npm test              # 126 tests
+npm test              # 128 tests
 npm run api:serve     # HTTP API on :8787
 ```
 
@@ -110,10 +110,15 @@ claims under the watching source and lets the Truth Engine decide. That is what
 makes every served value traceable to the source that won and the competition
 it beat — visible at `GET /place?id=…`.
 
+## Closed in migration 010
+
+Two gaps the tracks hit against the frozen schema, both fixed additively:
+
+- **`topics.confidence_json`.** Topics persisted only the scalar, and the reader rebuilt the object by feeding that final value back in as an *authority* — so `computeConfidence` re-applied the verification weight and the number shrank on every read (0.95 → 0.8075, and `human_verified` silently became `unverified`). The full `Confidence` now round-trips exactly.
+- **`radar_deltas.source_record_id`.** Radar files a claim per actionable delta but had no link to it, so verification re-identified the claim by `(source, entity, field, content_hash)` with newest-wins — which a same-valued row could capture, and which finds nothing once the Truth Engine supersedes the row. Deltas now carry the claim id; the hash lookup remains only as a fallback for rows written before the column existed.
+
 ## Known gaps
 
 - **Providers are fixture-backed here.** Egress is blocked and commercial feeds need credentials. The adapters are real; the bytes are recorded.
 - **The places aggregator's wire contract is Scout-defined.** No public API carries `min_age`/`max_age`/`typical_visit_minutes`, which is where this dataset's value lives. The other four adapters target genuinely real endpoints.
-- **`topics` has no `confidence_json` column**, so topic confidence round-trips as a scalar and is reconstructed rather than restored.
-- **No delta→source_record foreign key.** Radar re-identifies its claim by `(source, entity, field, content_hash)`. Exact today, but it would miss a claim the Truth Engine had already superseded and deleted.
 - **US seed places carry city-centroid coordinates**, flagged `precision: "city"`. No venue-level precision was invented for them.

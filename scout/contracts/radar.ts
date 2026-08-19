@@ -62,6 +62,12 @@ export interface RadarDelta {
   semanticScore: number;
   kind: DeltaKind;
   verification: VerificationState;
+  /**
+   * The source claim Radar filed for this change, so verification can find it
+   * directly instead of re-deriving it from (source, entity, field, hash) --
+   * which stops working the moment the Truth Engine supersedes that row.
+   */
+  sourceRecordId: string | null;
   createdAt: string;
 }
 

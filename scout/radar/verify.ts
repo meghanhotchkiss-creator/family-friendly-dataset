@@ -203,9 +203,12 @@ function heuristic(db: Db, delta: RadarDelta, watch: Watch): Attempt {
 /**
  * Push the outcome onto the source_record Radar filed for this change.
  *
- * The schema has no delta -> source_record foreign key (and the schema is
- * frozen), so the claim is re-identified the same way it was created: same
- * source, same entity, same field, same canonical value hash. Newest wins.
+ * Deltas carry `source_record_id`, the claim Radar filed for the change, so the
+ * normal path is a direct lookup. The hash-based re-identification below is the
+ * fallback for deltas written before that column existed: same source, same
+ * entity, same field, same canonical value hash, newest wins. That fallback is
+ * lossy once the Truth Engine supersedes the row, which is exactly why the
+ * direct link is preferred.
  */
 export function propagateToSourceRecord(
   db: Db,
@@ -213,6 +216,19 @@ export function propagateToSourceRecord(
   sourceId: string,
   outcome: VerificationState,
 ): string | null {
+  // Preferred: the claim this delta was filed as.
+  if (delta.sourceRecordId) {
+    const linked = db.get<{ id: string }>(
+      'SELECT id FROM source_records WHERE id = ?',
+      delta.sourceRecordId,
+    );
+    if (linked) {
+      db.run('UPDATE source_records SET verification = ? WHERE id = ?', outcome, linked.id);
+      return linked.id;
+    }
+  }
+
+  // Fallback for deltas recorded before the link existed.
   const hash = canonicalHash(delta.newValue ?? null);
   const row = db.get<{ id: string }>(
     `SELECT id FROM source_records
