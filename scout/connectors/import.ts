@@ -313,6 +313,9 @@ export async function importPlaces(
         neighborhoodId,
         lat: raw.lat,
         lon: raw.lon,
+        // Carried through from the adapter instead of being dropped: a city
+        // centroid must not be mistaken for the venue's address.
+        locationPrecision: raw.locationPrecision,
         category: raw.category,
         subcategory: raw.subcategory,
         priceTier: raw.priceTier,

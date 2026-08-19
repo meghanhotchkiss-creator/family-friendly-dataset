@@ -265,8 +265,25 @@ function rehash(db: Db, stats: NormalizeStats): void {
 function linkNeighborhoods(db: Db, stats: NormalizeStats): void {
   const orphans = db.all<{ id: string; city_id: string; lat: number; lon: number }>(
     `SELECT id, city_id, lat, lon FROM places
-     WHERE neighborhood_id IS NULL AND lat IS NOT NULL AND lon IS NOT NULL`,
+     WHERE neighborhood_id IS NULL AND lat IS NOT NULL AND lon IS NOT NULL
+       -- A city centroid is a real coordinate and a useless one for "nearest":
+       -- linking on it would put every place in the city in one neighbourhood.
+       AND location_precision = 'venue'`,
   );
+  // Report imprecise coordinates before the early return: a database where
+  // EVERY place is a centroid has nothing to link and most needs the warning.
+  const imprecise = db.get<{ n: number }>(
+    `SELECT COUNT(*) n FROM places
+     WHERE neighborhood_id IS NULL AND lat IS NOT NULL
+       AND (location_precision IS NULL OR location_precision <> 'venue')`,
+  );
+  if (imprecise && imprecise.n > 0) {
+    stats.issues.push(
+      `${imprecise.n} place(s) skipped for neighborhood linking: coordinates are a ` +
+        `city centroid, not the venue. Run a geocoding pass to upgrade them.`,
+    );
+  }
+
   if (orphans.length === 0) return;
 
   const byCity = new Map<string, { id: string; lat: number; lon: number }[]>();

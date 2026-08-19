@@ -114,6 +114,7 @@ function setup(): Fixture {
     cityId,
     neighborhoodId: null,
     lat: 37.8017,
+    locationPrecision: 'venue',
     lon: -122.3973,
     subcategory: null,
     canonicalHash: null,

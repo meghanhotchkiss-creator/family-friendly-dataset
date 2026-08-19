@@ -47,6 +47,7 @@ function mkPlace(db: Db, cityId: string, over: Partial<Place> & { id: string; na
     neighborhoodId: over.neighborhoodId ?? null,
     lat: over.lat ?? null,
     lon: over.lon ?? null,
+    locationPrecision: 'venue',
     category: (over.category ?? 'museum') as PlaceCategory,
     subcategory: over.subcategory ?? null,
     priceTier: over.priceTier ?? null,

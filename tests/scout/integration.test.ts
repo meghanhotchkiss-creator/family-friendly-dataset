@@ -11,7 +11,7 @@ import assert from 'node:assert/strict';
 import { openDb } from '../../scout/db/index.ts';
 import { migrate } from '../../scout/db/migrate.ts';
 import { ensureRegions, upsertCountry, upsertCity, upsertUser } from '../../scout/db/repo-core.ts';
-import { upsertPlace, getPlace } from '../../scout/db/repo-places.ts';
+import { upsertPlace, getPlace, hasUsableCoordinates } from '../../scout/db/repo-places.ts';
 import { upsertSource, recordClaim } from '../../scout/db/repo-truth.ts';
 import { registerWatch, getWatch } from '../../scout/radar/watches.ts';
 import { scanWatch } from '../../scout/radar/scan.ts';
@@ -21,6 +21,7 @@ import { seedCoreTopics, getTopicBySlug } from '../../scout/intelligence/topic-g
 import { propagateToSourceRecord } from '../../scout/radar/verify.ts';
 import { unwrap, type Transport } from '../../scout/contracts/index.ts';
 import { nowIso, freezeClock, unfreezeClock } from '../../scout/runtime/clock.ts';
+import { normalizePlaces } from '../../scout/travel/normalize.ts';
 
 const AGGREGATOR = 'source:test-aggregator';
 const OFFICIAL = 'source:test-official';
@@ -39,7 +40,7 @@ function seedDb() {
   });
   upsertPlace(db, {
     id: PLACE, name: 'Test Venue', cityId: city, neighborhoodId: null,
-    lat: 40, lon: -80, category: 'museum', subcategory: null, priceTier: 'free',
+    lat: 40, lon: -80, locationPrecision: 'venue', category: 'museum', subcategory: null, priceTier: 'free',
     indoorOutdoor: 'indoor', rating: 4.5, minAge: 0, maxAge: 99, durationMinutes: 90,
     touristiness: 0.3, localFavor: 0.8, description: 'A test venue.',
     canonicalHash: null, updatedAt: nowIso(),
@@ -238,6 +239,66 @@ test('a delta links to the exact claim it filed, not one that merely hashes the 
     assert.equal(decoy?.verification, 'unverified', 'the decoy must be untouched');
     const linked = db.get<{ verification: string }>('SELECT verification FROM source_records WHERE id = ?', delta.sourceRecordId!);
     assert.equal(linked?.verification, 'human_verified');
+  } finally {
+    db.close();
+  }
+});
+
+test('a city centroid is never treated as a usable coordinate', () => {
+  // 73 of 179 imported places share their city's centroid -- all 10 Chicago
+  // places sit on 41.878,-87.63. Checking `lat !== null` would happily use them
+  // for "what is nearest" and put every place in one neighbourhood.
+  const venue = { lat: 41.8663, lon: -87.6169, locationPrecision: 'venue' as const };
+  const centroid = { lat: 41.878, lon: -87.63, locationPrecision: 'city' as const };
+  const unknown = { lat: 41.878, lon: -87.63, locationPrecision: null };
+  const missing = { lat: null, lon: null, locationPrecision: 'venue' as const };
+
+  assert.equal(hasUsableCoordinates(venue), true);
+  assert.equal(hasUsableCoordinates(centroid), false, 'a centroid must be refused');
+  assert.equal(hasUsableCoordinates(unknown), false, 'unknown provenance must be refused');
+  assert.equal(hasUsableCoordinates(missing), false);
+});
+
+test('location precision survives a write/read round-trip', () => {
+  const db = seedDb();
+  try {
+    const base = getPlace(db, PLACE);
+    assert.ok(base);
+    assert.equal(base.locationPrecision, 'venue');
+
+    upsertPlace(db, { ...base, locationPrecision: 'city' });
+    assert.equal(getPlace(db, PLACE)?.locationPrecision, 'city');
+    assert.equal(hasUsableCoordinates(getPlace(db, PLACE)!), false);
+
+    upsertPlace(db, { ...base, locationPrecision: null });
+    assert.equal(getPlace(db, PLACE)?.locationPrecision, null);
+  } finally {
+    db.close();
+  }
+});
+
+test('normalize refuses to link a centroid place and says so', () => {
+  const db = seedDb();
+  try {
+    const base = getPlace(db, PLACE);
+    assert.ok(base);
+    upsertPlace(db, { ...base, locationPrecision: 'city', neighborhoodId: null });
+    db.run(
+      `INSERT INTO neighborhoods (id, city_id, name, lat, lon, local_character, updated_at)
+       VALUES (?,?,?,?,?,?,?)`,
+      'neighborhood:test', base.cityId, 'Testside', 40.001, -80.001, 0.7, nowIso(),
+    );
+
+    const stats = unwrap(normalizePlaces(db));
+    assert.equal(getPlace(db, PLACE)?.neighborhoodId, null,
+      'a centroid place must not be linked to a neighbourhood');
+    assert.ok(stats.issues.some((i) => i.includes('city centroid')),
+      `expected a centroid warning, got: ${JSON.stringify(stats.issues)}`);
+
+    // The same place at venue precision links normally.
+    upsertPlace(db, { ...base, locationPrecision: 'venue', neighborhoodId: null });
+    unwrap(normalizePlaces(db));
+    assert.equal(getPlace(db, PLACE)?.neighborhoodId, 'neighborhood:test');
   } finally {
     db.close();
   }

@@ -62,6 +62,12 @@ export interface Place {
   neighborhoodId: EntityId | null;
   lat: number | null;
   lon: number | null;
+  /**
+   * How precise lat/lon actually are. 'city' means a centroid standing in for
+   * an unknown street address, so it must NOT be used for distance,
+   * nearest-neighbour or transit linking. Null is treated as unusable.
+   */
+  locationPrecision: 'venue' | 'city' | null;
   category: PlaceCategory;
   subcategory: string | null;
   priceTier: PriceTier | null;

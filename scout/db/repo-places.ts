@@ -28,6 +28,7 @@ export function rowToPlace(row: Record<string, unknown>): Place {
     cityId: String(row.city_id),
     neighborhoodId: (row.neighborhood_id as string) ?? null,
     lat: num(row.lat), lon: num(row.lon),
+    locationPrecision: (row.location_precision as 'venue' | 'city' | null) ?? null,
     category: row.category as PlaceCategory,
     subcategory: (row.subcategory as string) ?? null,
     priceTier: (row.price_tier as PriceTier) ?? null,
@@ -47,8 +48,8 @@ export function upsertPlace(db: Db, place: Place): string {
   db.run(
     `INSERT INTO places (id, name, city_id, neighborhood_id, lat, lon, category, subcategory,
        price_tier, indoor_outdoor, rating, min_age, max_age, duration_minutes,
-       touristiness, local_favor, description, canonical_hash, updated_at)
-     VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
+       touristiness, local_favor, description, canonical_hash, location_precision, updated_at)
+     VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
      ON CONFLICT(id) DO UPDATE SET
        name = excluded.name, city_id = excluded.city_id,
        neighborhood_id = excluded.neighborhood_id, lat = excluded.lat, lon = excluded.lon,
@@ -57,13 +58,26 @@ export function upsertPlace(db: Db, place: Place): string {
        rating = excluded.rating, min_age = excluded.min_age, max_age = excluded.max_age,
        duration_minutes = excluded.duration_minutes, touristiness = excluded.touristiness,
        local_favor = excluded.local_favor, description = excluded.description,
-       canonical_hash = excluded.canonical_hash, updated_at = excluded.updated_at`,
+       canonical_hash = excluded.canonical_hash,
+       location_precision = excluded.location_precision,
+       updated_at = excluded.updated_at`,
     place.id, place.name, place.cityId, place.neighborhoodId, place.lat, place.lon,
     place.category, place.subcategory, place.priceTier, place.indoorOutdoor, place.rating,
     place.minAge, place.maxAge, place.durationMinutes, place.touristiness, place.localFavor,
-    place.description, hash, place.updatedAt || nowIso(),
+    place.description, hash, place.locationPrecision ?? null, place.updatedAt || nowIso(),
   );
   return place.id;
+}
+
+/**
+ * Whether a place's coordinates may be used for distance work.
+ *
+ * The one guard for this question. A city centroid is a real coordinate and a
+ * useless one for "what is nearest", so anything measuring proximity must ask
+ * here first rather than checking `lat !== null`.
+ */
+export function hasUsableCoordinates(place: Pick<Place, 'lat' | 'lon' | 'locationPrecision'>): boolean {
+  return place.lat !== null && place.lon !== null && place.locationPrecision === 'venue';
 }
 
 export function getPlace(db: Db, id: string): Place | undefined {

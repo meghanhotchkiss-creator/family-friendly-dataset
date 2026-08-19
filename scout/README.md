@@ -44,7 +44,7 @@ Every number the platform shows can be explained from its four components.
 npm install
 npm run bootstrap     # migrate + import + normalize + topics + user graph + truth
 npm run scout:demo    # the nine-step proof scenario
-npm test              # 128 tests
+npm test              # 136 tests
 npm run api:serve     # HTTP API on :8787
 ```
 
@@ -54,6 +54,7 @@ npm run api:serve     # HTTP API on :8787
 |---|---|
 | `db:migrate` / `db:reset` / `db:status` | Schema, with checksum drift detection |
 | `travel:import:{geography,airports,places,gtfs,all}` | Global import framework |
+| `travel:geocode` | Upgrade city-centroid coordinates to venue precision via OpenStreetMap (needs egress) |
 | `travel:normalize` | Dedupe, canonical hashes, derived touristiness/local favour, neighbourhood linking |
 | `graph:topic:build` / `topics:discover` | Core taxonomy plus automatic candidate discovery |
 | `graph:user:build` | Recompute learned preferences from signals |
@@ -130,6 +131,6 @@ the provenance alongside the value.
 
 ## Known gaps
 
-- **Providers are fixture-backed here.** Egress is blocked and commercial feeds need credentials. The adapters are real; the bytes are recorded.
+- **Providers are fixture-backed here.** Egress is blocked by policy and commercial feeds need credentials. The adapters are real and verified against each API's true wire shape; only the bytes are recorded. Exact unblock steps: [BLOCKED.md](BLOCKED.md).
 - **The places provider serves Scout's own seed data, and is labelled as such.** No public API carries `min_age`/`max_age`/`typical_visit_minutes`, which is where this dataset's value lives, so that adapter is the *slot* a real aggregator will occupy — its pagination, header auth and normalisation are real work — while the rows are Scout's. It sits at `sourceClass: 'seed'` / authority 0.35 and its base URL is a reserved `.invalid` host, so nothing can mistake it for a vendor and any real provider added later automatically outranks it. The other four adapters target genuinely real endpoints.
-- **US seed places carry city-centroid coordinates**, flagged `precision: "city"`. No venue-level precision was invented for them.
+- **120 of 179 places carry a city centroid, not a street address.** They are flagged `location_precision = 'city'` and *refused* for neighbourhood and transit linking, so the imprecision cannot silently corrupt a "what is nearest" answer; `travel:normalize` reports the count every run. `npm run travel:geocode` upgrades them via OpenStreetMap and is built and tested — it needs egress. See [BLOCKED.md](BLOCKED.md).

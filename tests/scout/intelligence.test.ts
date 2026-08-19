@@ -78,6 +78,7 @@ function place(overrides: Partial<Place> & { id: string; name: string }): Place 
     neighborhoodId: null,
     lat: 45.5,
     lon: -122.6,
+    locationPrecision: 'venue',
     category: 'museum',
     subcategory: null,
     priceTier: '$',
