@@ -196,7 +196,11 @@ if (!targetProgramId || !pointsNeeded) {
         `-> delivers ${value.pointsDelivered} (${value.feasible ? 'FEASIBLE' : `SHORT by ${value.shortfall}`})`,
     );
     if (value.steps.length === 0) {
-      console.log('  no transfer steps required');
+      console.log(
+        value.shortfall > 0
+          ? '  no viable transfer steps (see warnings)'
+          : '  no transfer steps required',
+      );
     } else {
       for (const step of value.steps) {
         console.log(
