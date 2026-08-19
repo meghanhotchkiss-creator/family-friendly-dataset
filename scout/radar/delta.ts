@@ -105,6 +105,29 @@ export function normalizeText(value: string): string {
     .trim();
 }
 
+/** Case and whitespace only. Keeps punctuation, which is sometimes the value. */
+export function lightNormalizeText(value: string): string {
+  return value.normalize('NFKC').toLowerCase().replace(/\s+/gu, ' ').trim();
+}
+
+/**
+ * Compare two strings under normalisation, with one carve-out: for some fields
+ * the punctuation IS the value ("$$" -> "$$$" is a price tier doubling). If
+ * stripping symbols would empty out a string that actually had content, fall
+ * back to case/whitespace normalisation only, so a real change is not laundered
+ * into a score of 0.
+ */
+function stringDistance(a: string, b: string): number {
+  const na = normalizeText(a);
+  const nb = normalizeText(b);
+  const emptied = (raw: string, normalized: string): boolean =>
+    normalized === '' && raw.trim() !== '';
+  if (emptied(a, na) || emptied(b, nb)) {
+    return normalizedEditDistance(lightNormalizeText(a), lightNormalizeText(b));
+  }
+  return normalizedEditDistance(na, nb);
+}
+
 type ValueKind = 'null' | 'string' | 'number' | 'boolean' | 'structure';
 
 function kindOf(value: unknown): ValueKind {
@@ -135,10 +158,7 @@ export function semanticDistance(oldValue: unknown, newValue: unknown): number {
 
   switch (oldKind) {
     case 'string':
-      return normalizedEditDistance(
-        normalizeText(oldValue as string),
-        normalizeText(newValue as string),
-      );
+      return stringDistance(oldValue as string, newValue as string);
     case 'number': {
       const a = Number(oldValue);
       const b = Number(newValue);
