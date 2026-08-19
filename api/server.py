@@ -89,6 +89,30 @@ def verify_firebase_token(token: str = Depends(oauth2_scheme)):
 
 app = FastAPI(title="Family Friendly Dataset API", version="4.0")
 
+# Values accepted by the ?indoor= filter. An unrecognised value is a client
+# error: returning an empty list for it is indistinguishable from "no matches",
+# which hides typos.
+VALID_SETTINGS = {"indoor", "outdoor"}
+
+
+def _records(df):
+    """Serialise a frame to JSON-safe records.
+
+    pandas represents a blank cell as NaN, and json.dumps rejects NaN as
+    non-compliant, so any dataset with a missing value crashed the response
+    with a 500. Missing values become null.
+    """
+    return df.astype(object).where(df.notna(), None).to_dict(orient="records")
+
+
+def _validate_setting(indoor):
+    if indoor and indoor.lower() not in VALID_SETTINGS:
+        raise HTTPException(
+            status_code=422,
+            detail=f"indoor must be one of {sorted(VALID_SETTINGS)}",
+        )
+
+
 def get_data(state: str, indoor: str, limit: int):
     if USE_BIGQUERY:
         # Values are passed as query parameters, never interpolated into the
@@ -110,22 +134,25 @@ def get_data(state: str, indoor: str, limit: int):
         return bq_client.query(query, job_config=job_config).to_dataframe()
     else:
         df = load_dataset()
-        df = df[df["state"].str.lower() == state.lower()]
+        df = df[df["state"].astype(str).str.lower() == state.lower()]
         if indoor:
-            df = df[df["indoor_or_outdoor"] == indoor]
+            df = df[df["indoor_or_outdoor"].astype(str).str.lower() == indoor.lower()]
         return df
 
 @app.get("/recommend")
 def recommend(state: str, indoor: str = None, limit: int = Query(10, ge=1, le=MAX_LIMIT), auth: bool = Depends(verify_api_key)):
+    _validate_setting(indoor)
     df = get_data(state, indoor, limit)
-    return df.head(limit).to_dict(orient="records")
+    return _records(df.head(limit))
 
 @app.get("/recommend_jwt")
 def recommend_jwt(state: str, indoor: str = None, limit: int = Query(10, ge=1, le=MAX_LIMIT), user=Depends(verify_jwt)):
+    _validate_setting(indoor)
     df = get_data(state, indoor, limit)
-    return {"user": user, "results": df.head(limit).to_dict(orient="records")}
+    return {"user": user, "results": _records(df.head(limit))}
 
 @app.get("/recommend_firebase")
 def recommend_firebase(state: str, indoor: str = None, limit: int = Query(10, ge=1, le=MAX_LIMIT), user=Depends(verify_firebase_token)):
+    _validate_setting(indoor)
     df = get_data(state, indoor, limit)
-    return {"firebase_user": user, "results": df.head(limit).to_dict(orient="records")}
+    return {"firebase_user": user, "results": _records(df.head(limit))}

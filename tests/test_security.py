@@ -201,3 +201,59 @@ def test_redemption_beyond_balance_is_rejected(points):
     with pytest.raises(HTTPException):
         points.redeem_points(cost=11, api_key="k-free")
     assert points.user_points["k-free"] == 10
+
+
+# --- Data handling regressions (found by probing with seed data) ----------
+
+@pytest.fixture
+def seeded_client(monkeypatch, tmp_path):
+    """A TestClient over a CSV whose content each test controls."""
+    def _make(csv_text):
+        path = tmp_path / "activities.csv"
+        path.write_text(csv_text, encoding="utf-8")
+        monkeypatch.setenv("FAMILY_API_KEY", "k")
+        monkeypatch.setenv("JWT_SECRET", "s")
+        monkeypatch.setenv("FAMILY_DATASET_URL", str(path))
+        monkeypatch.delenv("USE_BIGQUERY", raising=False)
+        sys.modules.pop("server", None)
+        from fastapi.testclient import TestClient
+        server = importlib.import_module("server")
+        return TestClient(server.app)
+    return _make
+
+
+HEADERS = {"X-API-Key": "k"}
+
+
+def test_missing_values_do_not_break_the_response(seeded_client):
+    """A blank numeric cell became NaN and made json.dumps raise, returning 500."""
+    client = seeded_client(
+        "name,state,indoor_or_outdoor,price_usd\n"
+        "Gap Park,FL,outdoor,\n"
+        "Priced Park,FL,outdoor,5\n"
+    )
+    response = client.get("/recommend?state=FL", headers=HEADERS)
+    assert response.status_code == 200
+    import json
+    body = json.loads(response.text)  # strict: rejects bare NaN
+    assert body[0]["price_usd"] is None
+
+
+def test_setting_filter_is_case_insensitive(seeded_client):
+    """?state= was case-insensitive while ?indoor= was not."""
+    csv_text = (
+        "name,state,indoor_or_outdoor\n"
+        "A Museum,FL,indoor\n"
+        "A Park,FL,outdoor\n"
+    )
+    client = seeded_client(csv_text)
+    for value in ("indoor", "Indoor", "INDOOR"):
+        response = client.get(f"/recommend?state=FL&indoor={value}", headers=HEADERS)
+        assert response.status_code == 200
+        assert len(response.json()) == 1, f"{value!r} returned {len(response.json())} rows"
+
+
+def test_invalid_setting_is_rejected_not_silently_empty(seeded_client):
+    client = seeded_client("name,state,indoor_or_outdoor\nA Park,FL,outdoor\n")
+    response = client.get("/recommend?state=FL&indoor=inside", headers=HEADERS)
+    assert response.status_code == 422, "an unrecognised filter value must not look like 'no matches'"
