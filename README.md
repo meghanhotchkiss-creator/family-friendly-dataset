@@ -1,4 +1,32 @@
-# Family Friendly Master Bundle
+# Family Friendly Dataset / Scout Fox Go
+
+Two things live in this repository:
+
+| | What | Start here |
+|---|---|---|
+| **Scout platform** | Travel intelligence: SourceMesh ingestion, travel/user/topic graphs, truth layer, radar, sentinel, rewards, recommendation API | [`scout/README.md`](scout/README.md) |
+| **Family Friendly bundle** | The original Python seed dataset, FastAPI service, bots and dashboard | this file, below |
+
+```bash
+# Scout platform (TypeScript, zero runtime dependencies)
+npm install && npm run bootstrap && npm test
+npm run scout:demo          # the nine-step proof scenario
+npm run command-center      # operational status, derived from live state
+
+# Family Friendly bundle (Python)
+make seed && make test
+```
+
+Scout runs on real open data: 250 countries, ~46,500 cities and 28,291
+airports across all 8 region flags, fetched from package registries and
+ingested through SourceMesh. See [`scout/BLOCKED.md`](scout/BLOCKED.md) for
+what is waiting on network egress or a commercial decision, and
+[`data/upstream/PROVENANCE.md`](data/upstream/README.md) for licences and the
+one derived field.
+
+---
+
+## Family Friendly Master Bundle
 
 This master bundle includes:
 - Seed data (activities, families, trips, feedback, points) + build tooling
