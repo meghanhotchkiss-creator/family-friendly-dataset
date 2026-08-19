@@ -41,12 +41,16 @@ export interface TransportResponse {
 /**
  * The single seam between Scout and the outside world.
  *
- * `FixtureTransport` (default here: egress is closed and providers need
- * credentials) and `HttpTransport` (production) both implement it, so no
- * adapter needs a code change to go live.
+ *   fixture  replay recorded payloads (the default: egress is closed here)
+ *   offline  read REAL upstream datasets from local files, obtained through
+ *            whatever channel the operator's environment permits. Same parsers,
+ *            same claims, same provenance -- only the byte source differs.
+ *   network  live HTTP
+ *
+ * No adapter changes between the three; that is the point of the seam.
  */
 export interface Transport {
-  readonly mode: 'fixture' | 'network';
+  readonly mode: 'fixture' | 'offline' | 'network';
   request(req: TransportRequest): Promise<Result<TransportResponse>>;
 }
 

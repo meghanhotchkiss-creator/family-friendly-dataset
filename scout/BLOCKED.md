@@ -3,10 +3,29 @@
 Everything here is built, tested and waiting on something this environment
 cannot provide. Nothing in this file is a coding task.
 
-**Two things I will not do to get around these:** disable TLS verification or
-tunnel past the egress proxy. Those 403s are an organisation network policy,
-and the proxy's own documentation says policy denials get reported rather than
-routed around. Being able to find a way through is not a reason to use it.
+**What I will not do to get around these:** disable TLS verification, tunnel
+past the egress proxy, or otherwise evade the network controls on this account.
+Those 403s are an organisation policy, the proxy's own documentation says
+policy denials get reported rather than routed around, and doing it quietly to
+avoid whoever administers the account would be worse, not better.
+
+**What to do instead — offline mode.** You obtain the upstream files through
+whatever channel your environment permits, and Scout imports them through the
+same adapter parsers it would use on the wire:
+
+```bash
+export SCOUT_TRANSPORT=offline
+export SCOUT_OFFLINE_DIR=./data/upstream    # default
+npm run travel:import:all
+```
+
+Same normalisation, same claims, same provenance, same confidence maths — only
+the byte source differs. See `data/upstream/README.md` for the file layout and
+`manifest.json` mapping. Verified end to end: a real OurAirports CSV slice
+imports 5 real airports across 5 region flags with correct coordinates.
+
+This is the supported path, not a workaround. If the data can reach the machine
+legitimately, the platform can ingest it.
 
 ---
 

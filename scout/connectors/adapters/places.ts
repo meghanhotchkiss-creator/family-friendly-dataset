@@ -230,7 +230,7 @@ export function createPlacesProvider(): Provider<RawPlace> {
     isConfigured(ctx: ProviderContext): boolean {
       // Replay needs no credentials -- the bytes are already recorded. On the
       // wire the key is mandatory.
-      return ctx.transport.mode === 'fixture' || Boolean(ctx.credentials.apiKey);
+      return ctx.transport.mode !== 'network' || Boolean(ctx.credentials.apiKey);
     },
 
     health(ctx: ProviderContext): Promise<ProviderHealth> {

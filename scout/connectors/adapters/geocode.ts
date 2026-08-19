@@ -131,7 +131,7 @@ export function createGeocodeProvider(): Provider<RawGeocodeHit> {
 
     isConfigured(ctx: ProviderContext): boolean {
       // Replay needs nothing. On the wire Nominatim requires contact details.
-      return ctx.transport.mode === 'fixture' || Boolean(process.env.SCOUT_GEOCODE_EMAIL);
+      return ctx.transport.mode !== 'network' || Boolean(process.env.SCOUT_GEOCODE_EMAIL);
     },
 
     async health(ctx: ProviderContext): Promise<ProviderHealth> {

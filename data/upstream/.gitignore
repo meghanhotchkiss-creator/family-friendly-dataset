@@ -1,0 +1,5 @@
+# Third-party datasets: their licences, not ours to redistribute.
+*
+!.gitignore
+!README.md
+!manifest.json

@@ -44,7 +44,7 @@ Every number the platform shows can be explained from its four components.
 npm install
 npm run bootstrap     # migrate + import + normalize + topics + user graph + truth
 npm run scout:demo    # the nine-step proof scenario
-npm test              # 136 tests
+npm test              # 142 tests
 npm run api:serve     # HTTP API on :8787
 ```
 
@@ -70,8 +70,19 @@ Adapters are real: real URL construction, parsing, normalisation, schema
 fingerprinting and error mapping. They reach the outside world through one
 seam — `scout/connectors/transport.ts`.
 
-This environment's egress policy blocks all external hosts, so the default is
-`createFixtureTransport()`, replaying recorded payloads. To go live:
+There are three byte sources behind that one seam:
+
+| `SCOUT_TRANSPORT` | Source |
+|---|---|
+| unset | recorded fixtures (default) |
+| `offline` | **real upstream files from `SCOUT_OFFLINE_DIR`** — same parsers, same claims, no network needed |
+| `network` | live HTTP |
+
+`offline` is the answer when egress is closed by policy: obtain the datasets
+through a permitted channel, drop them in `data/upstream/`, and import them for
+real. See `data/upstream/README.md`.
+
+To go live over the network:
 
 ```bash
 export SCOUT_TRANSPORT=network

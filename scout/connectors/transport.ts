@@ -20,18 +20,13 @@ import { fileURLToPath } from 'node:url';
 import type { Transport, TransportRequest, TransportResponse } from '../contracts/index.ts';
 import { ok, err } from '../contracts/index.ts';
 import type { Result } from '../contracts/index.ts';
-import { shortHash } from '../runtime/hash.ts';
+import { fixtureNameFor } from './naming.ts';
+import { createOfflineTransport, DEFAULT_OFFLINE_DIR } from './offline.ts';
+
+export { fixtureNameFor };
 
 export const FIXTURE_DIR = join(dirname(fileURLToPath(import.meta.url)), 'fixtures');
 
-/** Map a request to its fixture filename. Stable across runs. */
-export function fixtureNameFor(req: TransportRequest): string {
-  const url = new URL(req.url);
-  const host = url.hostname.replace(/[^a-z0-9]+/gi, '-');
-  const path = url.pathname.replace(/[^a-z0-9]+/gi, '-').replace(/^-|-$/g, '') || 'root';
-  const query = url.search ? `-${shortHash(url.search + (req.body ?? ''))}` : '';
-  return `${host}__${path}${query}.json`;
-}
 
 export interface FixtureEnvelope {
   status: number;
@@ -115,7 +110,18 @@ export function createHttpTransport(): Transport {
   };
 }
 
-/** Pick the transport for this process. Fixture unless explicitly told otherwise. */
+/**
+ * Pick the transport for this process. Fixture unless told otherwise.
+ *
+ *   SCOUT_TRANSPORT=network   live HTTP
+ *   SCOUT_TRANSPORT=offline   real upstream files from SCOUT_OFFLINE_DIR
+ *   (unset)                   recorded fixtures
+ */
 export function defaultTransport(): Transport {
-  return process.env.SCOUT_TRANSPORT === 'network' ? createHttpTransport() : createFixtureTransport();
+  if (process.env.SCOUT_TRANSPORT === 'network') return createHttpTransport();
+  if (process.env.SCOUT_TRANSPORT === 'offline') {
+    return createOfflineTransport(process.env.SCOUT_OFFLINE_DIR ?? DEFAULT_OFFLINE_DIR);
+  }
+  return createFixtureTransport();
 }
+

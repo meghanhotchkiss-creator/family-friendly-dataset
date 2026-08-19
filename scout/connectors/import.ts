@@ -500,6 +500,6 @@ export async function importAll(db: Db, ctx?: ProviderContext): Promise<Result<R
     airports: airports.value,
     places: places.value,
     gtfs: gtfs.value,
-    replayed: context.transport.mode === 'fixture',
+    replayed: context.transport.mode !== 'network',
   });
 }
