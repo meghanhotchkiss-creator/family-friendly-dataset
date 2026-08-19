@@ -27,6 +27,29 @@ imports 5 real airports across 5 region flags with correct coordinates.
 This is the supported path, not a workaround. If the data can reach the machine
 legitimately, the platform can ingest it.
 
+**Already done for two of the four datasets.** The egress policy explicitly
+permits `registry.npmjs.org` and `pypi.org`, and both of these datasets are
+published there, so `scripts/build_upstream.py` fetches them through that
+sanctioned channel:
+
+```bash
+python scripts/build_upstream.py            # npm + pip, no policy involved
+SCOUT_TRANSPORT=offline npm run travel:import:geography
+SCOUT_TRANSPORT=offline npm run travel:import:airports
+```
+
+| Dataset | Package | Real records imported |
+|---|---|---|
+| Countries | `world-countries` (npm, ODbL) | **250 countries**, all 8 regions |
+| Airports | `airportsdata` (PyPI, MIT) | **7,884 IATA airports**, all 8 regions |
+
+Verified against known values: LHR `51.4706,-0.46194`, NRT `35.7647,140.386`,
+SYD `-33.9461,151.177`, JNB `-26.13367,28.24233`, ORD `41.97694,-87.90815`.
+
+`data/upstream/PROVENANCE.md` records versions, licences and the one derived
+field. Still unavailable this way: places (no public dataset carries the age
+and duration fields) and live weather (a live API has no package form).
+
 ---
 
 ## 1. Live provider data — blocked on egress policy

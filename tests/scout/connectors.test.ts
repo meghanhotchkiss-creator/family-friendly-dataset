@@ -601,3 +601,34 @@ test('schemaFingerprintOf ignores values and notices keys', () => {
   assert.notEqual(schemaFingerprintOf(a), schemaFingerprintOf({ id: 'x', name: 'Alpha', tags: ['a'] }));
   assert.notEqual(schemaFingerprintOf({ id: 'x' }), schemaFingerprintOf({ id: 7 }));
 });
+
+test('an airport with no continent column is kept, not silently discarded', async () => {
+  // Regression, found by importing a real 28k-row global dataset. The adapter
+  // used to `return null` when it could not derive a region from the payload,
+  // and REGION_BY_ISO2 is only a small override pin-list -- GB, FR, JP, AU and
+  // ZA are all absent from it. A real feed without a `continent` column
+  // therefore lost every airport outside the handful of pinned countries:
+  // 3,784 of 28,291 rows survived, covering 4 of 8 regions. The imported
+  // country row is authoritative for the region, so the adapter now passes the
+  // row through with a null region and lets the import resolve it.
+  const { normaliseAirport } = await import('../../scout/connectors/adapters/airports.ts');
+
+  const row = {
+    id: '1', ident: 'EGLL', type: 'medium_airport', name: 'London Heathrow Airport',
+    latitude_deg: '51.4706', longitude_deg: '-0.461941', elevation_ft: '83',
+    continent: '', iso_country: 'GB', iso_region: 'GB-ENG', municipality: 'London',
+    scheduled_service: 'yes', gps_code: 'EGLL', iata_code: 'LHR', local_code: '',
+    home_link: '', wikipedia_link: '', keywords: '',
+  };
+
+  const airport = normaliseAirport(row);
+  assert.ok(airport, 'a row with a blank continent must survive normalisation');
+  assert.equal(airport.iata, 'LHR');
+  assert.equal(airport.countryIso2, 'GB');
+  assert.equal(airport.regionCode, null, 'region is deferred to the country row');
+
+  // Rows that are genuinely unusable are still rejected.
+  assert.equal(normaliseAirport({ ...row, type: 'heliport' }), null);
+  assert.equal(normaliseAirport({ ...row, latitude_deg: 'x' }), null);
+  assert.equal(normaliseAirport({ ...row, iso_country: '' }), null);
+});

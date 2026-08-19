@@ -16,7 +16,7 @@
  *      same source, which is what makes re-importing free.
  */
 
-import type { Place, ProviderContext, Result } from '../contracts/index.ts';
+import type { Place, ProviderContext, RegionCode, Result } from '../contracts/index.ts';
 import { err, makeId, ok } from '../contracts/index.ts';
 import type { Db } from '../db/index.ts';
 import { ensureRegions, upsertAirport, upsertCity, upsertCountry, upsertNeighborhood } from '../db/repo-core.ts';
@@ -196,6 +196,20 @@ export async function importAirports(
         continue;
       }
 
+      // The imported country is authoritative for the region flag; the airport
+      // payload only overrides it when it actually carries one.
+      const regionCode =
+        airport.regionCode ??
+        (db.get<{ region_code: string }>(
+          'SELECT region_code FROM countries WHERE id = ?',
+          countryId,
+        )?.region_code as RegionCode | undefined) ??
+        null;
+      if (!regionCode) {
+        skipped += 1;
+        continue;
+      }
+
       const cityId = airport.municipality
         ? ensureCity(db, {
             countryId,
@@ -214,13 +228,13 @@ export async function importAirports(
         name: airport.name,
         cityId,
         countryId,
-        regionCode: airport.regionCode,
+        regionCode,
         lat: airport.lat,
         lon: airport.lon,
         kind: airport.kind,
       });
       airports += 1;
-      byRegion[airport.regionCode] = (byRegion[airport.regionCode] ?? 0) + 1;
+      byRegion[regionCode] = (byRegion[regionCode] ?? 0) + 1;
     }
     return { airports, byRegion, skipped };
   });

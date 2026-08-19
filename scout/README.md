@@ -44,7 +44,7 @@ Every number the platform shows can be explained from its four components.
 npm install
 npm run bootstrap     # migrate + import + normalize + topics + user graph + truth
 npm run scout:demo    # the nine-step proof scenario
-npm test              # 142 tests
+npm test              # 143 tests
 npm run api:serve     # HTTP API on :8787
 ```
 
@@ -81,6 +81,20 @@ There are three byte sources behind that one seam:
 `offline` is the answer when egress is closed by policy: obtain the datasets
 through a permitted channel, drop them in `data/upstream/`, and import them for
 real. See `data/upstream/README.md`.
+
+Two of them are already automated, because package registries are permitted
+where data hosts are not:
+
+```bash
+python scripts/build_upstream.py     # world-countries (npm) + airportsdata (PyPI)
+SCOUT_TRANSPORT=offline npm run travel:import:geography
+SCOUT_TRANSPORT=offline npm run travel:import:airports
+```
+
+That yields **250 real countries and 7,884 real IATA airports across all 8
+region flags**, replacing the 58/86 recorded fixtures. The data files
+themselves are gitignored — they carry their own licences — so a fresh clone
+runs on fixtures until you run the fetch.
 
 To go live over the network:
 

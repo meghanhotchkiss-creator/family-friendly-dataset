@@ -52,7 +52,7 @@ export interface RawAirport {
   readonly lat: number;
   readonly lon: number;
   readonly countryIso2: string;
-  readonly regionCode: RegionCode;
+  readonly regionCode: RegionCode | null;
   readonly municipality: string | null;
   /** ISO 3166-2 subdivision suffix, e.g. `CA` out of `US-CA`. */
   readonly admin1: string | null;
@@ -75,8 +75,10 @@ export function normaliseAirport(row: Record<string, string>): RawAirport | null
   const lon = Number(row.longitude_deg);
   if (!Number.isFinite(lat) || !Number.isFinite(lon)) return null;
 
+  // May be null: not every upstream carries a continent column, and the
+  // country row imported from geography is authoritative anyway. Dropping the
+  // row here would silently discard most of a real global dataset.
   const regionCode = regionForContinent(iso2, row.continent ?? '');
-  if (!regionCode) return null;
 
   const iata = (row.iata_code ?? '').toUpperCase();
   const icao = (row.gps_code || row.ident || '').toUpperCase();
