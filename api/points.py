@@ -1,48 +1,133 @@
-from fastapi import APIRouter, Depends
-from auth_tiers import verify_tier, USER_TIERS
 import datetime
+import hashlib
+import os
+import threading
+
+from fastapi import APIRouter, Depends, HTTPException
+
+from auth_tiers import verify_tier, USER_TIERS
 
 router = APIRouter()
-user_points = {"demo_free_key": 50, "demo_pro_key": 120, "demo_business_key": 500}
-user_history = {"demo_free_key": [], "demo_pro_key": [], "demo_business_key": []}
+
+# NOTE: this state is process-local and lost on restart. It is not a durable
+# ledger and will diverge across multiple workers. Persisting balances to the
+# database is tracked separately; the rules below are written so that moving to
+# a real store does not change the API surface.
+_lock = threading.Lock()
+user_points = {}
+user_history = {}
 last_checkin = {}
+
+# Points are defined here, on the server. The client names an event; it never
+# supplies an amount.
+EVENT_POINTS = {
+    "daily_checkin": 10,
+    "affiliate_booking": 20,
+    "upgrade_pro": 50,
+    "upgrade_business": 100,
+}
+
+# Only these events may be triggered by a caller. The upgrade events award
+# large balances and must be granted by the billing flow after payment is
+# confirmed, never self-reported: a free-tier caller could otherwise replay
+# "upgrade_business" and mint points without limit.
+CLIENT_REPORTABLE_EVENTS = {"daily_checkin"}
+
+
+def public_user_id(api_key: str) -> str:
+    """Return a stable, non-reversible identifier for public responses.
+
+    The API key is the caller's credential. Returning it in a response body --
+    as the leaderboard previously did -- hands every caller a working key for
+    every other account, including higher tiers.
+    """
+    digest = hashlib.sha256(
+        (os.getenv("PUBLIC_ID_SALT", "") + api_key).encode("utf-8")
+    ).hexdigest()
+    return "scout_" + digest[:12]
+
+
+def _award(api_key: str, event: str, points: int, **extra):
+    with _lock:
+        user_points[api_key] = user_points.get(api_key, 0) + points
+        entry = {"event": event, "points": points}
+        entry.update(extra)
+        user_history.setdefault(api_key, []).append(entry)
+        return user_points[api_key]
+
 
 @router.post("/earn_points")
 def earn_points(event: str, api_key=Depends(verify_tier("free"))):
-    event_points = {"daily_checkin": 10, "affiliate_booking": 20, "upgrade_pro": 50, "upgrade_business": 100}
-    points = event_points.get(event, 0)
-    if event == "daily_checkin":
-        today = datetime.date.today()
+    if event not in EVENT_POINTS:
+        raise HTTPException(status_code=400, detail="Unknown event")
+
+    if event not in CLIENT_REPORTABLE_EVENTS:
+        raise HTTPException(
+            status_code=403,
+            detail="This event cannot be self-reported",
+        )
+
+    points = EVENT_POINTS[event]
+    today = datetime.date.today()
+
+    with _lock:
         last = last_checkin.get(api_key)
+        # One check-in per day. Without this, the endpoint can simply be
+        # replayed for unlimited points.
+        if last == today:
+            raise HTTPException(status_code=409, detail="Already checked in today")
         if last == today - datetime.timedelta(days=1):
             points *= 2
         last_checkin[api_key] = today
-    user_points[api_key] = user_points.get(api_key, 0) + points
-    user_history.setdefault(api_key, []).append({"event": event, "points": points})
-    return {"event": event, "earned": points, "total_points": user_points[api_key]}
+
+    total = _award(api_key, event, points)
+    return {"event": event, "earned": points, "total_points": total}
+
 
 @router.post("/book_activity")
 def book_activity(activity_id: str, api_key=Depends(verify_tier("free"))):
-    affiliate_link = f"https://partner.scoutfoxtravel.com/book/{activity_id}?ref=your_affiliate_id"
-    user_points[api_key] = user_points.get(api_key, 0) + 20
-    user_history.setdefault(api_key, []).append({"event": "affiliate_booking", "points": 20, "activity_id": activity_id})
-    return {"message": "Booking created", "affiliate_link": affiliate_link, "earned_points": 20, "total_points": user_points[api_key]}
+    affiliate_base = os.getenv("AFFILIATE_BASE_URL", "https://partner.scoutfoxtravel.com/book")
+    affiliate_ref = os.getenv("AFFILIATE_REF", "")
+    affiliate_link = f"{affiliate_base}/{activity_id}"
+    if affiliate_ref:
+        affiliate_link += f"?ref={affiliate_ref}"
+
+    points = EVENT_POINTS["affiliate_booking"]
+    total = _award(api_key, "affiliate_booking", points, activity_id=activity_id)
+    return {
+        "message": "Booking created",
+        "affiliate_link": affiliate_link,
+        "earned_points": points,
+        "total_points": total,
+    }
+
 
 @router.get("/points_balance")
 def points_balance(api_key=Depends(verify_tier("free"))):
     return {"points": user_points.get(api_key, 0)}
 
+
 @router.get("/points_history")
 def points_history(api_key=Depends(verify_tier("free"))):
     return {"history": user_history.get(api_key, [])}
 
+
 @router.post("/redeem_points")
 def redeem_points(cost: int, api_key=Depends(verify_tier("free"))):
-    if user_points.get(api_key, 0) < cost:
-        return {"error": "Not enough points"}
-    user_points[api_key] -= cost
-    user_history.setdefault(api_key, []).append({"event": "redeem", "points": -cost})
-    return {"points": user_points[api_key], "message": "Redeemed successfully"}
+    # A negative cost would add points rather than spend them.
+    if cost <= 0:
+        raise HTTPException(status_code=400, detail="Cost must be positive")
+
+    with _lock:
+        balance = user_points.get(api_key, 0)
+        if balance < cost:
+            raise HTTPException(status_code=400, detail="Not enough points")
+        user_points[api_key] = balance - cost
+        user_history.setdefault(api_key, []).append({"event": "redeem", "points": -cost})
+        remaining = user_points[api_key]
+
+    return {"points": remaining, "message": "Redeemed successfully"}
+
 
 @router.get("/leaderboard")
 def leaderboard(api_key=Depends(verify_tier("free"))):
@@ -50,7 +135,15 @@ def leaderboard(api_key=Depends(verify_tier("free"))):
     for key, pts in user_points.items():
         tier = USER_TIERS.get(key, "free")
         badge = "⭐" if tier == "pro" else "👑" if tier == "business" else ""
-        entries.append({"user": key, "points": pts, "tier": tier, "badge": badge})
+        entries.append(
+            {
+                # Never the raw key.
+                "user": public_user_id(key),
+                "points": pts,
+                "tier": tier,
+                "badge": badge,
+            }
+        )
     tier_order = {"business": 2, "pro": 1, "free": 0}
     entries.sort(key=lambda x: (x["points"], tier_order[x["tier"]]), reverse=True)
     return entries
