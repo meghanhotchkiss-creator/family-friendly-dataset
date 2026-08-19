@@ -15,6 +15,7 @@ import type { Db } from '../db/index.ts';
 import type { ProviderStatus } from '../contracts/index.ts';
 import { nowIso, daysBetween } from '../runtime/clock.ts';
 import { statusReport, type SourceStatus } from '../sourcemesh/status.ts';
+import { matchSummary } from '../sourcemesh/entity-resolution.ts';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..', '..');
 const TEST_DIR = join(ROOT, 'tests', 'scout');
@@ -123,6 +124,14 @@ const COMPONENTS: ComponentProbe[] = [
     detail: (db) => `${count(db, 'source_registry')} sources, ${count(db, 'ingestion_runs')} runs`,
   },
   {
+    component: 'Entity resolution / dedupe',
+    files: ['scout/sourcemesh/entity-resolution.ts'],
+    wiredBy: ['scout/cli/sourcemesh.ts'],
+    testToken: 'entity-resolution',
+    live: (db) => count(db, 'entity_matches') > 0,
+    detail: (db) => `${count(db, 'entity_matches').toLocaleString()} pair decisions recorded`,
+  },
+  {
     component: 'Data provenance / evidence',
     files: ['scout/db/migrations/004_truth_layer.sql'],
     wiredBy: ['scout/cli/api-serve.ts'],
@@ -217,6 +226,7 @@ export interface CommandCenter {
   datasets: Record<string, number>;
   watchGraph: Record<string, number>;
   sources: SourceStatus[];
+  entityResolution: Record<string, number>;
   features: ComponentStatus[];
   blockers: Blocker[];
 }
@@ -284,6 +294,7 @@ export function commandCenter(db: Db): CommandCenter {
 
   const sources = statusReport(db);
   const features = componentMatrix(db);
+  const entityResolution = matchSummary(db);
 
   const blockers: Blocker[] = [];
   if (datasets.countries === 0) {
@@ -299,6 +310,15 @@ export function commandCenter(db: Db): CommandCenter {
   for (const source of brokenSources) {
     blockers.push({ severity: 'HIGH', area: 'ingestion', detail: `${source.id}: ${source.detail}` });
   }
+  // Ambiguous pairs are a human queue, not a failure.
+  const possible = Number(matchSummary(db).POSSIBLE_MATCH ?? 0);
+  if (possible > 0) {
+    blockers.push({
+      severity: 'LOW', area: 'entity resolution',
+      detail: `${possible.toLocaleString()} POSSIBLE_MATCH pairs awaiting review (never merged automatically)`,
+    });
+  }
+
   const notStarted = sources.filter((s) => s.state === 'NOT STARTED');
   if (notStarted.length > 0) {
     blockers.push({
@@ -328,7 +348,7 @@ export function commandCenter(db: Db): CommandCenter {
       webApp: 'NOT BUILT IN THIS REPOSITORY',
       phpLayer: 'NOT BUILT IN THIS REPOSITORY',
     },
-    providers, datasets, watchGraph, sources, features, blockers,
+    providers, datasets, watchGraph, sources, features, entityResolution, blockers,
   };
 }
 
@@ -347,6 +367,11 @@ export function formatCommandCenter(cc: CommandCenter): string {
   lines.push('', 'DATA');
   for (const [k, v] of Object.entries(cc.datasets)) {
     lines.push(`  ${k.padEnd(14)} ${v.toLocaleString().padStart(10)}`);
+  }
+
+  lines.push('', 'ENTITY RESOLUTION');
+  for (const [k, v] of Object.entries(cc.entityResolution)) {
+    lines.push(`  ${k.padEnd(22)} ${String(v).padStart(6)}`);
   }
 
   lines.push('', 'WATCH GRAPH');

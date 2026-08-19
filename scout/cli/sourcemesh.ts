@@ -18,6 +18,7 @@ import {
 } from '../sourcemesh/accounting.ts';
 import { quarantineRecords, quarantineSummary, recordAccounting, listQuarantine } from '../sourcemesh/quarantine.ts';
 import { statusReport } from '../sourcemesh/status.ts';
+import { resolveCities, mergeMatches, MATCH_KM, NO_MATCH_KM } from '../sourcemesh/entity-resolution.ts';
 import { unwrap } from '../contracts/index.ts';
 
 const [command = 'list', ...rest] = process.argv.slice(2);
@@ -170,6 +171,24 @@ if (command === 'list') {
   console.log(`${seeded}/${report.length} sources seeded; ` +
     `${report.filter((r) => r.state === 'BROKEN').length} broken; ` +
     `${report.filter((r) => r.state === 'NOT STARTED').length} not started`);
+} else if (command === 'resolve') {
+  const stats = unwrap(resolveCities(db));
+  console.log('entity resolution — cities\n');
+  console.log(`  candidate pairs   ${String(stats.candidatePairs).padStart(7)}  (blocked on country + name)`);
+  console.log(`  MATCH             ${String(stats.match).padStart(7)}  <= ${MATCH_KM}km apart`);
+  console.log(`  POSSIBLE_MATCH    ${String(stats.possibleMatch).padStart(7)}  ${MATCH_KM}-${NO_MATCH_KM}km — left for review`);
+  console.log(`  NO_MATCH          ${String(stats.noMatch).padStart(7)}  > ${NO_MATCH_KM}km — same name, different city`);
+} else if (command === 'dedupe') {
+  const before = db.get<{ n: number }>('SELECT COUNT(*) n FROM cities')?.n ?? 0;
+  const stats = unwrap(mergeMatches(db));
+  const after = db.get<{ n: number }>('SELECT COUNT(*) n FROM cities')?.n ?? 0;
+  console.log('deduplication — cities\n');
+  console.log(`  merged            ${String(stats.merged).padStart(7)}`);
+  console.log(`  airports repointed${String(stats.airportsRepointed).padStart(7)}`);
+  console.log(`  places repointed  ${String(stats.placesRepointed).padStart(7)}`);
+  console.log(`  skipped           ${String(stats.skipped).padStart(7)}`);
+  console.log(`\n  cities ${before.toLocaleString()} -> ${after.toLocaleString()}`);
+  console.log('  POSSIBLE_MATCH pairs were NOT merged; an automatic decision there is what corrupts a graph.');
 } else if (command === 'quarantine') {
   for (const spec of specs) {
     const rows = listQuarantine(db, spec!.id, limitArg ? Number(limitArg) : 10);
