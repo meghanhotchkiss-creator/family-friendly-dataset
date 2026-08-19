@@ -1,0 +1,119 @@
+# Scout travel intelligence platform
+
+A travel graph, a user graph, a topic graph, a change-detection radar, a truth
+layer, a connection sentinel and a rewards engine — built as six parallel
+tracks against one frozen set of contracts.
+
+## Zero runtime dependencies
+
+`node:sqlite`, `node:http`, `node:test`, `node:crypto`. TypeScript runs
+directly via Node's type stripping, so there is no build step. The only
+devDependencies are `typescript` and `@types/node`.
+
+`tsconfig.json` sets `erasableSyntaxOnly`, so `npm run typecheck` mechanically
+rejects syntax Node cannot execute (enums, namespaces, decorators, constructor
+parameter properties).
+
+## The four "one X" rules
+
+Parallel development works only if nobody invents a second version of these.
+They are enforced structurally, not by convention:
+
+| Rule | Where it lives | How it is enforced |
+|---|---|---|
+| One schema | `scout/db/migrations/` | Authored centrally. No track writes DDL. Checksums reject an edited migration. |
+| One source-of-truth model | `source_records` → `truth_resolutions` | Nothing writes a fact onto an entity directly. Radar records claims; only the Truth Engine applies them. |
+| One confidence model | `scout/contracts/confidence.ts` | A single `computeConfidence()`. No other 0..1 certainty scale exists. |
+| One provider interface | `scout/contracts/provider.ts` | Every connector implements `Provider`. Sentinel, cache and failover treat them identically. |
+
+### The confidence model
+
+```
+confidence = noisyOr(authorities) × freshness × verificationWeight
+```
+
+- **noisy-OR** (`1 - Π(1 - aᵢ)`) so independent corroboration accumulates without ever exceeding 1. Authorities are deduped by source id — a source cannot corroborate itself.
+- **freshness** decays `0.5 ^ (ageDays / halfLifeDays)`, floored at 0.25 so stable old facts do not vanish.
+- **verification** weights `human_verified` 1.0 … `disputed` 0.4 … `rejected` 0.0.
+
+Every number the platform shows can be explained from its four components.
+
+## Getting started
+
+```bash
+npm install
+npm run bootstrap     # migrate + import + normalize + topics + user graph + truth
+npm run scout:demo    # the nine-step proof scenario
+npm test              # 126 tests
+npm run api:serve     # HTTP API on :8787
+```
+
+## Commands
+
+| Command | Does |
+|---|---|
+| `db:migrate` / `db:reset` / `db:status` | Schema, with checksum drift detection |
+| `travel:import:{geography,airports,places,gtfs,all}` | Global import framework |
+| `travel:normalize` | Dedupe, canonical hashes, derived touristiness/local favour, neighbourhood linking |
+| `graph:topic:build` / `topics:discover` | Core taxonomy plus automatic candidate discovery |
+| `graph:user:build` | Recompute learned preferences from signals |
+| `truth:resolve` | Adjudicate competing claims, apply the winners |
+| `radar:scan` / `radar:verify` / `radar:health` | Conditional fetch, delta classification, verification |
+| `sentinel:check` | Provider health, drift, incidents |
+| `rewards:quote` | Award valuation, transfer planning, friction |
+| `recommend` / `api:serve` / `scout:demo` | Scout Mind |
+
+## Live providers
+
+Adapters are real: real URL construction, parsing, normalisation, schema
+fingerprinting and error mapping. They reach the outside world through one
+seam — `scout/connectors/transport.ts`.
+
+This environment's egress policy blocks all external hosts, so the default is
+`createFixtureTransport()`, replaying recorded payloads. To go live:
+
+```bash
+export SCOUT_TRANSPORT=network
+export SCOUT_PLACES_API_KEY=...     # only the places aggregator needs a key
+```
+
+No adapter code changes. Verified: with `SCOUT_TRANSPORT=network` the pipeline
+really requests `https://restcountries.com/v1/...` and maps the proxy's 403 to
+`upstream_auth`, so the live path executes end to end.
+
+Fixture coverage: 58 countries and 86 airports across all 8 region flags
+(NA CA SA EU ME AF AS OC), 179 places (120 from this repo's existing seed
+dataset plus 59 international), 3 GTFS feeds.
+
+## Architecture
+
+```
+                        contracts/  (frozen)
+                              │
+      ┌────────────┬──────────┼──────────┬────────────┐
+      ↓            ↓          ↓          ↓            ↓
+ Travel Graph  User Graph  Topic     Radar        Sentinel
+      │            │       Graph        │            │
+      └────────────┴──────────┴─────────┴────────────┘
+                              ↓
+                    source_records (claims)
+                              ↓
+                   Truth Engine (adjudicates)
+                              ↓
+                        Scout Mind
+                              ↓
+                   Recommendation API
+```
+
+The load-bearing separation: **Radar never writes to `places`.** It records
+claims under the watching source and lets the Truth Engine decide. That is what
+makes every served value traceable to the source that won and the competition
+it beat — visible at `GET /place?id=…`.
+
+## Known gaps
+
+- **Providers are fixture-backed here.** Egress is blocked and commercial feeds need credentials. The adapters are real; the bytes are recorded.
+- **The places aggregator's wire contract is Scout-defined.** No public API carries `min_age`/`max_age`/`typical_visit_minutes`, which is where this dataset's value lives. The other four adapters target genuinely real endpoints.
+- **`topics` has no `confidence_json` column**, so topic confidence round-trips as a scalar and is reconstructed rather than restored.
+- **No delta→source_record foreign key.** Radar re-identifies its claim by `(source, entity, field, content_hash)`. Exact today, but it would miss a claim the Truth Engine had already superseded and deleted.
+- **US seed places carry city-centroid coordinates**, flagged `precision: "city"`. No venue-level precision was invented for them.

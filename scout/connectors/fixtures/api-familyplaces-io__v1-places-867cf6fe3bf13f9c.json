@@ -1,0 +1,336 @@
+{
+  "status": 200,
+  "headers": {
+    "content-type": "application/json"
+  },
+  "body": {
+    "page": {
+      "region": "AS",
+      "limit": 100,
+      "returned": 10,
+      "next_cursor": null
+    },
+    "places": [
+      {
+        "id": "fp_jp_ueno-zoo",
+        "name": "Ueno Zoo",
+        "category": "zoo",
+        "subcategory": "Zoo",
+        "location": {
+          "lat": 35.7167,
+          "lon": 139.7714,
+          "precision": "venue",
+          "city": "Tokyo",
+          "admin1": null,
+          "country": "JP",
+          "timezone": "Asia/Tokyo",
+          "city_lat": 35.6762,
+          "city_lon": 139.6503,
+          "neighborhood": null
+        },
+        "price_level": 1,
+        "setting": "outdoor",
+        "rating": 8.6,
+        "good_for_ages": {
+          "min": 1,
+          "max": 99
+        },
+        "typical_visit_minutes": 180,
+        "description": "Japan oldest zoo, in Ueno Park, with a monorail and giant pandas.",
+        "tags": [
+          "pandas",
+          "park"
+        ],
+        "region": "AS"
+      },
+      {
+        "id": "fp_jp_teamlab-planets-tokyo",
+        "name": "teamLab Planets Tokyo",
+        "category": "museum",
+        "subcategory": "Digital Art Museum",
+        "location": {
+          "lat": 35.6486,
+          "lon": 139.79,
+          "precision": "venue",
+          "city": "Tokyo",
+          "admin1": null,
+          "country": "JP",
+          "timezone": "Asia/Tokyo",
+          "city_lat": 35.6762,
+          "city_lon": 139.6503,
+          "neighborhood": null
+        },
+        "price_level": 3,
+        "setting": "indoor",
+        "rating": 9,
+        "good_for_ages": {
+          "min": 4,
+          "max": 99
+        },
+        "typical_visit_minutes": 120,
+        "description": "Barefoot digital art rooms with water, mirrors and a garden of orchids.",
+        "tags": [
+          "immersive",
+          "art"
+        ],
+        "region": "AS"
+      },
+      {
+        "id": "fp_jp_sanrio-puroland",
+        "name": "Sanrio Puroland",
+        "category": "theme_park",
+        "subcategory": "Indoor Theme Park",
+        "location": {
+          "lat": 35.626,
+          "lon": 139.427,
+          "precision": "venue",
+          "city": "Tama",
+          "admin1": null,
+          "country": "JP",
+          "timezone": "Asia/Tokyo",
+          "city_lat": 35.637,
+          "city_lon": 139.446,
+          "neighborhood": null
+        },
+        "price_level": 3,
+        "setting": "indoor",
+        "rating": 8.6,
+        "good_for_ages": {
+          "min": 2,
+          "max": 12
+        },
+        "typical_visit_minutes": 300,
+        "description": "Indoor character theme park, dry and warm whatever the weather does.",
+        "tags": [
+          "characters",
+          "rainy day"
+        ],
+        "region": "AS"
+      },
+      {
+        "id": "fp_sg_singapore-zoo",
+        "name": "Singapore Zoo",
+        "category": "zoo",
+        "subcategory": "Zoo",
+        "location": {
+          "lat": 1.4043,
+          "lon": 103.793,
+          "precision": "venue",
+          "city": "Singapore",
+          "admin1": null,
+          "country": "SG",
+          "timezone": "Asia/Singapore",
+          "city_lat": 1.3521,
+          "city_lon": 103.8198,
+          "neighborhood": null
+        },
+        "price_level": 3,
+        "setting": "outdoor",
+        "rating": 9.4,
+        "good_for_ages": {
+          "min": 1,
+          "max": 99
+        },
+        "typical_visit_minutes": 300,
+        "description": "Open-concept rainforest zoo with a breakfast among orangutans.",
+        "tags": [
+          "rainforest",
+          "orangutans"
+        ],
+        "region": "AS"
+      },
+      {
+        "id": "fp_sg_gardens-by-the-bay",
+        "name": "Gardens by the Bay",
+        "category": "garden",
+        "subcategory": "Botanical Garden",
+        "location": {
+          "lat": 1.2816,
+          "lon": 103.8636,
+          "precision": "venue",
+          "city": "Singapore",
+          "admin1": null,
+          "country": "SG",
+          "timezone": "Asia/Singapore",
+          "city_lat": 1.3521,
+          "city_lon": 103.8198,
+          "neighborhood": null
+        },
+        "price_level": 2,
+        "setting": "mixed",
+        "rating": 9.4,
+        "good_for_ages": {
+          "min": 0,
+          "max": 99
+        },
+        "typical_visit_minutes": 180,
+        "description": "Supertree grove, cooled conservatories and a free evening light show.",
+        "tags": [
+          "gardens",
+          "evening"
+        ],
+        "region": "AS"
+      },
+      {
+        "id": "fp_th_kidzania-bangkok",
+        "name": "KidZania Bangkok",
+        "category": "theme_park",
+        "subcategory": "Role-Play City",
+        "location": {
+          "lat": 13.746,
+          "lon": 100.534,
+          "precision": "venue",
+          "city": "Bangkok",
+          "admin1": null,
+          "country": "TH",
+          "timezone": "Asia/Bangkok",
+          "city_lat": 13.7563,
+          "city_lon": 100.5018,
+          "neighborhood": null
+        },
+        "price_level": 3,
+        "setting": "indoor",
+        "rating": 8.4,
+        "good_for_ages": {
+          "min": 4,
+          "max": 14
+        },
+        "typical_visit_minutes": 240,
+        "description": "A child-sized city where kids work jobs and earn their own currency.",
+        "tags": [
+          "role play",
+          "rainy day"
+        ],
+        "region": "AS"
+      },
+      {
+        "id": "fp_hk_hong-kong-science-museum",
+        "name": "Hong Kong Science Museum",
+        "category": "science_center",
+        "subcategory": "Science Museum",
+        "location": {
+          "lat": 22.301,
+          "lon": 114.177,
+          "precision": "venue",
+          "city": "Hong Kong",
+          "admin1": null,
+          "country": "HK",
+          "timezone": "Asia/Hong_Kong",
+          "city_lat": 22.3193,
+          "city_lon": 114.1694,
+          "neighborhood": null
+        },
+        "price_level": 1,
+        "setting": "indoor",
+        "rating": 8.6,
+        "good_for_ages": {
+          "min": 4,
+          "max": 99
+        },
+        "typical_visit_minutes": 180,
+        "description": "Four floors of hands-on exhibits around a twenty-metre energy machine.",
+        "tags": [
+          "hands-on",
+          "machines"
+        ],
+        "region": "AS"
+      },
+      {
+        "id": "fp_kr_lotte-world-aquarium",
+        "name": "Lotte World Aquarium",
+        "category": "aquarium",
+        "subcategory": "Aquarium",
+        "location": {
+          "lat": 37.513,
+          "lon": 127.102,
+          "precision": "venue",
+          "city": "Seoul",
+          "admin1": null,
+          "country": "KR",
+          "timezone": "Asia/Seoul",
+          "city_lat": 37.5665,
+          "city_lon": 126.978,
+          "neighborhood": null
+        },
+        "price_level": 3,
+        "setting": "indoor",
+        "rating": 8.6,
+        "good_for_ages": {
+          "min": 1,
+          "max": 99
+        },
+        "typical_visit_minutes": 150,
+        "description": "Aquarium under the Lotte tower with a beluga tank and a polar zone.",
+        "tags": [
+          "ocean",
+          "rainy day"
+        ],
+        "region": "AS"
+      },
+      {
+        "id": "fp_cn_beijing-zoo",
+        "name": "Beijing Zoo",
+        "category": "zoo",
+        "subcategory": "Zoo",
+        "location": {
+          "lat": 39.939,
+          "lon": 116.336,
+          "precision": "venue",
+          "city": "Beijing",
+          "admin1": null,
+          "country": "CN",
+          "timezone": "Asia/Shanghai",
+          "city_lat": 39.9042,
+          "city_lon": 116.4074,
+          "neighborhood": null
+        },
+        "price_level": 1,
+        "setting": "outdoor",
+        "rating": 8,
+        "good_for_ages": {
+          "min": 1,
+          "max": 99
+        },
+        "typical_visit_minutes": 180,
+        "description": "Historic zoo best known for its giant panda house.",
+        "tags": [
+          "pandas",
+          "animals"
+        ],
+        "region": "AS"
+      },
+      {
+        "id": "fp_in_nehru-planetarium",
+        "name": "Nehru Planetarium",
+        "category": "science_center",
+        "subcategory": "Planetarium",
+        "location": {
+          "lat": 28.599,
+          "lon": 77.203,
+          "precision": "venue",
+          "city": "Delhi",
+          "admin1": null,
+          "country": "IN",
+          "timezone": "Asia/Kolkata",
+          "city_lat": 28.6139,
+          "city_lon": 77.209,
+          "neighborhood": null
+        },
+        "price_level": 1,
+        "setting": "indoor",
+        "rating": 8,
+        "good_for_ages": {
+          "min": 6,
+          "max": 99
+        },
+        "typical_visit_minutes": 90,
+        "description": "Sky shows in Hindi and English beside the Teen Murti house.",
+        "tags": [
+          "space",
+          "shows"
+        ],
+        "region": "AS"
+      }
+    ]
+  }
+}

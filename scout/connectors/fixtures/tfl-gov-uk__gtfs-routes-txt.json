@@ -1,0 +1,7 @@
+{
+  "status": 200,
+  "headers": {
+    "content-type": "text/plain; charset=utf-8"
+  },
+  "bodyText": "route_id,agency_id,route_short_name,route_long_name,route_type\ntube-central,TFL,Central,\"Ealing Broadway - Epping, Essex\",1\ntube-piccadilly,TFL,Piccadilly,\"Heathrow Terminal 5 - Cockfosters, Barnet\",1\nbus-274,TFL,274,Angel Islington - Lancaster Gate,3\n"
+}

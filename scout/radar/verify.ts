@@ -7,7 +7,8 @@
  *
  *   1. corroboration  another independent source already claims the new value.
  *                     Strongest signal, costs nothing, so it is tried first.
- *                     A source actively claiming something else -> disputed.
+ *                     A source claiming something else CONCURRENTLY -> disputed;
+ *                     an older differing claim is just the superseded value.
  *   2. refetch        ask the origin again. Catches the transient blip: a value
  *                     that has reverted was never a change, so -> rejected.
  *   3. heuristic      no corroboration available. A material change from a
@@ -111,8 +112,16 @@ function corroborate(db: Db, delta: RadarDelta, watch: Watch): Attempt | null {
     };
   }
 
+  // A differing claim only disputes the change if it was observed at or after
+  // the change itself. Anything observed earlier IS the value being replaced --
+  // and every genuine change differs from its predecessor, so counting those
+  // would make each real update dispute itself and lose to the value it was
+  // meant to supersede.
+  const changedAt = Date.parse(delta.createdAt);
   const contradicting = others.filter(
-    (claim) => semanticDistance(claim.value, delta.newValue) >= DELTA_MATERIAL_THRESHOLD,
+    (claim) =>
+      semanticDistance(claim.value, delta.newValue) >= DELTA_MATERIAL_THRESHOLD &&
+      Date.parse(claim.observedAt) >= changedAt,
   );
   if (contradicting.length > 0) {
     return {

@@ -1,0 +1,15 @@
+{
+  "status": 200,
+  "headers": {
+    "content-type": "application/json"
+  },
+  "body": {
+    "page": {
+      "region": "CA",
+      "limit": 100,
+      "returned": 0,
+      "next_cursor": null
+    },
+    "places": []
+  }
+}
