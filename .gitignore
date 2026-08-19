@@ -8,3 +8,6 @@ __pycache__/
 
 # Node
 node_modules/
+
+# Test cache
+.pytest_cache/
