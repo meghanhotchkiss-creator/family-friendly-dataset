@@ -52,6 +52,7 @@ export interface IngestResult {
   warnings: string[];
   status: 'ok' | 'ok_with_anomalies' | 'failed' | 'unchanged';
   records: MappedRecord[];
+  rejections: ValidationRejection[];
 }
 
 export interface ChangeSet {
@@ -70,6 +71,17 @@ export interface MappedRecord {
   identity: string;
   values: Record<string, unknown>;
   raw: RawRecord;
+}
+
+/**
+ * A record that failed validation. Returned in FULL, not sampled: "no silent
+ * drops" means a rejected row can be re-driven after a mapping is repaired,
+ * which is impossible if only a diagnostic sample survived.
+ */
+export interface ValidationRejection {
+  record: MappedRecord;
+  reasonCode: 'MISSING_REQUIRED_FIELD' | 'OUT_OF_RANGE';
+  details: string;
 }
 
 const REJECT_SAMPLE_CAP = 500;
@@ -313,7 +325,7 @@ export function createSourceAdapter(db: Db, spec: SourceSpec) {
         return ok({
           runId, sourceId: spec.id, stages: [], imported: 0, rejected: 0, unchanged: true,
           anomalies: [], warnings: ['source unchanged since the last run; skipped'],
-          status: 'unchanged', records: [],
+          status: 'unchanged', records: [], rejections: [],
         });
       }
 
@@ -327,6 +339,7 @@ export function createSourceAdapter(db: Db, spec: SourceSpec) {
 
       const profile = profileRecords(raw, spec.format);
       const rejects: RejectionSample[] = [];
+      const rejections: ValidationRejection[] = [];
       const records: MappedRecord[] = [];
       const required = spec.quality?.rejectIfMissing ?? [];
       const warnMissing = spec.quality?.warnIfMissing ?? [];
@@ -360,36 +373,46 @@ export function createSourceAdapter(db: Db, spec: SourceSpec) {
         if (mapsCountry && !isBlank(values.countryIso2)) countryMatched += 1;
         if (mapsRegion && !isBlank(values.regionCode)) regionResolved += 1;
 
+        const identity = spec.identity.map((f) => String(values[f] ?? '')).join('|');
         const missing = required.filter((f) => isBlank(values[f]));
         if (missing.length > 0) {
+          // Diagnostic sample stays capped; the retained rejection does not.
           if (rejects.length < REJECT_SAMPLE_CAP) {
             rejects.push({ reason: `missing ${missing.join(', ')}`, field: missing[0] ?? null, record });
           }
+          rejections.push({
+            record: { identity, values, raw: record },
+            reasonCode: 'MISSING_REQUIRED_FIELD',
+            details: `missing ${missing.join(', ')}`,
+          });
           continue;
         }
 
-        let outOfRange = false;
+        let outOfRange: string | null = null;
         for (const range of spec.quality?.ranges ?? []) {
           const v = Number(values[range.field]);
           if (!Number.isFinite(v) || (range.min !== undefined && v < range.min) || (range.max !== undefined && v > range.max)) {
-            outOfRange = true;
+            outOfRange = `${range.field}=${String(values[range.field])} outside [${range.min ?? '-inf'}, ${range.max ?? 'inf'}]`;
             if (rejects.length < REJECT_SAMPLE_CAP) {
               rejects.push({ reason: `${range.field} out of range`, field: range.field, record });
             }
             break;
           }
         }
-        if (outOfRange) continue;
+        if (outOfRange) {
+          rejections.push({
+            record: { identity, values, raw: record },
+            reasonCode: 'OUT_OF_RANGE',
+            details: outOfRange,
+          });
+          continue;
+        }
 
         for (const field of warnMissing) {
           if (isBlank(values[field])) warnCounts.set(field, (warnCounts.get(field) ?? 0) + 1);
         }
 
-        records.push({
-          identity: spec.identity.map((f) => String(values[f] ?? '')).join('|'),
-          values,
-          raw: record,
-        });
+        records.push({ identity, values, raw: record });
       }
 
       const stages: FunnelStage[] = [
@@ -456,7 +479,7 @@ export function createSourceAdapter(db: Db, spec: SourceSpec) {
       return ok({
         runId, sourceId: spec.id, stages, imported: records.length,
         rejected: raw.length - records.length, unchanged: false,
-        anomalies, warnings, status, records,
+        anomalies, warnings, status, records, rejections,
       });
     },
   };

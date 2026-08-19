@@ -53,6 +53,53 @@ row. The rejected-row sample is capped at 500, so the diagnosis reports what it
 actually examined alongside the extrapolation rather than quoting the cap as a
 population.
 
+## No silent drops
+
+Every source row lands in exactly one terminal bucket, and the buckets are
+checked against the source count. An unbalanced run is a defect regardless of
+how many rows it inserted -- the missing ones went somewhere nobody is looking.
+
+```
+source_rows           28291
+parsed_rows           28291
+mapped_rows           28291
+validated_rows            0
+matched_rows          28291
+inserted_rows             0
+updated_rows              0
+unchanged_rows            0
+quarantined_rows      28291
+rejected_rows             0
+———————————————————————————
+BALANCED           all 28,291 source rows accounted for
+quarantined  28291  MISSING_REQUIRED_FIELD
+```
+
+`parsed`, `mapped`, `validated` and `matched` are progress gauges, not
+destinations, so they are excluded from the sum on purpose.
+
+Every quarantined row retains its source, its own record id, a machine-readable
+`reason_code`, human details and the **full raw record** — so a run can be
+re-driven after a mapping is repaired rather than re-fetched and re-guessed.
+Validation rejects are retained in full; only the diagnostic sample used to
+explain an anomaly is capped.
+
+```bash
+npm run sourcemesh -- quarantine --source=ourairports --limit=5
+```
+
+## Status, derived not written
+
+```bash
+npm run sourcemesh -- status
+```
+
+`BUILT / CONNECTED / SEEDED / TESTED / BROKEN / NOT STARTED`, computed from the
+spec registry, run history, domain tables and the test suite. Designed-but-
+unconnected sources are listed with their blocker, so a gap is visible rather
+than simply absent. `TESTED` requires `SEEDED`: coverage is a property of a
+seeded source, not a stage beyond it.
+
 ## Why a run can fail loudly
 
 - `quality.rejectIfMissing` — fields without which a record is meaningless

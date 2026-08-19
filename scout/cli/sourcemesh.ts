@@ -13,6 +13,11 @@ import { openDb } from '../db/index.ts';
 import { loadSpecs, loadSpec, registerAll, listRegistered, attributionNotice } from '../sourcemesh/registry.ts';
 import { createSourceAdapter, formatAnomaly } from '../sourcemesh/adapter.ts';
 import { writeRecords } from '../sourcemesh/sink.ts';
+import {
+  emptyAccounting, checkAccounting, formatAccounting, REASON_TEXT, type ReasonCode,
+} from '../sourcemesh/accounting.ts';
+import { quarantineRecords, quarantineSummary, recordAccounting, listQuarantine } from '../sourcemesh/quarantine.ts';
+import { statusReport } from '../sourcemesh/status.ts';
 import { unwrap } from '../contracts/index.ts';
 
 const [command = 'list', ...rest] = process.argv.slice(2);
@@ -96,22 +101,48 @@ if (command === 'list') {
       const flag = stage.name === 'IMPORTED' && result.anomalies.length > 0 ? '  <- anomaly' : '';
       console.log(`  ${stage.name.padEnd(14)} ${String(stage.count).padStart(7)}  ${bar(stage.count, max)}${flag}`);
     }
+    // Full row accounting: every source row lands in exactly one terminal
+    // bucket, and the buckets are checked against the source count.
+    const acct = emptyAccounting();
+    acct.source_rows = result.stages.find((x) => x.name === 'SOURCE ROWS')?.count ?? 0;
+    acct.parsed_rows = result.stages.find((x) => x.name === 'PARSED')?.count ?? 0;
+    acct.mapped_rows = result.stages.find((x) => x.name === 'MAPPED')?.count ?? 0;
+    acct.matched_rows = result.stages.find((x) => x.name === 'COUNTRY MATCHED')?.count ?? acct.mapped_rows;
+    acct.validated_rows = result.imported;
+    acct.rejected_rows = 0;
+
+    // Validation rejects are retained in full so the run can be re-driven.
+    if (!dryRun && result.rejections.length > 0) {
+      quarantineRecords(db, result.runId, spec!.id, result.rejections, 'validate');
+      acct.quarantined_rows += result.rejections.length;
+    } else {
+      acct.rejected_rows = result.rejected;
+    }
+
     if (!dryRun && result.records.length > 0) {
       const written = writeRecords(db, spec!, result.records);
       if (written.ok) {
-        const total = written.value.written + written.value.skipped;
-        console.log(`  PERSISTED      ${String(written.value.written).padStart(7)}` +
-          (written.value.skipped > 0
-            ? `  (${written.value.skipped} not written: ${Object.entries(written.value.reasons).map(([k, n]) => `${k} x${n}`).join(', ')})`
-            : ''));
-        // Loss at the persistence stage is loss like any other.
-        if (total > 0 && written.value.skipped / total >= 0.2) {
-          console.log(`  [WARNING] ${((written.value.skipped / total) * 100).toFixed(1)}% of mapped records could not be persisted; ` +
-            `check that upstream entities (countries, cities) were ingested first`);
-        }
+        acct.inserted_rows = written.value.inserted;
+        acct.updated_rows = written.value.updated;
+        acct.unchanged_rows = written.value.unchanged;
+        acct.quarantined_rows += written.value.rejections.length;
+        quarantineRecords(db, result.runId, spec!.id, written.value.rejections);
       } else {
         console.log(`  PERSIST FAILED: ${written.error.message}`);
         failed += 1;
+      }
+    }
+
+    const check = checkAccounting(acct);
+    if (!dryRun) recordAccounting(db, result.runId, acct, check.balanced);
+    console.log(formatAccounting(acct));
+    if (!check.balanced) {
+      console.log(`  [CRITICAL] accounting does not balance: ${check.explanation}`);
+      failed += 1;
+    }
+    if (acct.quarantined_rows > 0) {
+      for (const [code, n] of Object.entries(quarantineSummary(db, result.runId))) {
+        console.log(`  quarantined ${String(n).padStart(6)}  ${code}: ${REASON_TEXT[code as ReasonCode] ?? ''}`);
       }
     }
     for (const warning of result.warnings) console.log(`  warn: ${warning}`);
@@ -121,6 +152,33 @@ if (command === 'list') {
     if (result.status === 'failed') failed += 1;
   }
   if (failed > 0) process.exit(1);
+} else if (command === 'status') {
+  const report = statusReport(db);
+  const width = Math.max(...report.map((r) => r.id.length));
+  console.log('SCOUT SOURCE STATUS\n');
+  for (const state of ['SEEDED', 'TESTED', 'CONNECTED', 'BUILT', 'BROKEN', 'NOT STARTED'] as const) {
+    const group = report.filter((r) => r.state === state);
+    if (group.length === 0) continue;
+    console.log(`${state}`);
+    for (const row of group) {
+      console.log(`  ${row.id.padEnd(width)}  ${String(row.entity ?? '—').padEnd(8)} ${row.detail}` +
+        (row.quarantined > 0 ? `  [${row.quarantined.toLocaleString()} quarantined]` : ''));
+    }
+    console.log();
+  }
+  const seeded = report.filter((r) => r.state === 'SEEDED' || r.state === 'TESTED').length;
+  console.log(`${seeded}/${report.length} sources seeded; ` +
+    `${report.filter((r) => r.state === 'BROKEN').length} broken; ` +
+    `${report.filter((r) => r.state === 'NOT STARTED').length} not started`);
+} else if (command === 'quarantine') {
+  for (const spec of specs) {
+    const rows = listQuarantine(db, spec!.id, limitArg ? Number(limitArg) : 10);
+    console.log(`\n=== ${spec!.id} === ${rows.length} shown`);
+    for (const row of rows) {
+      console.log(`  ${row.reasonCode.padEnd(24)} ${String(row.sourceRecordId ?? '—').padEnd(12)} ${row.details}`);
+      console.log(`    raw: ${row.rawRecord.slice(0, 120)}`);
+    }
+  }
 } else if (command === 'report') {
   for (const row of db.all<Record<string, unknown>>(
     `SELECT source_id, status, source_rows, imported, rejected, started_at

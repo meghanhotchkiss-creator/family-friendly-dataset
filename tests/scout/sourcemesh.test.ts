@@ -14,7 +14,10 @@ import { parseRecords, profileRecords, proposeMapping } from '../../scout/source
 import { detectFunnelAnomalies, diagnoseGeoAnomaly, SYSTEMIC_LOSS } from '../../scout/sourcemesh/anomaly.ts';
 import { createSourceAdapter, extractField } from '../../scout/sourcemesh/adapter.ts';
 import { registerSpec, loadSpecs } from '../../scout/sourcemesh/registry.ts';
-import { mapRegion } from '../../scout/sourcemesh/sink.ts';
+import { mapRegion, writeRecords } from '../../scout/sourcemesh/sink.ts';
+import { checkAccounting, REASON_CODES } from '../../scout/sourcemesh/accounting.ts';
+import { quarantineRecords, listQuarantine } from '../../scout/sourcemesh/quarantine.ts';
+import { statusReport } from '../../scout/sourcemesh/status.ts';
 import type { Transport } from '../../scout/contracts/index.ts';
 import { unwrap } from '../../scout/contracts/index.ts';
 
@@ -248,4 +251,130 @@ test('region mapping falls back from subregion to region', () => {
   assert.equal(mapRegion('Western Asia', 'Asia'), 'ME');
   assert.equal(mapRegion(null, 'Oceania'), 'OC');
   assert.equal(mapRegion('nonsense', null), null);
+});
+
+test('every source row lands in exactly one terminal bucket', () => {
+  const balanced = {
+    source_rows: 100, parsed_rows: 100, mapped_rows: 100, validated_rows: 90, matched_rows: 100,
+    inserted_rows: 70, updated_rows: 15, unchanged_rows: 5, quarantined_rows: 8, rejected_rows: 2,
+  };
+  const check = checkAccounting(balanced);
+  assert.equal(check.balanced, true);
+  assert.equal(check.terminal, 100);
+
+  // Progress gauges must NOT be counted as destinations.
+  const doubleCounted = { ...balanced, inserted_rows: 80 };
+  assert.equal(checkAccounting(doubleCounted).balanced, false);
+  assert.ok(checkAccounting(doubleCounted).explanation.includes('counted twice'));
+
+  const leaking = { ...balanced, inserted_rows: 60 };
+  const leak = checkAccounting(leaking);
+  assert.equal(leak.balanced, false);
+  assert.equal(leak.unaccounted, 10);
+  assert.ok(leak.explanation.includes('unaccounted for'));
+});
+
+test('a total validation failure quarantines every row rather than sampling', async () => {
+  const db = db0();
+  try {
+    for (const [iso2, iso3, name, region] of [
+      ['GB', 'GBR', 'United Kingdom', 'EU'], ['JP', 'JPN', 'Japan', 'AS'], ['US', 'USA', 'United States', 'NA'],
+    ] as const) {
+      upsertCountry(db, { iso2, iso3, name, regionCode: region, currency: null });
+    }
+    const spec = { ...AIRPORT_SPEC, id: 'test-quarantine' };
+    registerSpec(db, spec);
+    const result = unwrap(
+      await createSourceAdapter(db, spec).ingest({ transport: stubTransport(AIRPORT_CSV) }),
+    );
+
+    // Every rejected row is returned, not a diagnostic sample.
+    assert.equal(result.rejections.length, 3, 'all rejected rows must be retained');
+    for (const rejection of result.rejections) {
+      assert.equal(rejection.reasonCode, 'MISSING_REQUIRED_FIELD');
+      assert.ok(rejection.record.raw, 'the raw record must survive for a re-drive');
+    }
+
+    const held = quarantineRecords(db, result.runId, spec.id, result.rejections, 'validate');
+    assert.equal(held, 3);
+    const rows = listQuarantine(db, spec.id, 10);
+    assert.equal(rows.length, 3);
+    assert.ok(rows[0]?.rawRecord.includes('"iso_country"') || rows[0]?.rawRecord.includes('iso_country'));
+    assert.ok(rows.every((r) => r.reasonCode === 'MISSING_REQUIRED_FIELD'));
+  } finally {
+    db.close();
+  }
+});
+
+test('the sink distinguishes inserted from updated from unchanged', () => {
+  const db = db0();
+  try {
+    upsertCountry(db, { iso2: 'GB', iso3: 'GBR', name: 'United Kingdom', regionCode: 'EU', currency: null });
+    const spec: SourceSpec = {
+      ...AIRPORT_SPEC, id: 'test-sink', entity: 'city',
+      identity: ['name'],
+      fields: {
+        name: { field: 'name' }, countryIso2: { field: 'iso' },
+        lat: { field: 'lat', transform: 'number' }, lon: { field: 'lon', transform: 'number' },
+        population: { field: 'pop', transform: 'integer' },
+      },
+      quality: {},
+    };
+    const make = (pop: number) => [{
+      identity: 'London',
+      values: { name: 'London', countryIso2: 'GB', lat: 51.5, lon: -0.1, population: pop },
+      raw: {},
+    }];
+
+    const first = unwrap(writeRecords(db, spec, make(9000000)));
+    assert.equal(first.inserted, 1);
+
+    const same = unwrap(writeRecords(db, spec, make(9000000)));
+    assert.equal(same.unchanged, 1, 'an identical record is unchanged, not an update');
+    assert.equal(same.inserted, 0);
+
+    const changed = unwrap(writeRecords(db, spec, make(9500000)));
+    assert.equal(changed.updated, 1, 'a differing record is an update');
+  } finally {
+    db.close();
+  }
+});
+
+test('the sink quarantines with a machine-readable reason code', () => {
+  const db = db0();
+  try {
+    const spec: SourceSpec = {
+      ...AIRPORT_SPEC, id: 'test-sink-reject', entity: 'city', identity: ['name'],
+      fields: { name: { field: 'name' }, countryIso2: { field: 'iso' } }, quality: {},
+    };
+    const result = unwrap(writeRecords(db, spec, [
+      { identity: 'Nowhere', values: { name: 'Nowhere', countryIso2: 'ZZ' }, raw: { name: 'Nowhere' } },
+    ]));
+    assert.equal(result.rejections.length, 1);
+    assert.equal(result.rejections[0]?.reasonCode, 'NO_MATCHING_COUNTRY');
+    assert.ok(REASON_CODES.includes(result.rejections[0]!.reasonCode));
+  } finally {
+    db.close();
+  }
+});
+
+test('status is derived from live state, and gaps are visible', () => {
+  const db = db0();
+  try {
+    const report = statusReport(db);
+    // Designed-but-unconnected sources must appear, or a gap looks like absence.
+    const nps = report.find((r) => r.id === 'nps');
+    assert.ok(nps, 'a designed source must be listed even when not started');
+    assert.equal(nps.state, 'NOT STARTED');
+    assert.match(nps.detail, /priority 1/);
+
+    // A shipped spec on an empty database is BUILT, not SEEDED.
+    const shipped = report.find((r) => r.id === 'ourairports');
+    assert.ok(shipped);
+    assert.equal(shipped.state === 'SEEDED' || shipped.state === 'TESTED', false,
+      'nothing is seeded on a fresh database');
+    assert.ok(shipped.reached.includes('BUILT'));
+  } finally {
+    db.close();
+  }
 });
