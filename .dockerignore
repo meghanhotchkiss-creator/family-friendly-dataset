@@ -1,0 +1,14 @@
+.git
+.github
+node_modules
+__pycache__
+*.pyc
+.env
+.env.local
+tests
+docs
+mobile
+widgets
+dashboard
+bots
+data/raw
