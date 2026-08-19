@@ -69,8 +69,12 @@ export function writeRecords(db: Db, spec: SourceSpec, records: MappedRecord[]):
     return Number.isFinite(n) ? n : null;
   };
 
-  db.transaction(() => {
-    for (const record of records) {
+  // Each record is written in its own savepoint: one bad row must not roll
+  // back a 28,000-row run, and a database constraint is a rejection reason like
+  // any other rather than a crash.
+  for (const record of records) {
+    try {
+      db.transaction(() => {
       const v = record.values;
       const iso2 = str(v.countryIso2);
 
@@ -79,20 +83,20 @@ export function writeRecords(db: Db, spec: SourceSpec, records: MappedRecord[]):
         const region = str(v.regionCode);
         if (!iso2 || !iso3 || !v.name) {
           reject(record, 'MISSING_REQUIRED_FIELD', 'country needs iso2, iso3 and name');
-          continue;
+          return;
         }
         // Region comes from the spec when supplied, otherwise from the
         // subregion/region names the source carries.
         const regionCode = (region ?? mapRegion(str(v.subregion), str(v.region))) as RegionCode | null;
         if (!regionCode) {
           reject(record, 'UNRESOLVED_GEOGRAPHY', `no region for ${iso2}`);
-          continue;
+          return;
         }
         const id = makeId('country', iso2);
         const before = priorState(db, 'countries', 'id', id);
         upsertCountry(db, { iso2, iso3, name: String(v.name), regionCode, currency: str(v.currency) });
         settle(before, { hash: priorState(db, 'countries', 'id', id).hash });
-        continue;
+        return;
       }
 
       const countryId = iso2
@@ -100,11 +104,11 @@ export function writeRecords(db: Db, spec: SourceSpec, records: MappedRecord[]):
         : null;
       if (!countryId) {
         reject(record, 'NO_MATCHING_COUNTRY', `iso2 ${iso2 ?? '(none)'} is not in the countries table`);
-        continue;
+        return;
       }
 
       if (spec.entity === 'city') {
-        if (!v.name) { reject(record, 'MISSING_REQUIRED_FIELD', 'city needs a name'); continue; }
+        if (!v.name) { reject(record, 'MISSING_REQUIRED_FIELD', 'city needs a name'); return; }
         const cityId = makeId('city', countryId.replace('country:', ''), str(v.admin1) ?? '', String(v.name));
         const before = priorState(db, 'cities', 'id', cityId);
         upsertCity(db, {
@@ -114,14 +118,14 @@ export function writeRecords(db: Db, spec: SourceSpec, records: MappedRecord[]):
           population: num(v.population), timezone: str(v.timezone),
         });
         settle(before, { hash: priorState(db, 'cities', 'id', cityId).hash });
-        continue;
+        return;
       }
 
       if (spec.entity === 'airport') {
         const region = str(v.regionCode) as RegionCode | null;
         if (!region) {
           reject(record, 'UNRESOLVED_GEOGRAPHY', `no region for airport in ${iso2 ?? '(unknown)'}`);
-          continue;
+          return;
         }
         const city = str(v.city);
         const cityId = city
@@ -133,7 +137,11 @@ export function writeRecords(db: Db, spec: SourceSpec, records: MappedRecord[]):
           : null;
         const iata = str(v.iata);
         const icao = str(v.icao);
-        const airportId = makeId('airport', icao ?? iata ?? `${iso2}-${String(v.name)}`);
+        // IATA first, matching repo-core.upsertAirport and the fixture
+        // importer. Deriving it as icao-first gave the same physical airport
+        // two ids depending on which source loaded it, which collided on the
+        // UNIQUE iata index the moment both ran.
+        const airportId = makeId('airport', iata ?? icao ?? `${iso2}-${String(v.name)}`);
         const before = priorState(db, 'airports', 'id', airportId);
         upsertAirport(db, {
           id: airportId,
@@ -144,12 +152,19 @@ export function writeRecords(db: Db, spec: SourceSpec, records: MappedRecord[]):
           kind: v.scheduledService ? 'medium' : 'small',
         });
         settle(before, { hash: priorState(db, 'airports', 'id', airportId).hash });
-        continue;
+        return;
       }
 
       reject(record, 'UNSUPPORTED_ENTITY', `no sink for entity ${spec.entity}`);
+      });
+    } catch (cause) {
+      reject(
+        record,
+        'PERSIST_FAILED',
+        cause instanceof Error ? cause.message : String(cause),
+      );
     }
-  });
+  }
 
   return ok(result);
 }

@@ -9,6 +9,7 @@
 import { openDb } from '../db/index.ts';
 import { createApi, listen, replyFromResult, type Route } from '../api/server.ts';
 import { systemHealth, healthSummaryLine, isHealthy } from '../api/health.ts';
+import { commandCenter } from '../api/command-center.ts';
 import { recommend } from '../intelligence/scoring.ts';
 import { parseIntent } from '../intelligence/intent.ts';
 import { recordSignal, buildUserGraph } from '../intelligence/user-graph.ts';
@@ -35,6 +36,14 @@ const routes: Route[] = [
     handler: () => {
       const health = systemHealth(db);
       return { status: isHealthy(health) ? 200 : 503, body: { summary: healthSummaryLine(health), status: health.status } };
+    },
+  },
+  {
+    method: 'GET', path: '/api/command-center', description: 'one operational endpoint: system, providers, data, watch graph, components, blockers',
+    handler: () => {
+      const cc = commandCenter(db);
+      const critical = cc.blockers.filter((b) => b.severity === 'CRITICAL').length;
+      return { status: critical > 0 ? 503 : 200, body: cc };
     },
   },
   {

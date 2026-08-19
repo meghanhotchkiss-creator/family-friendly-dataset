@@ -378,3 +378,68 @@ test('status is derived from live state, and gaps are visible', () => {
     db.close();
   }
 });
+
+test('the same airport from two sources resolves to one row, not a collision', () => {
+  // Regression: the sink derived airport ids as `icao ?? iata` while
+  // repo-core and the fixture importer used `iata ?? icao`, so the same
+  // physical airport got two ids depending on which source loaded it -- and
+  // the second write blew up on the UNIQUE iata index mid-run.
+  const db = db0();
+  try {
+    upsertCountry(db, { iso2: 'US', iso3: 'USA', name: 'United States', regionCode: 'NA', currency: null });
+    const spec: SourceSpec = {
+      ...AIRPORT_SPEC, id: 'test-identity',
+      fields: {
+        icao: { field: 'gps_code', transform: 'upper' },
+        iata: { field: 'iata_code', transform: 'upper' },
+        name: { field: 'name' }, countryIso2: { field: 'iso', transform: 'upper' },
+        lat: { field: 'lat', transform: 'number' }, lon: { field: 'lon', transform: 'number' },
+        regionCode: { const: 'NA' },
+      },
+      quality: {},
+    };
+    const record = (name: string) => [{
+      identity: 'KSFO',
+      values: { icao: 'KSFO', iata: 'SFO', name, countryIso2: 'US', lat: 37.6, lon: -122.4, regionCode: 'NA' },
+      raw: {},
+    }];
+
+    const first = unwrap(writeRecords(db, spec, record('San Francisco Intl')));
+    assert.equal(first.inserted, 1);
+
+    // A second source describing the same airport must update, not collide.
+    const second = unwrap(writeRecords(db, spec, record('San Francisco International Airport')));
+    assert.equal(second.rejections.length, 0, 'must not fail on the UNIQUE iata index');
+    assert.equal(second.updated, 1);
+    assert.equal(db.get<{ n: number }>('SELECT COUNT(*) n FROM airports')?.n, 1, 'one physical airport, one row');
+  } finally {
+    db.close();
+  }
+});
+
+test('a database constraint quarantines one record instead of aborting the run', () => {
+  const db = db0();
+  try {
+    upsertCountry(db, { iso2: 'US', iso3: 'USA', name: 'United States', regionCode: 'NA', currency: null });
+    const spec: SourceSpec = {
+      ...AIRPORT_SPEC, id: 'test-persist-fail',
+      fields: {
+        icao: { field: 'icao' }, iata: { field: 'iata' }, name: { field: 'name' },
+        countryIso2: { const: 'US' }, lat: { const: 1 }, lon: { const: 2 },
+        regionCode: { const: 'BADREGION' },
+      },
+      quality: {},
+    };
+    const rows = [
+      { identity: 'a', values: { icao: 'KAAA', iata: 'AAA', name: 'A', countryIso2: 'US', lat: 1, lon: 2, regionCode: 'BADREGION' }, raw: { n: 1 } },
+      { identity: 'b', values: { icao: 'KBBB', iata: 'BBB', name: 'B', countryIso2: 'US', lat: 1, lon: 2, regionCode: 'NA' }, raw: { n: 2 } },
+    ];
+    const result = unwrap(writeRecords(db, spec, rows));
+    // The bad row is quarantined with a reason code; the good row still lands.
+    assert.equal(result.rejections.length, 1);
+    assert.equal(result.rejections[0]?.reasonCode, 'PERSIST_FAILED');
+    assert.equal(result.inserted, 1, 'one bad row must not roll back the whole run');
+  } finally {
+    db.close();
+  }
+});
