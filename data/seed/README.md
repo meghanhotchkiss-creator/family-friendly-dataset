@@ -29,3 +29,17 @@ code should fail here rather than in production.
 
 Every row carries `source=synthetic-seed` and `is_seed_data=true`, so seed rows
 can always be told apart from real ones if the two ever share a store.
+
+## Running the recommender against this data
+
+    EMBEDDING_BACKEND=hashing \
+    FAMILY_DATASET_URL=data/seed/family_friendly_seed.csv \
+    python -c "import sys; sys.path.insert(0,'api'); import ai_recommender as b; \
+               print(b.semantic_search('somewhere outdoors for a toddler', \
+                     constraints={'setting':'outdoor','suits_age':3}))"
+
+`EMBEDDING_BACKEND=hashing` selects the offline lexical backend, which needs no
+model download. It matches on shared words, **not on meaning**, and must not be
+used to judge recommendation quality or shipped as the production ranking path.
+Every result reports `_match.backend` and `_match.semantic` so the two backends
+can never be confused.
