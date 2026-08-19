@@ -123,6 +123,17 @@ def to_ourairports(rows: list[dict]) -> list[dict]:
     return out
 
 
+def fetch_geonames(work: Path) -> tuple[dict, str]:
+    """GeoNames cities15000 via the geonamescache package (CC BY 4.0)."""
+    run([sys.executable, "-m", "pip", "download", "geonamescache", "--no-deps", "-d", "gn"], work)
+    wheel = next((work / "gn").glob("geonamescache-*.whl"))
+    version = wheel.name.split("-")[1]
+    with zipfile.ZipFile(wheel) as zf:
+        with zf.open("geonamescache/data/cities15000.json") as fh:
+            cities = json.load(fh)
+    return cities, version
+
+
 def main() -> int:
     UPSTREAM.mkdir(parents=True, exist_ok=True)
     (UPSTREAM / "ourairports-data").mkdir(exist_ok=True)
@@ -133,6 +144,8 @@ def main() -> int:
         raw_countries, countries_version = fetch_world_countries(work)
         print("fetching airportsdata from pypi.org ...")
         raw_airports, airports_version = fetch_airportsdata(work)
+        print("fetching geonamescache from pypi.org ...")
+        raw_cities, cities_version = fetch_geonames(work)
 
     countries = to_restcountries(raw_countries)
     (UPSTREAM / "countries.json").write_text(
@@ -146,7 +159,16 @@ def main() -> int:
         writer.writeheader()
         writer.writerows(airports)
 
-    manifest = {"https://restcountries.com/v3.1/all": "countries.json"}
+    # GeoNames ships a map keyed by geonameid; keep it verbatim so SourceMesh
+    # has to cope with a third record shape rather than a pre-flattened list.
+    (UPSTREAM / "geonames-cities15000.json").write_text(
+        json.dumps(raw_cities, ensure_ascii=False), encoding="utf-8"
+    )
+
+    manifest = {
+        "https://restcountries.com/v3.1/all": "countries.json",
+        "https://download.geonames.org/export/dump/cities15000": "geonames-cities15000.json",
+    }
     (UPSTREAM / "manifest.json").write_text(json.dumps(manifest, indent=2) + "\n", encoding="utf-8")
 
     with_iata = sum(1 for a in airports if a["iata_code"])
@@ -161,6 +183,7 @@ data hosts but explicitly permits registry.npmjs.org and pypi.org.
 |---|---|---|---|---|
 | Countries | `world-countries` (npm) | {countries_version} | ODbL | {len(countries)} |
 | Airports | `airportsdata` (PyPI) | {airports_version} | MIT | {len(airports)} |
+| Cities | `geonamescache` (PyPI) | {cities_version} | CC BY 4.0 | {len(raw_cities)} |
 
 ## Real vs derived
 
@@ -183,6 +206,7 @@ adapters parse this exactly as they would parse a live response.
 
     print(f"\n  countries.json                 {len(countries)} countries")
     print(f"  ourairports-data/airports.csv  {len(airports)} airports ({with_iata} with IATA)")
+    print(f"  geonames-cities15000.json      {len(raw_cities)} cities")
     print(f"  PROVENANCE.md                  written")
     return 0
 

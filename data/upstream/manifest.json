@@ -1,3 +1,5 @@
 {
-  "https://restcountries.com/v3.1/all": "countries.json"
+  "https://restcountries.com/v3.1/all": "countries.json",
+  "https://download.geonames.org/export/dump/cities15000": "geonames-cities15000.json",
+  "https://davidmegginson.github.io/ourairports-data/airports.csv": "ourairports-data/airports.csv"
 }

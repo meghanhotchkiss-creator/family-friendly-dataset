@@ -18,6 +18,7 @@
     "travel:import:all": "node --disable-warning=ExperimentalWarning scout/cli/travel-import.ts all",
     "travel:normalize": "node --disable-warning=ExperimentalWarning scout/cli/travel-normalize.ts",
     "travel:geocode": "node --disable-warning=ExperimentalWarning scout/cli/travel-geocode.ts",
+    "sourcemesh": "node --disable-warning=ExperimentalWarning scout/cli/sourcemesh.ts",
     "graph:user:build": "node --disable-warning=ExperimentalWarning scout/cli/graph-user-build.ts",
     "graph:topic:build": "node --disable-warning=ExperimentalWarning scout/cli/graph-topic-build.ts",
     "topics:discover": "node --disable-warning=ExperimentalWarning scout/cli/graph-topic-build.ts --discover",

@@ -1,0 +1,94 @@
+{
+  "id": "ourairports-naive",
+  "name": "OurAirports (naive spec: region from the source's own continent column)",
+  "entity": "airport",
+  "format": "csv",
+  "locator": "https://davidmegginson.github.io/ourairports-data/airports.csv",
+  "homepage": "https://ourairports.com/data/",
+  "trustTier": "open_dataset",
+  "license": {
+    "name": "MIT",
+    "attribution": "airportsdata (PyPI), derived from OurAirports",
+    "commercialUse": true,
+    "url": "https://pypi.org/project/airportsdata/"
+  },
+  "updateFrequency": "monthly",
+  "identity": [
+    "icao"
+  ],
+  "fields": {
+    "icao": {
+      "anyOf": [
+        "gps_code",
+        "ident"
+      ],
+      "transform": "upper"
+    },
+    "iata": {
+      "field": "iata_code",
+      "transform": "upper"
+    },
+    "name": {
+      "field": "name",
+      "transform": "trim"
+    },
+    "lat": {
+      "field": "latitude_deg",
+      "transform": "number"
+    },
+    "lon": {
+      "field": "longitude_deg",
+      "transform": "number"
+    },
+    "countryIso2": {
+      "field": "iso_country",
+      "transform": "upper"
+    },
+    "city": {
+      "field": "municipality",
+      "transform": "trim"
+    },
+    "airportType": {
+      "field": "type"
+    },
+    "scheduledService": {
+      "field": "scheduled_service",
+      "transform": "boolean"
+    },
+    "regionCode": {
+      "field": "continent",
+      "transform": "upper"
+    }
+  },
+  "quality": {
+    "rejectIfMissing": [
+      "icao",
+      "name",
+      "lat",
+      "lon",
+      "countryIso2",
+      "regionCode"
+    ],
+    "warnIfMissing": [
+      "iata",
+      "city"
+    ],
+    "ranges": [
+      {
+        "field": "lat",
+        "min": -90,
+        "max": 90
+      },
+      {
+        "field": "lon",
+        "min": -180,
+        "max": 180
+      }
+    ],
+    "minImportRatio": 0.8
+  },
+  "monitor": {
+    "frequency": "daily",
+    "strategy": "hash_diff"
+  }
+}
