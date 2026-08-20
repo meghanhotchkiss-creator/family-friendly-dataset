@@ -13,6 +13,7 @@ import { defaultTransport } from '../connectors/transport.ts';
 import { nowIso } from '../runtime/clock.ts';
 import { canonicalHash, shortHash } from '../runtime/hash.ts';
 import { readPath, type FieldRule, type SourceSpec } from './spec.ts';
+import { authHeaders, isAuthConfigured, describeAuth } from './auth.ts';
 import { parseRecords, profileRecords, proposeMapping, type MappingProposal, type RawRecord, type SchemaProfile } from './profile.ts';
 import {
   detectFunnelAnomalies, diagnoseGeoAnomaly, formatAnomaly,
@@ -175,7 +176,9 @@ export function createSourceAdapter(db: Db, spec: SourceSpec) {
   async function body(transport?: Transport): Promise<Result<string>> {
     if (cachedBody !== null) return ok(cachedBody);
     const t = transport ?? defaultTransport();
-    const response = await t.request({ url: spec.locator });
+    const auth = await authHeaders(spec.id, spec.auth, t);
+    if (!auth.ok) return auth;
+    const response = await t.request({ url: spec.locator, headers: auth.value });
     if (!response.ok) return response;
     if (response.value.status >= 400) {
       return err('upstream_unavailable', `${spec.id}: HTTP ${response.value.status}`, { status: response.value.status });
@@ -277,6 +280,13 @@ export function createSourceAdapter(db: Db, spec: SourceSpec) {
 
     async healthCheck(transport?: Transport): Promise<SourceHealth> {
       const checkedAt = nowIso();
+      if (!isAuthConfigured(spec.auth)) {
+        // A missing credential is not an outage.
+        return {
+          sourceId: spec.id, status: 'unconfigured', checkedAt, bytes: null,
+          error: `${describeAuth(spec.auth)} — credentials are not set`,
+        };
+      }
       const fetched = await body(transport);
       if (!fetched.ok) {
         return {

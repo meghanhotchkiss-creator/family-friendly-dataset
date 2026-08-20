@@ -10,6 +10,7 @@
  */
 
 import type { RegionCode } from '../contracts/index.ts';
+import type { AuthSpec } from './auth.ts';
 
 export const SOURCE_FORMATS = ['csv', 'tsv', 'json', 'jsonl', 'json-map'] as const;
 export type SourceFormat = (typeof SOURCE_FORMATS)[number];
@@ -109,6 +110,8 @@ export interface SourceSpec {
    * what this engine exists to avoid.
    */
   delimiter?: string;
+  /** How to authenticate. Credentials are named, never embedded. */
+  auth?: AuthSpec;
   /** Restrict the run to the rows this spec is about. */
   select?: SelectSpec;
   /** Canonical field name -> how to obtain it. */

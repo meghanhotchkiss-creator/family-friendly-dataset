@@ -116,7 +116,42 @@ provenance record attached, which is worse than a missing value.
 
 ---
 
-## 3. A real places aggregator — blocked on a commercial decision
+## 3. Wikimedia Enterprise — blocked on egress and an account
+
+**Status:** spec and JWT auth flow built and tested against a stub transport.
+**Blocked by:** `enterprise.wikimedia.com` is unreachable here, and there are no
+credentials.
+
+```bash
+export SCOUT_TRANSPORT=network
+export WME_USERNAME=...            # named in the spec, never stored in it
+export WME_PASSWORD=...
+npm run sourcemesh -- health --source=wikimedia-enterprise
+```
+
+`sourcemesh health` reports it `unconfigured` rather than `down`, because a
+missing credential is not an outage.
+
+**Consider the free tier first.** Wikimedia Enterprise is the paid high-volume
+product. For enrichment, the public Wikipedia REST API, the Wikidata query
+service and the Wikimedia dumps carry the same content under CC BY-SA / CC0,
+need no commercial agreement, and would use the same spec format. Enterprise
+earns its keep for firehose realtime and whole-project snapshots, not for
+looking up a few thousand attractions.
+
+## 4. Kaggle datasets — blocked on tooling, credentials and licence review
+
+**Status:** not started, deliberately.
+**Blocked by:** `kaggle.com` unreachable, no Kaggle CLI, no API token.
+
+`kaggle kernels pull ashishkumar111/travel` retrieves a *notebook*, not a
+licensed dataset. Kaggle content carries per-item licences that are frequently
+unstated, derivative, or scraped from sources whose terms prohibit
+redistribution. `registerSpec` refuses any source without a licence and
+attribution, so such a dataset cannot be registered here until someone has read
+its terms. That is the guard working, not an obstacle to route around.
+
+## 5. A real places aggregator — blocked on a commercial decision
 
 **Status:** the adapter slot is built; the data in it is Scout's own seed set,
 labelled `sourceClass: 'seed'` at authority 0.35 with a reserved `.invalid`
