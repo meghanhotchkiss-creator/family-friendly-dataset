@@ -1,6 +1,23 @@
 # Scout Fox — Build Status Checklist
 
-Fresh audit of the whole repository, 2026-08-20, against commit `ebe709b`.
+Fresh audit of the whole repository, 2026-08-20.
+
+> ## Scope correction — read this first
+>
+> This audit was run against **`main` (`ebe709b`)**. That was the wrong place to
+> judge the project from, and the first version of this document drew a
+> conclusion from it that is false.
+>
+> Active development is **26 commits ahead on `claude/seed-data-setup-b7zaeu`**,
+> unmerged. That branch adds a TypeScript "Scout platform" — SourceMesh
+> ingestion, travel/user/topic graphs, truth layer, radar, sentinel, rewards, a
+> recommendation API and 16 test suites — and it runs on **real open data**
+> (250 countries, 3,985 admin regions, ~82,000 cities, 85,925 airports).
+>
+> Everything below is accurate **about `main`**, which is what is merged and
+> what the Python service actually runs. It is not a fair description of the
+> project as a whole. Findings superseded by that branch are marked
+> **[superseded]**.
 
 Every claim below was checked by running the code, not by reading it. Where a
 line number is cited, that line was the evidence. Where something is called
@@ -38,7 +55,7 @@ in P0-1.
 | Landing page (`index.html`) | **Broken visually** | Dead placeholder logo, four nav links that go nowhere, no link to the beta page. |
 | Beta page (`beta/index.html`) | **Built, not collecting** | Careful, accessible page — but submissions open a mailto, so nothing is captured. |
 | `docs/` explorer | **Placeholder** | Hardcoded list of three suggestions on a `setTimeout`. No API call. |
-| Real activity data | **Does not exist** | Only 134 rows of fictional seed data. |
+| Real activity data | **Exists, unmerged** | 120 real venues + real open-data ingestion on `claude/seed-data-setup-b7zaeu`. `main` has only 134 fictional rows. |
 | CI | **Does not exist** | No `.github/` in this repo. `AutomationBot` is prose about a different project. |
 | Database | **Does not exist** | `Uberliketasks` is loose DDL, never applied or referenced by any code. |
 
@@ -82,23 +99,29 @@ the container fails at import with `ModuleNotFoundError`.
 - [ ] `COPY api/ /app/` instead of a single file.
 - [ ] Build the image in CI and start it, so this is caught by a build, not a deploy.
 
-### P0-3. There is no real data
+### P0-3. Real data exists, but only on an unmerged branch  [superseded]
 
-`data/processed/family_friendly_dataset.csv` does not exist anywhere in this
-repository or its history. The only data is 134 fictional rows in
-`data/seed/family_friendly_seed.csv`, correctly and prominently labelled
-`is_seed_data=true`.
+**The original finding here was wrong.** It said
+`data/processed/family_friendly_dataset.csv` "does not exist anywhere in this
+repository or its history." It exists on `claude/seed-data-setup-b7zaeu` and
+carries 120 real venues — California Academy of Sciences, the Exploratorium and
+so on — with category, price tier, age range, duration, rating and tags.
 
-This is the actual product blocker. Everything else is plumbing around an empty
-warehouse. No amount of API work substitutes for it.
+That branch also fetches genuine upstream open data through the sanctioned
+package-registry channel (`world-countries` on npm, `ourairports-data`),
+verified against known coordinates (LHR, NRT, SYD, JNB, ORD), with licences
+recorded in `data/upstream/PROVENANCE.md`.
 
-- [ ] Decide the sourcing route: licensed feed, partner API, manual curation, or
-      scraping under each site's terms.
-- [ ] Define the column contract before collecting (`data/README.md` documents
-      only the three columns the code happens to read today —
-      `name`, `state`, `indoor_or_outdoor`).
-- [ ] Set a launch bar: how many verified venues, in how many metros, before the
-      beta page stops being a waitlist.
+So data sourcing is not an unstarted problem. It is a **merge and deploy**
+problem.
+
+- [ ] Get `claude/seed-data-setup-b7zaeu` reviewed and merged, or explicitly
+      decide it is a spike and say so.
+- [ ] `scout/BLOCKED.md` on that branch is the real "what is not built" list —
+      live provider data is blocked on egress policy, not on code. Read it
+      before planning any further data work.
+- [ ] Still genuinely missing: places data carrying age and duration fields, and
+      live weather. Neither has a package form.
 - [ ] Keep `is_seed_data` filtering in place so fiction can never reach a family.
 
 ### P0-4. Payment grants nothing
@@ -117,6 +140,37 @@ it either.
 - [ ] Move tier storage out of an env var into something the webhook can write.
 - [ ] Verify the Stripe signature on the webhook.
 - [ ] Replace the `yourapp.com` success/cancel defaults (`api/payments.py:20-21`).
+
+### P0-5. The product is not on `main`, and nothing is deployed to production
+
+Two facts found by querying Vercel directly (team `Scout Fox Travel`):
+
+- All 20 most recent deployments have **`target: null`** — every one is a
+  preview build. There is no production deployment. Whatever
+  `scoutfoxtravel.com` currently serves, it is not coming from these builds.
+- There are **three Vercel projects**: `scout-fox-travel`, `scout-fox-go` and
+  `scout-fox-pro`. The latter two were created within the last week. Combined
+  with the two domains in P2-2, that is now three properties and no stated
+  relationship between them.
+
+Meanwhile 26 commits of the actual platform sit unmerged on
+`claude/seed-data-setup-b7zaeu`, and the open PR list still contains four
+duplicate proposals to fix a `main` that the branch has moved past.
+
+- [ ] Decide what `main` is for. Right now it is neither the shipped thing nor
+      the developed thing.
+- [ ] Promote a deployment to production, or take the domain down until there is
+      one. A live domain serving a broken placeholder is worse than a holding page.
+- [ ] Say what `scout-fox-go` and `scout-fox-pro` are, or delete them.
+
+### P0-6. `node_modules` is committed on the working branch
+
+`claude/seed-data-setup-b7zaeu` has **250 files under `node_modules/`** checked
+in, and its `.gitignore` does not exclude the directory. That is most of the
+542,245-line diff against `main`.
+
+- [ ] Add `node_modules/` to `.gitignore` and remove it from the branch before
+      the merge, not after. This gets much harder once it is in `main`'s history.
 
 ---
 
@@ -302,12 +356,14 @@ Not covered:
 
 ## Suggested order
 
-1. **P0-3** — start data sourcing now; it has the longest lead time and nothing
-   else matters without it.
-2. **P0-1 + P0-2 + P2-8 (CORS, health)** — one change that makes the built
-   features reachable and the image runnable.
-3. **P1-2, P1-3, P1-7** — correctness and cost on the path that already works.
-4. **P1-1** — give the recommender an endpoint; it is the actual product.
+1. **P0-5 + P0-6** — resolve the branch situation first. Every other estimate is
+   wrong until you know whether `main` or the Scout branch is the real trunk.
+   Strip `node_modules` before merging, not after.
+2. **P0-3** — merge the data work rather than restarting it, and read
+   `scout/BLOCKED.md` before planning anything further.
+3. **P0-1 + P0-2 + P2-8 (CORS, health)** — if the Python bundle survives the
+   merge decision, this makes its built features reachable and its image runnable.
+4. **P1-2, P1-3, P1-7** — correctness and cost on the path that already works.
 5. **P1-6 + P2-1 + P2-2** — do this before pointing anyone at the domain.
 6. **P0-4** — required before charging, not before beta.
 7. **P1-4, P1-5** — bots, once the API is stable.
@@ -315,6 +371,8 @@ Not covered:
 
 ## The one-line summary
 
-The security work is done and holds. The recommender is well built. Neither is
-reachable from the running service, the container cannot start the code once
-they are, and there is no real data for any of it to serve.
+The project is further along than `main` suggests — a real data platform on
+real open data exists on an unmerged branch. The problem is not that it has not
+been built. The problem is that it is not on the trunk, it is not deployed to
+production, and the merged branch everyone reads from is a stale service whose
+best modules are unreachable.
