@@ -1,0 +1,13 @@
+# Dependencies for running the test suite.
+#
+# Deliberately not api/requirements.txt. The heavy optional packages there --
+# sentence-transformers, faiss-cpu, google-cloud-bigquery, firebase-admin,
+# stripe -- are not needed: BigQuery is stubbed in the test that covers query
+# parameterisation, the recommender imports its model lazily, and the payments
+# router is optional. Installing them would add several minutes and a model
+# download to every CI run for no extra coverage.
+fastapi
+pandas
+python-jose
+pytest
+httpx

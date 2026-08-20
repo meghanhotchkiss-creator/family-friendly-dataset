@@ -1,0 +1,41 @@
+{
+  "id": "ourairports-navaids",
+  "name": "OurAirports navaids",
+  "entity": "navaid",
+  "format": "csv",
+  "locator": "https://davidmegginson.github.io/ourairports-data/navaids.csv",
+  "homepage": "https://ourairports.com/data/",
+  "trustTier": "open_dataset",
+  "license": {
+    "name": "Public domain (Unlicense)",
+    "attribution": "OurAirports (ourairports.com), via davidmegginson/ourairports-data",
+    "commercialUse": true,
+    "url": "https://github.com/davidmegginson/ourairports-data/blob/main/LICENSE"
+  },
+  "updateFrequency": "daily",
+  "identity": ["sourceId"],
+  "fields": {
+    "sourceId": { "field": "id", "transform": "trim" },
+    "navaidIdent": { "field": "ident", "transform": "upper" },
+    "name": { "field": "name", "transform": "trim" },
+    "navaidType": { "field": "type", "transform": "upper" },
+    "frequencyKhz": { "field": "frequency_khz", "transform": "integer" },
+    "lat": { "field": "latitude_deg", "transform": "number" },
+    "lon": { "field": "longitude_deg", "transform": "number" },
+    "elevationFt": { "field": "elevation_ft", "transform": "integer" },
+    "countryIso2": { "field": "iso_country", "transform": "upper" },
+    "usageType": { "field": "usageType", "transform": "upper" },
+    "power": { "field": "power", "transform": "upper" },
+    "airportIdent": { "field": "associated_airport", "transform": "upper" }
+  },
+  "quality": {
+    "rejectIfMissing": ["sourceId", "navaidIdent", "name", "lat", "lon"],
+    "warnIfMissing": ["airportIdent", "frequencyKhz"],
+    "ranges": [
+      { "field": "lat", "min": -90, "max": 90 },
+      { "field": "lon", "min": -180, "max": 180 }
+    ],
+    "minImportRatio": 0.95
+  },
+  "monitor": { "frequency": "weekly", "strategy": "hash_diff" }
+}

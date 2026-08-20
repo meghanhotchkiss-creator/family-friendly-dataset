@@ -1,0 +1,7 @@
+{
+  "status": 200,
+  "headers": {
+    "content-type": "text/plain; charset=utf-8"
+  },
+  "bodyText": "stop_id,stop_code,stop_name,stop_lat,stop_lon,location_type\nG16,G16,Ueno,35.711730,139.777130,1\nG09,G09,Ginza,35.671680,139.763980,1\nG01,G01,Shibuya,35.658870,139.701740,1\nG19,G19,Asakusa,35.711000,139.797000,1\nY22,Y22,Toyosu,35.654800,139.796500,1\n"
+}

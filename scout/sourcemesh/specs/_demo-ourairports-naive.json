@@ -1,0 +1,142 @@
+{
+  "id": "ourairports-naive",
+  "name": "OurAirports (naive spec: region taken from the source's own continent column)",
+  "entity": "airport",
+  "format": "csv",
+  "locator": "https://davidmegginson.github.io/ourairports-data/airports.csv",
+  "homepage": "https://ourairports.com/data/",
+  "trustTier": "open_dataset",
+  "license": {
+    "name": "Public domain (Unlicense)",
+    "attribution": "OurAirports (ourairports.com), via davidmegginson/ourairports-data",
+    "commercialUse": true,
+    "url": "https://github.com/davidmegginson/ourairports-data/blob/main/LICENSE"
+  },
+  "updateFrequency": "daily",
+  "identity": [
+    "ident"
+  ],
+  "fields": {
+    "ident": {
+      "field": "ident",
+      "transform": "upper"
+    },
+    "icao": {
+      "field": "icao_code",
+      "transform": "upper"
+    },
+    "iata": {
+      "field": "iata_code",
+      "transform": "upper"
+    },
+    "name": {
+      "field": "name",
+      "transform": "trim"
+    },
+    "lat": {
+      "field": "latitude_deg",
+      "transform": "number"
+    },
+    "lon": {
+      "field": "longitude_deg",
+      "transform": "number"
+    },
+    "elevationFt": {
+      "field": "elevation_ft",
+      "transform": "integer"
+    },
+    "countryIso2": {
+      "field": "iso_country",
+      "transform": "upper"
+    },
+    "isoRegion": {
+      "field": "iso_region",
+      "transform": "upper"
+    },
+    "city": {
+      "field": "municipality",
+      "transform": "trim"
+    },
+    "airportType": {
+      "field": "type",
+      "transform": "lower"
+    },
+    "scheduledService": {
+      "field": "scheduled_service",
+      "transform": "boolean"
+    },
+    "homeLink": {
+      "field": "home_link",
+      "transform": "trim"
+    },
+    "wikipediaLink": {
+      "field": "wikipedia_link",
+      "transform": "trim"
+    },
+    "admin1Code": {
+      "field": "iso_region",
+      "extract": {
+        "pattern": "^[^-]+-(.+)$"
+      },
+      "transform": "upper"
+    },
+    "admin1": {
+      "resolver": [
+        {
+          "lookup": {
+            "table": "admin_regions",
+            "match": "code",
+            "using": "isoRegion",
+            "from": "name"
+          }
+        }
+      ]
+    },
+    "regionCode": {
+      "field": "continent",
+      "transform": "upper"
+    },
+    "gpsCode": {
+      "field": "gps_code",
+      "transform": "upper"
+    },
+    "localCode": {
+      "field": "local_code",
+      "transform": "upper"
+    }
+  },
+  "quality": {
+    "rejectIfMissing": [
+      "ident",
+      "name",
+      "lat",
+      "lon",
+      "countryIso2",
+      "regionCode"
+    ],
+    "warnIfMissing": [
+      "iata",
+      "city",
+      "admin1",
+      "admin1Code",
+      "isoRegion"
+    ],
+    "ranges": [
+      {
+        "field": "lat",
+        "min": -90,
+        "max": 90
+      },
+      {
+        "field": "lon",
+        "min": -180,
+        "max": 180
+      }
+    ],
+    "minImportRatio": 0.95
+  },
+  "monitor": {
+    "frequency": "daily",
+    "strategy": "hash_diff"
+  }
+}

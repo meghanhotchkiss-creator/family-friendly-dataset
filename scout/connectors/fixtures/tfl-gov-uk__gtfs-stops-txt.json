@@ -1,0 +1,7 @@
+{
+  "status": 200,
+  "headers": {
+    "content-type": "text/plain; charset=utf-8"
+  },
+  "bodyText": "stop_id,stop_code,stop_name,stop_lat,stop_lon,location_type\n940GZZLUOXC,OXC,Oxford Circus Underground Station,51.515224,-0.141903,1\n940GZZLUKSX,KSX,King s Cross St. Pancras Underground Station,51.530400,-0.123800,1\n940GZZLUWLO,WLO,Waterloo Underground Station,51.503300,-0.113100,1\n940GZZLUSKS,SKS,South Kensington Underground Station,51.494100,-0.174100,1\n490000173RG,,\"Regent s Park, London Zoo\",51.535600,-0.153800,0\n"
+}

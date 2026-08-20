@@ -6,6 +6,7 @@ import threading
 from fastapi import APIRouter, Depends, HTTPException
 
 from auth_tiers import verify_tier, USER_TIERS
+from seed_loader import history_by_user, points_by_user, user_display_names
 
 router = APIRouter()
 
@@ -14,8 +15,17 @@ router = APIRouter()
 # database is tracked separately; the rules below are written so that moving to
 # a real store does not change the API surface.
 _lock = threading.Lock()
-user_points = {}
-user_history = {}
+
+# Balances and history start from data/seeds/. Every seeded balance equals the
+# sum of that user's ledger entries (enforced by scripts/validate_seeds.py), so
+# /points_balance and /points_history agree on the first request. The fallbacks
+# keep the API usable on a checkout where the seed files are absent.
+FALLBACK_POINTS = {"demo_free_key": 50, "demo_pro_key": 120, "demo_business_key": 500}
+
+user_points = {**FALLBACK_POINTS, **points_by_user()}
+user_history = {key: [] for key in user_points}
+user_history.update(history_by_user())
+display_names = user_display_names()
 last_checkin = {}
 
 # Points are defined here, on the server. The client names an event; it never
@@ -45,6 +55,14 @@ def public_user_id(api_key: str) -> str:
         (os.getenv("PUBLIC_ID_SALT", "") + api_key).encode("utf-8")
     ).hexdigest()
     return "scout_" + digest[:12]
+
+
+def public_name(api_key: str) -> str:
+    """Display name for the leaderboard, falling back to the salted digest."""
+    name = display_names.get(api_key)
+    if name and name != api_key:
+        return name
+    return public_user_id(api_key)
 
 
 def _award(api_key: str, event: str, points: int, **extra):
@@ -137,8 +155,11 @@ def leaderboard(api_key=Depends(verify_tier("free"))):
         badge = "⭐" if tier == "pro" else "👑" if tier == "business" else ""
         entries.append(
             {
-                # Never the raw key.
-                "user": public_user_id(key),
+                # A seeded display name if there is a real one, otherwise the
+                # salted digest. Never the raw key: seed_loader defaults a
+                # missing display_name *to the api_key*, so an unnamed seed
+                # user would otherwise publish a working credential here.
+                "user": public_name(key),
                 "points": pts,
                 "tier": tier,
                 "badge": badge,

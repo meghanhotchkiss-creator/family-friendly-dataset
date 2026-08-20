@@ -60,7 +60,11 @@ def load_dataset():
     except Exception as exc:
         # The path/URL is deployment configuration; echoing it to callers
         # discloses internal layout. Keep the detail server-side.
-        logger.exception("Failed to load dataset from %s", DATA_URL)
+        logger.exception(
+            "Failed to load dataset from %s. Build it with: "
+            "python scripts/build_dataset.py",
+            DATA_URL,
+        )
         raise HTTPException(status_code=500, detail="Dataset is unavailable") from exc
 
 def verify_api_key(api_key: str = Depends(api_key_header)):
@@ -88,6 +92,20 @@ def verify_firebase_token(token: str = Depends(oauth2_scheme)):
         raise HTTPException(status_code=403, detail="Invalid Firebase token")
 
 app = FastAPI(title="Family Friendly Dataset API", version="4.0")
+
+# The React widgets in widgets/ call /points/... and /payments/..., so both
+# routers have to be mounted for the dashboard to work at all.
+from points import router as points_router  # noqa: E402
+
+app.include_router(points_router, prefix="/points", tags=["points"])
+
+try:
+    from payments import router as payments_router
+except Exception:
+    # stripe is an optional dependency; the rest of the API works without it.
+    logger.info("Payments router not mounted: stripe is unavailable")
+else:
+    app.include_router(payments_router, prefix="/payments", tags=["payments"])
 
 # Values accepted by the ?indoor= filter. An unrecognised value is a client
 # error: returning an empty list for it is indistinguishable from "no matches",
@@ -138,6 +156,17 @@ def get_data(state: str, indoor: str, limit: int):
         if indoor:
             df = df[df["indoor_or_outdoor"].astype(str).str.lower() == indoor.lower()]
         return df
+
+@app.get("/health")
+def health():
+    """Liveness probe for the container HEALTHCHECK and any load balancer.
+
+    Deliberately unauthenticated and free of I/O: a health check does not
+    carry an API key, and making it read the dataset would report the process
+    as dead whenever the data source was merely slow.
+    """
+    return {"status": "ok"}
+
 
 @app.get("/recommend")
 def recommend(state: str, indoor: str = None, limit: int = Query(10, ge=1, le=MAX_LIMIT), auth: bool = Depends(verify_api_key)):
