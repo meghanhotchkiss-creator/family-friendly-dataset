@@ -1,0 +1,144 @@
+{
+  "status": 200,
+  "headers": {
+    "content-type": "application/json"
+  },
+  "body": {
+    "page": {
+      "region": "AF",
+      "limit": 100,
+      "returned": 4,
+      "next_cursor": null
+    },
+    "places": [
+      {
+        "id": "fp_za_two-oceans-aquarium",
+        "name": "Two Oceans Aquarium",
+        "category": "aquarium",
+        "subcategory": "Aquarium",
+        "location": {
+          "lat": -33.908,
+          "lon": 18.418,
+          "precision": "venue",
+          "city": "Cape Town",
+          "admin1": null,
+          "country": "ZA",
+          "timezone": "Africa/Johannesburg",
+          "city_lat": -33.9249,
+          "city_lon": 18.4241,
+          "neighborhood": null
+        },
+        "price_level": 3,
+        "setting": "indoor",
+        "rating": 9,
+        "good_for_ages": {
+          "min": 1,
+          "max": 99
+        },
+        "typical_visit_minutes": 150,
+        "description": "Where the Atlantic meets the Indian Ocean, with a kelp forest tank.",
+        "tags": [
+          "ocean",
+          "kelp"
+        ],
+        "region": "AF"
+      },
+      {
+        "id": "fp_za_table-mountain-aerial-cableway",
+        "name": "Table Mountain Aerial Cableway",
+        "category": "landmark",
+        "subcategory": "Cable Car",
+        "location": {
+          "lat": -33.956,
+          "lon": 18.403,
+          "precision": "venue",
+          "city": "Cape Town",
+          "admin1": null,
+          "country": "ZA",
+          "timezone": "Africa/Johannesburg",
+          "city_lat": -33.9249,
+          "city_lon": 18.4241,
+          "neighborhood": null
+        },
+        "price_level": 3,
+        "setting": "outdoor",
+        "rating": 9.4,
+        "good_for_ages": {
+          "min": 3,
+          "max": 99
+        },
+        "typical_visit_minutes": 180,
+        "description": "Rotating cable car to the flat summit above the city and both oceans.",
+        "tags": [
+          "views",
+          "cable car"
+        ],
+        "region": "AF"
+      },
+      {
+        "id": "fp_ke_giraffe-centre",
+        "name": "Giraffe Centre",
+        "category": "zoo",
+        "subcategory": "Wildlife Centre",
+        "location": {
+          "lat": -1.375,
+          "lon": 36.744,
+          "precision": "venue",
+          "city": "Nairobi",
+          "admin1": null,
+          "country": "KE",
+          "timezone": "Africa/Nairobi",
+          "city_lat": -1.2921,
+          "city_lon": 36.8219,
+          "neighborhood": null
+        },
+        "price_level": 2,
+        "setting": "outdoor",
+        "rating": 9,
+        "good_for_ages": {
+          "min": 2,
+          "max": 99
+        },
+        "typical_visit_minutes": 90,
+        "description": "Feed endangered Rothschild giraffes from a raised wooden platform.",
+        "tags": [
+          "giraffes",
+          "feeding"
+        ],
+        "region": "AF"
+      },
+      {
+        "id": "fp_eg_giza-zoo",
+        "name": "Giza Zoo",
+        "category": "zoo",
+        "subcategory": "Zoo",
+        "location": {
+          "lat": 30.026,
+          "lon": 31.213,
+          "precision": "venue",
+          "city": "Giza",
+          "admin1": null,
+          "country": "EG",
+          "timezone": "Africa/Cairo",
+          "city_lat": 30.0131,
+          "city_lon": 31.2089,
+          "neighborhood": null
+        },
+        "price_level": 1,
+        "setting": "outdoor",
+        "rating": 7.6,
+        "good_for_ages": {
+          "min": 1,
+          "max": 99
+        },
+        "typical_visit_minutes": 150,
+        "description": "Historic botanical zoo laid out in the nineteenth century.",
+        "tags": [
+          "animals",
+          "gardens"
+        ],
+        "region": "AF"
+      }
+    ]
+  }
+}

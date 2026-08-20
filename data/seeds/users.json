@@ -1,0 +1,56 @@
+[
+  {
+    "api_key": "demo_free_key",
+    "display_name": "Rivera Family",
+    "tier": "free",
+    "email": "rivera.demo@example.com",
+    "points": 50,
+    "home_state": "CA",
+    "family_id": 1
+  },
+  {
+    "api_key": "demo_pro_key",
+    "display_name": "Okafor Family",
+    "tier": "pro",
+    "email": "okafor.demo@example.com",
+    "points": 120,
+    "home_state": "TX",
+    "family_id": 2
+  },
+  {
+    "api_key": "demo_business_key",
+    "display_name": "Lindqvist Travel Co.",
+    "tier": "business",
+    "email": "lindqvist.demo@example.com",
+    "points": 500,
+    "home_state": "NY",
+    "family_id": 3
+  },
+  {
+    "api_key": "demo_free_key_2",
+    "display_name": "Nguyen Family",
+    "tier": "free",
+    "email": "nguyen.demo@example.com",
+    "points": 30,
+    "home_state": "FL",
+    "family_id": 4
+  },
+  {
+    "api_key": "demo_pro_key_2",
+    "display_name": "Delgado Family",
+    "tier": "pro",
+    "email": "delgado.demo@example.com",
+    "points": 260,
+    "home_state": "AZ",
+    "family_id": 5
+  },
+  {
+    "api_key": "demo_business_key_2",
+    "display_name": "Whitfield Group Tours",
+    "tier": "business",
+    "email": "whitfield.demo@example.com",
+    "points": 815,
+    "home_state": "IL",
+    "family_id": 6
+  }
+]

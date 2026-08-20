@@ -6,6 +6,7 @@ import threading
 from fastapi import APIRouter, Depends, HTTPException
 
 from auth_tiers import verify_tier, USER_TIERS
+from seed_loader import history_by_user, points_by_user, user_display_names
 
 router = APIRouter()
 
@@ -14,9 +15,19 @@ router = APIRouter()
 # database is tracked separately; the rules below are written so that moving to
 # a real store does not change the API surface.
 _lock = threading.Lock()
-user_points = {}
-user_history = {}
+
+# Seeded starting balances and history, so the dashboard has something to show
+# on a fresh checkout. Loaded only alongside the seeded users themselves: with
+# demo keys disabled these balances belong to nobody who can authenticate.
+_SEEDED = os.getenv("ALLOW_DEMO_KEYS", "false").lower() == "true"
+
+user_points = dict(points_by_user()) if _SEEDED else {}
+user_history = {k: list(v) for k, v in history_by_user().items()} if _SEEDED else {}
 last_checkin = {}
+
+# api_key -> human-readable name. A display name is not a credential; the raw
+# key must never leave the process (see public_user_id).
+display_names = user_display_names() if _SEEDED else {}
 
 # Points are defined here, on the server. The client names an event; it never
 # supplies an amount.
@@ -137,8 +148,9 @@ def leaderboard(api_key=Depends(verify_tier("free"))):
         badge = "⭐" if tier == "pro" else "👑" if tier == "business" else ""
         entries.append(
             {
-                # Never the raw key.
-                "user": public_user_id(key),
+                # Never the raw key. A seeded display name is shown when
+                # one exists; otherwise a salted, non-reversible id.
+                "user": display_names.get(key) or public_user_id(key),
                 "points": pts,
                 "tier": tier,
                 "badge": badge,

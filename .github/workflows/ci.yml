@@ -1,0 +1,60 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  python:
+    name: Python API and data
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install test dependencies
+        # The heavy optional extras (sentence-transformers, faiss, stripe,
+        # firebase, bigquery) are deliberately not installed: the recommender
+        # imports its model lazily and BigQuery is stubbed, so the suite runs
+        # without them. If a test starts needing one, that is worth noticing.
+        run: pip install fastapi pandas python-jose pytest httpx numpy
+      - name: Run tests
+        run: python -m pytest tests/ -q
+
+  typescript:
+    name: Scout platform
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Install
+        # No runtime dependencies; this restores the dev toolchain only.
+        run: npm ci || npm install
+      - name: Typecheck
+        run: npm run typecheck
+      - name: Run tests
+        run: npm test
+
+  docker:
+    name: API image builds and serves
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build
+        # Built from the repository root so the dataset is in the context.
+        run: docker build -f api/Dockerfile -t family-api .
+      - name: Start and check health
+        # Catches the class of bug where the image omits a module the app
+        # imports: that only shows up when the container actually starts.
+        run: |
+          docker run -d --name api -p 8000:8000 \
+            -e FAMILY_API_KEY=ci-key -e JWT_SECRET=ci-secret family-api
+          for i in $(seq 1 30); do
+            if curl -fsS http://localhost:8000/health; then echo && exit 0; fi
+            sleep 2
+          done
+          echo "API did not become healthy; logs:" && docker logs api && exit 1

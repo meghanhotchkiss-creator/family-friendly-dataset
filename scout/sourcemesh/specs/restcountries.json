@@ -1,0 +1,65 @@
+{
+  "id": "restcountries",
+  "name": "REST Countries (via world-countries)",
+  "entity": "country",
+  "format": "json",
+  "locator": "https://restcountries.com/v3.1/all",
+  "homepage": "https://restcountries.com",
+  "trustTier": "open_dataset",
+  "license": {
+    "name": "ODbL",
+    "attribution": "world-countries (npm), ODbL",
+    "commercialUse": true,
+    "shareAlike": true,
+    "url": "https://www.npmjs.com/package/world-countries",
+    "redistribution": "attributed"
+  },
+  "updateFrequency": "monthly",
+  "identity": [
+    "countryIso2"
+  ],
+  "fields": {
+    "countryIso2": {
+      "field": "cca2",
+      "transform": "upper"
+    },
+    "countryIso3": {
+      "field": "cca3",
+      "transform": "upper"
+    },
+    "name": {
+      "field": "name.common",
+      "transform": "trim"
+    },
+    "officialName": {
+      "field": "name.official",
+      "transform": "trim"
+    },
+    "region": {
+      "field": "region"
+    },
+    "subregion": {
+      "field": "subregion"
+    },
+    "capital": {
+      "field": "capital",
+      "transform": "first"
+    }
+  },
+  "quality": {
+    "rejectIfMissing": [
+      "countryIso2",
+      "countryIso3",
+      "name"
+    ],
+    "warnIfMissing": [
+      "capital",
+      "subregion"
+    ],
+    "minImportRatio": 0.95
+  },
+  "monitor": {
+    "frequency": "monthly",
+    "strategy": "hash_diff"
+  }
+}

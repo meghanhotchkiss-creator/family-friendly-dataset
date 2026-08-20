@@ -1,3 +1,16 @@
 # Python bytecode
 __pycache__/
 *.py[cod]
+
+# Generated SQLite build of the seed data (rebuild with: make db)
+data/processed/*.db
+
+# SQLite sidecar files (WAL mode)
+data/processed/*.db-shm
+data/processed/*.db-wal
+
+# Node dependencies — restore with `npm ci`
+node_modules/
+
+# Local virtualenv
+.venv/

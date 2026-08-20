@@ -10,6 +10,8 @@ from typing import Callable, Dict, Optional
 from fastapi import Depends, HTTPException
 from fastapi.security import APIKeyHeader
 
+from seed_loader import user_tiers as _seeded_user_tiers
+
 # Hierarchy of tiers for comparison when enforcing access levels.
 _TIER_LEVELS = {"free": 0, "pro": 1, "business": 2}
 
@@ -41,10 +43,20 @@ def _load_user_tiers() -> Dict[str, str]:
         return dict(parsed)
 
     if os.getenv("ALLOW_DEMO_KEYS", "false").lower() == "true":
+        # data/seeds/users.json holds development fixtures whose API keys are
+        # committed to this repository. They load behind the same explicit gate
+        # as the demo keys below, never by default: a production deployment
+        # that read them would accept a published business-tier credential.
+        seeded = {
+            key: tier
+            for key, tier in _seeded_user_tiers().items()
+            if tier in _TIER_LEVELS
+        }
         return {
             "demo_free_key": "free",
             "demo_pro_key": "pro",
             "demo_business_key": "business",
+            **seeded,
         }
 
     return {}
@@ -58,7 +70,7 @@ def _lookup_tier(api_key: str) -> Optional[str]:
     """
     matched = None
     for known_key, tier in USER_TIERS.items():
-        if hmac.compare_digest(api_key, known_key):
+        if hmac.compare_digest(api_key.encode("utf-8"), known_key.encode("utf-8")):
             matched = tier
     return matched
 

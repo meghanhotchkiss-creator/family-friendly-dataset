@@ -1,0 +1,101 @@
+{
+  "id": "geonames-cities15000",
+  "name": "GeoNames cities15000 (via geonamescache)",
+  "entity": "city",
+  "format": "json-map",
+  "locator": "https://download.geonames.org/export/dump/cities15000",
+  "homepage": "https://www.geonames.org/",
+  "trustTier": "open_dataset",
+  "license": {
+    "name": "CC BY 4.0",
+    "attribution": "GeoNames, via geonamescache (PyPI)",
+    "commercialUse": true,
+    "url": "https://creativecommons.org/licenses/by/4.0/",
+    "redistribution": "attributed"
+  },
+  "updateFrequency": "daily",
+  "identity": [
+    "geonameId"
+  ],
+  "fields": {
+    "geonameId": {
+      "anyOf": [
+        "geonameid",
+        "_key"
+      ],
+      "transform": "integer"
+    },
+    "name": {
+      "field": "name",
+      "transform": "trim"
+    },
+    "lat": {
+      "field": "latitude",
+      "transform": "number"
+    },
+    "lon": {
+      "field": "longitude",
+      "transform": "number"
+    },
+    "countryIso2": {
+      "field": "countrycode",
+      "transform": "upper"
+    },
+    "admin1": {
+      "field": "admin1code"
+    },
+    "population": {
+      "field": "population",
+      "transform": "integer"
+    },
+    "timezone": {
+      "field": "timezone"
+    },
+    "aliases": {
+      "field": "alternatenames",
+      "transform": "join"
+    },
+    "regionCode": {
+      "resolver": [
+        {
+          "lookup": {
+            "table": "countries",
+            "match": "iso2",
+            "using": "countryIso2",
+            "from": "region_code"
+          }
+        }
+      ]
+    }
+  },
+  "quality": {
+    "rejectIfMissing": [
+      "geonameId",
+      "name",
+      "lat",
+      "lon",
+      "countryIso2"
+    ],
+    "warnIfMissing": [
+      "timezone",
+      "admin1"
+    ],
+    "ranges": [
+      {
+        "field": "lat",
+        "min": -90,
+        "max": 90
+      },
+      {
+        "field": "lon",
+        "min": -180,
+        "max": 180
+      }
+    ],
+    "minImportRatio": 0.9
+  },
+  "monitor": {
+    "frequency": "daily",
+    "strategy": "hash_diff"
+  }
+}

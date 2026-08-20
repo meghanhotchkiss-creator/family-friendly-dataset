@@ -1,0 +1,7 @@
+{
+  "status": 200,
+  "headers": {
+    "content-type": "text/plain; charset=utf-8"
+  },
+  "bodyText": "stop_id,stop_code,stop_name,stop_desc,stop_lat,stop_lon,zone_id,location_type,parent_station\nEMBR,EMBR,Embarcadero,\"Market Street, San Francisco\",37.792874,-122.397020,EMBR,0,\nMONT,MONT,Montgomery St,\"Market Street, San Francisco\",37.789405,-122.401066,MONT,0,\nPOWL,POWL,Powell St,\"Market Street, San Francisco\",37.784471,-122.407974,POWL,0,\nCIVC,CIVC,Civic Center/UN Plaza,\"Market Street, San Francisco\",37.779732,-122.414123,CIVC,0,\n16TH,16TH,16th St Mission,\"Mission District, San Francisco\",37.765062,-122.419694,16TH,0,\n24TH,24TH,24th St Mission,\"Mission District, San Francisco\",37.752470,-122.418143,24TH,0,\n12TH,12TH,12th St Oakland City Center,\"Broadway, Oakland\",37.803664,-122.271604,12TH,0,\nMLBR,MLBR,Millbrae,\"Caltrain transfer, Millbrae\",37.599787,-122.386702,MLBR,0,\nSFIA,SFIA,San Francisco International Airport,\"International Terminal, SFO\",37.615966,-122.392409,SFIA,0,\n"
+}

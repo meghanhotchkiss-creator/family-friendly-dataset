@@ -1,10 +1,12 @@
 import hmac
 import logging
 import os
+from functools import lru_cache
 from pathlib import Path
 
 import pandas as pd
 from fastapi import FastAPI, Depends, HTTPException, Query
+from fastapi.middleware.cors import CORSMiddleware
 from fastapi.security import APIKeyHeader, OAuth2PasswordBearer
 from jose import JWTError, jwt
 
@@ -45,28 +47,49 @@ DEFAULT_DATASET_PATH = Path(__file__).resolve().parents[1] / "data" / "processed
 DATA_URL = os.getenv("FAMILY_DATASET_URL", str(DEFAULT_DATASET_PATH))
 USE_BIGQUERY = os.getenv("USE_BIGQUERY", "false").lower() == "true"
 
+# Written to the log, never to a response: it names internal paths.
+BUILD_HINT = (
+    "The dataset is generated from data/seeds/. Build it with: "
+    "python scripts/build_dataset.py"
+)
+
 # Upper bound on rows a caller may request. Without it, ?limit=10000000
 # turns into an unbounded (and, on BigQuery, billed) scan.
 MAX_LIMIT = int(os.getenv("MAX_RESULT_LIMIT", "100"))
+
+# Browsers block cross-origin reads unless the server opts in, so the widgets
+# and the static explorer cannot call this API without it. Defaults to the
+# closed case: no origins, i.e. same-origin only.
+ALLOWED_ORIGINS = [o for o in os.getenv("CORS_ALLOW_ORIGINS", "").split(",") if o.strip()]
 
 if USE_BIGQUERY:
     from google.cloud import bigquery
     BQ_TABLE = os.getenv("BQ_TABLE", "your_project.family_dataset.activities")
     bq_client = bigquery.Client()
 
+
+@lru_cache(maxsize=1)
 def load_dataset():
+    """Load the activity dataset once and keep it in memory.
+
+    Reading the CSV per request meant a disk read on every call, and a full
+    network download per call when FAMILY_DATASET_URL is an http(s) URL.
+    Call load_dataset.cache_clear() to pick up a rebuilt CSV without a restart.
+    """
     try:
         return pd.read_csv(DATA_URL)
     except Exception as exc:
         # The path/URL is deployment configuration; echoing it to callers
         # discloses internal layout. Keep the detail server-side.
-        logger.exception("Failed to load dataset from %s", DATA_URL)
+        logger.exception("Failed to load dataset from %s. %s", DATA_URL, BUILD_HINT)
         raise HTTPException(status_code=500, detail="Dataset is unavailable") from exc
 
 def verify_api_key(api_key: str = Depends(api_key_header)):
     # compare_digest keeps the comparison constant-time; a plain != leaks how
-    # much of the key matched through response timing.
-    if not api_key or not hmac.compare_digest(api_key, API_KEY):
+    # much of the key matched through response timing. Both sides are encoded
+    # first: compare_digest raises TypeError on non-ASCII str, which turned an
+    # unauthenticated request into a 500.
+    if not api_key or not hmac.compare_digest(api_key.encode("utf-8"), API_KEY.encode("utf-8")):
         raise HTTPException(status_code=401, detail="Invalid API Key")
     return True
 
@@ -89,10 +112,37 @@ def verify_firebase_token(token: str = Depends(oauth2_scheme)):
 
 app = FastAPI(title="Family Friendly Dataset API", version="4.0")
 
+if ALLOWED_ORIGINS:
+    app.add_middleware(
+        CORSMiddleware,
+        allow_origins=ALLOWED_ORIGINS,
+        allow_methods=["GET", "POST"],
+        allow_headers=["X-API-Key", "Authorization", "Content-Type"],
+    )
+
+# The React widgets in widgets/ call /points/... and /payments/..., so both
+# routers have to be mounted for the dashboard to work. Without this the
+# endpoints exist in the source and 404 in production.
+from points import router as points_router  # noqa: E402
+
+app.include_router(points_router, prefix="/points", tags=["points"])
+
+try:
+    from payments import router as payments_router
+except Exception:  # stripe not installed or not configured
+    logger.warning("Payments router unavailable; /payments will not be served")
+    payments_router = None
+else:
+    app.include_router(payments_router, prefix="/payments", tags=["payments"])
+
 # Values accepted by the ?indoor= filter. An unrecognised value is a client
 # error: returning an empty list for it is indistinguishable from "no matches",
 # which hides typos.
 VALID_SETTINGS = {"indoor", "outdoor"}
+
+# Column holding the stable per-activity identifier. The curated dataset uses
+# `id`; the synthetic seed uses `activity_id`. Whichever is present is used.
+ID_COLUMNS = ("id", "activity_id")
 
 
 def _records(df):
@@ -113,6 +163,13 @@ def _validate_setting(indoor):
         )
 
 
+def _id_column(df):
+    for column in ID_COLUMNS:
+        if column in df.columns:
+            return column
+    raise HTTPException(status_code=500, detail="Dataset has no activity id column")
+
+
 def get_data(state: str, indoor: str, limit: int):
     if USE_BIGQUERY:
         # Values are passed as query parameters, never interpolated into the
@@ -124,7 +181,10 @@ def get_data(state: str, indoor: str, limit: int):
         params = [bigquery.ScalarQueryParameter("state", "STRING", state)]
 
         if indoor:
-            query += " AND indoor_or_outdoor = @indoor"
+            # LOWER on both sides so BigQuery matches the CSV path, which is
+            # case-insensitive. Without it the same request returns different
+            # results depending on the backend.
+            query += " AND LOWER(indoor_or_outdoor) = LOWER(@indoor)"
             params.append(bigquery.ScalarQueryParameter("indoor", "STRING", indoor))
 
         query += " LIMIT @row_limit"
@@ -138,6 +198,35 @@ def get_data(state: str, indoor: str, limit: int):
         if indoor:
             df = df[df["indoor_or_outdoor"].astype(str).str.lower() == indoor.lower()]
         return df
+
+@app.get("/health")
+def health():
+    """Liveness, plus a check that the dataset is actually loadable."""
+    if USE_BIGQUERY:
+        return {"status": "ok", "source": "bigquery"}
+    try:
+        df = load_dataset()
+    except HTTPException as exc:
+        # Unauthenticated endpoint: report degraded without naming the path.
+        return {"status": "degraded", "detail": exc.detail}
+    return {"status": "ok", "activities": int(len(df))}
+
+@app.get("/states")
+def states(auth: bool = Depends(verify_api_key)):
+    """States that have activities, with a count for each."""
+    df = load_dataset()
+    counts = df.groupby("state").size().sort_index()
+    return [{"state": state, "activities": int(count)} for state, count in counts.items()]
+
+@app.get("/activities/{activity_id}")
+def activity(activity_id: str, auth: bool = Depends(verify_api_key)):
+    """Look up a single activity by the id returned from /recommend."""
+    df = load_dataset()
+    match = df[df[_id_column(df)].astype(str) == activity_id]
+    if match.empty:
+        # The id came from the caller; echoing it back discloses nothing new.
+        raise HTTPException(status_code=404, detail=f"No activity with id {activity_id!r}")
+    return _records(match.head(1))[0]
 
 @app.get("/recommend")
 def recommend(state: str, indoor: str = None, limit: int = Query(10, ge=1, le=MAX_LIMIT), auth: bool = Depends(verify_api_key)):

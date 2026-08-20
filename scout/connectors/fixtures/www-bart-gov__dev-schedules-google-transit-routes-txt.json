@@ -1,0 +1,7 @@
+{
+  "status": 200,
+  "headers": {
+    "content-type": "text/plain; charset=utf-8"
+  },
+  "bodyText": "route_id,agency_id,route_short_name,route_long_name,route_desc,route_type,route_color\nROUTE 1,BART,Yellow-N,\"Antioch, CA - SFO Airport/Millbrae, CA\",,1,FFFF33\nROUTE 5,BART,Blue-N,\"Dublin/Pleasanton, CA - Daly City, CA\",,1,0099CC\nROUTE 7,BART,Red-N,\"Richmond, CA - Millbrae, CA\",,1,FF0000\n"
+}

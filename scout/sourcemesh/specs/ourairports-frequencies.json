@@ -1,0 +1,57 @@
+{
+  "id": "ourairports-frequencies",
+  "name": "OurAirports airport frequencies",
+  "entity": "frequency",
+  "format": "csv",
+  "locator": "https://davidmegginson.github.io/ourairports-data/airport-frequencies.csv",
+  "homepage": "https://ourairports.com/data/",
+  "trustTier": "open_dataset",
+  "license": {
+    "name": "Public domain (Unlicense)",
+    "attribution": "OurAirports (ourairports.com), via davidmegginson/ourairports-data",
+    "commercialUse": true,
+    "url": "https://github.com/davidmegginson/ourairports-data/blob/main/LICENSE",
+    "redistribution": "open"
+  },
+  "updateFrequency": "daily",
+  "identity": [
+    "sourceId"
+  ],
+  "fields": {
+    "sourceId": {
+      "field": "id",
+      "transform": "trim"
+    },
+    "airportIdent": {
+      "field": "airport_ident",
+      "transform": "upper"
+    },
+    "frequencyType": {
+      "field": "type",
+      "transform": "upper"
+    },
+    "description": {
+      "field": "description",
+      "transform": "trim"
+    },
+    "frequencyMhz": {
+      "field": "frequency_mhz",
+      "transform": "number"
+    }
+  },
+  "quality": {
+    "rejectIfMissing": [
+      "sourceId",
+      "airportIdent",
+      "frequencyMhz"
+    ],
+    "warnIfMissing": [
+      "description"
+    ],
+    "minImportRatio": 0.95
+  },
+  "monitor": {
+    "frequency": "weekly",
+    "strategy": "hash_diff"
+  }
+}

@@ -1,0 +1,49 @@
+{
+  "status": 200,
+  "headers": {
+    "content-type": "application/json"
+  },
+  "body": {
+    "page": {
+      "region": "EU",
+      "limit": 1,
+      "returned": 1,
+      "next_cursor": null
+    },
+    "places": [
+      {
+        "id": "fp_gb_natural-history-museum",
+        "name": "Natural History Museum",
+        "category": "museum",
+        "subcategory": "Natural History Museum",
+        "location": {
+          "lat": 51.4967,
+          "lon": -0.1764,
+          "precision": "venue",
+          "city": "London",
+          "admin1": null,
+          "country": "GB",
+          "timezone": "Europe/London",
+          "city_lat": 51.5074,
+          "city_lon": -0.1278,
+          "neighborhood": null
+        },
+        "price_level": 0,
+        "setting": "indoor",
+        "rating": 9.4,
+        "good_for_ages": {
+          "min": 3,
+          "max": 99
+        },
+        "typical_visit_minutes": 180,
+        "description": "Free national museum with the dinosaur gallery and the blue whale hall.",
+        "tags": [
+          "dinosaurs",
+          "free",
+          "rainy day"
+        ],
+        "region": "EU"
+      }
+    ]
+  }
+}

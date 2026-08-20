@@ -1,0 +1,425 @@
+[
+  {
+    "family_id": 1,
+    "name": "Rivera Family",
+    "budget_range": "$",
+    "home_location": "San Jose, CA",
+    "members": [
+      {
+        "role": "adult",
+        "age": 38,
+        "preferences": [
+          "museums",
+          "hiking"
+        ]
+      },
+      {
+        "role": "adult",
+        "age": 37,
+        "preferences": [
+          "gardens"
+        ]
+      },
+      {
+        "role": "child",
+        "age": 6,
+        "preferences": [
+          "dinosaurs",
+          "playgrounds"
+        ]
+      },
+      {
+        "role": "child",
+        "age": 3,
+        "preferences": [
+          "animals"
+        ]
+      }
+    ]
+  },
+  {
+    "family_id": 2,
+    "name": "Okafor Family",
+    "budget_range": "$$",
+    "home_location": "Houston, TX",
+    "members": [
+      {
+        "role": "adult",
+        "age": 42,
+        "preferences": [
+          "space",
+          "science"
+        ]
+      },
+      {
+        "role": "adult",
+        "age": 40,
+        "preferences": [
+          "food",
+          "walking tours"
+        ]
+      },
+      {
+        "role": "child",
+        "age": 9,
+        "preferences": [
+          "rockets",
+          "coding"
+        ]
+      },
+      {
+        "role": "child",
+        "age": 7,
+        "preferences": [
+          "animals"
+        ]
+      }
+    ]
+  },
+  {
+    "family_id": 3,
+    "name": "Lindqvist Family",
+    "budget_range": "$$$",
+    "home_location": "Brooklyn, NY",
+    "members": [
+      {
+        "role": "adult",
+        "age": 45,
+        "preferences": [
+          "history",
+          "architecture"
+        ]
+      },
+      {
+        "role": "adult",
+        "age": 44,
+        "preferences": [
+          "art"
+        ]
+      },
+      {
+        "role": "child",
+        "age": 12,
+        "preferences": [
+          "video games",
+          "film"
+        ]
+      },
+      {
+        "role": "child",
+        "age": 10,
+        "preferences": [
+          "marine biology"
+        ]
+      }
+    ]
+  },
+  {
+    "family_id": 4,
+    "name": "Nguyen Family",
+    "budget_range": "$",
+    "home_location": "Tampa, FL",
+    "members": [
+      {
+        "role": "adult",
+        "age": 35,
+        "preferences": [
+          "beaches",
+          "budget travel"
+        ]
+      },
+      {
+        "role": "child",
+        "age": 5,
+        "preferences": [
+          "splash pads",
+          "sea turtles"
+        ]
+      },
+      {
+        "role": "child",
+        "age": 2,
+        "preferences": [
+          "toddler play"
+        ]
+      }
+    ]
+  },
+  {
+    "family_id": 5,
+    "name": "Delgado Family",
+    "budget_range": "$$",
+    "home_location": "Phoenix, AZ",
+    "members": [
+      {
+        "role": "adult",
+        "age": 39,
+        "preferences": [
+          "desert hikes",
+          "stargazing"
+        ]
+      },
+      {
+        "role": "adult",
+        "age": 41,
+        "preferences": [
+          "photography"
+        ]
+      },
+      {
+        "role": "child",
+        "age": 11,
+        "preferences": [
+          "geology"
+        ]
+      },
+      {
+        "role": "child",
+        "age": 8,
+        "preferences": [
+          "cactus",
+          "reptiles"
+        ]
+      }
+    ]
+  },
+  {
+    "family_id": 6,
+    "name": "Whitfield Family",
+    "budget_range": "$$$",
+    "home_location": "Evanston, IL",
+    "members": [
+      {
+        "role": "adult",
+        "age": 50,
+        "preferences": [
+          "museums"
+        ]
+      },
+      {
+        "role": "adult",
+        "age": 48,
+        "preferences": [
+          "gardens",
+          "theater"
+        ]
+      },
+      {
+        "role": "child",
+        "age": 14,
+        "preferences": [
+          "aquariums"
+        ]
+      },
+      {
+        "role": "child",
+        "age": 9,
+        "preferences": [
+          "trains"
+        ]
+      }
+    ]
+  },
+  {
+    "family_id": 7,
+    "name": "Bello Family",
+    "budget_range": "$$",
+    "home_location": "Atlanta, GA",
+    "members": [
+      {
+        "role": "adult",
+        "age": 36,
+        "preferences": [
+          "aquariums",
+          "walkable cities"
+        ]
+      },
+      {
+        "role": "child",
+        "age": 8,
+        "preferences": [
+          "sharks"
+        ]
+      },
+      {
+        "role": "child",
+        "age": 6,
+        "preferences": [
+          "pandas"
+        ]
+      }
+    ]
+  },
+  {
+    "family_id": 8,
+    "name": "Carver Family",
+    "budget_range": "$",
+    "home_location": "Columbus, OH",
+    "members": [
+      {
+        "role": "adult",
+        "age": 33,
+        "preferences": [
+          "free activities",
+          "libraries"
+        ]
+      },
+      {
+        "role": "adult",
+        "age": 34,
+        "preferences": [
+          "hiking"
+        ]
+      },
+      {
+        "role": "child",
+        "age": 4,
+        "preferences": [
+          "story time"
+        ]
+      },
+      {
+        "role": "child",
+        "age": 1,
+        "preferences": [
+          "toddler play"
+        ]
+      }
+    ]
+  },
+  {
+    "family_id": 9,
+    "name": "Haddad Family",
+    "budget_range": "$$",
+    "home_location": "Chicago, IL",
+    "members": [
+      {
+        "role": "adult",
+        "age": 44,
+        "preferences": [
+          "science",
+          "lakefront"
+        ]
+      },
+      {
+        "role": "adult",
+        "age": 43,
+        "preferences": [
+          "botany"
+        ]
+      },
+      {
+        "role": "child",
+        "age": 10,
+        "preferences": [
+          "submarines"
+        ]
+      },
+      {
+        "role": "child",
+        "age": 7,
+        "preferences": [
+          "butterflies"
+        ]
+      }
+    ]
+  },
+  {
+    "family_id": 10,
+    "name": "Sorensen Family",
+    "budget_range": "$$$",
+    "home_location": "Austin, TX",
+    "members": [
+      {
+        "role": "adult",
+        "age": 47,
+        "preferences": [
+          "road trips",
+          "national parks"
+        ]
+      },
+      {
+        "role": "child",
+        "age": 13,
+        "preferences": [
+          "stargazing"
+        ]
+      },
+      {
+        "role": "child",
+        "age": 11,
+        "preferences": [
+          "kayaking"
+        ]
+      }
+    ]
+  },
+  {
+    "family_id": 11,
+    "name": "Ferreira Family",
+    "budget_range": "$",
+    "home_location": "Sacramento, CA",
+    "members": [
+      {
+        "role": "adult",
+        "age": 31,
+        "preferences": [
+          "free parks",
+          "picnics"
+        ]
+      },
+      {
+        "role": "child",
+        "age": 5,
+        "preferences": [
+          "carousels"
+        ]
+      },
+      {
+        "role": "child",
+        "age": 3,
+        "preferences": [
+          "farm animals"
+        ]
+      }
+    ]
+  },
+  {
+    "family_id": 12,
+    "name": "Osei Family",
+    "budget_range": "$$",
+    "home_location": "Rochester, NY",
+    "members": [
+      {
+        "role": "adult",
+        "age": 40,
+        "preferences": [
+          "waterfalls",
+          "day trips"
+        ]
+      },
+      {
+        "role": "adult",
+        "age": 38,
+        "preferences": [
+          "toys",
+          "nostalgia"
+        ]
+      },
+      {
+        "role": "child",
+        "age": 9,
+        "preferences": [
+          "board games"
+        ]
+      },
+      {
+        "role": "child",
+        "age": 6,
+        "preferences": [
+          "playgrounds"
+        ]
+      }
+    ]
+  }
+]

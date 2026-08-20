@@ -1,0 +1,73 @@
+{
+  "id": "ourairports-runways",
+  "name": "OurAirports runways",
+  "entity": "runway",
+  "format": "csv",
+  "locator": "https://davidmegginson.github.io/ourairports-data/runways.csv",
+  "homepage": "https://ourairports.com/data/",
+  "trustTier": "open_dataset",
+  "license": {
+    "name": "Public domain (Unlicense)",
+    "attribution": "OurAirports (ourairports.com), via davidmegginson/ourairports-data",
+    "commercialUse": true,
+    "url": "https://github.com/davidmegginson/ourairports-data/blob/main/LICENSE",
+    "redistribution": "open"
+  },
+  "updateFrequency": "daily",
+  "identity": [
+    "sourceId"
+  ],
+  "fields": {
+    "sourceId": {
+      "field": "id",
+      "transform": "trim"
+    },
+    "airportIdent": {
+      "field": "airport_ident",
+      "transform": "upper"
+    },
+    "lengthFt": {
+      "field": "length_ft",
+      "transform": "integer"
+    },
+    "widthFt": {
+      "field": "width_ft",
+      "transform": "integer"
+    },
+    "surface": {
+      "field": "surface",
+      "transform": "trim"
+    },
+    "lighted": {
+      "field": "lighted",
+      "transform": "boolean"
+    },
+    "closed": {
+      "field": "closed",
+      "transform": "boolean"
+    },
+    "leIdent": {
+      "field": "le_ident",
+      "transform": "trim"
+    },
+    "heIdent": {
+      "field": "he_ident",
+      "transform": "trim"
+    }
+  },
+  "quality": {
+    "rejectIfMissing": [
+      "sourceId",
+      "airportIdent"
+    ],
+    "warnIfMissing": [
+      "lengthFt",
+      "surface"
+    ],
+    "minImportRatio": 0.95
+  },
+  "monitor": {
+    "frequency": "weekly",
+    "strategy": "hash_diff"
+  }
+}

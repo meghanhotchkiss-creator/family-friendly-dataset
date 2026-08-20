@@ -1,0 +1,804 @@
+{
+  "status": 200,
+  "headers": {
+    "content-type": "application/json"
+  },
+  "body": {
+    "page": {
+      "region": "NA",
+      "limit": 100,
+      "returned": 24,
+      "next_cursor": null
+    },
+    "places": [
+      {
+        "id": "fp_us_ga-011",
+        "name": "Chattahoochee River National Recreation Area",
+        "category": "park",
+        "subcategory": "River Park",
+        "location": {
+          "lat": 33.924,
+          "lon": -84.379,
+          "precision": "city",
+          "city": "Sandy Springs",
+          "admin1": "GA",
+          "country": "US",
+          "timezone": "America/New_York",
+          "city_lat": 33.924,
+          "city_lon": -84.379,
+          "neighborhood": null
+        },
+        "price_level": 1,
+        "setting": "outdoor",
+        "rating": 9.2,
+        "good_for_ages": {
+          "min": 3,
+          "max": 99
+        },
+        "typical_visit_minutes": 180,
+        "description": "Riverside trails and summer tubing just outside Atlanta.",
+        "tags": [
+          "river trails",
+          "tubing",
+          "fishing"
+        ],
+        "region": "NA"
+      },
+      {
+        "id": "fp_us_ga-012",
+        "name": "Atlanta-Fulton Public Library Central Library",
+        "category": "library",
+        "subcategory": "Public Library",
+        "location": {
+          "lat": 33.749,
+          "lon": -84.388,
+          "precision": "city",
+          "city": "Atlanta",
+          "admin1": "GA",
+          "country": "US",
+          "timezone": "America/New_York",
+          "city_lat": 33.749,
+          "city_lon": -84.388,
+          "neighborhood": null
+        },
+        "price_level": 0,
+        "setting": "indoor",
+        "rating": 8.6,
+        "good_for_ages": {
+          "min": 0,
+          "max": 99
+        },
+        "typical_visit_minutes": 90,
+        "description": "Central branch with regular preschool story times.",
+        "tags": [
+          "story time",
+          "children's room",
+          "free"
+        ],
+        "region": "NA"
+      },
+      {
+        "id": "fp_us_ga-013",
+        "name": "Callaway Gardens",
+        "category": "garden",
+        "subcategory": "Resort Gardens",
+        "location": {
+          "lat": 32.864,
+          "lon": -84.854,
+          "precision": "city",
+          "city": "Pine Mountain",
+          "admin1": "GA",
+          "country": "US",
+          "timezone": "America/New_York",
+          "city_lat": 32.864,
+          "city_lon": -84.854,
+          "neighborhood": null
+        },
+        "price_level": 2,
+        "setting": "outdoor",
+        "rating": 9.2,
+        "good_for_ages": {
+          "min": 0,
+          "max": 99
+        },
+        "typical_visit_minutes": 300,
+        "description": "Butterfly conservatory, bike trails and a freshwater beach.",
+        "tags": [
+          "butterfly center",
+          "beach",
+          "bike trails"
+        ],
+        "region": "NA"
+      },
+      {
+        "id": "fp_us_ga-014",
+        "name": "Tellus Science Museum",
+        "category": "science_center",
+        "subcategory": "Science Museum",
+        "location": {
+          "lat": 34.165,
+          "lon": -84.8,
+          "precision": "city",
+          "city": "Cartersville",
+          "admin1": "GA",
+          "country": "US",
+          "timezone": "America/New_York",
+          "city_lat": 34.165,
+          "city_lon": -84.8,
+          "neighborhood": null
+        },
+        "price_level": 2,
+        "setting": "indoor",
+        "rating": 9.4,
+        "good_for_ages": {
+          "min": 3,
+          "max": 99
+        },
+        "typical_visit_minutes": 180,
+        "description": "Mineral gallery, dinosaurs, a planetarium and a fossil dig.",
+        "tags": [
+          "fossils",
+          "minerals",
+          "planetarium"
+        ],
+        "region": "NA"
+      },
+      {
+        "id": "fp_us_ga-015",
+        "name": "Amicalola Falls State Park",
+        "category": "park",
+        "subcategory": "State Park",
+        "location": {
+          "lat": 34.421,
+          "lon": -84.119,
+          "precision": "city",
+          "city": "Dawsonville",
+          "admin1": "GA",
+          "country": "US",
+          "timezone": "America/New_York",
+          "city_lat": 34.421,
+          "city_lon": -84.119,
+          "neighborhood": null
+        },
+        "price_level": 1,
+        "setting": "outdoor",
+        "rating": 9.6,
+        "good_for_ages": {
+          "min": 5,
+          "max": 99
+        },
+        "typical_visit_minutes": 210,
+        "description": "Tallest cascading waterfall in Georgia, with stair overlooks.",
+        "tags": [
+          "waterfall",
+          "stairs",
+          "overlook"
+        ],
+        "region": "NA"
+      },
+      {
+        "id": "fp_us_il-001",
+        "name": "Shedd Aquarium",
+        "category": "aquarium",
+        "subcategory": "Aquarium",
+        "location": {
+          "lat": 41.878,
+          "lon": -87.63,
+          "precision": "city",
+          "city": "Chicago",
+          "admin1": "IL",
+          "country": "US",
+          "timezone": "America/Chicago",
+          "city_lat": 41.878,
+          "city_lon": -87.63,
+          "neighborhood": null
+        },
+        "price_level": 3,
+        "setting": "indoor",
+        "rating": 9.4,
+        "good_for_ages": {
+          "min": 1,
+          "max": 99
+        },
+        "typical_visit_minutes": 210,
+        "description": "Lakefront aquarium with belugas and a Caribbean reef tank.",
+        "tags": [
+          "belugas",
+          "caribbean reef",
+          "otters"
+        ],
+        "region": "NA"
+      },
+      {
+        "id": "fp_us_il-002",
+        "name": "Field Museum",
+        "category": "museum",
+        "subcategory": "Natural History Museum",
+        "location": {
+          "lat": 41.878,
+          "lon": -87.63,
+          "precision": "city",
+          "city": "Chicago",
+          "admin1": "IL",
+          "country": "US",
+          "timezone": "America/Chicago",
+          "city_lat": 41.878,
+          "city_lon": -87.63,
+          "neighborhood": null
+        },
+        "price_level": 3,
+        "setting": "indoor",
+        "rating": 9.6,
+        "good_for_ages": {
+          "min": 3,
+          "max": 99
+        },
+        "typical_visit_minutes": 240,
+        "description": "Home of SUE the T. rex and a walk-through Egyptian tomb.",
+        "tags": [
+          "sue the t rex",
+          "egypt",
+          "dinosaurs"
+        ],
+        "region": "NA"
+      },
+      {
+        "id": "fp_us_il-003",
+        "name": "Museum of Science and Industry",
+        "category": "science_center",
+        "subcategory": "Science Center",
+        "location": {
+          "lat": 41.878,
+          "lon": -87.63,
+          "precision": "city",
+          "city": "Chicago",
+          "admin1": "IL",
+          "country": "US",
+          "timezone": "America/Chicago",
+          "city_lat": 41.878,
+          "city_lon": -87.63,
+          "neighborhood": null
+        },
+        "price_level": 3,
+        "setting": "indoor",
+        "rating": 9.6,
+        "good_for_ages": {
+          "min": 3,
+          "max": 99
+        },
+        "typical_visit_minutes": 270,
+        "description": "U-505 submarine, a coal mine ride and a toddler Idea Factory.",
+        "tags": [
+          "submarine",
+          "coal mine",
+          "idea factory"
+        ],
+        "region": "NA"
+      },
+      {
+        "id": "fp_us_il-004",
+        "name": "Lincoln Park Zoo",
+        "category": "zoo",
+        "subcategory": "Zoo",
+        "location": {
+          "lat": 41.878,
+          "lon": -87.63,
+          "precision": "city",
+          "city": "Chicago",
+          "admin1": "IL",
+          "country": "US",
+          "timezone": "America/Chicago",
+          "city_lat": 41.878,
+          "city_lon": -87.63,
+          "neighborhood": null
+        },
+        "price_level": 0,
+        "setting": "outdoor",
+        "rating": 9.4,
+        "good_for_ages": {
+          "min": 0,
+          "max": 99
+        },
+        "typical_visit_minutes": 180,
+        "description": "Free year-round city zoo with a working farm for kids.",
+        "tags": [
+          "free admission",
+          "farm",
+          "gorillas"
+        ],
+        "region": "NA"
+      },
+      {
+        "id": "fp_us_il-005",
+        "name": "Adler Planetarium",
+        "category": "science_center",
+        "subcategory": "Planetarium",
+        "location": {
+          "lat": 41.878,
+          "lon": -87.63,
+          "precision": "city",
+          "city": "Chicago",
+          "admin1": "IL",
+          "country": "US",
+          "timezone": "America/Chicago",
+          "city_lat": 41.878,
+          "city_lon": -87.63,
+          "neighborhood": null
+        },
+        "price_level": 2,
+        "setting": "indoor",
+        "rating": 9.2,
+        "good_for_ages": {
+          "min": 4,
+          "max": 99
+        },
+        "typical_visit_minutes": 150,
+        "description": "Sky shows and space history with the best skyline view in town.",
+        "tags": [
+          "space",
+          "sky shows",
+          "skyline views"
+        ],
+        "region": "NA"
+      },
+      {
+        "id": "fp_us_il-006",
+        "name": "Millennium Park",
+        "category": "park",
+        "subcategory": "Urban Park",
+        "location": {
+          "lat": 41.878,
+          "lon": -87.63,
+          "precision": "city",
+          "city": "Chicago",
+          "admin1": "IL",
+          "country": "US",
+          "timezone": "America/Chicago",
+          "city_lat": 41.878,
+          "city_lon": -87.63,
+          "neighborhood": null
+        },
+        "price_level": 0,
+        "setting": "outdoor",
+        "rating": 9.6,
+        "good_for_ages": {
+          "min": 0,
+          "max": 99
+        },
+        "typical_visit_minutes": 120,
+        "description": "The Bean, plus the Crown Fountain kids can wade through.",
+        "tags": [
+          "the bean",
+          "crown fountain",
+          "splash"
+        ],
+        "region": "NA"
+      },
+      {
+        "id": "fp_us_il-007",
+        "name": "Chicago Children's Museum",
+        "category": "museum",
+        "subcategory": "Children's Museum",
+        "location": {
+          "lat": 41.878,
+          "lon": -87.63,
+          "precision": "city",
+          "city": "Chicago",
+          "admin1": "IL",
+          "country": "US",
+          "timezone": "America/Chicago",
+          "city_lat": 41.878,
+          "city_lon": -87.63,
+          "neighborhood": null
+        },
+        "price_level": 2,
+        "setting": "indoor",
+        "rating": 9,
+        "good_for_ages": {
+          "min": 0,
+          "max": 10
+        },
+        "typical_visit_minutes": 180,
+        "description": "Navy Pier museum with a water works and a dinosaur dig pit.",
+        "tags": [
+          "water works",
+          "dinosaur dig",
+          "climbing"
+        ],
+        "region": "NA"
+      },
+      {
+        "id": "fp_us_il-008",
+        "name": "Brookfield Zoo",
+        "category": "zoo",
+        "subcategory": "Zoo",
+        "location": {
+          "lat": 41.824,
+          "lon": -87.851,
+          "precision": "city",
+          "city": "Brookfield",
+          "admin1": "IL",
+          "country": "US",
+          "timezone": "America/Chicago",
+          "city_lat": 41.824,
+          "city_lon": -87.851,
+          "neighborhood": null
+        },
+        "price_level": 2,
+        "setting": "outdoor",
+        "rating": 9.4,
+        "good_for_ages": {
+          "min": 1,
+          "max": 99
+        },
+        "typical_visit_minutes": 300,
+        "description": "Large suburban zoo with a play zoo built for young children.",
+        "tags": [
+          "dolphins",
+          "hamill family play zoo",
+          "carousel"
+        ],
+        "region": "NA"
+      },
+      {
+        "id": "fp_us_il-009",
+        "name": "Chicago Botanic Garden",
+        "category": "garden",
+        "subcategory": "Botanical Garden",
+        "location": {
+          "lat": 42.135,
+          "lon": -87.758,
+          "precision": "city",
+          "city": "Glencoe",
+          "admin1": "IL",
+          "country": "US",
+          "timezone": "America/Chicago",
+          "city_lat": 42.135,
+          "city_lon": -87.758,
+          "neighborhood": null
+        },
+        "price_level": 1,
+        "setting": "outdoor",
+        "rating": 9.6,
+        "good_for_ages": {
+          "min": 0,
+          "max": 99
+        },
+        "typical_visit_minutes": 180,
+        "description": "Twenty-seven gardens across nine islands, plus a train garden.",
+        "tags": [
+          "islands",
+          "model railroad",
+          "kids garden"
+        ],
+        "region": "NA"
+      },
+      {
+        "id": "fp_us_il-010",
+        "name": "Harold Washington Library Center",
+        "category": "library",
+        "subcategory": "Public Library",
+        "location": {
+          "lat": 41.878,
+          "lon": -87.63,
+          "precision": "city",
+          "city": "Chicago",
+          "admin1": "IL",
+          "country": "US",
+          "timezone": "America/Chicago",
+          "city_lat": 41.878,
+          "city_lon": -87.63,
+          "neighborhood": null
+        },
+        "price_level": 0,
+        "setting": "indoor",
+        "rating": 9,
+        "good_for_ages": {
+          "min": 0,
+          "max": 99
+        },
+        "typical_visit_minutes": 90,
+        "description": "Central library with a full children's floor and a winter garden.",
+        "tags": [
+          "children's library",
+          "winter garden",
+          "free"
+        ],
+        "region": "NA"
+      },
+      {
+        "id": "fp_us_il-011",
+        "name": "Starved Rock State Park",
+        "category": "park",
+        "subcategory": "State Park",
+        "location": {
+          "lat": 41.295,
+          "lon": -89.058,
+          "precision": "city",
+          "city": "Oglesby",
+          "admin1": "IL",
+          "country": "US",
+          "timezone": "America/Chicago",
+          "city_lat": 41.295,
+          "city_lon": -89.058,
+          "neighborhood": null
+        },
+        "price_level": 0,
+        "setting": "outdoor",
+        "rating": 9.6,
+        "good_for_ages": {
+          "min": 4,
+          "max": 99
+        },
+        "typical_visit_minutes": 300,
+        "description": "Eighteen sandstone canyons with seasonal waterfalls.",
+        "tags": [
+          "canyons",
+          "waterfalls",
+          "river bluffs"
+        ],
+        "region": "NA"
+      },
+      {
+        "id": "fp_us_il-012",
+        "name": "Abraham Lincoln Presidential Museum",
+        "category": "museum",
+        "subcategory": "History Museum",
+        "location": {
+          "lat": 39.798,
+          "lon": -89.644,
+          "precision": "city",
+          "city": "Springfield",
+          "admin1": "IL",
+          "country": "US",
+          "timezone": "America/Chicago",
+          "city_lat": 39.798,
+          "city_lon": -89.644,
+          "neighborhood": null
+        },
+        "price_level": 2,
+        "setting": "indoor",
+        "rating": 9.6,
+        "good_for_ages": {
+          "min": 6,
+          "max": 99
+        },
+        "typical_visit_minutes": 180,
+        "description": "Immersive Lincoln biography with theater-style special effects.",
+        "tags": [
+          "lincoln",
+          "holograms",
+          "immersive"
+        ],
+        "region": "NA"
+      },
+      {
+        "id": "fp_us_il-013",
+        "name": "Peggy Notebaert Nature Museum",
+        "category": "museum",
+        "subcategory": "Nature Museum",
+        "location": {
+          "lat": 41.878,
+          "lon": -87.63,
+          "precision": "city",
+          "city": "Chicago",
+          "admin1": "IL",
+          "country": "US",
+          "timezone": "America/Chicago",
+          "city_lat": 41.878,
+          "city_lon": -87.63,
+          "neighborhood": null
+        },
+        "price_level": 2,
+        "setting": "indoor",
+        "rating": 9,
+        "good_for_ages": {
+          "min": 0,
+          "max": 99
+        },
+        "typical_visit_minutes": 120,
+        "description": "Walk-through butterfly haven plus a toddler nature play area.",
+        "tags": [
+          "butterfly haven",
+          "river",
+          "toddler play"
+        ],
+        "region": "NA"
+      },
+      {
+        "id": "fp_us_il-014",
+        "name": "Navy Pier",
+        "category": "landmark",
+        "subcategory": "Waterfront Pier",
+        "location": {
+          "lat": 41.878,
+          "lon": -87.63,
+          "precision": "city",
+          "city": "Chicago",
+          "admin1": "IL",
+          "country": "US",
+          "timezone": "America/Chicago",
+          "city_lat": 41.878,
+          "city_lon": -87.63,
+          "neighborhood": null
+        },
+        "price_level": 0,
+        "setting": "outdoor",
+        "rating": 9,
+        "good_for_ages": {
+          "min": 0,
+          "max": 99
+        },
+        "typical_visit_minutes": 180,
+        "description": "Lakefront pier with a Ferris wheel, boat rides and fireworks.",
+        "tags": [
+          "ferris wheel",
+          "boat rides",
+          "fireworks"
+        ],
+        "region": "NA"
+      },
+      {
+        "id": "fp_us_il-015",
+        "name": "Cosley Zoo",
+        "category": "zoo",
+        "subcategory": "Zoo",
+        "location": {
+          "lat": 41.866,
+          "lon": -88.107,
+          "precision": "city",
+          "city": "Wheaton",
+          "admin1": "IL",
+          "country": "US",
+          "timezone": "America/Chicago",
+          "city_lat": 41.866,
+          "city_lon": -88.107,
+          "neighborhood": null
+        },
+        "price_level": 1,
+        "setting": "outdoor",
+        "rating": 9.4,
+        "good_for_ages": {
+          "min": 0,
+          "max": 10
+        },
+        "typical_visit_minutes": 90,
+        "description": "Small farm-focused zoo sized for preschoolers.",
+        "tags": [
+          "farm animals",
+          "compact",
+          "stroller friendly"
+        ],
+        "region": "NA"
+      },
+      {
+        "id": "fp_ca_ontario-science-centre",
+        "name": "Ontario Science Centre",
+        "category": "science_center",
+        "subcategory": "Science Centre",
+        "location": {
+          "lat": 43.7165,
+          "lon": -79.339,
+          "precision": "venue",
+          "city": "Toronto",
+          "admin1": null,
+          "country": "CA",
+          "timezone": "America/Toronto",
+          "city_lat": 43.6532,
+          "city_lon": -79.3832,
+          "neighborhood": null
+        },
+        "price_level": 2,
+        "setting": "indoor",
+        "rating": 8.8,
+        "good_for_ages": {
+          "min": 3,
+          "max": 99
+        },
+        "typical_visit_minutes": 240,
+        "description": "Hands-on halls on the Don Valley ravine, with a rainforest and an IMAX dome.",
+        "tags": [
+          "hands-on",
+          "imax"
+        ],
+        "region": "NA"
+      },
+      {
+        "id": "fp_ca_ripleys-aquarium-of-canada",
+        "name": "Ripleys Aquarium of Canada",
+        "category": "aquarium",
+        "subcategory": "Aquarium",
+        "location": {
+          "lat": 43.6424,
+          "lon": -79.386,
+          "precision": "venue",
+          "city": "Toronto",
+          "admin1": null,
+          "country": "CA",
+          "timezone": "America/Toronto",
+          "city_lat": 43.6532,
+          "city_lon": -79.3832,
+          "neighborhood": null
+        },
+        "price_level": 3,
+        "setting": "indoor",
+        "rating": 9,
+        "good_for_ages": {
+          "min": 1,
+          "max": 99
+        },
+        "typical_visit_minutes": 150,
+        "description": "Moving walkway under the shark tank at the foot of the CN Tower.",
+        "tags": [
+          "sharks",
+          "downtown"
+        ],
+        "region": "NA"
+      },
+      {
+        "id": "fp_mx_papalote-museo-del-nino",
+        "name": "Papalote Museo del Nino",
+        "category": "museum",
+        "subcategory": "Childrens Museum",
+        "location": {
+          "lat": 19.413,
+          "lon": -99.19,
+          "precision": "venue",
+          "city": "Mexico City",
+          "admin1": null,
+          "country": "MX",
+          "timezone": "America/Mexico_City",
+          "city_lat": 19.4326,
+          "city_lon": -99.1332,
+          "neighborhood": null
+        },
+        "price_level": 2,
+        "setting": "indoor",
+        "rating": 8.8,
+        "good_for_ages": {
+          "min": 2,
+          "max": 12
+        },
+        "typical_visit_minutes": 180,
+        "description": "Touch, play and learn museum in Chapultepec with a dome theatre.",
+        "tags": [
+          "hands-on",
+          "dome"
+        ],
+        "region": "NA"
+      },
+      {
+        "id": "fp_mx_zoologico-de-chapultepec",
+        "name": "Zoologico de Chapultepec",
+        "category": "zoo",
+        "subcategory": "Zoo",
+        "location": {
+          "lat": 19.42,
+          "lon": -99.193,
+          "precision": "venue",
+          "city": "Mexico City",
+          "admin1": null,
+          "country": "MX",
+          "timezone": "America/Mexico_City",
+          "city_lat": 19.4326,
+          "city_lon": -99.1332,
+          "neighborhood": null
+        },
+        "price_level": 0,
+        "setting": "outdoor",
+        "rating": 8.6,
+        "good_for_ages": {
+          "min": 1,
+          "max": 99
+        },
+        "typical_visit_minutes": 180,
+        "description": "Free city zoo in Chapultepec park, with pandas born on site.",
+        "tags": [
+          "free",
+          "pandas"
+        ],
+        "region": "NA"
+      }
+    ]
+  }
+}
