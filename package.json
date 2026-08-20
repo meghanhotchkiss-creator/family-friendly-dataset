@@ -23,7 +23,7 @@
     "data:ingest": "SCOUT_TRANSPORT=offline node --disable-warning=ExperimentalWarning scout/cli/sourcemesh.ts ingest",
     "data:validate": "node --disable-warning=ExperimentalWarning scout/cli/data-validate.ts",
     "data:status": "node --disable-warning=ExperimentalWarning scout/cli/sourcemesh.ts status",
-    "data:seed": "npm run db:migrate && npm run data:ingest && npm run data:validate",
+    "data:seed": "npm run data:fetch && npm run db:migrate && npm run data:ingest && npm run data:validate",
     "sourcemesh": "node --disable-warning=ExperimentalWarning scout/cli/sourcemesh.ts",
     "command-center": "node --disable-warning=ExperimentalWarning scout/cli/command-center.ts",
     "graph:user:build": "node --disable-warning=ExperimentalWarning scout/cli/graph-user-build.ts",

@@ -44,7 +44,7 @@ Every number the platform shows can be explained from its four components.
 npm install
 npm run bootstrap     # migrate + import + normalize + topics + user graph + truth
 npm run scout:demo    # the nine-step proof scenario
-npm test              # 204 tests
+npm test              # 209 tests
 npm run api:serve     # HTTP API on :8787
 ```
 
@@ -54,7 +54,7 @@ npm run api:serve     # HTTP API on :8787
 |---|---|
 | `db:migrate` / `db:reset` / `db:status` | Schema, with checksum drift detection |
 | `data:fetch` / `data:fixtures` | Pull the upstream datasets; re-record the committed fixtures |
-| `data:ingest` / `data:seed` | Run every SourceMesh spec offline; migrate + ingest + validate |
+| `data:ingest` / `data:seed` | Run every SourceMesh spec offline; **fetch** + migrate + ingest + validate |
 | `data:validate` | Geography funnel, and whether GB FR JP AU ZA US CA BR IN resolve |
 | `data:status` | BUILT / CONNECTED / SEEDED / TESTED per source |
 | `sourcemesh -- credentials` | What Scout needs from you, and which capabilities are actually available |

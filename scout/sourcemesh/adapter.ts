@@ -88,6 +88,28 @@ export interface ValidationRejection {
 const REJECT_SAMPLE_CAP = 500;
 
 /**
+ * Why a source produced nothing.
+ *
+ * A missing credential and a missing local file both surface as
+ * `not_configured`, and reporting them with one message sent people hunting
+ * for an API key when what they actually needed was `npm run data:fetch`.
+ * Different cause, different remedy, so they are named apart.
+ */
+export type SkipCause = 'credentials' | 'no_local_data' | 'unreachable';
+
+export function skipCause(spec: SourceSpec, error: { kind: string }): SkipCause {
+  if (!isAuthConfigured(spec.auth)) return 'credentials';
+  if (error.kind === 'not_configured') return 'no_local_data';
+  return 'unreachable';
+}
+
+export const SKIP_REMEDY: Readonly<Record<SkipCause, string>> = {
+  credentials: 'credentials are not set — see: npm run sourcemesh -- credentials',
+  no_local_data: 'no local data — run: npm run data:fetch',
+  unreachable: 'the source could not be reached',
+};
+
+/**
  * Run ids are hashed from the source id and the timestamp, which collide when
  * two runs of the same source land in the same millisecond -- ordinary in tests
  * and in a batch loop. A process-local sequence makes them unique regardless.

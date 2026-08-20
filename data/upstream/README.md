@@ -5,9 +5,15 @@ adapter parsers it would use on the network — same normalisation, same claims,
 same provenance. This exists so a closed egress policy is not a dead end.
 
 ```bash
-npm run data:fetch      # fills this directory from permitted channels
-npm run data:seed       # migrate, ingest every spec offline, then validate
+npm run data:seed       # fetch, migrate, ingest every spec offline, then validate
+npm run data:fetch      # just refill this directory from permitted channels
 ```
+
+**A fresh clone has none of these files** — they are third-party datasets with
+their own licences, so they are gitignored. `data:seed` fetches them first for
+exactly that reason. Running `data:ingest` on its own before a fetch imports
+nothing and says so, naming `data:fetch` as the remedy rather than reporting a
+missing credential.
 
 Obtain the files through whatever channel your environment permits (an approved
 mirror, an internal artifact store, a vendor export, a download on an

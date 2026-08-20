@@ -29,6 +29,8 @@ export const TEST_COUNTRIES = ['GB', 'FR', 'JP', 'AU', 'ZA', 'US', 'CA', 'BR', '
 export interface SourceFunnel {
   sourceId: string;
   status: string;
+  /** Why it produced nothing, when it produced nothing. */
+  error: string | null;
   ranAt: string | null;
   sourceRows: number;
   imported: number;
@@ -150,6 +152,18 @@ export interface GeographyReport {
 const count = (db: Db, table: string): number =>
   Number(db.get<{ n: number }>(`SELECT COUNT(*) n FROM ${table}`)?.n ?? 0);
 
+function coverageOf(db: Db): Record<string, number> {
+  return {
+    countries: count(db, 'countries'),
+    adminRegions: count(db, 'admin_regions'),
+    cities: count(db, 'cities'),
+    airports: count(db, 'airports'),
+    runways: count(db, 'runways'),
+    frequencies: count(db, 'airport_frequencies'),
+    navaids: count(db, 'navaids'),
+  };
+}
+
 /** The most recent run per source, with its quarantine broken out by reason. */
 export function sourceFunnels(db: Db): SourceFunnel[] {
   const runs = db.all<Record<string, unknown>>(
@@ -169,6 +183,7 @@ export function sourceFunnels(db: Db): SourceFunnel[] {
     return {
       sourceId: String(r.source_id),
       status: String(r.status),
+      error: (r.error as string) ?? null,
       ranAt: (r.finished_at as string) ?? null,
       sourceRows: Number(r.source_rows ?? 0),
       // What landed, not what was offered to the sink. `imported` alone counts
@@ -353,9 +368,11 @@ export function geographyReport(db: Db): GeographyReport {
   const funnels = sourceFunnels(db);
   const cityDuplication = measureCityDuplication(db);
   const countryRoster = checkCountryRoster(db);
+  const coverage = coverageOf(db);
 
   const failures: string[] = [];
   const warnings: string[] = [];
+
   if (countryRoster.checked && countryRoster.missing.length > 0) {
     warnings.push(
       `country roster: ${countryRoster.note} (${countryRoster.missing.map((m) => m.code).join(' ')})`,
@@ -370,7 +387,10 @@ export function geographyReport(db: Db): GeographyReport {
     );
   }
   for (const funnel of funnels.filter((f) => f.status === 'skipped')) {
-    warnings.push(`${funnel.sourceId}: skipped, credentials or egress not available`);
+    // The stored reason, not a guess. Saying "credentials or egress" for a
+    // source that was only missing a local file sent people looking for an API
+    // key they never needed.
+    warnings.push(`${funnel.sourceId}: skipped — ${funnel.error ?? 'no reason recorded'}`);
   }
   for (const country of testCountries.filter((c) => !c.ok)) {
     failures.push(`${country.iso2}: ${country.problems.join('; ')}`);
@@ -378,6 +398,21 @@ export function geographyReport(db: Db): GeographyReport {
   for (const funnel of funnels.filter((f) => !f.balanced)) {
     failures.push(`${funnel.sourceId}: row accounting does not balance`);
   }
+  // An empty database is one problem, not nine. Listing every test country as
+  // its own failure buried the only fact that mattered, and none of the other
+  // checks mean anything against an empty graph.
+  if (Object.values(coverage).every((n) => n === 0)) {
+    return {
+      generatedAt: nowIso(), coverage, funnels, airports, testCountries,
+      countryRoster, cityDuplication, warnings,
+      failures: [
+        'the travel graph is empty — nothing has been ingested. On a fresh clone the ' +
+        'upstream datasets are not in the repository (they carry their own licences); ' +
+        'run: npm run data:fetch',
+      ],
+    };
+  }
+
   // Two airports on one id is a silent loss the funnel cannot see: it counts
   // rows offered to the sink, not rows the table ended up with.
   if (airports.storedRows !== airports.distinctIdents) {
@@ -389,15 +424,7 @@ export function geographyReport(db: Db): GeographyReport {
 
   return {
     generatedAt: nowIso(),
-    coverage: {
-      countries: count(db, 'countries'),
-      adminRegions: count(db, 'admin_regions'),
-      cities: count(db, 'cities'),
-      airports: count(db, 'airports'),
-      runways: count(db, 'runways'),
-      frequencies: count(db, 'airport_frequencies'),
-      navaids: count(db, 'navaids'),
-    },
+    coverage,
     funnels,
     airports,
     testCountries,
@@ -410,6 +437,18 @@ export function geographyReport(db: Db): GeographyReport {
 
 export function formatGeographyReport(report: GeographyReport): string {
   const lines: string[] = ['GEOGRAPHY VALIDATION', ''];
+
+  const empty = Object.values(report.coverage).every((n) => n === 0);
+  if (empty) {
+    lines.push('The travel graph is empty. Nothing has been ingested.', '');
+    lines.push('source funnels');
+    for (const f of report.funnels) {
+      lines.push(`  ${f.sourceId.padEnd(24)} ${f.status.padEnd(10)} ${f.error ?? ''}`);
+    }
+    lines.push('', 'VERDICT: 1 failure(s)');
+    for (const failure of report.failures) lines.push(`  - ${failure}`);
+    return lines.join('\n');
+  }
 
   lines.push('coverage');
   for (const [name, n] of Object.entries(report.coverage)) {

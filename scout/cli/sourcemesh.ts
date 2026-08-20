@@ -11,7 +11,7 @@
 
 import { openDb } from '../db/index.ts';
 import { loadSpecs, loadSpec, registerAll, listRegistered, attributionNotice } from '../sourcemesh/registry.ts';
-import { createSourceAdapter, formatAnomaly } from '../sourcemesh/adapter.ts';
+import { createSourceAdapter, formatAnomaly, skipCause, SKIP_REMEDY } from '../sourcemesh/adapter.ts';
 import { writeRecords } from '../sourcemesh/sink.ts';
 import {
   emptyAccounting, checkAccounting, formatAccounting, REASON_TEXT, type ReasonCode,
@@ -93,6 +93,8 @@ if (command === 'list') {
   if (bad > 0) process.exit(1);
 } else if (command === 'ingest') {
   let failed = 0;
+  let imported = 0;
+  const skippedSources: string[] = [];
   for (const spec of specs) {
     const adapter = createSourceAdapter(db, spec!);
     const started = Date.now();
@@ -106,9 +108,12 @@ if (command === 'list') {
     // NOT STARTED when they were simply never reached.
     if (!attempt.ok) {
       const skipped = attempt.error.kind === 'not_configured';
+      const cause = skipCause(spec!, attempt.error);
       console.log(`\n=== ${spec!.id} === ${skipped ? 'skipped' : 'FAILED'}`);
+      console.log(`  ${SKIP_REMEDY[cause]}`);
       console.log(`  ${attempt.error.message}`);
       if (!skipped) failed += 1;
+      else skippedSources.push(`${spec!.id} (${cause})`);
       continue;
     }
     const result = attempt.value;
@@ -147,6 +152,7 @@ if (command === 'list') {
       const written = writeRecords(db, spec!, result.records);
       writeMs = Date.now() - writeStarted;
       if (written.ok) {
+        imported += written.value.inserted + written.value.updated + written.value.unchanged;
         acct.inserted_rows = written.value.inserted;
         acct.updated_rows = written.value.updated;
         acct.unchanged_rows = written.value.unchanged;
@@ -190,6 +196,21 @@ if (command === 'list') {
     }
     if (result.status === 'failed') failed += 1;
   }
+
+  // A sweep that imported nothing at all is a failed sweep, whatever the
+  // individual sources reported. Skipping is not a failure per source -- one
+  // feed needing a credential must not stop the rest -- but every source
+  // skipping means the run did nothing, and exiting 0 on that sent the real
+  // cause downstream to reappear as nine confusing country errors.
+  if (imported === 0 && !dryRun && specs.length > 0) {
+    console.log(`\nNOTHING WAS IMPORTED. ${skippedSources.length} of ${specs.length} sources were skipped:`);
+    for (const skipped of skippedSources) console.log(`  ${skipped}`);
+    console.log('\nIf this is a fresh clone, the upstream datasets are not in the repository');
+    console.log('(they carry their own licences). Fetch them first:\n');
+    console.log('  npm run data:fetch\n');
+    failed += 1;
+  }
+
   if (failed > 0) process.exit(1);
 } else if (command === 'status') {
   const report = statusReport(db);
