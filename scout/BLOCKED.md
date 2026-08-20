@@ -118,6 +118,45 @@ provenance record attached, which is worse than a missing value.
 
 ---
 
+## What Scout needs from you, in one command
+
+```bash
+npm run sourcemesh -- credentials
+```
+
+It reports **capabilities before variables**, because "is Scout Lens working"
+is the question and a list of set environment variables does not answer it:
+
+```
+CAPABILITIES
+  yes  text generation            providers ready: deepseek
+  no   Scout Lens (photo reading) deepseek configured, but it reads text only
+```
+
+That gap is the one a per-variable check cannot find. Every key is valid, every
+presence check passes, and photo reading silently cannot work because the only
+configured provider has no vision. `SCOUT_EXTERNAL_MODELS` gates all of them:
+without it, a model key buys nothing.
+
+| Category | Variables |
+|---|---|
+| Model providers | `ANTHROPIC_API_KEY`, `OPENAI_API_KEY`, `GOOGLE_API_KEY` (Gemini) — all three read photos. `DEEPSEEK_API_KEY` is text only. |
+| Platform services | `SCOUT_EXTERNAL_MODELS`, `DATABASE_URL`, `STRIPE_SECRET_KEY`, `EMAIL_FROM` plus one of `RESEND_API_KEY` / `SENDGRID_API_KEY` |
+| Data sources | `GOOGLE_PLACES_API_KEY`, `NPS_API_KEY`, `RIDB_API_KEY`, `SCOUT_GEOCODE_EMAIL`, `WME_USERNAME`/`WME_PASSWORD`, `~/.kaggle/kaggle.json` |
+
+The model-provider and platform rows are **transcribed from a supplied list,
+not read from** `scoutfox-platform/packages/scout-fox-ai/app/core/config.py`.
+GitHub access in this session is scoped to one owner and `ScoutFoxGo/ScoutFoxAI`
+is refused as a cross-tier add, so that file has never been opened here. The
+report says so in its own output rather than implying otherwise. Diff the two
+lists in a session started with that repo as its source.
+
+The command reports whether a variable is **set**. It never prints a value, and
+a test asserts that real-looking secrets appear in neither the rendered report
+nor the underlying payload.
+
+---
+
 ## 3. Wikimedia Enterprise — blocked on egress and an account
 
 **Status:** spec and JWT auth flow built and tested against a stub transport.

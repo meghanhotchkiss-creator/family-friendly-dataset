@@ -10,7 +10,7 @@ import {
   authHeaders, isAuthConfigured, describeAuth, clearAuthCache, type AuthSpec,
 } from '../../scout/sourcemesh/auth.ts';
 import { loadSpecs } from '../../scout/sourcemesh/registry.ts';
-import { credentialReport, formatCredentials } from '../../scout/sourcemesh/credentials.ts';
+import { credentialReport, formatCredentials, capabilityChecks } from '../../scout/sourcemesh/credentials.ts';
 import type { Transport } from '../../scout/contracts/index.ts';
 
 function stub(responses: { status: number; body: string }[]): Transport & { calls: number } {
@@ -162,4 +162,86 @@ test('an unsatisfied requirement is reported without inventing one', () => {
   assert.equal(wme?.satisfied, false);
   assert.deepEqual(wme?.needs, ['WME_USERNAME', 'WME_PASSWORD']);
   assert.ok(wme?.alsoNeeds?.includes('egress'), 'a credential alone is not enough here');
+});
+
+/** Set some variables, read the capabilities, and put the environment back. */
+function withEnv<T>(vars: Record<string, string>, run: () => T): T {
+  const before = new Map(Object.keys(vars).map((k) => [k, process.env[k]]));
+  Object.assign(process.env, vars);
+  try {
+    return run();
+  } finally {
+    for (const [k, v] of before) {
+      if (v === undefined) delete process.env[k];
+      else process.env[k] = v;
+    }
+  }
+}
+
+const MODEL_KEYS = ['ANTHROPIC_API_KEY', 'OPENAI_API_KEY', 'GOOGLE_API_KEY', 'DEEPSEEK_API_KEY'];
+const cleared = (): Record<string, string> =>
+  Object.fromEntries(MODEL_KEYS.map((k) => [k, '']));
+
+test('a text-only model provider does not enable Scout Lens', () => {
+  // The failure this exists to catch: every key the deployment holds is valid,
+  // every check for a set variable passes, and photo reading silently cannot
+  // work because the one provider configured has no vision.
+  const capability = withEnv(
+    { ...cleared(), SCOUT_EXTERNAL_MODELS: '1', DEEPSEEK_API_KEY: 'sk-not-a-real-key' },
+    () => capabilityChecks(credentialReport()),
+  );
+  const text = capability.find((c) => c.name === 'text generation');
+  const lens = capability.find((c) => c.name.startsWith('Scout Lens'));
+
+  assert.equal(text?.available, true, 'DeepSeek can generate text');
+  assert.equal(lens?.available, false, 'DeepSeek cannot read a photo');
+  assert.match(lens?.detail ?? '', /text only/);
+});
+
+test('a vision provider enables Scout Lens, but only behind the external-models switch', () => {
+  const withoutSwitch = withEnv(
+    { ...cleared(), SCOUT_EXTERNAL_MODELS: '', ANTHROPIC_API_KEY: 'sk-not-a-real-key' },
+    () => capabilityChecks(credentialReport()),
+  );
+  assert.equal(withoutSwitch.find((c) => c.name.startsWith('Scout Lens'))?.available, false);
+  assert.equal(withoutSwitch.find((c) => c.name === 'text generation')?.available, false,
+    'a key without the switch buys nothing');
+
+  const withSwitch = withEnv(
+    { ...cleared(), SCOUT_EXTERNAL_MODELS: '1', ANTHROPIC_API_KEY: 'sk-not-a-real-key' },
+    () => capabilityChecks(credentialReport()),
+  );
+  assert.equal(withSwitch.find((c) => c.name.startsWith('Scout Lens'))?.available, true);
+});
+
+test('email needs a sender address and at least one of the two vendors', () => {
+  const only = (vars: Record<string, string>): boolean =>
+    withEnv({ EMAIL_FROM: '', RESEND_API_KEY: '', SENDGRID_API_KEY: '', ...vars }, () =>
+      credentialReport().find((r) => r.source === 'email')?.satisfied ?? false);
+
+  assert.equal(only({ RESEND_API_KEY: 'k' }), false, 'a vendor without a from-address is not enough');
+  assert.equal(only({ EMAIL_FROM: 'hi@example.test' }), false, 'a from-address without a vendor is not enough');
+  assert.equal(only({ EMAIL_FROM: 'hi@example.test', RESEND_API_KEY: 'k' }), true);
+  assert.equal(only({ EMAIL_FROM: 'hi@example.test', SENDGRID_API_KEY: 'k' }), true,
+    'either vendor satisfies it');
+});
+
+test('platform credentials are reported without their values, like every other kind', () => {
+  const secret = 'sk_live_this_would_be_a_real_stripe_key';
+  const rendered = withEnv(
+    { STRIPE_SECRET_KEY: secret, DATABASE_URL: 'postgres://user:hunter2@host/db' },
+    () => formatCredentials(credentialReport()),
+  );
+  assert.doesNotMatch(rendered, /sk_live_/);
+  assert.doesNotMatch(rendered, /hunter2/);
+  assert.match(rendered, /STRIPE_SECRET_KEY/);
+  assert.match(rendered, /DATABASE_URL/);
+});
+
+test('the report says the platform list is second-hand rather than implying it was read', () => {
+  // It was transcribed from a message, not from config.py, which this session
+  // cannot open. Saying so is the difference between a report and a guess.
+  const rendered = formatCredentials(credentialReport());
+  assert.match(rendered, /config\.py/);
+  assert.match(rendered, /unverified/);
 });
