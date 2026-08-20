@@ -1,12 +1,12 @@
 import hmac
 import logging
 import os
-from pathlib import Path
 
-import pandas as pd
 from fastapi import FastAPI, Depends, HTTPException, Query
 from fastapi.security import APIKeyHeader, OAuth2PasswordBearer
 from jose import JWTError, jwt
+
+from dataset import DatasetUnavailable, dataset_source, read_dataset
 
 logger = logging.getLogger(__name__)
 
@@ -41,8 +41,11 @@ if FIREBASE_PROJECT_ID:
         cred = credentials.ApplicationDefault()
         firebase_admin.initialize_app(cred, {"projectId": FIREBASE_PROJECT_ID})
 
-DEFAULT_DATASET_PATH = Path(__file__).resolve().parents[1] / "data" / "processed" / "family_friendly_dataset.csv"
-DATA_URL = os.getenv("FAMILY_DATASET_URL", str(DEFAULT_DATASET_PATH))
+# Where the CSV lives is resolved per request by dataset.dataset_source():
+# FAMILY_DATASET_URL when set, otherwise a path inside the checkout. Reading it
+# per request rather than at import keeps the environment authoritative for
+# workers forked or configured after this module is imported, and means a
+# redeployment that only moves the data does not need a code change here.
 USE_BIGQUERY = os.getenv("USE_BIGQUERY", "false").lower() == "true"
 
 # Upper bound on rows a caller may request. Without it, ?limit=10000000
@@ -55,12 +58,13 @@ if USE_BIGQUERY:
     bq_client = bigquery.Client()
 
 def load_dataset():
+    source = dataset_source()
     try:
-        return pd.read_csv(DATA_URL)
-    except Exception as exc:
+        return read_dataset(source)
+    except DatasetUnavailable as exc:
         # The path/URL is deployment configuration; echoing it to callers
         # discloses internal layout. Keep the detail server-side.
-        logger.exception("Failed to load dataset from %s", DATA_URL)
+        logger.exception("Failed to load dataset from %s", source)
         raise HTTPException(status_code=500, detail="Dataset is unavailable") from exc
 
 def verify_api_key(api_key: str = Depends(api_key_header)):

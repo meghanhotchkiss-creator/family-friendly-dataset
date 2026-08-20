@@ -1,3 +1,6 @@
 # Python bytecode
 __pycache__/
 *.py[cod]
+
+# Local virtualenv (see tests/README.md)
+.venv/
