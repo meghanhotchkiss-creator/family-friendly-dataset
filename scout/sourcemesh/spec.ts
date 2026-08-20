@@ -26,6 +26,13 @@ export interface FieldRule {
   const?: string | number | boolean | null;
   /** Named transform applied after extraction. */
   transform?: 'upper' | 'lower' | 'trim' | 'number' | 'integer' | 'boolean' | 'first' | 'join';
+  /**
+   * Pull a capture group out of the raw value before transforming. Real feeds
+   * pack several facts into one column -- OPTD's `city_detail_list` is
+   * `LAX|5368361|Los Angeles|...` -- and a regex in the spec beats a bespoke
+   * parser per source.
+   */
+  extract?: { pattern: string; group?: number };
   /** Resolver chain, tried in order, for values the source cannot supply. */
   resolver?: ResolverStep[];
   default?: string | number | boolean | null;
@@ -45,6 +52,23 @@ export interface LicenseSpec {
   commercialUse: boolean;
   shareAlike?: boolean;
   url?: string;
+}
+
+/**
+ * Which rows of a file this spec is about.
+ *
+ * A source often carries several entity types -- OpenTravelData packs airports,
+ * cities and rail stations into one file. Rows this spec does not want are
+ * SELECTED OUT, not rejected: they are excluded from the funnel denominator
+ * rather than quarantined as failures, because "not for this spec" and "this
+ * record is broken" are different facts and conflating them makes the
+ * accounting meaningless.
+ */
+export interface SelectSpec {
+  field: string;
+  in?: string[];
+  startsWith?: string[];
+  notIn?: string[];
 }
 
 export interface QualitySpec {
@@ -79,6 +103,14 @@ export interface SourceSpec {
   updateFrequency?: string;
   /** For json/json-map: dotted path to the array or map of records. */
   recordsAt?: string;
+  /**
+   * Field separator for csv/tsv. Real feeds are not all comma-separated --
+   * OpenTravelData uses `^` -- and a per-source parser for each one is exactly
+   * what this engine exists to avoid.
+   */
+  delimiter?: string;
+  /** Restrict the run to the rows this spec is about. */
+  select?: SelectSpec;
   /** Canonical field name -> how to obtain it. */
   fields: Record<string, FieldRule>;
   /** Stable per-record identity, referencing canonical field names. */

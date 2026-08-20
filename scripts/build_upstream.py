@@ -134,6 +134,18 @@ def fetch_geonames(work: Path) -> tuple[dict, str]:
     return cities, version
 
 
+def fetch_optd(work: Path) -> tuple[str, str]:
+    """OpenTravelData points of reference (CC BY 4.0), from the public repo."""
+    run(["git", "clone", "--depth", "1", "--filter=blob:none", "--sparse",
+         "https://github.com/opentraveldata/opentraveldata.git", "optd"], work)
+    repo = work / "optd"
+    run(["git", "sparse-checkout", "set", "opentraveldata"], repo)
+    csv_path = repo / "opentraveldata" / "optd_por_public.csv"
+    sha = subprocess.run(["git", "rev-parse", "--short", "HEAD"], cwd=repo,
+                         capture_output=True, text=True).stdout.strip()
+    return csv_path.read_text(encoding="utf-8"), sha
+
+
 def main() -> int:
     UPSTREAM.mkdir(parents=True, exist_ok=True)
     (UPSTREAM / "ourairports-data").mkdir(exist_ok=True)
@@ -146,6 +158,8 @@ def main() -> int:
         raw_airports, airports_version = fetch_airportsdata(work)
         print("fetching geonamescache from pypi.org ...")
         raw_cities, cities_version = fetch_geonames(work)
+        print("fetching opentraveldata from github.com ...")
+        optd_csv, optd_sha = fetch_optd(work)
 
     countries = to_restcountries(raw_countries)
     (UPSTREAM / "countries.json").write_text(
@@ -165,8 +179,11 @@ def main() -> int:
         json.dumps(raw_cities, ensure_ascii=False), encoding="utf-8"
     )
 
+    (UPSTREAM / "optd_por_public.csv").write_text(optd_csv, encoding="utf-8")
+
     manifest = {
         "https://restcountries.com/v3.1/all": "countries.json",
+        "https://raw.githubusercontent.com/opentraveldata/opentraveldata/master/opentraveldata/optd_por_public.csv": "optd_por_public.csv",
         "https://download.geonames.org/export/dump/cities15000": "geonames-cities15000.json",
     }
     (UPSTREAM / "manifest.json").write_text(json.dumps(manifest, indent=2) + "\n", encoding="utf-8")
@@ -184,6 +201,7 @@ data hosts but explicitly permits registry.npmjs.org and pypi.org.
 | Countries | `world-countries` (npm) | {countries_version} | ODbL | {len(countries)} |
 | Airports | `airportsdata` (PyPI) | {airports_version} | MIT | {len(airports)} |
 | Cities | `geonamescache` (PyPI) | {cities_version} | CC BY 4.0 | {len(raw_cities)} |
+| Points of reference | `opentraveldata` (GitHub) | {optd_sha} | CC BY 4.0 | {optd_csv.count(chr(10))} |
 
 ## Real vs derived
 
@@ -207,6 +225,7 @@ adapters parse this exactly as they would parse a live response.
     print(f"\n  countries.json                 {len(countries)} countries")
     print(f"  ourairports-data/airports.csv  {len(airports)} airports ({with_iata} with IATA)")
     print(f"  geonames-cities15000.json      {len(raw_cities)} cities")
+    print(f"  optd_por_public.csv            {optd_csv.count(chr(10))} points of reference")
     print(f"  PROVENANCE.md                  written")
     return 0
 

@@ -33,6 +33,12 @@ export const REASON_TEXT: Readonly<Record<ReasonCode, string>> = {
 export interface RowAccounting {
   source_rows: number;
   parsed_rows: number;
+  /**
+   * Rows this spec is deliberately not about (see SelectSpec). A terminal
+   * bucket, because they are a destination like any other -- but distinct from
+   * `rejected`, which means the row was wanted and found wanting.
+   */
+  selected_out_rows: number;
   mapped_rows: number;
   validated_rows: number;
   matched_rows: number;
@@ -45,7 +51,7 @@ export interface RowAccounting {
 
 export function emptyAccounting(): RowAccounting {
   return {
-    source_rows: 0, parsed_rows: 0, mapped_rows: 0, validated_rows: 0, matched_rows: 0,
+    source_rows: 0, parsed_rows: 0, selected_out_rows: 0, mapped_rows: 0, validated_rows: 0, matched_rows: 0,
     inserted_rows: 0, updated_rows: 0, unchanged_rows: 0, quarantined_rows: 0, rejected_rows: 0,
   };
 }
@@ -64,7 +70,8 @@ export interface AccountingCheck {
  */
 export function checkAccounting(a: RowAccounting): AccountingCheck {
   const terminal =
-    a.inserted_rows + a.updated_rows + a.unchanged_rows + a.quarantined_rows + a.rejected_rows;
+    a.inserted_rows + a.updated_rows + a.unchanged_rows +
+    a.quarantined_rows + a.rejected_rows + a.selected_out_rows;
   const unaccounted = a.source_rows - terminal;
   return {
     balanced: unaccounted === 0,
@@ -82,6 +89,7 @@ export function formatAccounting(a: RowAccounting): string {
   const rows: [string, number][] = [
     ['source_rows', a.source_rows],
     ['parsed_rows', a.parsed_rows],
+    ['selected_out_rows', a.selected_out_rows],
     ['mapped_rows', a.mapped_rows],
     ['validated_rows', a.validated_rows],
     ['matched_rows', a.matched_rows],

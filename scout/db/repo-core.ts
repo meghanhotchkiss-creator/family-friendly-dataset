@@ -37,13 +37,15 @@ export function upsertCountry(db: Db, c: Omit<Country, 'id'> & { id?: string }):
 export function upsertCity(db: Db, c: Omit<City, 'id'> & { id?: string }): string {
   const id = c.id ?? makeId('city', c.countryId.replace('country:', ''), c.admin1 ?? '', c.name);
   db.run(
-    `INSERT INTO cities (id, name, country_id, admin1, lat, lon, population, timezone, updated_at)
-     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+    `INSERT INTO cities (id, name, country_id, admin1, lat, lon, population, timezone, geoname_id, updated_at)
+     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
      ON CONFLICT(id) DO UPDATE SET
        name = excluded.name, lat = excluded.lat, lon = excluded.lon,
        population = excluded.population, timezone = excluded.timezone,
+       geoname_id = COALESCE(excluded.geoname_id, cities.geoname_id),
        updated_at = excluded.updated_at`,
-    id, c.name, c.countryId, c.admin1, c.lat, c.lon, c.population, c.timezone, nowIso(),
+    id, c.name, c.countryId, c.admin1, c.lat, c.lon, c.population, c.timezone,
+    (c as { geonameId?: number | null }).geonameId ?? null, nowIso(),
   );
   return id;
 }
@@ -64,13 +66,18 @@ export function upsertNeighborhood(db: Db, n: Omit<Neighborhood, 'id'> & { id?: 
 export function upsertAirport(db: Db, a: Omit<Airport, 'id'> & { id?: string }): string {
   const id = a.id ?? makeId('airport', a.iata ?? a.icao ?? a.name);
   db.run(
-    `INSERT INTO airports (id, iata, icao, name, city_id, country_id, region_code, lat, lon, kind, updated_at)
-     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+    `INSERT INTO airports (id, iata, icao, name, city_id, country_id, region_code, lat, lon, kind, geoname_id, city_geoname_id, updated_at)
+     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
      ON CONFLICT(id) DO UPDATE SET
        iata = excluded.iata, icao = excluded.icao, name = excluded.name,
        city_id = excluded.city_id, lat = excluded.lat, lon = excluded.lon,
-       kind = excluded.kind, updated_at = excluded.updated_at`,
-    id, a.iata, a.icao, a.name, a.cityId, a.countryId, a.regionCode, a.lat, a.lon, a.kind, nowIso(),
+       kind = excluded.kind,
+       geoname_id = COALESCE(excluded.geoname_id, airports.geoname_id),
+       city_geoname_id = COALESCE(excluded.city_geoname_id, airports.city_geoname_id),
+       updated_at = excluded.updated_at`,
+    id, a.iata, a.icao, a.name, a.cityId, a.countryId, a.regionCode, a.lat, a.lon, a.kind,
+    (a as { geonameId?: number | null }).geonameId ?? null,
+    (a as { cityGeonameId?: number | null }).cityGeonameId ?? null, nowIso(),
   );
   return id;
 }

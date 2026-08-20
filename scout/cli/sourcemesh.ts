@@ -18,7 +18,7 @@ import {
 } from '../sourcemesh/accounting.ts';
 import { quarantineRecords, quarantineSummary, recordAccounting, listQuarantine } from '../sourcemesh/quarantine.ts';
 import { statusReport } from '../sourcemesh/status.ts';
-import { resolveCities, mergeMatches, MATCH_KM, NO_MATCH_KM } from '../sourcemesh/entity-resolution.ts';
+import { resolveCities, mergeMatches, linkAirportsByGeonameId, MATCH_KM, NO_MATCH_KM } from '../sourcemesh/entity-resolution.ts';
 import { unwrap } from '../contracts/index.ts';
 
 const [command = 'list', ...rest] = process.argv.slice(2);
@@ -108,6 +108,8 @@ if (command === 'list') {
     acct.source_rows = result.stages.find((x) => x.name === 'SOURCE ROWS')?.count ?? 0;
     acct.parsed_rows = result.stages.find((x) => x.name === 'PARSED')?.count ?? 0;
     acct.mapped_rows = result.stages.find((x) => x.name === 'MAPPED')?.count ?? 0;
+    const selected = result.stages.find((x) => x.name === 'SELECTED')?.count;
+    acct.selected_out_rows = selected === undefined ? 0 : acct.source_rows - selected;
     acct.matched_rows = result.stages.find((x) => x.name === 'COUNTRY MATCHED')?.count ?? acct.mapped_rows;
     acct.validated_rows = result.imported;
     acct.rejected_rows = 0;
@@ -172,6 +174,13 @@ if (command === 'list') {
     `${report.filter((r) => r.state === 'BROKEN').length} broken; ` +
     `${report.filter((r) => r.state === 'NOT STARTED').length} not started`);
 } else if (command === 'resolve') {
+  // Identity first: a published GeoNames id leaves nothing to infer.
+  const exact = unwrap(linkAirportsByGeonameId(db));
+  console.log('exact linkage — airports to cities by GeoNames id\n');
+  console.log(`  linked            ${String(exact.linked).padStart(7)}`);
+  console.log(`  already correct   ${String(exact.alreadyCorrect).padStart(7)}`);
+  console.log(`  no matching city  ${String(exact.noCityRow).padStart(7)}\n`);
+
   const stats = unwrap(resolveCities(db));
   console.log('entity resolution — cities\n');
   console.log(`  candidate pairs   ${String(stats.candidatePairs).padStart(7)}  (blocked on country + name)`);

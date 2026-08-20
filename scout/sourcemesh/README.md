@@ -17,6 +17,7 @@ Three datasets, three record shapes, one adapter, zero importer code:
 | `restcountries` (world-countries, npm) | JSON array, nested `name.common` | 250 | 250 imported |
 | `geonames-cities15000` (geonamescache, PyPI) | JSON **map keyed by id**, array field | 34,006 | 34,006 imported |
 | `ourairports` (airportsdata, PyPI) | CSV, quoted commas | 28,291 | 28,291 imported |
+| `optd-por` (OpenTravelData, GitHub) | CSV, `^`-delimited, mixed entities | 20,939 | 9,874 airports selected |
 
 ```bash
 npm run sourcemesh -- list       # registered sources + required attribution
@@ -24,6 +25,33 @@ npm run sourcemesh -- inspect    # schema profile + proposed mapping
 npm run sourcemesh -- validate   # check the spec against real data first
 npm run sourcemesh -- ingest     # run the funnel
 npm run sourcemesh -- report     # last run per source
+```
+
+## Three things OPTD forced, all generic
+
+Adding OpenTravelData needed no per-source code, but it did expose three gaps
+in the engine — each closed as a spec capability rather than a special case:
+
+- **`delimiter`** — OPTD is `^`-separated. Feeds are not all comma-delimited.
+- **`select`** — one file holds airports, cities and rail stations. Rows a spec
+  is not about are *selected out*, not rejected: they are a terminal bucket in
+  the accounting, distinct from `rejected`, which means the row was wanted and
+  found wanting. Conflating the two makes the accounting meaningless.
+- **`extract`** — a regex capture, because real feeds pack several facts into
+  one column (`city_detail_list` is `LAX|5368361|Los Angeles|...`).
+
+## Identity beats similarity
+
+OPTD publishes the GeoNames id of the city each airport serves, and GeoNames
+publishes the same id on the city. Where both exist there is nothing to infer,
+so `sourcemesh resolve` links those first and name-and-distance matching never
+second-guesses the result:
+
+```
+exact linkage — airports to cities by GeoNames id
+  linked               4279
+  already correct       462
+  no matching city     4951      <- reported, never invented
 ```
 
 ## The anomaly demo

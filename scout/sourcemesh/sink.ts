@@ -116,7 +116,8 @@ export function writeRecords(db: Db, spec: SourceSpec, records: MappedRecord[]):
           name: String(v.name), countryId, admin1: str(v.admin1),
           lat: num(v.lat) ?? 0, lon: num(v.lon) ?? 0,
           population: num(v.population), timezone: str(v.timezone),
-        });
+          geonameId: num(v.geonameId),
+        } as never);
         settle(before, { hash: priorState(db, 'cities', 'id', cityId).hash });
         return;
       }
@@ -150,7 +151,9 @@ export function writeRecords(db: Db, spec: SourceSpec, records: MappedRecord[]):
           name: String(v.name), cityId, countryId, regionCode: region,
           lat: num(v.lat) ?? 0, lon: num(v.lon) ?? 0,
           kind: v.scheduledService ? 'medium' : 'small',
-        });
+          geonameId: num(v.geonameId),
+          cityGeonameId: num(v.cityGeonameId),
+        } as never);
         settle(before, { hash: priorState(db, 'airports', 'id', airportId).hash });
         return;
       }

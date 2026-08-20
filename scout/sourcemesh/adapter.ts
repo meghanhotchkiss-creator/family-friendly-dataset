@@ -128,6 +128,10 @@ export function extractField(record: RawRecord, rule: FieldRule): unknown {
       if (!isBlank(v)) { value = v; break; }
     }
   }
+  if (rule.extract && typeof value === 'string') {
+    const match = new RegExp(rule.extract.pattern).exec(value);
+    value = match ? (match[rule.extract.group ?? 1] ?? null) : null;
+  }
   value = applyTransform(value, rule.transform);
   return isBlank(value) ? (rule.default ?? null) : value;
 }
@@ -337,6 +341,19 @@ export function createSourceAdapter(db: Db, spec: SourceSpec) {
       }
       if (options.limit) raw = raw.slice(0, options.limit);
 
+      // Rows this spec is not about are excluded up front, not rejected.
+      const sourceRowCount = raw.length;
+      if (spec.select) {
+        const sel = spec.select;
+        raw = raw.filter((record) => {
+          const value = String(readPath(record, sel.field) ?? '');
+          if (sel.in && !sel.in.includes(value)) return false;
+          if (sel.notIn && sel.notIn.includes(value)) return false;
+          if (sel.startsWith && !sel.startsWith.some((p) => value.startsWith(p))) return false;
+          return true;
+        });
+      }
+
       const profile = profileRecords(raw, spec.format);
       const rejects: RejectionSample[] = [];
       const rejections: ValidationRejection[] = [];
@@ -416,16 +433,23 @@ export function createSourceAdapter(db: Db, spec: SourceSpec) {
       }
 
       const stages: FunnelStage[] = [
-        { name: 'SOURCE ROWS', count: raw.length },
-        { name: 'PARSED', count: raw.length },
-        { name: 'MAPPED', count: mappedCount },
+        { name: 'SOURCE ROWS', count: sourceRowCount },
+        { name: 'PARSED', count: sourceRowCount },
       ];
+      if (spec.select) stages.push({ name: 'SELECTED', count: raw.length });
+      stages.push({ name: 'MAPPED', count: mappedCount });
       if (mapsCountry) stages.push({ name: 'COUNTRY MATCHED', count: countryMatched });
       if (mapsRegion) stages.push({ name: 'REGION RESOLVED', count: regionResolved });
       stages.push({ name: 'IMPORTED', count: records.length });
 
       const totalRejected = raw.length - records.length;
-      let anomalies = detectFunnelAnomalies(stages);
+      // Selection is a deliberate narrowing, not attrition. Loss is measured
+      // from the SELECTED count onward; comparing MAPPED against the whole file
+      // makes every multi-entity source look like it is haemorrhaging rows.
+      const lossStages = spec.select
+        ? stages.slice(stages.findIndex((s) => s.name === 'SELECTED'))
+        : stages;
+      let anomalies = detectFunnelAnomalies(lossStages);
       anomalies = anomalies.map((a) =>
         a.stage === 'REGION RESOLVED' || a.stage === 'COUNTRY MATCHED' || a.stage === 'IMPORTED'
           ? diagnoseGeoAnomaly(db, a, rejects, profile, totalRejected)

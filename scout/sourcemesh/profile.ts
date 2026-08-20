@@ -67,9 +67,9 @@ function flatten(record: RawRecord, prefix = '', depth = 0): RawRecord {
 export function parseRecords(body: string, spec: SourceSpec): RawRecord[] {
   switch (spec.format) {
     case 'csv':
-      return parseCsv(body) as RawRecord[];
+      return parseCsv(body, spec.delimiter ?? ',') as RawRecord[];
     case 'tsv':
-      return parseCsv(body.replace(/\t/g, ',')) as RawRecord[];
+      return parseCsv(body, spec.delimiter ?? '\t') as RawRecord[];
     case 'jsonl':
       return body.split('\n').filter((l) => l.trim()).map((l) => JSON.parse(l) as RawRecord);
     case 'json': {

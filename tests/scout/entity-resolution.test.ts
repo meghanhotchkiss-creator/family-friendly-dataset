@@ -10,7 +10,7 @@ import { migrate } from '../../scout/db/migrate.ts';
 import { ensureRegions, upsertCountry, upsertCity, upsertAirport } from '../../scout/db/repo-core.ts';
 import {
   resolveCities, mergeMatches, classifyPair, haversineKm, normalizeName,
-  matchSummary, MATCH_KM, STUB_MATCH_KM, NO_MATCH_KM, type MatchEvidence,
+  matchSummary, linkAirportsByGeonameId, MATCH_KM, STUB_MATCH_KM, NO_MATCH_KM, type MatchEvidence,
 } from '../../scout/sourcemesh/entity-resolution.ts';
 import { unwrap } from '../../scout/contracts/index.ts';
 
@@ -151,6 +151,45 @@ test('POSSIBLE_MATCH is never merged automatically', () => {
     unwrap(mergeMatches(db));
     assert.equal(db.all('SELECT id FROM cities WHERE name = ?', 'Salem').length, 2,
       'an automatic decision on an ambiguous pair is what corrupts a graph');
+  } finally {
+    db.close();
+  }
+});
+
+test('a published GeoNames id links exactly, with nothing to infer', () => {
+  const db = seed();
+  try {
+    // OPTD publishes the GeoNames id of the city an airport serves; GeoNames
+    // publishes the same id on the city. Where both exist this is identity.
+    upsertCity(db, {
+      id: 'city:us-ca-los-angeles', name: 'Los Angeles', countryId: 'country:us',
+      admin1: 'CA', lat: 34.05, lon: -118.24, population: 3_900_000, timezone: null,
+      geonameId: 5368361,
+    } as never);
+    upsertAirport(db, {
+      id: 'airport:lax', iata: 'LAX', icao: 'KLAX', name: 'Los Angeles Intl',
+      cityId: null, countryId: 'country:us', regionCode: 'NA',
+      lat: 33.94, lon: -118.40, kind: 'large',
+      geonameId: 5368418, cityGeonameId: 5368361,
+    } as never);
+    // An airport whose city is not in the graph must be reported, not guessed at.
+    upsertAirport(db, {
+      id: 'airport:zzz', iata: 'ZZZ', icao: 'KZZZ', name: 'Nowhere Intl',
+      cityId: null, countryId: 'country:us', regionCode: 'NA',
+      lat: 1, lon: 1, kind: 'small', geonameId: 1, cityGeonameId: 999999999,
+    } as never);
+
+    const stats = unwrap(linkAirportsByGeonameId(db));
+    assert.equal(stats.linked, 1);
+    assert.equal(stats.noCityRow, 1, 'an unmatched id is reported, not invented');
+
+    const airport = db.get<{ city_id: string }>('SELECT city_id FROM airports WHERE id = ?', 'airport:lax');
+    assert.equal(airport?.city_id, 'city:us-ca-los-angeles');
+
+    // Re-running is idempotent: the link is already correct.
+    const again = unwrap(linkAirportsByGeonameId(db));
+    assert.equal(again.linked, 0);
+    assert.equal(again.alreadyCorrect, 1);
   } finally {
     db.close();
   }

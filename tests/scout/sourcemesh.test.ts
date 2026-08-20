@@ -255,7 +255,8 @@ test('region mapping falls back from subregion to region', () => {
 
 test('every source row lands in exactly one terminal bucket', () => {
   const balanced = {
-    source_rows: 100, parsed_rows: 100, mapped_rows: 100, validated_rows: 90, matched_rows: 100,
+    source_rows: 100, parsed_rows: 100, selected_out_rows: 0,
+    mapped_rows: 100, validated_rows: 90, matched_rows: 100,
     inserted_rows: 70, updated_rows: 15, unchanged_rows: 5, quarantined_rows: 8, rejected_rows: 2,
   };
   const check = checkAccounting(balanced);
@@ -266,6 +267,11 @@ test('every source row lands in exactly one terminal bucket', () => {
   const doubleCounted = { ...balanced, inserted_rows: 80 };
   assert.equal(checkAccounting(doubleCounted).balanced, false);
   assert.ok(checkAccounting(doubleCounted).explanation.includes('counted twice'));
+
+  // Rows a spec is deliberately not about are a destination, not a leak.
+  const withSelection = { ...balanced, source_rows: 150, selected_out_rows: 50 };
+  assert.equal(checkAccounting(withSelection).balanced, true,
+    'selected-out rows must count toward the total');
 
   const leaking = { ...balanced, inserted_rows: 60 };
   const leak = checkAccounting(leaking);

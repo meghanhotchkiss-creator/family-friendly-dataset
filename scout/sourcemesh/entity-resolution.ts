@@ -274,3 +274,39 @@ export function matchSummary(db: Db): Record<string, number> {
   }
   return out;
 }
+
+export interface ExactLinkStats {
+  linked: number;
+  alreadyCorrect: number;
+  noCityRow: number;
+}
+
+/**
+ * Link airports to cities by GeoNames id.
+ *
+ * This is identity, not similarity: OpenTravelData publishes the GeoNames id of
+ * the city an airport serves, and GeoNames publishes the same id on the city
+ * itself. Where both are present there is nothing to infer, so this runs before
+ * any name-and-distance matching and its results are never second-guessed by it.
+ */
+export function linkAirportsByGeonameId(db: Db): Result<ExactLinkStats> {
+  const stats: ExactLinkStats = { linked: 0, alreadyCorrect: 0, noCityRow: 0 };
+
+  const rows = db.all<{ airport_id: string; city_id: string | null; target: string | null }>(
+    `SELECT a.id AS airport_id, a.city_id AS city_id,
+            (SELECT c.id FROM cities c WHERE c.geoname_id = a.city_geoname_id LIMIT 1) AS target
+     FROM airports a
+     WHERE a.city_geoname_id IS NOT NULL`,
+  );
+
+  db.transaction(() => {
+    for (const row of rows) {
+      if (!row.target) { stats.noCityRow += 1; continue; }
+      if (row.city_id === row.target) { stats.alreadyCorrect += 1; continue; }
+      db.run('UPDATE airports SET city_id = ? WHERE id = ?', row.target, row.airport_id);
+      stats.linked += 1;
+    }
+  });
+
+  return ok(stats);
+}

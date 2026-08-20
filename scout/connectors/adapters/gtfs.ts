@@ -35,7 +35,7 @@ import { checkHealth, fetchResponseOf, requestOk } from './geography.ts';
  * contain commas, newlines and doubled quotes (`""` -> `"`). Handles CRLF and a
  * UTF-8 BOM, and ignores a trailing newline.
  */
-export function parseCsvRows(text: string): string[][] {
+export function parseCsvRows(text: string, delimiter = ','): string[][] {
   const input = text.charCodeAt(0) === 0xfeff ? text.slice(1) : text;
   const rows: string[][] = [];
   let row: string[] = [];
@@ -65,7 +65,7 @@ export function parseCsvRows(text: string): string[][] {
       started = true;
       continue;
     }
-    if (ch === ',') {
+    if (ch === delimiter) {
       row.push(field);
       field = '';
       started = true;
@@ -94,8 +94,8 @@ export function parseCsvRows(text: string): string[][] {
 }
 
 /** Rows keyed by the header line, values trimmed of surrounding whitespace. */
-export function parseCsv(text: string): Record<string, string>[] {
-  const rows = parseCsvRows(text);
+export function parseCsv(text: string, delimiter = ','): Record<string, string>[] {
+  const rows = parseCsvRows(text, delimiter);
   const header = rows[0];
   if (!header) return [];
   const keys = header.map((k) => k.trim());
