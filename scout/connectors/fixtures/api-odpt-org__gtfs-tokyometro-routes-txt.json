@@ -1,0 +1,7 @@
+{
+  "status": 200,
+  "headers": {
+    "content-type": "text/plain; charset=utf-8"
+  },
+  "bodyText": "route_id,agency_id,route_short_name,route_long_name,route_type\nG,TokyoMetro,G,Ginza Line,1\nH,TokyoMetro,H,Hibiya Line,1\nY,TokyoMetro,Y,Yurakucho Line,1\n"
+}

@@ -1,0 +1,132 @@
+{
+  "id": "optd-por",
+  "name": "OpenTravelData points of reference",
+  "entity": "airport",
+  "format": "csv",
+  "delimiter": "^",
+  "locator": "https://raw.githubusercontent.com/opentraveldata/opentraveldata/master/opentraveldata/optd_por_public.csv",
+  "homepage": "https://github.com/opentraveldata/opentraveldata",
+  "trustTier": "open_dataset",
+  "license": {
+    "name": "CC BY 4.0",
+    "attribution": "OpenTravelData (opentraveldata/opentraveldata), CC BY 4.0",
+    "commercialUse": true,
+    "url": "https://creativecommons.org/licenses/by/4.0/"
+  },
+  "updateFrequency": "daily",
+  "identity": [
+    "iata"
+  ],
+  "fields": {
+    "icao": {
+      "field": "icao_code",
+      "transform": "upper"
+    },
+    "iata": {
+      "field": "iata_code",
+      "transform": "upper"
+    },
+    "name": {
+      "field": "name",
+      "transform": "trim"
+    },
+    "lat": {
+      "field": "latitude",
+      "transform": "number"
+    },
+    "lon": {
+      "field": "longitude",
+      "transform": "number"
+    },
+    "countryIso2": {
+      "field": "country_code",
+      "transform": "upper"
+    },
+    "city": {
+      "field": "city_name_list",
+      "transform": "trim"
+    },
+    "admin1": {
+      "field": "adm1_code"
+    },
+    "geonameId": {
+      "field": "geoname_id",
+      "transform": "integer"
+    },
+    "featureCode": {
+      "field": "fcode"
+    },
+    "pageRank": {
+      "field": "page_rank",
+      "transform": "number"
+    },
+    "scheduledService": {
+      "const": true
+    },
+    "regionCode": {
+      "resolver": [
+        {
+          "lookup": {
+            "table": "countries",
+            "match": "iso2",
+            "using": "countryIso2",
+            "from": "region_code"
+          }
+        }
+      ]
+    },
+    "cityGeonameId": {
+      "field": "city_detail_list",
+      "extract": {
+        "pattern": "^[^|]*\\|([0-9]+)",
+        "group": 1
+      },
+      "transform": "integer"
+    }
+  },
+  "quality": {
+    "rejectIfMissing": [
+      "geonameId",
+      "name",
+      "lat",
+      "lon",
+      "countryIso2",
+      "regionCode"
+    ],
+    "warnIfMissing": [
+      "iata",
+      "icao"
+    ],
+    "ranges": [
+      {
+        "field": "lat",
+        "min": -90,
+        "max": 90
+      },
+      {
+        "field": "lon",
+        "min": -180,
+        "max": 180
+      }
+    ],
+    "minImportRatio": 0.9
+  },
+  "monitor": {
+    "frequency": "daily",
+    "strategy": "hash_diff"
+  },
+  "select": [
+    {
+      "field": "fcode",
+      "startsWith": [
+        "AIR"
+      ]
+    },
+    {
+      "field": "envelope_id",
+      "in": [
+        ""
+      ]
+    }
+  ]
+}

@@ -1,0 +1,142 @@
+[
+  {
+    "feedback_id": 1,
+    "trip_id": 1,
+    "family_id": 1,
+    "rating": 5,
+    "comments": "The Academy of Sciences covered a rainy morning and both kids stayed engaged."
+  },
+  {
+    "feedback_id": 2,
+    "trip_id": 2,
+    "family_id": 1,
+    "rating": 5,
+    "comments": "Zoo at opening was the right call. Balboa Park is a free afternoon on its own."
+  },
+  {
+    "feedback_id": 3,
+    "trip_id": 3,
+    "family_id": 2,
+    "rating": 4,
+    "comments": "Space Center is excellent but budget a full day and book the tram in advance."
+  },
+  {
+    "feedback_id": 4,
+    "trip_id": 4,
+    "family_id": 2,
+    "rating": 5,
+    "comments": "The DoSeum is the best children's museum we have been to in Texas."
+  },
+  {
+    "feedback_id": 5,
+    "trip_id": 5,
+    "family_id": 3,
+    "rating": 5,
+    "comments": "Four museum days in a row worked because each one had a different feel."
+  },
+  {
+    "feedback_id": 6,
+    "trip_id": 6,
+    "family_id": 3,
+    "rating": 4,
+    "comments": "Letchworth was the surprise of the trip. Niagara itself is crowded and wet."
+  },
+  {
+    "feedback_id": 7,
+    "trip_id": 7,
+    "family_id": 4,
+    "rating": 4,
+    "comments": "Aquarium splash pad is the reason to go in May. MOSI skewed a bit old for us."
+  },
+  {
+    "feedback_id": 8,
+    "trip_id": 8,
+    "family_id": 4,
+    "rating": 5,
+    "comments": "Glass-bottom boat was perfect with a five-year-old. Everglades boardwalk was easy."
+  },
+  {
+    "feedback_id": 9,
+    "trip_id": 9,
+    "family_id": 5,
+    "rating": 5,
+    "comments": "Rim Trail plus shuttles meant no one had to be carried. Great first canyon trip."
+  },
+  {
+    "feedback_id": 10,
+    "trip_id": 10,
+    "family_id": 5,
+    "rating": 5,
+    "comments": "Desert Museum is a zoo, garden and hike in one. Do the free flight show."
+  },
+  {
+    "feedback_id": 11,
+    "trip_id": 11,
+    "family_id": 6,
+    "rating": 5,
+    "comments": "Shedd and MSI back to back is a lot; the botanic garden day balanced it out."
+  },
+  {
+    "feedback_id": 12,
+    "trip_id": 12,
+    "family_id": 6,
+    "rating": 3,
+    "comments": "Fine for a snowed-in weekend but the aquarium is small for the price."
+  },
+  {
+    "feedback_id": 13,
+    "trip_id": 13,
+    "family_id": 7,
+    "rating": 5,
+    "comments": "Georgia Aquarium is worth the ticket. Puppetry Arts workshop sold out fast."
+  },
+  {
+    "feedback_id": 14,
+    "trip_id": 14,
+    "family_id": 7,
+    "rating": 4,
+    "comments": "Off-season Tybee was calm and cheap. Bring your own beach gear."
+  },
+  {
+    "feedback_id": 15,
+    "trip_id": 15,
+    "family_id": 8,
+    "rating": 5,
+    "comments": "COSI's toddler area let both kids play at their own level."
+  },
+  {
+    "feedback_id": 16,
+    "trip_id": 16,
+    "family_id": 8,
+    "rating": 4,
+    "comments": "Beautiful trails, but the stairs at Old Man's Cave are not stroller friendly."
+  },
+  {
+    "feedback_id": 17,
+    "trip_id": 17,
+    "family_id": 9,
+    "rating": 5,
+    "comments": "Free Lincoln Park Zoo after the nature museum made for a cheap perfect day."
+  },
+  {
+    "feedback_id": 18,
+    "trip_id": 18,
+    "family_id": 10,
+    "rating": 5,
+    "comments": "Dark skies at Big Bend were the whole point and they delivered."
+  },
+  {
+    "feedback_id": 19,
+    "trip_id": 19,
+    "family_id": 11,
+    "rating": 4,
+    "comments": "Small zoo, small price, right size for a preschooler."
+  },
+  {
+    "feedback_id": 20,
+    "trip_id": 20,
+    "family_id": 12,
+    "rating": 5,
+    "comments": "Two days at The Strong and we still did not see everything."
+  }
+]

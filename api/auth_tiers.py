@@ -10,6 +10,8 @@ from typing import Callable, Dict, Optional
 from fastapi import Depends, HTTPException
 from fastapi.security import APIKeyHeader
 
+from seed_loader import user_tiers as _seeded_user_tiers
+
 # Hierarchy of tiers for comparison when enforcing access levels.
 _TIER_LEVELS = {"free": 0, "pro": 1, "business": 2}
 
@@ -26,6 +28,12 @@ def _load_user_tiers() -> Dict[str, str]:
     a deployment that forgot to configure keys denies access rather than
     accepting well-known ones. Set ``ALLOW_DEMO_KEYS=true`` to restore the
     documented demo keys for local development only.
+
+    The seeded users in ``data/seeds/users.json`` are development fixtures and
+    are loaded under that same switch. Merging them in unconditionally would
+    undo the fix above by another route: their keys are committed to this
+    repository, so a production deployment would once again accept credentials
+    anyone can read.
     """
     raw = os.getenv("API_KEY_TIERS")
     if raw:
@@ -41,11 +49,13 @@ def _load_user_tiers() -> Dict[str, str]:
         return dict(parsed)
 
     if os.getenv("ALLOW_DEMO_KEYS", "false").lower() == "true":
-        return {
+        demo = {
             "demo_free_key": "free",
             "demo_pro_key": "pro",
             "demo_business_key": "business",
         }
+        # Seed users may override a demo key, but only inside this branch.
+        return {**demo, **_seeded_user_tiers()}
 
     return {}
 

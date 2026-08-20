@@ -1,0 +1,272 @@
+{
+  "status": 200,
+  "headers": {
+    "content-type": "application/json"
+  },
+  "body": {
+    "page": {
+      "region": "SA",
+      "limit": 100,
+      "returned": 8,
+      "next_cursor": null
+    },
+    "places": [
+      {
+        "id": "fp_br_catavento-cultural",
+        "name": "Catavento Cultural",
+        "category": "science_center",
+        "subcategory": "Science Museum",
+        "location": {
+          "lat": -23.545,
+          "lon": -46.627,
+          "precision": "venue",
+          "city": "Sao Paulo",
+          "admin1": null,
+          "country": "BR",
+          "timezone": "America/Sao_Paulo",
+          "city_lat": -23.5505,
+          "city_lon": -46.6333,
+          "neighborhood": null
+        },
+        "price_level": 1,
+        "setting": "indoor",
+        "rating": 8.8,
+        "good_for_ages": {
+          "min": 4,
+          "max": 99
+        },
+        "typical_visit_minutes": 150,
+        "description": "Interactive science palace with a life-size dinosaur hall.",
+        "tags": [
+          "hands-on",
+          "dinosaurs"
+        ],
+        "region": "SA"
+      },
+      {
+        "id": "fp_br_parque-ibirapuera",
+        "name": "Parque Ibirapuera",
+        "category": "park",
+        "subcategory": "Public Park",
+        "location": {
+          "lat": -23.5874,
+          "lon": -46.6576,
+          "precision": "venue",
+          "city": "Sao Paulo",
+          "admin1": null,
+          "country": "BR",
+          "timezone": "America/Sao_Paulo",
+          "city_lat": -23.5505,
+          "city_lon": -46.6333,
+          "neighborhood": null
+        },
+        "price_level": 0,
+        "setting": "outdoor",
+        "rating": 9.2,
+        "good_for_ages": {
+          "min": 0,
+          "max": 99
+        },
+        "typical_visit_minutes": 180,
+        "description": "Sao Paulo central park with bike paths, lakes and a planetarium.",
+        "tags": [
+          "bikes",
+          "free"
+        ],
+        "region": "SA"
+      },
+      {
+        "id": "fp_br_aquario",
+        "name": "AquaRio",
+        "category": "aquarium",
+        "subcategory": "Aquarium",
+        "location": {
+          "lat": -22.893,
+          "lon": -43.193,
+          "precision": "venue",
+          "city": "Rio de Janeiro",
+          "admin1": null,
+          "country": "BR",
+          "timezone": "America/Sao_Paulo",
+          "city_lat": -22.9068,
+          "city_lon": -43.1729,
+          "neighborhood": null
+        },
+        "price_level": 3,
+        "setting": "indoor",
+        "rating": 8.8,
+        "good_for_ages": {
+          "min": 2,
+          "max": 99
+        },
+        "typical_visit_minutes": 150,
+        "description": "South America largest aquarium, with a 3.5 million litre ocean tank.",
+        "tags": [
+          "ocean",
+          "sharks"
+        ],
+        "region": "SA"
+      },
+      {
+        "id": "fp_ar_museo-participativo-de-ciencias",
+        "name": "Museo Participativo de Ciencias",
+        "category": "science_center",
+        "subcategory": "Science Museum",
+        "location": {
+          "lat": -34.583,
+          "lon": -58.42,
+          "precision": "venue",
+          "city": "Buenos Aires",
+          "admin1": null,
+          "country": "AR",
+          "timezone": "America/Argentina/Buenos_Aires",
+          "city_lat": -34.6037,
+          "city_lon": -58.3816,
+          "neighborhood": null
+        },
+        "price_level": 1,
+        "setting": "indoor",
+        "rating": 8.4,
+        "good_for_ages": {
+          "min": 4,
+          "max": 14
+        },
+        "typical_visit_minutes": 120,
+        "description": "Prohibido no tocar: a museum where touching everything is the rule.",
+        "tags": [
+          "hands-on",
+          "spanish"
+        ],
+        "region": "SA"
+      },
+      {
+        "id": "fp_ar_ecoparque-buenos-aires",
+        "name": "Ecoparque Buenos Aires",
+        "category": "park",
+        "subcategory": "Urban Ecopark",
+        "location": {
+          "lat": -34.575,
+          "lon": -58.411,
+          "precision": "venue",
+          "city": "Buenos Aires",
+          "admin1": null,
+          "country": "AR",
+          "timezone": "America/Argentina/Buenos_Aires",
+          "city_lat": -34.6037,
+          "city_lon": -58.3816,
+          "neighborhood": null
+        },
+        "price_level": 0,
+        "setting": "outdoor",
+        "rating": 8,
+        "good_for_ages": {
+          "min": 0,
+          "max": 99
+        },
+        "typical_visit_minutes": 150,
+        "description": "The former city zoo, now a free conservation park in Palermo.",
+        "tags": [
+          "free",
+          "animals"
+        ],
+        "region": "SA"
+      },
+      {
+        "id": "fp_cl_parque-metropolitano-de-santiago",
+        "name": "Parque Metropolitano de Santiago",
+        "category": "park",
+        "subcategory": "Metropolitan Park",
+        "location": {
+          "lat": -33.425,
+          "lon": -70.632,
+          "precision": "venue",
+          "city": "Santiago",
+          "admin1": null,
+          "country": "CL",
+          "timezone": "America/Santiago",
+          "city_lat": -33.4489,
+          "city_lon": -70.6693,
+          "neighborhood": null
+        },
+        "price_level": 2,
+        "setting": "outdoor",
+        "rating": 8.6,
+        "good_for_ages": {
+          "min": 1,
+          "max": 99
+        },
+        "typical_visit_minutes": 180,
+        "description": "Funicular, cable car and the city zoo on the San Cristobal hill.",
+        "tags": [
+          "funicular",
+          "views"
+        ],
+        "region": "SA"
+      },
+      {
+        "id": "fp_pe_circuito-magico-del-agua",
+        "name": "Circuito Magico del Agua",
+        "category": "park",
+        "subcategory": "Fountain Park",
+        "location": {
+          "lat": -12.07,
+          "lon": -77.035,
+          "precision": "venue",
+          "city": "Lima",
+          "admin1": null,
+          "country": "PE",
+          "timezone": "America/Lima",
+          "city_lat": -12.0464,
+          "city_lon": -77.0428,
+          "neighborhood": null
+        },
+        "price_level": 1,
+        "setting": "outdoor",
+        "rating": 9,
+        "good_for_ages": {
+          "min": 0,
+          "max": 99
+        },
+        "typical_visit_minutes": 120,
+        "description": "Thirteen fountains with an evening laser and water show kids run through.",
+        "tags": [
+          "fountains",
+          "evening"
+        ],
+        "region": "SA"
+      },
+      {
+        "id": "fp_co_maloka",
+        "name": "Maloka",
+        "category": "science_center",
+        "subcategory": "Science Centre",
+        "location": {
+          "lat": 4.652,
+          "lon": -74.108,
+          "precision": "venue",
+          "city": "Bogota",
+          "admin1": null,
+          "country": "CO",
+          "timezone": "America/Bogota",
+          "city_lat": 4.711,
+          "city_lon": -74.0721,
+          "neighborhood": null
+        },
+        "price_level": 2,
+        "setting": "indoor",
+        "rating": 8.6,
+        "good_for_ages": {
+          "min": 4,
+          "max": 99
+        },
+        "typical_visit_minutes": 180,
+        "description": "Interactive science centre with a dome cinema in Ciudad Salitre.",
+        "tags": [
+          "hands-on",
+          "dome"
+        ],
+        "region": "SA"
+      }
+    ]
+  }
+}

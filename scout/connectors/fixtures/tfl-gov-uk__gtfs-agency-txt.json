@@ -1,0 +1,7 @@
+{
+  "status": 200,
+  "headers": {
+    "content-type": "text/plain; charset=utf-8"
+  },
+  "bodyText": "agency_id,agency_name,agency_url,agency_timezone,agency_lang\nTFL,Transport for London,https://tfl.gov.uk,Europe/London,en\n"
+}

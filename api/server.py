@@ -60,7 +60,11 @@ def load_dataset():
     except Exception as exc:
         # The path/URL is deployment configuration; echoing it to callers
         # discloses internal layout. Keep the detail server-side.
-        logger.exception("Failed to load dataset from %s", DATA_URL)
+        logger.exception(
+            "Failed to load dataset from %s. Build it with: "
+            "python scripts/build_dataset.py",
+            DATA_URL,
+        )
         raise HTTPException(status_code=500, detail="Dataset is unavailable") from exc
 
 def verify_api_key(api_key: str = Depends(api_key_header)):
@@ -88,6 +92,20 @@ def verify_firebase_token(token: str = Depends(oauth2_scheme)):
         raise HTTPException(status_code=403, detail="Invalid Firebase token")
 
 app = FastAPI(title="Family Friendly Dataset API", version="4.0")
+
+# The React widgets in widgets/ call /points/... and /payments/..., so both
+# routers have to be mounted for the dashboard to work at all.
+from points import router as points_router  # noqa: E402
+
+app.include_router(points_router, prefix="/points", tags=["points"])
+
+try:
+    from payments import router as payments_router
+except Exception:
+    # stripe is an optional dependency; the rest of the API works without it.
+    logger.info("Payments router not mounted: stripe is unavailable")
+else:
+    app.include_router(payments_router, prefix="/payments", tags=["payments"])
 
 # Values accepted by the ?indoor= filter. An unrecognised value is a client
 # error: returning an empty list for it is indistinguishable from "no matches",

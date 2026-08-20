@@ -1,0 +1,2402 @@
+[
+  {
+    "id": "ca-001",
+    "name": "California Academy of Sciences",
+    "type": "Natural History Museum",
+    "category": "museum",
+    "city": "San Francisco",
+    "state": "CA",
+    "indoor_or_outdoor": "indoor",
+    "price_tier": "$$",
+    "min_age": 3,
+    "max_age": 99,
+    "avg_duration_hours": 3.5,
+    "rating": 4.7,
+    "tags": [
+      "aquarium",
+      "planetarium",
+      "rainforest"
+    ],
+    "description": "Aquarium, planetarium and rainforest under one living roof."
+  },
+  {
+    "id": "ca-002",
+    "name": "Exploratorium",
+    "type": "Science Center",
+    "category": "museum",
+    "city": "San Francisco",
+    "state": "CA",
+    "indoor_or_outdoor": "indoor",
+    "price_tier": "$$",
+    "min_age": 4,
+    "max_age": 99,
+    "avg_duration_hours": 3.0,
+    "rating": 4.7,
+    "tags": [
+      "hands-on",
+      "science",
+      "interactive"
+    ],
+    "description": "Hands-on science exhibits kids are encouraged to touch."
+  },
+  {
+    "id": "ca-003",
+    "name": "San Diego Zoo",
+    "type": "Zoo",
+    "category": "zoo",
+    "city": "San Diego",
+    "state": "CA",
+    "indoor_or_outdoor": "outdoor",
+    "price_tier": "$$$",
+    "min_age": 1,
+    "max_age": 99,
+    "avg_duration_hours": 5.0,
+    "rating": 4.8,
+    "tags": [
+      "animals",
+      "pandas",
+      "safari"
+    ],
+    "description": "Sprawling zoo with more than 3,500 animals and a guided bus tour."
+  },
+  {
+    "id": "ca-004",
+    "name": "Monterey Bay Aquarium",
+    "type": "Aquarium",
+    "category": "aquarium",
+    "city": "Monterey",
+    "state": "CA",
+    "indoor_or_outdoor": "indoor",
+    "price_tier": "$$$",
+    "min_age": 2,
+    "max_age": 99,
+    "avg_duration_hours": 3.5,
+    "rating": 4.8,
+    "tags": [
+      "sea otters",
+      "kelp forest",
+      "touch pools"
+    ],
+    "description": "Kelp forest tank, sea otters and open-air touch pools."
+  },
+  {
+    "id": "ca-005",
+    "name": "Griffith Observatory",
+    "type": "Observatory",
+    "category": "museum",
+    "city": "Los Angeles",
+    "state": "CA",
+    "indoor_or_outdoor": "indoor",
+    "price_tier": "free",
+    "min_age": 5,
+    "max_age": 99,
+    "avg_duration_hours": 2.5,
+    "rating": 4.7,
+    "tags": [
+      "space",
+      "telescope",
+      "city views"
+    ],
+    "description": "Free public telescopes and space exhibits above the city."
+  },
+  {
+    "id": "ca-006",
+    "name": "Santa Monica Pier",
+    "type": "Boardwalk",
+    "category": "landmark",
+    "city": "Santa Monica",
+    "state": "CA",
+    "indoor_or_outdoor": "outdoor",
+    "price_tier": "free",
+    "min_age": 0,
+    "max_age": 99,
+    "avg_duration_hours": 2.5,
+    "rating": 4.5,
+    "tags": [
+      "beach",
+      "rides",
+      "arcade"
+    ],
+    "description": "Historic pier with a small amusement park and beach access."
+  },
+  {
+    "id": "ca-007",
+    "name": "Golden Gate Park",
+    "type": "Urban Park",
+    "category": "park",
+    "city": "San Francisco",
+    "state": "CA",
+    "indoor_or_outdoor": "outdoor",
+    "price_tier": "free",
+    "min_age": 0,
+    "max_age": 99,
+    "avg_duration_hours": 3.0,
+    "rating": 4.7,
+    "tags": [
+      "playgrounds",
+      "gardens",
+      "carousel"
+    ],
+    "description": "Huge city park with playgrounds, gardens and a carousel."
+  },
+  {
+    "id": "ca-008",
+    "name": "La Brea Tar Pits and Museum",
+    "type": "Paleontology Museum",
+    "category": "museum",
+    "city": "Los Angeles",
+    "state": "CA",
+    "indoor_or_outdoor": "indoor",
+    "price_tier": "$$",
+    "min_age": 4,
+    "max_age": 99,
+    "avg_duration_hours": 2.0,
+    "rating": 4.5,
+    "tags": [
+      "fossils",
+      "ice age",
+      "dig site"
+    ],
+    "description": "Ice Age fossils excavated from active tar pits on site."
+  },
+  {
+    "id": "ca-009",
+    "name": "Balboa Park",
+    "type": "Cultural Park",
+    "category": "park",
+    "city": "San Diego",
+    "state": "CA",
+    "indoor_or_outdoor": "outdoor",
+    "price_tier": "free",
+    "min_age": 0,
+    "max_age": 99,
+    "avg_duration_hours": 4.0,
+    "rating": 4.8,
+    "tags": [
+      "gardens",
+      "museums",
+      "playground"
+    ],
+    "description": "Gardens, museums and open lawns in one walkable park."
+  },
+  {
+    "id": "ca-010",
+    "name": "Children's Discovery Museum of San Jose",
+    "type": "Children's Museum",
+    "category": "museum",
+    "city": "San Jose",
+    "state": "CA",
+    "indoor_or_outdoor": "indoor",
+    "price_tier": "$$",
+    "min_age": 1,
+    "max_age": 10,
+    "avg_duration_hours": 2.5,
+    "rating": 4.6,
+    "tags": [
+      "toddlers",
+      "play",
+      "water table"
+    ],
+    "description": "Purple landmark museum built for hands-on toddler play."
+  },
+  {
+    "id": "ca-011",
+    "name": "Yosemite National Park",
+    "type": "National Park",
+    "category": "park",
+    "city": "Yosemite Valley",
+    "state": "CA",
+    "indoor_or_outdoor": "outdoor",
+    "price_tier": "$$",
+    "min_age": 0,
+    "max_age": 99,
+    "avg_duration_hours": 8.0,
+    "rating": 4.9,
+    "tags": [
+      "hiking",
+      "waterfalls",
+      "granite"
+    ],
+    "description": "Granite cliffs, waterfalls and easy valley-floor trails."
+  },
+  {
+    "id": "ca-012",
+    "name": "Los Angeles Central Library",
+    "type": "Public Library",
+    "category": "library",
+    "city": "Los Angeles",
+    "state": "CA",
+    "indoor_or_outdoor": "indoor",
+    "price_tier": "free",
+    "min_age": 0,
+    "max_age": 99,
+    "avg_duration_hours": 1.5,
+    "rating": 4.6,
+    "tags": [
+      "story time",
+      "free wifi",
+      "quiet"
+    ],
+    "description": "Landmark library with children's wing and free story hours."
+  },
+  {
+    "id": "ca-013",
+    "name": "Aquarium of the Pacific",
+    "type": "Aquarium",
+    "category": "aquarium",
+    "city": "Long Beach",
+    "state": "CA",
+    "indoor_or_outdoor": "indoor",
+    "price_tier": "$$$",
+    "min_age": 2,
+    "max_age": 99,
+    "avg_duration_hours": 3.0,
+    "rating": 4.6,
+    "tags": [
+      "sharks",
+      "lorikeets",
+      "touch pools"
+    ],
+    "description": "Pacific-focused aquarium with shark and lorikeet encounters."
+  },
+  {
+    "id": "ca-014",
+    "name": "Sacramento Zoo",
+    "type": "Zoo",
+    "category": "zoo",
+    "city": "Sacramento",
+    "state": "CA",
+    "indoor_or_outdoor": "outdoor",
+    "price_tier": "$$",
+    "min_age": 1,
+    "max_age": 99,
+    "avg_duration_hours": 2.5,
+    "rating": 4.4,
+    "tags": [
+      "animals",
+      "stroller friendly",
+      "compact"
+    ],
+    "description": "Compact, stroller-friendly zoo that suits a half-day visit."
+  },
+  {
+    "id": "ca-015",
+    "name": "Muir Woods National Monument",
+    "type": "Redwood Forest",
+    "category": "park",
+    "city": "Mill Valley",
+    "state": "CA",
+    "indoor_or_outdoor": "outdoor",
+    "price_tier": "$",
+    "min_age": 3,
+    "max_age": 99,
+    "avg_duration_hours": 2.5,
+    "rating": 4.7,
+    "tags": [
+      "redwoods",
+      "boardwalk",
+      "easy trail"
+    ],
+    "description": "Flat boardwalk loop beneath old-growth coast redwoods."
+  },
+  {
+    "id": "tx-001",
+    "name": "Space Center Houston",
+    "type": "Science Center",
+    "category": "museum",
+    "city": "Houston",
+    "state": "TX",
+    "indoor_or_outdoor": "indoor",
+    "price_tier": "$$$",
+    "min_age": 4,
+    "max_age": 99,
+    "avg_duration_hours": 4.5,
+    "rating": 4.7,
+    "tags": [
+      "nasa",
+      "rockets",
+      "tram tour"
+    ],
+    "description": "Official NASA visitor center with a tram tour to Mission Control."
+  },
+  {
+    "id": "tx-002",
+    "name": "Houston Museum of Natural Science",
+    "type": "Natural History Museum",
+    "category": "museum",
+    "city": "Houston",
+    "state": "TX",
+    "indoor_or_outdoor": "indoor",
+    "price_tier": "$$",
+    "min_age": 3,
+    "max_age": 99,
+    "avg_duration_hours": 3.5,
+    "rating": 4.7,
+    "tags": [
+      "dinosaurs",
+      "butterflies",
+      "gems"
+    ],
+    "description": "Dinosaur hall, butterfly center and a planetarium."
+  },
+  {
+    "id": "tx-003",
+    "name": "San Antonio River Walk",
+    "type": "Waterfront Promenade",
+    "category": "landmark",
+    "city": "San Antonio",
+    "state": "TX",
+    "indoor_or_outdoor": "outdoor",
+    "price_tier": "free",
+    "min_age": 0,
+    "max_age": 99,
+    "avg_duration_hours": 2.5,
+    "rating": 4.6,
+    "tags": [
+      "riverboat",
+      "dining",
+      "stroll"
+    ],
+    "description": "Shaded riverside walkway with narrated boat rides."
+  },
+  {
+    "id": "tx-004",
+    "name": "Dallas World Aquarium",
+    "type": "Aquarium",
+    "category": "aquarium",
+    "city": "Dallas",
+    "state": "TX",
+    "indoor_or_outdoor": "indoor",
+    "price_tier": "$$$",
+    "min_age": 2,
+    "max_age": 99,
+    "avg_duration_hours": 2.5,
+    "rating": 4.4,
+    "tags": [
+      "rainforest",
+      "sloths",
+      "manatees"
+    ],
+    "description": "Rainforest walk-through paired with aquarium tunnels."
+  },
+  {
+    "id": "tx-005",
+    "name": "Fort Worth Zoo",
+    "type": "Zoo",
+    "category": "zoo",
+    "city": "Fort Worth",
+    "state": "TX",
+    "indoor_or_outdoor": "outdoor",
+    "price_tier": "$$",
+    "min_age": 1,
+    "max_age": 99,
+    "avg_duration_hours": 4.0,
+    "rating": 4.8,
+    "tags": [
+      "animals",
+      "train",
+      "shaded"
+    ],
+    "description": "Consistently top-ranked zoo with a kid-sized train."
+  },
+  {
+    "id": "tx-006",
+    "name": "Perot Museum of Nature and Science",
+    "type": "Science Center",
+    "category": "museum",
+    "city": "Dallas",
+    "state": "TX",
+    "indoor_or_outdoor": "indoor",
+    "price_tier": "$$",
+    "min_age": 3,
+    "max_age": 99,
+    "avg_duration_hours": 3.0,
+    "rating": 4.7,
+    "tags": [
+      "dinosaurs",
+      "engineering",
+      "kids lab"
+    ],
+    "description": "Five floors of science plus a dedicated children's lab."
+  },
+  {
+    "id": "tx-007",
+    "name": "Zilker Metropolitan Park",
+    "type": "Urban Park",
+    "category": "park",
+    "city": "Austin",
+    "state": "TX",
+    "indoor_or_outdoor": "outdoor",
+    "price_tier": "free",
+    "min_age": 0,
+    "max_age": 99,
+    "avg_duration_hours": 3.0,
+    "rating": 4.7,
+    "tags": [
+      "springs",
+      "playground",
+      "kayaks"
+    ],
+    "description": "Riverside park with a playscape, trails and spring-fed pool."
+  },
+  {
+    "id": "tx-008",
+    "name": "Texas State Aquarium",
+    "type": "Aquarium",
+    "category": "aquarium",
+    "city": "Corpus Christi",
+    "state": "TX",
+    "indoor_or_outdoor": "indoor",
+    "price_tier": "$$",
+    "min_age": 2,
+    "max_age": 99,
+    "avg_duration_hours": 3.0,
+    "rating": 4.6,
+    "tags": [
+      "dolphins",
+      "sharks",
+      "splash park"
+    ],
+    "description": "Gulf of Mexico species plus an outdoor splash park."
+  },
+  {
+    "id": "tx-009",
+    "name": "The DoSeum",
+    "type": "Children's Museum",
+    "category": "museum",
+    "city": "San Antonio",
+    "state": "TX",
+    "indoor_or_outdoor": "indoor",
+    "price_tier": "$$",
+    "min_age": 1,
+    "max_age": 10,
+    "avg_duration_hours": 3.0,
+    "rating": 4.7,
+    "tags": [
+      "hands-on",
+      "water play",
+      "climbing"
+    ],
+    "description": "San Antonio's museum for kids, built around hands-on play."
+  },
+  {
+    "id": "tx-010",
+    "name": "Houston Zoo",
+    "type": "Zoo",
+    "category": "zoo",
+    "city": "Houston",
+    "state": "TX",
+    "indoor_or_outdoor": "outdoor",
+    "price_tier": "$$",
+    "min_age": 1,
+    "max_age": 99,
+    "avg_duration_hours": 4.0,
+    "rating": 4.6,
+    "tags": [
+      "animals",
+      "carousel",
+      "playground"
+    ],
+    "description": "Large zoo inside Hermann Park with a carousel nearby."
+  },
+  {
+    "id": "tx-011",
+    "name": "Thinkery",
+    "type": "Children's Museum",
+    "category": "museum",
+    "city": "Austin",
+    "state": "TX",
+    "indoor_or_outdoor": "indoor",
+    "price_tier": "$$",
+    "min_age": 0,
+    "max_age": 10,
+    "avg_duration_hours": 2.5,
+    "rating": 4.6,
+    "tags": [
+      "toddlers",
+      "light lab",
+      "water"
+    ],
+    "description": "Austin children's museum with a dedicated baby area."
+  },
+  {
+    "id": "tx-012",
+    "name": "Big Bend National Park",
+    "type": "National Park",
+    "category": "park",
+    "city": "Terlingua",
+    "state": "TX",
+    "indoor_or_outdoor": "outdoor",
+    "price_tier": "$$",
+    "min_age": 5,
+    "max_age": 99,
+    "avg_duration_hours": 8.0,
+    "rating": 4.8,
+    "tags": [
+      "desert",
+      "hiking",
+      "stargazing"
+    ],
+    "description": "Desert canyons, river trails and world-class dark skies."
+  },
+  {
+    "id": "tx-013",
+    "name": "Austin Central Library",
+    "type": "Public Library",
+    "category": "library",
+    "city": "Austin",
+    "state": "TX",
+    "indoor_or_outdoor": "indoor",
+    "price_tier": "free",
+    "min_age": 0,
+    "max_age": 99,
+    "avg_duration_hours": 1.5,
+    "rating": 4.8,
+    "tags": [
+      "rooftop",
+      "story time",
+      "reading porch"
+    ],
+    "description": "Award-winning library with a rooftop garden and story times."
+  },
+  {
+    "id": "tx-014",
+    "name": "Dallas Arboretum and Botanical Garden",
+    "type": "Botanical Garden",
+    "category": "park",
+    "city": "Dallas",
+    "state": "TX",
+    "indoor_or_outdoor": "outdoor",
+    "price_tier": "$$",
+    "min_age": 0,
+    "max_age": 99,
+    "avg_duration_hours": 3.0,
+    "rating": 4.8,
+    "tags": [
+      "gardens",
+      "children's garden",
+      "lake views"
+    ],
+    "description": "Lakeside gardens with an eight-acre children's adventure garden."
+  },
+  {
+    "id": "tx-015",
+    "name": "Kemah Boardwalk",
+    "type": "Boardwalk",
+    "category": "landmark",
+    "city": "Kemah",
+    "state": "TX",
+    "indoor_or_outdoor": "outdoor",
+    "price_tier": "$",
+    "min_age": 2,
+    "max_age": 99,
+    "avg_duration_hours": 3.0,
+    "rating": 4.4,
+    "tags": [
+      "rides",
+      "bayfront",
+      "games"
+    ],
+    "description": "Bayfront boardwalk with amusement rides and midway games."
+  },
+  {
+    "id": "fl-001",
+    "name": "Kennedy Space Center Visitor Complex",
+    "type": "Science Center",
+    "category": "museum",
+    "city": "Merritt Island",
+    "state": "FL",
+    "indoor_or_outdoor": "indoor",
+    "price_tier": "$$$",
+    "min_age": 4,
+    "max_age": 99,
+    "avg_duration_hours": 6.0,
+    "rating": 4.8,
+    "tags": [
+      "rockets",
+      "shuttle",
+      "astronauts"
+    ],
+    "description": "Shuttle Atlantis, rocket garden and astronaut encounters."
+  },
+  {
+    "id": "fl-002",
+    "name": "Everglades National Park",
+    "type": "National Park",
+    "category": "park",
+    "city": "Homestead",
+    "state": "FL",
+    "indoor_or_outdoor": "outdoor",
+    "price_tier": "$$",
+    "min_age": 4,
+    "max_age": 99,
+    "avg_duration_hours": 5.0,
+    "rating": 4.7,
+    "tags": [
+      "alligators",
+      "boardwalk",
+      "airboat"
+    ],
+    "description": "Boardwalk trails through sawgrass with alligator sightings."
+  },
+  {
+    "id": "fl-003",
+    "name": "The Florida Aquarium",
+    "type": "Aquarium",
+    "category": "aquarium",
+    "city": "Tampa",
+    "state": "FL",
+    "indoor_or_outdoor": "indoor",
+    "price_tier": "$$",
+    "min_age": 1,
+    "max_age": 99,
+    "avg_duration_hours": 3.0,
+    "rating": 4.7,
+    "tags": [
+      "sharks",
+      "splash pad",
+      "coral"
+    ],
+    "description": "Indoor galleries plus an outdoor splash pad for little kids."
+  },
+  {
+    "id": "fl-004",
+    "name": "Zoo Miami",
+    "type": "Zoo",
+    "category": "zoo",
+    "city": "Miami",
+    "state": "FL",
+    "indoor_or_outdoor": "outdoor",
+    "price_tier": "$$",
+    "min_age": 1,
+    "max_age": 99,
+    "avg_duration_hours": 4.5,
+    "rating": 4.5,
+    "tags": [
+      "animals",
+      "monorail",
+      "safari cycles"
+    ],
+    "description": "Large open-air zoo with a monorail and rentable safari cycles."
+  },
+  {
+    "id": "fl-005",
+    "name": "Museum of Science and Industry",
+    "type": "Science Center",
+    "category": "museum",
+    "city": "Tampa",
+    "state": "FL",
+    "indoor_or_outdoor": "indoor",
+    "price_tier": "$$",
+    "min_age": 3,
+    "max_age": 99,
+    "avg_duration_hours": 3.0,
+    "rating": 4.4,
+    "tags": [
+      "hands-on",
+      "planetarium",
+      "coasters"
+    ],
+    "description": "Hands-on science floors and a domed planetarium."
+  },
+  {
+    "id": "fl-006",
+    "name": "Clearwater Marine Aquarium",
+    "type": "Marine Rescue Center",
+    "category": "aquarium",
+    "city": "Clearwater",
+    "state": "FL",
+    "indoor_or_outdoor": "indoor",
+    "price_tier": "$$",
+    "min_age": 2,
+    "max_age": 99,
+    "avg_duration_hours": 3.0,
+    "rating": 4.5,
+    "tags": [
+      "dolphins",
+      "rescue",
+      "sea turtles"
+    ],
+    "description": "Working rescue hospital for dolphins and sea turtles."
+  },
+  {
+    "id": "fl-007",
+    "name": "Glazer Children's Museum",
+    "type": "Children's Museum",
+    "category": "museum",
+    "city": "Tampa",
+    "state": "FL",
+    "indoor_or_outdoor": "indoor",
+    "price_tier": "$$",
+    "min_age": 0,
+    "max_age": 10,
+    "avg_duration_hours": 2.5,
+    "rating": 4.6,
+    "tags": [
+      "role play",
+      "water works",
+      "toddlers"
+    ],
+    "description": "Role-play city built at kid scale next to Curtis Hixon Park."
+  },
+  {
+    "id": "fl-008",
+    "name": "Jacksonville Zoo and Gardens",
+    "type": "Zoo",
+    "category": "zoo",
+    "city": "Jacksonville",
+    "state": "FL",
+    "indoor_or_outdoor": "outdoor",
+    "price_tier": "$$",
+    "min_age": 1,
+    "max_age": 99,
+    "avg_duration_hours": 4.0,
+    "rating": 4.7,
+    "tags": [
+      "animals",
+      "splash park",
+      "train"
+    ],
+    "description": "Zoo and botanical gardens with a splash park and railroad."
+  },
+  {
+    "id": "fl-009",
+    "name": "St. Augustine Historic District",
+    "type": "Historic District",
+    "category": "historic_site",
+    "city": "St. Augustine",
+    "state": "FL",
+    "indoor_or_outdoor": "outdoor",
+    "price_tier": "free",
+    "min_age": 5,
+    "max_age": 99,
+    "avg_duration_hours": 3.5,
+    "rating": 4.7,
+    "tags": [
+      "colonial",
+      "fort",
+      "walking tour"
+    ],
+    "description": "Oldest US city center, walkable with a Spanish stone fort."
+  },
+  {
+    "id": "fl-010",
+    "name": "Orlando Science Center",
+    "type": "Science Center",
+    "category": "museum",
+    "city": "Orlando",
+    "state": "FL",
+    "indoor_or_outdoor": "indoor",
+    "price_tier": "$$",
+    "min_age": 2,
+    "max_age": 99,
+    "avg_duration_hours": 3.5,
+    "rating": 4.6,
+    "tags": [
+      "dinosaurs",
+      "kidstown",
+      "observatory"
+    ],
+    "description": "Four themed floors including a toddler-only KidsTown."
+  },
+  {
+    "id": "fl-011",
+    "name": "John Pennekamp Coral Reef State Park",
+    "type": "State Park",
+    "category": "park",
+    "city": "Key Largo",
+    "state": "FL",
+    "indoor_or_outdoor": "outdoor",
+    "price_tier": "$",
+    "min_age": 5,
+    "max_age": 99,
+    "avg_duration_hours": 4.0,
+    "rating": 4.7,
+    "tags": [
+      "snorkeling",
+      "glass bottom boat",
+      "reef"
+    ],
+    "description": "First US undersea park, with glass-bottom boat tours."
+  },
+  {
+    "id": "fl-012",
+    "name": "Jacksonville Public Library Main Library",
+    "type": "Public Library",
+    "category": "library",
+    "city": "Jacksonville",
+    "state": "FL",
+    "indoor_or_outdoor": "indoor",
+    "price_tier": "free",
+    "min_age": 0,
+    "max_age": 99,
+    "avg_duration_hours": 1.5,
+    "rating": 4.4,
+    "tags": [
+      "story time",
+      "children's wing",
+      "free"
+    ],
+    "description": "Downtown main branch with a large dedicated children's wing."
+  },
+  {
+    "id": "fl-013",
+    "name": "Busch Gardens Tampa Bay",
+    "type": "Theme Park",
+    "category": "theme_park",
+    "city": "Tampa",
+    "state": "FL",
+    "indoor_or_outdoor": "outdoor",
+    "price_tier": "$$$",
+    "min_age": 3,
+    "max_age": 99,
+    "avg_duration_hours": 8.0,
+    "rating": 4.5,
+    "tags": [
+      "coasters",
+      "animals",
+      "sesame street"
+    ],
+    "description": "Coasters, an African animal trail and a Sesame Street land."
+  },
+  {
+    "id": "fl-014",
+    "name": "Naples Botanical Garden",
+    "type": "Botanical Garden",
+    "category": "park",
+    "city": "Naples",
+    "state": "FL",
+    "indoor_or_outdoor": "outdoor",
+    "price_tier": "$$",
+    "min_age": 0,
+    "max_age": 99,
+    "avg_duration_hours": 2.5,
+    "rating": 4.8,
+    "tags": [
+      "gardens",
+      "kids garden",
+      "birds"
+    ],
+    "description": "Tropical gardens with a children's garden and butterfly house."
+  },
+  {
+    "id": "fl-015",
+    "name": "Miami Children's Museum",
+    "type": "Children's Museum",
+    "category": "museum",
+    "city": "Miami",
+    "state": "FL",
+    "indoor_or_outdoor": "indoor",
+    "price_tier": "$$",
+    "min_age": 1,
+    "max_age": 10,
+    "avg_duration_hours": 2.5,
+    "rating": 4.3,
+    "tags": [
+      "role play",
+      "port",
+      "music studio"
+    ],
+    "description": "Bayfront museum of miniature shops, a port and a music studio."
+  },
+  {
+    "id": "ny-001",
+    "name": "American Museum of Natural History",
+    "type": "Natural History Museum",
+    "category": "museum",
+    "city": "New York",
+    "state": "NY",
+    "indoor_or_outdoor": "indoor",
+    "price_tier": "$$$",
+    "min_age": 3,
+    "max_age": 99,
+    "avg_duration_hours": 4.0,
+    "rating": 4.8,
+    "tags": [
+      "dinosaurs",
+      "planetarium",
+      "whale"
+    ],
+    "description": "Dinosaur halls, the blue whale and the Rose Center planetarium."
+  },
+  {
+    "id": "ny-002",
+    "name": "Central Park",
+    "type": "Urban Park",
+    "category": "park",
+    "city": "New York",
+    "state": "NY",
+    "indoor_or_outdoor": "outdoor",
+    "price_tier": "free",
+    "min_age": 0,
+    "max_age": 99,
+    "avg_duration_hours": 3.0,
+    "rating": 4.8,
+    "tags": [
+      "playgrounds",
+      "carousel",
+      "boating"
+    ],
+    "description": "Twenty-one playgrounds, a carousel and rowboats on the lake."
+  },
+  {
+    "id": "ny-003",
+    "name": "Bronx Zoo",
+    "type": "Zoo",
+    "category": "zoo",
+    "city": "Bronx",
+    "state": "NY",
+    "indoor_or_outdoor": "outdoor",
+    "price_tier": "$$$",
+    "min_age": 1,
+    "max_age": 99,
+    "avg_duration_hours": 5.0,
+    "rating": 4.7,
+    "tags": [
+      "animals",
+      "congo gorillas",
+      "monorail"
+    ],
+    "description": "One of the largest urban zoos, with a monorail through Asia."
+  },
+  {
+    "id": "ny-004",
+    "name": "New York Aquarium",
+    "type": "Aquarium",
+    "category": "aquarium",
+    "city": "Brooklyn",
+    "state": "NY",
+    "indoor_or_outdoor": "indoor",
+    "price_tier": "$$",
+    "min_age": 2,
+    "max_age": 99,
+    "avg_duration_hours": 3.0,
+    "rating": 4.4,
+    "tags": [
+      "sharks",
+      "sea lions",
+      "boardwalk"
+    ],
+    "description": "Oceanfront aquarium beside the Coney Island boardwalk."
+  },
+  {
+    "id": "ny-005",
+    "name": "Brooklyn Children's Museum",
+    "type": "Children's Museum",
+    "category": "museum",
+    "city": "Brooklyn",
+    "state": "NY",
+    "indoor_or_outdoor": "indoor",
+    "price_tier": "$$",
+    "min_age": 0,
+    "max_age": 10,
+    "avg_duration_hours": 2.5,
+    "rating": 4.5,
+    "tags": [
+      "world culture",
+      "sensory room",
+      "toddlers"
+    ],
+    "description": "The world's first museum designed specifically for children."
+  },
+  {
+    "id": "ny-006",
+    "name": "Intrepid Museum",
+    "type": "Military and Space Museum",
+    "category": "museum",
+    "city": "New York",
+    "state": "NY",
+    "indoor_or_outdoor": "indoor",
+    "price_tier": "$$$",
+    "min_age": 4,
+    "max_age": 99,
+    "avg_duration_hours": 3.5,
+    "rating": 4.7,
+    "tags": [
+      "aircraft carrier",
+      "submarine",
+      "space shuttle"
+    ],
+    "description": "Aircraft carrier deck, a submarine and the shuttle Enterprise."
+  },
+  {
+    "id": "ny-007",
+    "name": "Niagara Falls State Park",
+    "type": "State Park",
+    "category": "park",
+    "city": "Niagara Falls",
+    "state": "NY",
+    "indoor_or_outdoor": "outdoor",
+    "price_tier": "free",
+    "min_age": 0,
+    "max_age": 99,
+    "avg_duration_hours": 4.0,
+    "rating": 4.8,
+    "tags": [
+      "waterfalls",
+      "observation tower",
+      "mist"
+    ],
+    "description": "Oldest state park in the US, right at the brink of the falls."
+  },
+  {
+    "id": "ny-008",
+    "name": "The Strong National Museum of Play",
+    "type": "Play Museum",
+    "category": "museum",
+    "city": "Rochester",
+    "state": "NY",
+    "indoor_or_outdoor": "indoor",
+    "price_tier": "$$",
+    "min_age": 0,
+    "max_age": 99,
+    "avg_duration_hours": 4.0,
+    "rating": 4.8,
+    "tags": [
+      "toys",
+      "video games",
+      "butterfly garden"
+    ],
+    "description": "Toy and video game halls plus an indoor butterfly garden."
+  },
+  {
+    "id": "ny-009",
+    "name": "New York Public Library Schwarzman Building",
+    "type": "Public Library",
+    "category": "library",
+    "city": "New York",
+    "state": "NY",
+    "indoor_or_outdoor": "indoor",
+    "price_tier": "free",
+    "min_age": 5,
+    "max_age": 99,
+    "avg_duration_hours": 1.5,
+    "rating": 4.8,
+    "tags": [
+      "rose reading room",
+      "exhibits",
+      "free tours"
+    ],
+    "description": "Landmark reading rooms with free guided tours and exhibits."
+  },
+  {
+    "id": "ny-010",
+    "name": "Buffalo Zoo",
+    "type": "Zoo",
+    "category": "zoo",
+    "city": "Buffalo",
+    "state": "NY",
+    "indoor_or_outdoor": "outdoor",
+    "price_tier": "$$",
+    "min_age": 1,
+    "max_age": 99,
+    "avg_duration_hours": 3.0,
+    "rating": 4.4,
+    "tags": [
+      "animals",
+      "rainforest",
+      "compact"
+    ],
+    "description": "Third-oldest US zoo, compact enough for younger kids."
+  },
+  {
+    "id": "ny-011",
+    "name": "Museum of the Moving Image",
+    "type": "Media Museum",
+    "category": "museum",
+    "city": "Queens",
+    "state": "NY",
+    "indoor_or_outdoor": "indoor",
+    "price_tier": "$$",
+    "min_age": 6,
+    "max_age": 99,
+    "avg_duration_hours": 2.5,
+    "rating": 4.6,
+    "tags": [
+      "animation",
+      "video games",
+      "film"
+    ],
+    "description": "Hands-on animation and video game history exhibits."
+  },
+  {
+    "id": "ny-012",
+    "name": "The High Line",
+    "type": "Elevated Park",
+    "category": "park",
+    "city": "New York",
+    "state": "NY",
+    "indoor_or_outdoor": "outdoor",
+    "price_tier": "free",
+    "min_age": 3,
+    "max_age": 99,
+    "avg_duration_hours": 1.5,
+    "rating": 4.6,
+    "tags": [
+      "elevated",
+      "gardens",
+      "city views"
+    ],
+    "description": "Elevated rail line turned into a mile-and-a-half garden walk."
+  },
+  {
+    "id": "ny-013",
+    "name": "Long Island Children's Museum",
+    "type": "Children's Museum",
+    "category": "museum",
+    "city": "Garden City",
+    "state": "NY",
+    "indoor_or_outdoor": "indoor",
+    "price_tier": "$$",
+    "min_age": 0,
+    "max_age": 10,
+    "avg_duration_hours": 2.5,
+    "rating": 4.5,
+    "tags": [
+      "bubbles",
+      "climbing",
+      "toddlers"
+    ],
+    "description": "Fourteen hands-on galleries including a bubble room."
+  },
+  {
+    "id": "ny-014",
+    "name": "Coney Island Beach and Boardwalk",
+    "type": "Beach",
+    "category": "beach",
+    "city": "Brooklyn",
+    "state": "NY",
+    "indoor_or_outdoor": "outdoor",
+    "price_tier": "free",
+    "min_age": 0,
+    "max_age": 99,
+    "avg_duration_hours": 3.5,
+    "rating": 4.4,
+    "tags": [
+      "beach",
+      "rides",
+      "hot dogs"
+    ],
+    "description": "Classic boardwalk, sandy beach and vintage amusement rides."
+  },
+  {
+    "id": "ny-015",
+    "name": "Letchworth State Park",
+    "type": "State Park",
+    "category": "park",
+    "city": "Castile",
+    "state": "NY",
+    "indoor_or_outdoor": "outdoor",
+    "price_tier": "$",
+    "min_age": 4,
+    "max_age": 99,
+    "avg_duration_hours": 5.0,
+    "rating": 4.9,
+    "tags": [
+      "gorge",
+      "waterfalls",
+      "hiking"
+    ],
+    "description": "The Grand Canyon of the East, with three major waterfalls."
+  },
+  {
+    "id": "az-001",
+    "name": "Grand Canyon National Park",
+    "type": "National Park",
+    "category": "park",
+    "city": "Grand Canyon Village",
+    "state": "AZ",
+    "indoor_or_outdoor": "outdoor",
+    "price_tier": "$$",
+    "min_age": 3,
+    "max_age": 99,
+    "avg_duration_hours": 6.0,
+    "rating": 4.9,
+    "tags": [
+      "canyon",
+      "rim trail",
+      "shuttle"
+    ],
+    "description": "Paved rim trail and free shuttles make it stroller-viable."
+  },
+  {
+    "id": "az-002",
+    "name": "Arizona-Sonora Desert Museum",
+    "type": "Zoo and Botanical Garden",
+    "category": "zoo",
+    "city": "Tucson",
+    "state": "AZ",
+    "indoor_or_outdoor": "outdoor",
+    "price_tier": "$$",
+    "min_age": 3,
+    "max_age": 99,
+    "avg_duration_hours": 3.5,
+    "rating": 4.8,
+    "tags": [
+      "desert animals",
+      "raptor free flight",
+      "cactus"
+    ],
+    "description": "Part zoo, part garden, all set in the open Sonoran Desert."
+  },
+  {
+    "id": "az-003",
+    "name": "Phoenix Zoo",
+    "type": "Zoo",
+    "category": "zoo",
+    "city": "Phoenix",
+    "state": "AZ",
+    "indoor_or_outdoor": "outdoor",
+    "price_tier": "$$",
+    "min_age": 1,
+    "max_age": 99,
+    "avg_duration_hours": 4.0,
+    "rating": 4.6,
+    "tags": [
+      "animals",
+      "splash pad",
+      "stingray bay"
+    ],
+    "description": "Large zoo with a splash pad and a stingray touch bay."
+  },
+  {
+    "id": "az-004",
+    "name": "Arizona Science Center",
+    "type": "Science Center",
+    "category": "museum",
+    "city": "Phoenix",
+    "state": "AZ",
+    "indoor_or_outdoor": "indoor",
+    "price_tier": "$$",
+    "min_age": 3,
+    "max_age": 99,
+    "avg_duration_hours": 3.0,
+    "rating": 4.6,
+    "tags": [
+      "hands-on",
+      "planetarium",
+      "forces"
+    ],
+    "description": "Five galleries of hands-on science plus a planetarium."
+  },
+  {
+    "id": "az-005",
+    "name": "Children's Museum of Phoenix",
+    "type": "Children's Museum",
+    "category": "museum",
+    "city": "Phoenix",
+    "state": "AZ",
+    "indoor_or_outdoor": "indoor",
+    "price_tier": "$$",
+    "min_age": 0,
+    "max_age": 10,
+    "avg_duration_hours": 2.5,
+    "rating": 4.7,
+    "tags": [
+      "climber",
+      "noodle forest",
+      "toddlers"
+    ],
+    "description": "Three floors of play including a three-story climber."
+  },
+  {
+    "id": "az-006",
+    "name": "Desert Botanical Garden",
+    "type": "Botanical Garden",
+    "category": "park",
+    "city": "Phoenix",
+    "state": "AZ",
+    "indoor_or_outdoor": "outdoor",
+    "price_tier": "$$",
+    "min_age": 0,
+    "max_age": 99,
+    "avg_duration_hours": 2.5,
+    "rating": 4.8,
+    "tags": [
+      "cactus",
+      "butterflies",
+      "trails"
+    ],
+    "description": "Five looping desert trails and a seasonal butterfly pavilion."
+  },
+  {
+    "id": "az-007",
+    "name": "OdySea Aquarium",
+    "type": "Aquarium",
+    "category": "aquarium",
+    "city": "Scottsdale",
+    "state": "AZ",
+    "indoor_or_outdoor": "indoor",
+    "price_tier": "$$$",
+    "min_age": 2,
+    "max_age": 99,
+    "avg_duration_hours": 3.0,
+    "rating": 4.5,
+    "tags": [
+      "sharks",
+      "rotating theater",
+      "penguins"
+    ],
+    "description": "Largest aquarium in the Southwest, with a rotating theater."
+  },
+  {
+    "id": "az-008",
+    "name": "Musical Instrument Museum",
+    "type": "Music Museum",
+    "category": "museum",
+    "city": "Phoenix",
+    "state": "AZ",
+    "indoor_or_outdoor": "indoor",
+    "price_tier": "$$",
+    "min_age": 5,
+    "max_age": 99,
+    "avg_duration_hours": 3.0,
+    "rating": 4.8,
+    "tags": [
+      "world music",
+      "audio guide",
+      "play gallery"
+    ],
+    "description": "Instruments from every country plus a hands-on play gallery."
+  },
+  {
+    "id": "az-009",
+    "name": "Reid Park Zoo",
+    "type": "Zoo",
+    "category": "zoo",
+    "city": "Tucson",
+    "state": "AZ",
+    "indoor_or_outdoor": "outdoor",
+    "price_tier": "$",
+    "min_age": 1,
+    "max_age": 99,
+    "avg_duration_hours": 2.5,
+    "rating": 4.6,
+    "tags": [
+      "animals",
+      "compact",
+      "giraffe feeding"
+    ],
+    "description": "Small, shaded zoo that works well for a toddler morning."
+  },
+  {
+    "id": "az-010",
+    "name": "Saguaro National Park",
+    "type": "National Park",
+    "category": "park",
+    "city": "Tucson",
+    "state": "AZ",
+    "indoor_or_outdoor": "outdoor",
+    "price_tier": "$",
+    "min_age": 4,
+    "max_age": 99,
+    "avg_duration_hours": 4.0,
+    "rating": 4.8,
+    "tags": [
+      "cactus",
+      "desert",
+      "scenic drive"
+    ],
+    "description": "Giant saguaro forests with short loop drives and easy trails."
+  },
+  {
+    "id": "az-011",
+    "name": "Papago Park",
+    "type": "Urban Park",
+    "category": "park",
+    "city": "Phoenix",
+    "state": "AZ",
+    "indoor_or_outdoor": "outdoor",
+    "price_tier": "free",
+    "min_age": 0,
+    "max_age": 99,
+    "avg_duration_hours": 2.0,
+    "rating": 4.6,
+    "tags": [
+      "hole in the rock",
+      "fishing",
+      "trails"
+    ],
+    "description": "Red sandstone buttes, easy trails and stocked fishing ponds."
+  },
+  {
+    "id": "az-012",
+    "name": "Burton Barr Central Library",
+    "type": "Public Library",
+    "category": "library",
+    "city": "Phoenix",
+    "state": "AZ",
+    "indoor_or_outdoor": "indoor",
+    "price_tier": "free",
+    "min_age": 0,
+    "max_age": 99,
+    "avg_duration_hours": 1.5,
+    "rating": 4.6,
+    "tags": [
+      "story time",
+      "teen space",
+      "free wifi"
+    ],
+    "description": "Five-story central library with a big children's place."
+  },
+  {
+    "id": "az-013",
+    "name": "Petrified Forest National Park",
+    "type": "National Park",
+    "category": "park",
+    "city": "Holbrook",
+    "state": "AZ",
+    "indoor_or_outdoor": "outdoor",
+    "price_tier": "$$",
+    "min_age": 5,
+    "max_age": 99,
+    "avg_duration_hours": 4.0,
+    "rating": 4.7,
+    "tags": [
+      "fossils",
+      "painted desert",
+      "scenic drive"
+    ],
+    "description": "Fossilized logs and Painted Desert overlooks along one drive."
+  },
+  {
+    "id": "az-014",
+    "name": "Lowell Observatory",
+    "type": "Observatory",
+    "category": "museum",
+    "city": "Flagstaff",
+    "state": "AZ",
+    "indoor_or_outdoor": "indoor",
+    "price_tier": "$$",
+    "min_age": 5,
+    "max_age": 99,
+    "avg_duration_hours": 3.0,
+    "rating": 4.7,
+    "tags": [
+      "telescopes",
+      "pluto",
+      "night sky"
+    ],
+    "description": "Where Pluto was discovered; nightly public telescope viewing."
+  },
+  {
+    "id": "az-015",
+    "name": "Slide Rock State Park",
+    "type": "State Park",
+    "category": "park",
+    "city": "Sedona",
+    "state": "AZ",
+    "indoor_or_outdoor": "outdoor",
+    "price_tier": "$$",
+    "min_age": 4,
+    "max_age": 99,
+    "avg_duration_hours": 3.5,
+    "rating": 4.6,
+    "tags": [
+      "natural water slide",
+      "swimming",
+      "red rock"
+    ],
+    "description": "Natural sandstone chute kids slide down in Oak Creek."
+  },
+  {
+    "id": "oh-001",
+    "name": "Cincinnati Zoo and Botanical Garden",
+    "type": "Zoo",
+    "category": "zoo",
+    "city": "Cincinnati",
+    "state": "OH",
+    "indoor_or_outdoor": "outdoor",
+    "price_tier": "$$",
+    "min_age": 1,
+    "max_age": 99,
+    "avg_duration_hours": 4.5,
+    "rating": 4.8,
+    "tags": [
+      "animals",
+      "hippos",
+      "train"
+    ],
+    "description": "Second-oldest US zoo, known for its hippos and gardens."
+  },
+  {
+    "id": "oh-002",
+    "name": "COSI",
+    "type": "Science Center",
+    "category": "museum",
+    "city": "Columbus",
+    "state": "OH",
+    "indoor_or_outdoor": "indoor",
+    "price_tier": "$$",
+    "min_age": 2,
+    "max_age": 99,
+    "avg_duration_hours": 4.0,
+    "rating": 4.8,
+    "tags": [
+      "hands-on",
+      "dinosaurs",
+      "little kidspace"
+    ],
+    "description": "Big hands-on science center with a toddler-only KidSpace."
+  },
+  {
+    "id": "oh-003",
+    "name": "Columbus Zoo and Aquarium",
+    "type": "Zoo",
+    "category": "zoo",
+    "city": "Powell",
+    "state": "OH",
+    "indoor_or_outdoor": "outdoor",
+    "price_tier": "$$",
+    "min_age": 1,
+    "max_age": 99,
+    "avg_duration_hours": 5.0,
+    "rating": 4.8,
+    "tags": [
+      "animals",
+      "aquarium",
+      "adjacent water park"
+    ],
+    "description": "Sprawling zoo with an aquarium and an adjoining water park."
+  },
+  {
+    "id": "oh-004",
+    "name": "Cleveland Museum of Natural History",
+    "type": "Natural History Museum",
+    "category": "museum",
+    "city": "Cleveland",
+    "state": "OH",
+    "indoor_or_outdoor": "indoor",
+    "price_tier": "$$",
+    "min_age": 3,
+    "max_age": 99,
+    "avg_duration_hours": 3.0,
+    "rating": 4.6,
+    "tags": [
+      "dinosaurs",
+      "planetarium",
+      "wildlife center"
+    ],
+    "description": "Dinosaur casts, a planetarium and an outdoor wildlife center."
+  },
+  {
+    "id": "oh-005",
+    "name": "Rock and Roll Hall of Fame",
+    "type": "Music Museum",
+    "category": "museum",
+    "city": "Cleveland",
+    "state": "OH",
+    "indoor_or_outdoor": "indoor",
+    "price_tier": "$$$",
+    "min_age": 8,
+    "max_age": 99,
+    "avg_duration_hours": 3.0,
+    "rating": 4.6,
+    "tags": [
+      "music",
+      "interactive",
+      "lakefront"
+    ],
+    "description": "Lakefront music museum with listening and mixing stations."
+  },
+  {
+    "id": "oh-006",
+    "name": "Greater Cleveland Aquarium",
+    "type": "Aquarium",
+    "category": "aquarium",
+    "city": "Cleveland",
+    "state": "OH",
+    "indoor_or_outdoor": "indoor",
+    "price_tier": "$$",
+    "min_age": 2,
+    "max_age": 99,
+    "avg_duration_hours": 2.0,
+    "rating": 4.4,
+    "tags": [
+      "shark tunnel",
+      "touch pool",
+      "compact"
+    ],
+    "description": "Compact aquarium built inside a former powerhouse."
+  },
+  {
+    "id": "oh-007",
+    "name": "Cuyahoga Valley National Park",
+    "type": "National Park",
+    "category": "park",
+    "city": "Brecksville",
+    "state": "OH",
+    "indoor_or_outdoor": "outdoor",
+    "price_tier": "free",
+    "min_age": 0,
+    "max_age": 99,
+    "avg_duration_hours": 4.0,
+    "rating": 4.7,
+    "tags": [
+      "towpath",
+      "waterfall",
+      "scenic railroad"
+    ],
+    "description": "Flat towpath trail, Brandywine Falls and a scenic railroad."
+  },
+  {
+    "id": "oh-008",
+    "name": "Cincinnati Museum Center at Union Terminal",
+    "type": "Museum Complex",
+    "category": "museum",
+    "city": "Cincinnati",
+    "state": "OH",
+    "indoor_or_outdoor": "indoor",
+    "price_tier": "$$",
+    "min_age": 2,
+    "max_age": 99,
+    "avg_duration_hours": 4.0,
+    "rating": 4.8,
+    "tags": [
+      "children's museum",
+      "natural history",
+      "omnimax"
+    ],
+    "description": "Three museums and an Omnimax inside an Art Deco train station."
+  },
+  {
+    "id": "oh-009",
+    "name": "Toledo Zoo and Aquarium",
+    "type": "Zoo",
+    "category": "zoo",
+    "city": "Toledo",
+    "state": "OH",
+    "indoor_or_outdoor": "outdoor",
+    "price_tier": "$$",
+    "min_age": 1,
+    "max_age": 99,
+    "avg_duration_hours": 4.0,
+    "rating": 4.8,
+    "tags": [
+      "animals",
+      "aquarium",
+      "aerial ride"
+    ],
+    "description": "Highly rated zoo with an aquarium and an aerial gondola."
+  },
+  {
+    "id": "oh-010",
+    "name": "Great Lakes Science Center",
+    "type": "Science Center",
+    "category": "museum",
+    "city": "Cleveland",
+    "state": "OH",
+    "indoor_or_outdoor": "indoor",
+    "price_tier": "$$",
+    "min_age": 3,
+    "max_age": 99,
+    "avg_duration_hours": 3.0,
+    "rating": 4.6,
+    "tags": [
+      "nasa glenn",
+      "hands-on",
+      "dome theater"
+    ],
+    "description": "Hands-on exhibits plus a NASA Glenn visitor center."
+  },
+  {
+    "id": "oh-011",
+    "name": "Franklin Park Conservatory and Botanical Gardens",
+    "type": "Conservatory",
+    "category": "park",
+    "city": "Columbus",
+    "state": "OH",
+    "indoor_or_outdoor": "indoor",
+    "price_tier": "$$",
+    "min_age": 0,
+    "max_age": 99,
+    "avg_duration_hours": 2.5,
+    "rating": 4.7,
+    "tags": [
+      "glasshouse",
+      "butterflies",
+      "children's garden"
+    ],
+    "description": "Victorian glasshouse biomes and an outdoor children's garden."
+  },
+  {
+    "id": "oh-012",
+    "name": "Public Library of Cincinnati and Hamilton County",
+    "type": "Public Library",
+    "category": "library",
+    "city": "Cincinnati",
+    "state": "OH",
+    "indoor_or_outdoor": "indoor",
+    "price_tier": "free",
+    "min_age": 0,
+    "max_age": 99,
+    "avg_duration_hours": 1.5,
+    "rating": 4.7,
+    "tags": [
+      "story time",
+      "maker space",
+      "free"
+    ],
+    "description": "Large main library with story times and a family maker space."
+  },
+  {
+    "id": "oh-013",
+    "name": "Hocking Hills State Park",
+    "type": "State Park",
+    "category": "park",
+    "city": "Logan",
+    "state": "OH",
+    "indoor_or_outdoor": "outdoor",
+    "price_tier": "free",
+    "min_age": 4,
+    "max_age": 99,
+    "avg_duration_hours": 5.0,
+    "rating": 4.9,
+    "tags": [
+      "caves",
+      "waterfalls",
+      "gorge trails"
+    ],
+    "description": "Recess caves, gorge trails and waterfalls in one state park."
+  },
+  {
+    "id": "oh-014",
+    "name": "Imagination Station",
+    "type": "Science Center",
+    "category": "museum",
+    "city": "Toledo",
+    "state": "OH",
+    "indoor_or_outdoor": "indoor",
+    "price_tier": "$$",
+    "min_age": 2,
+    "max_age": 99,
+    "avg_duration_hours": 3.0,
+    "rating": 4.6,
+    "tags": [
+      "hands-on",
+      "water table",
+      "high wire"
+    ],
+    "description": "Riverfront hands-on science center with a high-wire cycle."
+  },
+  {
+    "id": "oh-015",
+    "name": "Cedar Point",
+    "type": "Theme Park",
+    "category": "theme_park",
+    "city": "Sandusky",
+    "state": "OH",
+    "indoor_or_outdoor": "outdoor",
+    "price_tier": "$$$",
+    "min_age": 3,
+    "max_age": 99,
+    "avg_duration_hours": 9.0,
+    "rating": 4.6,
+    "tags": [
+      "coasters",
+      "beach",
+      "camp snoopy"
+    ],
+    "description": "Lakeside coaster park with a Camp Snoopy area for small kids."
+  },
+  {
+    "id": "ga-001",
+    "name": "Georgia Aquarium",
+    "type": "Aquarium",
+    "category": "aquarium",
+    "city": "Atlanta",
+    "state": "GA",
+    "indoor_or_outdoor": "indoor",
+    "price_tier": "$$$",
+    "min_age": 1,
+    "max_age": 99,
+    "avg_duration_hours": 4.0,
+    "rating": 4.7,
+    "tags": [
+      "whale sharks",
+      "beluga",
+      "dolphins"
+    ],
+    "description": "One of the world's largest aquariums, home to whale sharks."
+  },
+  {
+    "id": "ga-002",
+    "name": "Zoo Atlanta",
+    "type": "Zoo",
+    "category": "zoo",
+    "city": "Atlanta",
+    "state": "GA",
+    "indoor_or_outdoor": "outdoor",
+    "price_tier": "$$",
+    "min_age": 1,
+    "max_age": 99,
+    "avg_duration_hours": 3.5,
+    "rating": 4.6,
+    "tags": [
+      "pandas",
+      "gorillas",
+      "treetop trail"
+    ],
+    "description": "Known for giant pandas and a treetop rope adventure."
+  },
+  {
+    "id": "ga-003",
+    "name": "Fernbank Museum of Natural History",
+    "type": "Natural History Museum",
+    "category": "museum",
+    "city": "Atlanta",
+    "state": "GA",
+    "indoor_or_outdoor": "indoor",
+    "price_tier": "$$",
+    "min_age": 2,
+    "max_age": 99,
+    "avg_duration_hours": 3.5,
+    "rating": 4.7,
+    "tags": [
+      "dinosaurs",
+      "forest trails",
+      "giant screen"
+    ],
+    "description": "Dinosaur hall attached to 75 acres of outdoor forest trails."
+  },
+  {
+    "id": "ga-004",
+    "name": "Children's Museum of Atlanta",
+    "type": "Children's Museum",
+    "category": "museum",
+    "city": "Atlanta",
+    "state": "GA",
+    "indoor_or_outdoor": "indoor",
+    "price_tier": "$$",
+    "min_age": 0,
+    "max_age": 9,
+    "avg_duration_hours": 2.5,
+    "rating": 4.5,
+    "tags": [
+      "hands-on",
+      "toddler zone",
+      "art studio"
+    ],
+    "description": "Downtown museum built entirely for kids eight and under."
+  },
+  {
+    "id": "ga-005",
+    "name": "Stone Mountain Park",
+    "type": "Recreation Park",
+    "category": "park",
+    "city": "Stone Mountain",
+    "state": "GA",
+    "indoor_or_outdoor": "outdoor",
+    "price_tier": "$$",
+    "min_age": 0,
+    "max_age": 99,
+    "avg_duration_hours": 5.0,
+    "rating": 4.5,
+    "tags": [
+      "cable car",
+      "hiking",
+      "summit"
+    ],
+    "description": "Granite dome with a cable car, trails and family attractions."
+  },
+  {
+    "id": "ga-006",
+    "name": "Center for Puppetry Arts",
+    "type": "Puppetry Museum and Theater",
+    "category": "museum",
+    "city": "Atlanta",
+    "state": "GA",
+    "indoor_or_outdoor": "indoor",
+    "price_tier": "$$",
+    "min_age": 2,
+    "max_age": 99,
+    "avg_duration_hours": 2.5,
+    "rating": 4.8,
+    "tags": [
+      "jim henson",
+      "puppet shows",
+      "make a puppet"
+    ],
+    "description": "Live puppet shows plus the Jim Henson collection."
+  },
+  {
+    "id": "ga-007",
+    "name": "Atlanta Botanical Garden",
+    "type": "Botanical Garden",
+    "category": "park",
+    "city": "Atlanta",
+    "state": "GA",
+    "indoor_or_outdoor": "outdoor",
+    "price_tier": "$$",
+    "min_age": 0,
+    "max_age": 99,
+    "avg_duration_hours": 2.5,
+    "rating": 4.8,
+    "tags": [
+      "canopy walk",
+      "children's garden",
+      "orchids"
+    ],
+    "description": "Canopy walkway, orchid house and a splash-friendly kids garden."
+  },
+  {
+    "id": "ga-008",
+    "name": "Tybee Island Beach",
+    "type": "Beach",
+    "category": "beach",
+    "city": "Tybee Island",
+    "state": "GA",
+    "indoor_or_outdoor": "outdoor",
+    "price_tier": "free",
+    "min_age": 0,
+    "max_age": 99,
+    "avg_duration_hours": 4.0,
+    "rating": 4.6,
+    "tags": [
+      "beach",
+      "lighthouse",
+      "tide pools"
+    ],
+    "description": "Wide, shallow Atlantic beach with a climbable lighthouse."
+  },
+  {
+    "id": "ga-009",
+    "name": "Forsyth Park",
+    "type": "Urban Park",
+    "category": "park",
+    "city": "Savannah",
+    "state": "GA",
+    "indoor_or_outdoor": "outdoor",
+    "price_tier": "free",
+    "min_age": 0,
+    "max_age": 99,
+    "avg_duration_hours": 1.5,
+    "rating": 4.8,
+    "tags": [
+      "fountain",
+      "playground",
+      "oaks"
+    ],
+    "description": "Live-oak park with the famous fountain and a large playground."
+  },
+  {
+    "id": "ga-010",
+    "name": "Museum of Aviation",
+    "type": "Aviation Museum",
+    "category": "museum",
+    "city": "Warner Robins",
+    "state": "GA",
+    "indoor_or_outdoor": "indoor",
+    "price_tier": "free",
+    "min_age": 4,
+    "max_age": 99,
+    "avg_duration_hours": 3.0,
+    "rating": 4.7,
+    "tags": [
+      "aircraft",
+      "hangars",
+      "free admission"
+    ],
+    "description": "Free museum with four hangars of historic military aircraft."
+  },
+  {
+    "id": "ga-011",
+    "name": "Chattahoochee River National Recreation Area",
+    "type": "River Park",
+    "category": "park",
+    "city": "Sandy Springs",
+    "state": "GA",
+    "indoor_or_outdoor": "outdoor",
+    "price_tier": "$",
+    "min_age": 3,
+    "max_age": 99,
+    "avg_duration_hours": 3.0,
+    "rating": 4.6,
+    "tags": [
+      "river trails",
+      "tubing",
+      "fishing"
+    ],
+    "description": "Riverside trails and summer tubing just outside Atlanta."
+  },
+  {
+    "id": "ga-012",
+    "name": "Atlanta-Fulton Public Library Central Library",
+    "type": "Public Library",
+    "category": "library",
+    "city": "Atlanta",
+    "state": "GA",
+    "indoor_or_outdoor": "indoor",
+    "price_tier": "free",
+    "min_age": 0,
+    "max_age": 99,
+    "avg_duration_hours": 1.5,
+    "rating": 4.3,
+    "tags": [
+      "story time",
+      "children's room",
+      "free"
+    ],
+    "description": "Central branch with regular preschool story times."
+  },
+  {
+    "id": "ga-013",
+    "name": "Callaway Gardens",
+    "type": "Resort Gardens",
+    "category": "park",
+    "city": "Pine Mountain",
+    "state": "GA",
+    "indoor_or_outdoor": "outdoor",
+    "price_tier": "$$",
+    "min_age": 0,
+    "max_age": 99,
+    "avg_duration_hours": 5.0,
+    "rating": 4.6,
+    "tags": [
+      "butterfly center",
+      "beach",
+      "bike trails"
+    ],
+    "description": "Butterfly conservatory, bike trails and a freshwater beach."
+  },
+  {
+    "id": "ga-014",
+    "name": "Tellus Science Museum",
+    "type": "Science Museum",
+    "category": "museum",
+    "city": "Cartersville",
+    "state": "GA",
+    "indoor_or_outdoor": "indoor",
+    "price_tier": "$$",
+    "min_age": 3,
+    "max_age": 99,
+    "avg_duration_hours": 3.0,
+    "rating": 4.7,
+    "tags": [
+      "fossils",
+      "minerals",
+      "planetarium"
+    ],
+    "description": "Mineral gallery, dinosaurs, a planetarium and a fossil dig."
+  },
+  {
+    "id": "ga-015",
+    "name": "Amicalola Falls State Park",
+    "type": "State Park",
+    "category": "park",
+    "city": "Dawsonville",
+    "state": "GA",
+    "indoor_or_outdoor": "outdoor",
+    "price_tier": "$",
+    "min_age": 5,
+    "max_age": 99,
+    "avg_duration_hours": 3.5,
+    "rating": 4.8,
+    "tags": [
+      "waterfall",
+      "stairs",
+      "overlook"
+    ],
+    "description": "Tallest cascading waterfall in Georgia, with stair overlooks."
+  },
+  {
+    "id": "il-001",
+    "name": "Shedd Aquarium",
+    "type": "Aquarium",
+    "category": "aquarium",
+    "city": "Chicago",
+    "state": "IL",
+    "indoor_or_outdoor": "indoor",
+    "price_tier": "$$$",
+    "min_age": 1,
+    "max_age": 99,
+    "avg_duration_hours": 3.5,
+    "rating": 4.7,
+    "tags": [
+      "belugas",
+      "caribbean reef",
+      "otters"
+    ],
+    "description": "Lakefront aquarium with belugas and a Caribbean reef tank."
+  },
+  {
+    "id": "il-002",
+    "name": "Field Museum",
+    "type": "Natural History Museum",
+    "category": "museum",
+    "city": "Chicago",
+    "state": "IL",
+    "indoor_or_outdoor": "indoor",
+    "price_tier": "$$$",
+    "min_age": 3,
+    "max_age": 99,
+    "avg_duration_hours": 4.0,
+    "rating": 4.8,
+    "tags": [
+      "sue the t rex",
+      "egypt",
+      "dinosaurs"
+    ],
+    "description": "Home of SUE the T. rex and a walk-through Egyptian tomb."
+  },
+  {
+    "id": "il-003",
+    "name": "Museum of Science and Industry",
+    "type": "Science Center",
+    "category": "museum",
+    "city": "Chicago",
+    "state": "IL",
+    "indoor_or_outdoor": "indoor",
+    "price_tier": "$$$",
+    "min_age": 3,
+    "max_age": 99,
+    "avg_duration_hours": 4.5,
+    "rating": 4.8,
+    "tags": [
+      "submarine",
+      "coal mine",
+      "idea factory"
+    ],
+    "description": "U-505 submarine, a coal mine ride and a toddler Idea Factory."
+  },
+  {
+    "id": "il-004",
+    "name": "Lincoln Park Zoo",
+    "type": "Zoo",
+    "category": "zoo",
+    "city": "Chicago",
+    "state": "IL",
+    "indoor_or_outdoor": "outdoor",
+    "price_tier": "free",
+    "min_age": 0,
+    "max_age": 99,
+    "avg_duration_hours": 3.0,
+    "rating": 4.7,
+    "tags": [
+      "free admission",
+      "farm",
+      "gorillas"
+    ],
+    "description": "Free year-round city zoo with a working farm for kids."
+  },
+  {
+    "id": "il-005",
+    "name": "Adler Planetarium",
+    "type": "Planetarium",
+    "category": "museum",
+    "city": "Chicago",
+    "state": "IL",
+    "indoor_or_outdoor": "indoor",
+    "price_tier": "$$",
+    "min_age": 4,
+    "max_age": 99,
+    "avg_duration_hours": 2.5,
+    "rating": 4.6,
+    "tags": [
+      "space",
+      "sky shows",
+      "skyline views"
+    ],
+    "description": "Sky shows and space history with the best skyline view in town."
+  },
+  {
+    "id": "il-006",
+    "name": "Millennium Park",
+    "type": "Urban Park",
+    "category": "park",
+    "city": "Chicago",
+    "state": "IL",
+    "indoor_or_outdoor": "outdoor",
+    "price_tier": "free",
+    "min_age": 0,
+    "max_age": 99,
+    "avg_duration_hours": 2.0,
+    "rating": 4.8,
+    "tags": [
+      "the bean",
+      "crown fountain",
+      "splash"
+    ],
+    "description": "The Bean, plus the Crown Fountain kids can wade through."
+  },
+  {
+    "id": "il-007",
+    "name": "Chicago Children's Museum",
+    "type": "Children's Museum",
+    "category": "museum",
+    "city": "Chicago",
+    "state": "IL",
+    "indoor_or_outdoor": "indoor",
+    "price_tier": "$$",
+    "min_age": 0,
+    "max_age": 10,
+    "avg_duration_hours": 3.0,
+    "rating": 4.5,
+    "tags": [
+      "water works",
+      "dinosaur dig",
+      "climbing"
+    ],
+    "description": "Navy Pier museum with a water works and a dinosaur dig pit."
+  },
+  {
+    "id": "il-008",
+    "name": "Brookfield Zoo",
+    "type": "Zoo",
+    "category": "zoo",
+    "city": "Brookfield",
+    "state": "IL",
+    "indoor_or_outdoor": "outdoor",
+    "price_tier": "$$",
+    "min_age": 1,
+    "max_age": 99,
+    "avg_duration_hours": 5.0,
+    "rating": 4.7,
+    "tags": [
+      "dolphins",
+      "hamill family play zoo",
+      "carousel"
+    ],
+    "description": "Large suburban zoo with a play zoo built for young children."
+  },
+  {
+    "id": "il-009",
+    "name": "Chicago Botanic Garden",
+    "type": "Botanical Garden",
+    "category": "park",
+    "city": "Glencoe",
+    "state": "IL",
+    "indoor_or_outdoor": "outdoor",
+    "price_tier": "$",
+    "min_age": 0,
+    "max_age": 99,
+    "avg_duration_hours": 3.0,
+    "rating": 4.8,
+    "tags": [
+      "islands",
+      "model railroad",
+      "kids garden"
+    ],
+    "description": "Twenty-seven gardens across nine islands, plus a train garden."
+  },
+  {
+    "id": "il-010",
+    "name": "Harold Washington Library Center",
+    "type": "Public Library",
+    "category": "library",
+    "city": "Chicago",
+    "state": "IL",
+    "indoor_or_outdoor": "indoor",
+    "price_tier": "free",
+    "min_age": 0,
+    "max_age": 99,
+    "avg_duration_hours": 1.5,
+    "rating": 4.5,
+    "tags": [
+      "children's library",
+      "winter garden",
+      "free"
+    ],
+    "description": "Central library with a full children's floor and a winter garden."
+  },
+  {
+    "id": "il-011",
+    "name": "Starved Rock State Park",
+    "type": "State Park",
+    "category": "park",
+    "city": "Oglesby",
+    "state": "IL",
+    "indoor_or_outdoor": "outdoor",
+    "price_tier": "free",
+    "min_age": 4,
+    "max_age": 99,
+    "avg_duration_hours": 5.0,
+    "rating": 4.8,
+    "tags": [
+      "canyons",
+      "waterfalls",
+      "river bluffs"
+    ],
+    "description": "Eighteen sandstone canyons with seasonal waterfalls."
+  },
+  {
+    "id": "il-012",
+    "name": "Abraham Lincoln Presidential Museum",
+    "type": "History Museum",
+    "category": "museum",
+    "city": "Springfield",
+    "state": "IL",
+    "indoor_or_outdoor": "indoor",
+    "price_tier": "$$",
+    "min_age": 6,
+    "max_age": 99,
+    "avg_duration_hours": 3.0,
+    "rating": 4.8,
+    "tags": [
+      "lincoln",
+      "holograms",
+      "immersive"
+    ],
+    "description": "Immersive Lincoln biography with theater-style special effects."
+  },
+  {
+    "id": "il-013",
+    "name": "Peggy Notebaert Nature Museum",
+    "type": "Nature Museum",
+    "category": "museum",
+    "city": "Chicago",
+    "state": "IL",
+    "indoor_or_outdoor": "indoor",
+    "price_tier": "$$",
+    "min_age": 0,
+    "max_age": 99,
+    "avg_duration_hours": 2.0,
+    "rating": 4.5,
+    "tags": [
+      "butterfly haven",
+      "river",
+      "toddler play"
+    ],
+    "description": "Walk-through butterfly haven plus a toddler nature play area."
+  },
+  {
+    "id": "il-014",
+    "name": "Navy Pier",
+    "type": "Waterfront Pier",
+    "category": "landmark",
+    "city": "Chicago",
+    "state": "IL",
+    "indoor_or_outdoor": "outdoor",
+    "price_tier": "free",
+    "min_age": 0,
+    "max_age": 99,
+    "avg_duration_hours": 3.0,
+    "rating": 4.5,
+    "tags": [
+      "ferris wheel",
+      "boat rides",
+      "fireworks"
+    ],
+    "description": "Lakefront pier with a Ferris wheel, boat rides and fireworks."
+  },
+  {
+    "id": "il-015",
+    "name": "Cosley Zoo",
+    "type": "Zoo",
+    "category": "zoo",
+    "city": "Wheaton",
+    "state": "IL",
+    "indoor_or_outdoor": "outdoor",
+    "price_tier": "$",
+    "min_age": 0,
+    "max_age": 10,
+    "avg_duration_hours": 1.5,
+    "rating": 4.7,
+    "tags": [
+      "farm animals",
+      "compact",
+      "stroller friendly"
+    ],
+    "description": "Small farm-focused zoo sized for preschoolers."
+  }
+]

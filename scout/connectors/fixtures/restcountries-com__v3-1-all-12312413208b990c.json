@@ -1,0 +1,1458 @@
+{
+  "status": 200,
+  "headers": {
+    "content-type": "application/json"
+  },
+  "body": [
+    {
+      "name": {
+        "common": "United States",
+        "official": "United States of America"
+      },
+      "cca2": "US",
+      "cca3": "USA",
+      "currencies": {
+        "USD": {
+          "name": "United States dollar",
+          "symbol": "$"
+        }
+      },
+      "capital": [
+        "Washington, D.C."
+      ],
+      "region": "Americas",
+      "subregion": "North America",
+      "capitalInfo": {
+        "latlng": [
+          38.89,
+          -77.05
+        ]
+      }
+    },
+    {
+      "name": {
+        "common": "Canada",
+        "official": "Canada"
+      },
+      "cca2": "CA",
+      "cca3": "CAN",
+      "currencies": {
+        "CAD": {
+          "name": "Canadian dollar",
+          "symbol": "CAD"
+        }
+      },
+      "capital": [
+        "Ottawa"
+      ],
+      "region": "Americas",
+      "subregion": "North America",
+      "capitalInfo": {
+        "latlng": [
+          45.42,
+          -75.7
+        ]
+      }
+    },
+    {
+      "name": {
+        "common": "Mexico",
+        "official": "United Mexican States"
+      },
+      "cca2": "MX",
+      "cca3": "MEX",
+      "currencies": {
+        "MXN": {
+          "name": "Mexican peso",
+          "symbol": "MXN"
+        }
+      },
+      "capital": [
+        "Mexico City"
+      ],
+      "region": "Americas",
+      "subregion": "North America",
+      "capitalInfo": {
+        "latlng": [
+          19.43,
+          -99.13
+        ]
+      }
+    },
+    {
+      "name": {
+        "common": "Panama",
+        "official": "Republic of Panama"
+      },
+      "cca2": "PA",
+      "cca3": "PAN",
+      "currencies": {
+        "PAB": {
+          "name": "Panamanian balboa",
+          "symbol": "PAB"
+        }
+      },
+      "capital": [
+        "Panama City"
+      ],
+      "region": "Americas",
+      "subregion": "Central America",
+      "capitalInfo": {
+        "latlng": [
+          8.97,
+          -79.53
+        ]
+      }
+    },
+    {
+      "name": {
+        "common": "Costa Rica",
+        "official": "Republic of Costa Rica"
+      },
+      "cca2": "CR",
+      "cca3": "CRI",
+      "currencies": {
+        "CRC": {
+          "name": "Costa Rican colon",
+          "symbol": "CRC"
+        }
+      },
+      "capital": [
+        "San Jose"
+      ],
+      "region": "Americas",
+      "subregion": "Central America",
+      "capitalInfo": {
+        "latlng": [
+          9.93,
+          -84.08
+        ]
+      }
+    },
+    {
+      "name": {
+        "common": "Guatemala",
+        "official": "Republic of Guatemala"
+      },
+      "cca2": "GT",
+      "cca3": "GTM",
+      "currencies": {
+        "GTQ": {
+          "name": "Guatemalan quetzal",
+          "symbol": "GTQ"
+        }
+      },
+      "capital": [
+        "Guatemala City"
+      ],
+      "region": "Americas",
+      "subregion": "Central America",
+      "capitalInfo": {
+        "latlng": [
+          14.62,
+          -90.52
+        ]
+      }
+    },
+    {
+      "name": {
+        "common": "Cuba",
+        "official": "Republic of Cuba"
+      },
+      "cca2": "CU",
+      "cca3": "CUB",
+      "currencies": {
+        "CUP": {
+          "name": "Cuban peso",
+          "symbol": "CUP"
+        }
+      },
+      "capital": [
+        "Havana"
+      ],
+      "region": "Americas",
+      "subregion": "Caribbean",
+      "capitalInfo": {
+        "latlng": [
+          23.12,
+          -82.35
+        ]
+      }
+    },
+    {
+      "name": {
+        "common": "Jamaica",
+        "official": "Jamaica"
+      },
+      "cca2": "JM",
+      "cca3": "JAM",
+      "currencies": {
+        "JMD": {
+          "name": "Jamaican dollar",
+          "symbol": "JMD"
+        }
+      },
+      "capital": [
+        "Kingston"
+      ],
+      "region": "Americas",
+      "subregion": "Caribbean",
+      "capitalInfo": {
+        "latlng": [
+          17.99,
+          -76.79
+        ]
+      }
+    },
+    {
+      "name": {
+        "common": "Dominican Republic",
+        "official": "Dominican Republic"
+      },
+      "cca2": "DO",
+      "cca3": "DOM",
+      "currencies": {
+        "DOP": {
+          "name": "Dominican peso",
+          "symbol": "DOP"
+        }
+      },
+      "capital": [
+        "Santo Domingo"
+      ],
+      "region": "Americas",
+      "subregion": "Caribbean",
+      "capitalInfo": {
+        "latlng": [
+          18.47,
+          -69.9
+        ]
+      }
+    },
+    {
+      "name": {
+        "common": "Puerto Rico",
+        "official": "Commonwealth of Puerto Rico"
+      },
+      "cca2": "PR",
+      "cca3": "PRI",
+      "currencies": {
+        "USD": {
+          "name": "United States dollar",
+          "symbol": "$"
+        }
+      },
+      "capital": [
+        "San Juan"
+      ],
+      "region": "Americas",
+      "subregion": "Caribbean",
+      "capitalInfo": {
+        "latlng": [
+          18.47,
+          -66.11
+        ]
+      }
+    },
+    {
+      "name": {
+        "common": "Brazil",
+        "official": "Federative Republic of Brazil"
+      },
+      "cca2": "BR",
+      "cca3": "BRA",
+      "currencies": {
+        "BRL": {
+          "name": "Brazilian real",
+          "symbol": "BRL"
+        }
+      },
+      "capital": [
+        "Brasilia"
+      ],
+      "region": "Americas",
+      "subregion": "South America",
+      "capitalInfo": {
+        "latlng": [
+          -15.79,
+          -47.88
+        ]
+      }
+    },
+    {
+      "name": {
+        "common": "Argentina",
+        "official": "Argentine Republic"
+      },
+      "cca2": "AR",
+      "cca3": "ARG",
+      "currencies": {
+        "ARS": {
+          "name": "Argentine peso",
+          "symbol": "ARS"
+        }
+      },
+      "capital": [
+        "Buenos Aires"
+      ],
+      "region": "Americas",
+      "subregion": "South America",
+      "capitalInfo": {
+        "latlng": [
+          -34.6,
+          -58.38
+        ]
+      }
+    },
+    {
+      "name": {
+        "common": "Chile",
+        "official": "Republic of Chile"
+      },
+      "cca2": "CL",
+      "cca3": "CHL",
+      "currencies": {
+        "CLP": {
+          "name": "Chilean peso",
+          "symbol": "CLP"
+        }
+      },
+      "capital": [
+        "Santiago"
+      ],
+      "region": "Americas",
+      "subregion": "South America",
+      "capitalInfo": {
+        "latlng": [
+          -33.45,
+          -70.67
+        ]
+      }
+    },
+    {
+      "name": {
+        "common": "Colombia",
+        "official": "Republic of Colombia"
+      },
+      "cca2": "CO",
+      "cca3": "COL",
+      "currencies": {
+        "COP": {
+          "name": "Colombian peso",
+          "symbol": "COP"
+        }
+      },
+      "capital": [
+        "Bogota"
+      ],
+      "region": "Americas",
+      "subregion": "South America",
+      "capitalInfo": {
+        "latlng": [
+          4.71,
+          -74.07
+        ]
+      }
+    },
+    {
+      "name": {
+        "common": "Peru",
+        "official": "Republic of Peru"
+      },
+      "cca2": "PE",
+      "cca3": "PER",
+      "currencies": {
+        "PEN": {
+          "name": "Peruvian sol",
+          "symbol": "PEN"
+        }
+      },
+      "capital": [
+        "Lima"
+      ],
+      "region": "Americas",
+      "subregion": "South America",
+      "capitalInfo": {
+        "latlng": [
+          -12.05,
+          -77.04
+        ]
+      }
+    },
+    {
+      "name": {
+        "common": "Ecuador",
+        "official": "Republic of Ecuador"
+      },
+      "cca2": "EC",
+      "cca3": "ECU",
+      "currencies": {
+        "USD": {
+          "name": "United States dollar",
+          "symbol": "$"
+        }
+      },
+      "capital": [
+        "Quito"
+      ],
+      "region": "Americas",
+      "subregion": "South America",
+      "capitalInfo": {
+        "latlng": [
+          -0.22,
+          -78.51
+        ]
+      }
+    },
+    {
+      "name": {
+        "common": "United Kingdom",
+        "official": "United Kingdom of Great Britain and Northern Ireland"
+      },
+      "cca2": "GB",
+      "cca3": "GBR",
+      "currencies": {
+        "GBP": {
+          "name": "British pound",
+          "symbol": "GBP"
+        }
+      },
+      "capital": [
+        "London"
+      ],
+      "region": "Europe",
+      "subregion": "Northern Europe",
+      "capitalInfo": {
+        "latlng": [
+          51.51,
+          -0.13
+        ]
+      }
+    },
+    {
+      "name": {
+        "common": "France",
+        "official": "French Republic"
+      },
+      "cca2": "FR",
+      "cca3": "FRA",
+      "currencies": {
+        "EUR": {
+          "name": "Euro",
+          "symbol": "€"
+        }
+      },
+      "capital": [
+        "Paris"
+      ],
+      "region": "Europe",
+      "subregion": "Western Europe",
+      "capitalInfo": {
+        "latlng": [
+          48.86,
+          2.35
+        ]
+      }
+    },
+    {
+      "name": {
+        "common": "Netherlands",
+        "official": "Kingdom of the Netherlands"
+      },
+      "cca2": "NL",
+      "cca3": "NLD",
+      "currencies": {
+        "EUR": {
+          "name": "Euro",
+          "symbol": "€"
+        }
+      },
+      "capital": [
+        "Amsterdam"
+      ],
+      "region": "Europe",
+      "subregion": "Western Europe",
+      "capitalInfo": {
+        "latlng": [
+          52.37,
+          4.89
+        ]
+      }
+    },
+    {
+      "name": {
+        "common": "Germany",
+        "official": "Federal Republic of Germany"
+      },
+      "cca2": "DE",
+      "cca3": "DEU",
+      "currencies": {
+        "EUR": {
+          "name": "Euro",
+          "symbol": "€"
+        }
+      },
+      "capital": [
+        "Berlin"
+      ],
+      "region": "Europe",
+      "subregion": "Western Europe",
+      "capitalInfo": {
+        "latlng": [
+          52.52,
+          13.4
+        ]
+      }
+    },
+    {
+      "name": {
+        "common": "Spain",
+        "official": "Kingdom of Spain"
+      },
+      "cca2": "ES",
+      "cca3": "ESP",
+      "currencies": {
+        "EUR": {
+          "name": "Euro",
+          "symbol": "€"
+        }
+      },
+      "capital": [
+        "Madrid"
+      ],
+      "region": "Europe",
+      "subregion": "Southern Europe",
+      "capitalInfo": {
+        "latlng": [
+          40.42,
+          -3.7
+        ]
+      }
+    },
+    {
+      "name": {
+        "common": "Italy",
+        "official": "Italian Republic"
+      },
+      "cca2": "IT",
+      "cca3": "ITA",
+      "currencies": {
+        "EUR": {
+          "name": "Euro",
+          "symbol": "€"
+        }
+      },
+      "capital": [
+        "Rome"
+      ],
+      "region": "Europe",
+      "subregion": "Southern Europe",
+      "capitalInfo": {
+        "latlng": [
+          41.9,
+          12.5
+        ]
+      }
+    },
+    {
+      "name": {
+        "common": "Portugal",
+        "official": "Portuguese Republic"
+      },
+      "cca2": "PT",
+      "cca3": "PRT",
+      "currencies": {
+        "EUR": {
+          "name": "Euro",
+          "symbol": "€"
+        }
+      },
+      "capital": [
+        "Lisbon"
+      ],
+      "region": "Europe",
+      "subregion": "Southern Europe",
+      "capitalInfo": {
+        "latlng": [
+          38.72,
+          -9.14
+        ]
+      }
+    },
+    {
+      "name": {
+        "common": "Denmark",
+        "official": "Kingdom of Denmark"
+      },
+      "cca2": "DK",
+      "cca3": "DNK",
+      "currencies": {
+        "DKK": {
+          "name": "Danish krone",
+          "symbol": "DKK"
+        }
+      },
+      "capital": [
+        "Copenhagen"
+      ],
+      "region": "Europe",
+      "subregion": "Northern Europe",
+      "capitalInfo": {
+        "latlng": [
+          55.68,
+          12.57
+        ]
+      }
+    },
+    {
+      "name": {
+        "common": "Sweden",
+        "official": "Kingdom of Sweden"
+      },
+      "cca2": "SE",
+      "cca3": "SWE",
+      "currencies": {
+        "SEK": {
+          "name": "Swedish krona",
+          "symbol": "SEK"
+        }
+      },
+      "capital": [
+        "Stockholm"
+      ],
+      "region": "Europe",
+      "subregion": "Northern Europe",
+      "capitalInfo": {
+        "latlng": [
+          59.33,
+          18.07
+        ]
+      }
+    },
+    {
+      "name": {
+        "common": "Ireland",
+        "official": "Republic of Ireland"
+      },
+      "cca2": "IE",
+      "cca3": "IRL",
+      "currencies": {
+        "EUR": {
+          "name": "Euro",
+          "symbol": "€"
+        }
+      },
+      "capital": [
+        "Dublin"
+      ],
+      "region": "Europe",
+      "subregion": "Northern Europe",
+      "capitalInfo": {
+        "latlng": [
+          53.35,
+          -6.26
+        ]
+      }
+    },
+    {
+      "name": {
+        "common": "Switzerland",
+        "official": "Swiss Confederation"
+      },
+      "cca2": "CH",
+      "cca3": "CHE",
+      "currencies": {
+        "CHF": {
+          "name": "Swiss franc",
+          "symbol": "CHF"
+        }
+      },
+      "capital": [
+        "Bern"
+      ],
+      "region": "Europe",
+      "subregion": "Western Europe",
+      "capitalInfo": {
+        "latlng": [
+          46.95,
+          7.45
+        ]
+      }
+    },
+    {
+      "name": {
+        "common": "Austria",
+        "official": "Republic of Austria"
+      },
+      "cca2": "AT",
+      "cca3": "AUT",
+      "currencies": {
+        "EUR": {
+          "name": "Euro",
+          "symbol": "€"
+        }
+      },
+      "capital": [
+        "Vienna"
+      ],
+      "region": "Europe",
+      "subregion": "Central Europe",
+      "capitalInfo": {
+        "latlng": [
+          48.21,
+          16.37
+        ]
+      }
+    },
+    {
+      "name": {
+        "common": "Czechia",
+        "official": "Czech Republic"
+      },
+      "cca2": "CZ",
+      "cca3": "CZE",
+      "currencies": {
+        "CZK": {
+          "name": "Czech koruna",
+          "symbol": "CZK"
+        }
+      },
+      "capital": [
+        "Prague"
+      ],
+      "region": "Europe",
+      "subregion": "Central Europe",
+      "capitalInfo": {
+        "latlng": [
+          50.08,
+          14.44
+        ]
+      }
+    },
+    {
+      "name": {
+        "common": "United Arab Emirates",
+        "official": "United Arab Emirates"
+      },
+      "cca2": "AE",
+      "cca3": "ARE",
+      "currencies": {
+        "AED": {
+          "name": "United Arab Emirates dirham",
+          "symbol": "AED"
+        }
+      },
+      "capital": [
+        "Abu Dhabi"
+      ],
+      "region": "Asia",
+      "subregion": "Western Asia",
+      "capitalInfo": {
+        "latlng": [
+          24.47,
+          54.37
+        ]
+      }
+    },
+    {
+      "name": {
+        "common": "Qatar",
+        "official": "State of Qatar"
+      },
+      "cca2": "QA",
+      "cca3": "QAT",
+      "currencies": {
+        "QAR": {
+          "name": "Qatari riyal",
+          "symbol": "QAR"
+        }
+      },
+      "capital": [
+        "Doha"
+      ],
+      "region": "Asia",
+      "subregion": "Western Asia",
+      "capitalInfo": {
+        "latlng": [
+          25.29,
+          51.53
+        ]
+      }
+    },
+    {
+      "name": {
+        "common": "Saudi Arabia",
+        "official": "Kingdom of Saudi Arabia"
+      },
+      "cca2": "SA",
+      "cca3": "SAU",
+      "currencies": {
+        "SAR": {
+          "name": "Saudi riyal",
+          "symbol": "SAR"
+        }
+      },
+      "capital": [
+        "Riyadh"
+      ],
+      "region": "Asia",
+      "subregion": "Western Asia",
+      "capitalInfo": {
+        "latlng": [
+          24.71,
+          46.68
+        ]
+      }
+    },
+    {
+      "name": {
+        "common": "Oman",
+        "official": "Sultanate of Oman"
+      },
+      "cca2": "OM",
+      "cca3": "OMN",
+      "currencies": {
+        "OMR": {
+          "name": "Omani rial",
+          "symbol": "OMR"
+        }
+      },
+      "capital": [
+        "Muscat"
+      ],
+      "region": "Asia",
+      "subregion": "Western Asia",
+      "capitalInfo": {
+        "latlng": [
+          23.61,
+          58.59
+        ]
+      }
+    },
+    {
+      "name": {
+        "common": "Jordan",
+        "official": "Hashemite Kingdom of Jordan"
+      },
+      "cca2": "JO",
+      "cca3": "JOR",
+      "currencies": {
+        "JOD": {
+          "name": "Jordanian dinar",
+          "symbol": "JOD"
+        }
+      },
+      "capital": [
+        "Amman"
+      ],
+      "region": "Asia",
+      "subregion": "Western Asia",
+      "capitalInfo": {
+        "latlng": [
+          31.95,
+          35.93
+        ]
+      }
+    },
+    {
+      "name": {
+        "common": "Israel",
+        "official": "State of Israel"
+      },
+      "cca2": "IL",
+      "cca3": "ISR",
+      "currencies": {
+        "ILS": {
+          "name": "Israeli new shekel",
+          "symbol": "ILS"
+        }
+      },
+      "capital": [
+        "Jerusalem"
+      ],
+      "region": "Asia",
+      "subregion": "Western Asia",
+      "capitalInfo": {
+        "latlng": [
+          31.77,
+          35.21
+        ]
+      }
+    },
+    {
+      "name": {
+        "common": "Turkey",
+        "official": "Republic of Turkey"
+      },
+      "cca2": "TR",
+      "cca3": "TUR",
+      "currencies": {
+        "TRY": {
+          "name": "Turkish lira",
+          "symbol": "TRY"
+        }
+      },
+      "capital": [
+        "Ankara"
+      ],
+      "region": "Asia",
+      "subregion": "Western Asia",
+      "capitalInfo": {
+        "latlng": [
+          39.93,
+          32.87
+        ]
+      }
+    },
+    {
+      "name": {
+        "common": "South Africa",
+        "official": "Republic of South Africa"
+      },
+      "cca2": "ZA",
+      "cca3": "ZAF",
+      "currencies": {
+        "ZAR": {
+          "name": "South African rand",
+          "symbol": "ZAR"
+        }
+      },
+      "capital": [
+        "Pretoria"
+      ],
+      "region": "Africa",
+      "subregion": "Southern Africa",
+      "capitalInfo": {
+        "latlng": [
+          -25.75,
+          28.19
+        ]
+      }
+    },
+    {
+      "name": {
+        "common": "Kenya",
+        "official": "Republic of Kenya"
+      },
+      "cca2": "KE",
+      "cca3": "KEN",
+      "currencies": {
+        "KES": {
+          "name": "Kenyan shilling",
+          "symbol": "KES"
+        }
+      },
+      "capital": [
+        "Nairobi"
+      ],
+      "region": "Africa",
+      "subregion": "Eastern Africa",
+      "capitalInfo": {
+        "latlng": [
+          -1.29,
+          36.82
+        ]
+      }
+    },
+    {
+      "name": {
+        "common": "Egypt",
+        "official": "Arab Republic of Egypt"
+      },
+      "cca2": "EG",
+      "cca3": "EGY",
+      "currencies": {
+        "EGP": {
+          "name": "Egyptian pound",
+          "symbol": "EGP"
+        }
+      },
+      "capital": [
+        "Cairo"
+      ],
+      "region": "Africa",
+      "subregion": "Northern Africa",
+      "capitalInfo": {
+        "latlng": [
+          30.04,
+          31.24
+        ]
+      }
+    },
+    {
+      "name": {
+        "common": "Morocco",
+        "official": "Kingdom of Morocco"
+      },
+      "cca2": "MA",
+      "cca3": "MAR",
+      "currencies": {
+        "MAD": {
+          "name": "Moroccan dirham",
+          "symbol": "MAD"
+        }
+      },
+      "capital": [
+        "Rabat"
+      ],
+      "region": "Africa",
+      "subregion": "Northern Africa",
+      "capitalInfo": {
+        "latlng": [
+          34.02,
+          -6.84
+        ]
+      }
+    },
+    {
+      "name": {
+        "common": "Ethiopia",
+        "official": "Federal Democratic Republic of Ethiopia"
+      },
+      "cca2": "ET",
+      "cca3": "ETH",
+      "currencies": {
+        "ETB": {
+          "name": "Ethiopian birr",
+          "symbol": "ETB"
+        }
+      },
+      "capital": [
+        "Addis Ababa"
+      ],
+      "region": "Africa",
+      "subregion": "Eastern Africa",
+      "capitalInfo": {
+        "latlng": [
+          9.03,
+          38.74
+        ]
+      }
+    },
+    {
+      "name": {
+        "common": "Nigeria",
+        "official": "Federal Republic of Nigeria"
+      },
+      "cca2": "NG",
+      "cca3": "NGA",
+      "currencies": {
+        "NGN": {
+          "name": "Nigerian naira",
+          "symbol": "NGN"
+        }
+      },
+      "capital": [
+        "Abuja"
+      ],
+      "region": "Africa",
+      "subregion": "Western Africa",
+      "capitalInfo": {
+        "latlng": [
+          9.06,
+          7.49
+        ]
+      }
+    },
+    {
+      "name": {
+        "common": "Ghana",
+        "official": "Republic of Ghana"
+      },
+      "cca2": "GH",
+      "cca3": "GHA",
+      "currencies": {
+        "GHS": {
+          "name": "Ghanaian cedi",
+          "symbol": "GHS"
+        }
+      },
+      "capital": [
+        "Accra"
+      ],
+      "region": "Africa",
+      "subregion": "Western Africa",
+      "capitalInfo": {
+        "latlng": [
+          5.6,
+          -0.19
+        ]
+      }
+    },
+    {
+      "name": {
+        "common": "Japan",
+        "official": "Japan"
+      },
+      "cca2": "JP",
+      "cca3": "JPN",
+      "currencies": {
+        "JPY": {
+          "name": "Japanese yen",
+          "symbol": "JPY"
+        }
+      },
+      "capital": [
+        "Tokyo"
+      ],
+      "region": "Asia",
+      "subregion": "Eastern Asia",
+      "capitalInfo": {
+        "latlng": [
+          35.68,
+          139.69
+        ]
+      }
+    },
+    {
+      "name": {
+        "common": "South Korea",
+        "official": "Republic of Korea"
+      },
+      "cca2": "KR",
+      "cca3": "KOR",
+      "currencies": {
+        "KRW": {
+          "name": "South Korean won",
+          "symbol": "KRW"
+        }
+      },
+      "capital": [
+        "Seoul"
+      ],
+      "region": "Asia",
+      "subregion": "Eastern Asia",
+      "capitalInfo": {
+        "latlng": [
+          37.57,
+          126.98
+        ]
+      }
+    },
+    {
+      "name": {
+        "common": "China",
+        "official": "People's Republic of China"
+      },
+      "cca2": "CN",
+      "cca3": "CHN",
+      "currencies": {
+        "CNY": {
+          "name": "Chinese yuan",
+          "symbol": "CNY"
+        }
+      },
+      "capital": [
+        "Beijing"
+      ],
+      "region": "Asia",
+      "subregion": "Eastern Asia",
+      "capitalInfo": {
+        "latlng": [
+          39.9,
+          116.4
+        ]
+      }
+    },
+    {
+      "name": {
+        "common": "Hong Kong",
+        "official": "Hong Kong Special Administrative Region of the China"
+      },
+      "cca2": "HK",
+      "cca3": "HKG",
+      "currencies": {
+        "HKD": {
+          "name": "Hong Kong dollar",
+          "symbol": "HKD"
+        }
+      },
+      "capital": [
+        "City of Victoria"
+      ],
+      "region": "Asia",
+      "subregion": "Eastern Asia",
+      "capitalInfo": {
+        "latlng": [
+          22.28,
+          114.16
+        ]
+      }
+    },
+    {
+      "name": {
+        "common": "Singapore",
+        "official": "Republic of Singapore"
+      },
+      "cca2": "SG",
+      "cca3": "SGP",
+      "currencies": {
+        "SGD": {
+          "name": "Singapore dollar",
+          "symbol": "SGD"
+        }
+      },
+      "capital": [
+        "Singapore"
+      ],
+      "region": "Asia",
+      "subregion": "South-Eastern Asia",
+      "capitalInfo": {
+        "latlng": [
+          1.35,
+          103.82
+        ]
+      }
+    },
+    {
+      "name": {
+        "common": "Thailand",
+        "official": "Kingdom of Thailand"
+      },
+      "cca2": "TH",
+      "cca3": "THA",
+      "currencies": {
+        "THB": {
+          "name": "Thai baht",
+          "symbol": "THB"
+        }
+      },
+      "capital": [
+        "Bangkok"
+      ],
+      "region": "Asia",
+      "subregion": "South-Eastern Asia",
+      "capitalInfo": {
+        "latlng": [
+          13.75,
+          100.52
+        ]
+      }
+    },
+    {
+      "name": {
+        "common": "Malaysia",
+        "official": "Malaysia"
+      },
+      "cca2": "MY",
+      "cca3": "MYS",
+      "currencies": {
+        "MYR": {
+          "name": "Malaysian ringgit",
+          "symbol": "MYR"
+        }
+      },
+      "capital": [
+        "Kuala Lumpur"
+      ],
+      "region": "Asia",
+      "subregion": "South-Eastern Asia",
+      "capitalInfo": {
+        "latlng": [
+          3.14,
+          101.69
+        ]
+      }
+    },
+    {
+      "name": {
+        "common": "Indonesia",
+        "official": "Republic of Indonesia"
+      },
+      "cca2": "ID",
+      "cca3": "IDN",
+      "currencies": {
+        "IDR": {
+          "name": "Indonesian rupiah",
+          "symbol": "IDR"
+        }
+      },
+      "capital": [
+        "Jakarta"
+      ],
+      "region": "Asia",
+      "subregion": "South-Eastern Asia",
+      "capitalInfo": {
+        "latlng": [
+          -6.21,
+          106.85
+        ]
+      }
+    },
+    {
+      "name": {
+        "common": "Philippines",
+        "official": "Republic of the Philippines"
+      },
+      "cca2": "PH",
+      "cca3": "PHL",
+      "currencies": {
+        "PHP": {
+          "name": "Philippine peso",
+          "symbol": "PHP"
+        }
+      },
+      "capital": [
+        "Manila"
+      ],
+      "region": "Asia",
+      "subregion": "South-Eastern Asia",
+      "capitalInfo": {
+        "latlng": [
+          14.6,
+          120.98
+        ]
+      }
+    },
+    {
+      "name": {
+        "common": "Vietnam",
+        "official": "Socialist Republic of Vietnam"
+      },
+      "cca2": "VN",
+      "cca3": "VNM",
+      "currencies": {
+        "VND": {
+          "name": "Vietnamese dong",
+          "symbol": "VND"
+        }
+      },
+      "capital": [
+        "Hanoi"
+      ],
+      "region": "Asia",
+      "subregion": "South-Eastern Asia",
+      "capitalInfo": {
+        "latlng": [
+          21.03,
+          105.85
+        ]
+      }
+    },
+    {
+      "name": {
+        "common": "India",
+        "official": "Republic of India"
+      },
+      "cca2": "IN",
+      "cca3": "IND",
+      "currencies": {
+        "INR": {
+          "name": "Indian rupee",
+          "symbol": "INR"
+        }
+      },
+      "capital": [
+        "New Delhi"
+      ],
+      "region": "Asia",
+      "subregion": "Southern Asia",
+      "capitalInfo": {
+        "latlng": [
+          28.61,
+          77.21
+        ]
+      }
+    },
+    {
+      "name": {
+        "common": "Australia",
+        "official": "Commonwealth of Australia"
+      },
+      "cca2": "AU",
+      "cca3": "AUS",
+      "currencies": {
+        "AUD": {
+          "name": "Australian dollar",
+          "symbol": "AUD"
+        }
+      },
+      "capital": [
+        "Canberra"
+      ],
+      "region": "Oceania",
+      "subregion": "Australia and New Zealand",
+      "capitalInfo": {
+        "latlng": [
+          -35.28,
+          149.13
+        ]
+      }
+    },
+    {
+      "name": {
+        "common": "New Zealand",
+        "official": "New Zealand"
+      },
+      "cca2": "NZ",
+      "cca3": "NZL",
+      "currencies": {
+        "NZD": {
+          "name": "New Zealand dollar",
+          "symbol": "NZD"
+        }
+      },
+      "capital": [
+        "Wellington"
+      ],
+      "region": "Oceania",
+      "subregion": "Australia and New Zealand",
+      "capitalInfo": {
+        "latlng": [
+          -41.29,
+          174.78
+        ]
+      }
+    },
+    {
+      "name": {
+        "common": "Fiji",
+        "official": "Republic of Fiji"
+      },
+      "cca2": "FJ",
+      "cca3": "FJI",
+      "currencies": {
+        "FJD": {
+          "name": "Fijian dollar",
+          "symbol": "FJD"
+        }
+      },
+      "capital": [
+        "Suva"
+      ],
+      "region": "Oceania",
+      "subregion": "Melanesia",
+      "capitalInfo": {
+        "latlng": [
+          -18.14,
+          178.44
+        ]
+      }
+    },
+    {
+      "name": {
+        "common": "French Polynesia",
+        "official": "French Polynesia"
+      },
+      "cca2": "PF",
+      "cca3": "PYF",
+      "currencies": {
+        "XPF": {
+          "name": "CFP franc",
+          "symbol": "XPF"
+        }
+      },
+      "capital": [
+        "Papeete"
+      ],
+      "region": "Oceania",
+      "subregion": "Polynesia",
+      "capitalInfo": {
+        "latlng": [
+          -17.53,
+          -149.57
+        ]
+      }
+    }
+  ]
+}

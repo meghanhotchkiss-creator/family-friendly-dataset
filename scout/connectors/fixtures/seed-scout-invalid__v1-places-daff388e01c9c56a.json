@@ -1,0 +1,178 @@
+{
+  "status": 200,
+  "headers": {
+    "content-type": "application/json"
+  },
+  "body": {
+    "page": {
+      "region": "OC",
+      "limit": 100,
+      "returned": 5,
+      "next_cursor": null
+    },
+    "places": [
+      {
+        "id": "fp_au_taronga-zoo-sydney",
+        "name": "Taronga Zoo Sydney",
+        "category": "zoo",
+        "subcategory": "Zoo",
+        "location": {
+          "lat": -33.8433,
+          "lon": 151.2413,
+          "precision": "venue",
+          "city": "Sydney",
+          "admin1": null,
+          "country": "AU",
+          "timezone": "Australia/Sydney",
+          "city_lat": -33.8688,
+          "city_lon": 151.2093,
+          "neighborhood": null
+        },
+        "price_level": 3,
+        "setting": "outdoor",
+        "rating": 9.2,
+        "good_for_ages": {
+          "min": 1,
+          "max": 99
+        },
+        "typical_visit_minutes": 300,
+        "description": "Harbourside zoo reached by ferry and cable car, with a koala walkway.",
+        "tags": [
+          "koalas",
+          "ferry",
+          "views"
+        ],
+        "region": "OC"
+      },
+      {
+        "id": "fp_au_sea-life-sydney-aquarium",
+        "name": "SEA LIFE Sydney Aquarium",
+        "category": "aquarium",
+        "subcategory": "Aquarium",
+        "location": {
+          "lat": -33.8697,
+          "lon": 151.202,
+          "precision": "venue",
+          "city": "Sydney",
+          "admin1": null,
+          "country": "AU",
+          "timezone": "Australia/Sydney",
+          "city_lat": -33.8688,
+          "city_lon": 151.2093,
+          "neighborhood": null
+        },
+        "price_level": 3,
+        "setting": "indoor",
+        "rating": 8.6,
+        "good_for_ages": {
+          "min": 1,
+          "max": 99
+        },
+        "typical_visit_minutes": 150,
+        "description": "Walk-through tunnels with dugongs, sharks and a penguin expedition.",
+        "tags": [
+          "sharks",
+          "penguins"
+        ],
+        "region": "OC"
+      },
+      {
+        "id": "fp_au_melbourne-museum",
+        "name": "Melbourne Museum",
+        "category": "museum",
+        "subcategory": "Natural History Museum",
+        "location": {
+          "lat": -37.8033,
+          "lon": 144.9717,
+          "precision": "venue",
+          "city": "Melbourne",
+          "admin1": null,
+          "country": "AU",
+          "timezone": "Australia/Melbourne",
+          "city_lat": -37.8136,
+          "city_lon": 144.9631,
+          "neighborhood": null
+        },
+        "price_level": 2,
+        "setting": "indoor",
+        "rating": 9,
+        "good_for_ages": {
+          "min": 3,
+          "max": 99
+        },
+        "typical_visit_minutes": 180,
+        "description": "Dinosaur bones, a living forest gallery and the Childrens Museum cube.",
+        "tags": [
+          "dinosaurs",
+          "forest"
+        ],
+        "region": "OC"
+      },
+      {
+        "id": "fp_nz_auckland-zoo",
+        "name": "Auckland Zoo",
+        "category": "zoo",
+        "subcategory": "Zoo",
+        "location": {
+          "lat": -36.8628,
+          "lon": 174.72,
+          "precision": "venue",
+          "city": "Auckland",
+          "admin1": null,
+          "country": "NZ",
+          "timezone": "Pacific/Auckland",
+          "city_lat": -36.8485,
+          "city_lon": 174.7633,
+          "neighborhood": null
+        },
+        "price_level": 3,
+        "setting": "outdoor",
+        "rating": 9,
+        "good_for_ages": {
+          "min": 1,
+          "max": 99
+        },
+        "typical_visit_minutes": 240,
+        "description": "New Zealand native aviary, a kiwi house and a South East Asia jungle track.",
+        "tags": [
+          "kiwi",
+          "animals"
+        ],
+        "region": "OC"
+      },
+      {
+        "id": "fp_nz_te-papa-tongarewa",
+        "name": "Te Papa Tongarewa",
+        "category": "museum",
+        "subcategory": "National Museum",
+        "location": {
+          "lat": -41.2905,
+          "lon": 174.782,
+          "precision": "venue",
+          "city": "Wellington",
+          "admin1": null,
+          "country": "NZ",
+          "timezone": "Pacific/Auckland",
+          "city_lat": -41.2866,
+          "city_lon": 174.7756,
+          "neighborhood": null
+        },
+        "price_level": 0,
+        "setting": "indoor",
+        "rating": 9.4,
+        "good_for_ages": {
+          "min": 3,
+          "max": 99
+        },
+        "typical_visit_minutes": 180,
+        "description": "Free national museum with an earthquake house and a colossal squid.",
+        "tags": [
+          "free",
+          "earthquake",
+          "squid"
+        ],
+        "region": "OC"
+      }
+    ]
+  }
+}

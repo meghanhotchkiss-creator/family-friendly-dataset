@@ -1,0 +1,87 @@
+[
+  {
+    "pattern_id": 1,
+    "cluster_name": "Toddler-first city breaks",
+    "top_destinations": [
+      "San Francisco, CA",
+      "Tampa, FL",
+      "Columbus, OH",
+      "Sacramento, CA"
+    ],
+    "seasonal_preferences": {
+      "spring": "high",
+      "summer": "medium",
+      "fall": "high",
+      "winter": "medium"
+    },
+    "notes": "Short days, indoor backups, splash pads and free parks. Families with a child under 5."
+  },
+  {
+    "pattern_id": 2,
+    "cluster_name": "Science and space seekers",
+    "top_destinations": [
+      "Houston, TX",
+      "Merritt Island, FL",
+      "Chicago, IL",
+      "Flagstaff, AZ"
+    ],
+    "seasonal_preferences": {
+      "spring": "high",
+      "summer": "high",
+      "fall": "medium",
+      "winter": "medium"
+    },
+    "notes": "Museum-heavy itineraries, timed-entry tickets, ages 8 and up."
+  },
+  {
+    "pattern_id": 3,
+    "cluster_name": "National park road trippers",
+    "top_destinations": [
+      "Grand Canyon Village, AZ",
+      "Terlingua, TX",
+      "Yosemite Valley, CA",
+      "Logan, OH"
+    ],
+    "seasonal_preferences": {
+      "spring": "high",
+      "summer": "medium",
+      "fall": "high",
+      "winter": "low"
+    },
+    "notes": "Multi-day drives, shoulder-season travel, stargazing and easy loop trails."
+  },
+  {
+    "pattern_id": 4,
+    "cluster_name": "Budget weekend explorers",
+    "top_destinations": [
+      "Chicago, IL",
+      "Savannah, GA",
+      "Phoenix, AZ",
+      "Brecksville, OH"
+    ],
+    "seasonal_preferences": {
+      "spring": "high",
+      "summer": "medium",
+      "fall": "high",
+      "winter": "medium"
+    },
+    "notes": "Free-admission zoos, libraries and public parks. Budget range $ dominates."
+  },
+  {
+    "pattern_id": 5,
+    "cluster_name": "Aquarium and marine life fans",
+    "top_destinations": [
+      "Atlanta, GA",
+      "Monterey, CA",
+      "Chicago, IL",
+      "Clearwater, FL"
+    ],
+    "seasonal_preferences": {
+      "spring": "medium",
+      "summer": "high",
+      "fall": "medium",
+      "winter": "high"
+    },
+    "notes": "Indoor-first planning; winter travel is common because weather does not matter."
+  }
+]

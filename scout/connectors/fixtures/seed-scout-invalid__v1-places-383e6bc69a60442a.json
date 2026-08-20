@@ -1,0 +1,724 @@
+{
+  "status": 200,
+  "headers": {
+    "content-type": "application/json"
+  },
+  "body": {
+    "page": {
+      "region": "EU",
+      "limit": 100,
+      "returned": 22,
+      "next_cursor": null
+    },
+    "places": [
+      {
+        "id": "fp_gb_natural-history-museum",
+        "name": "Natural History Museum",
+        "category": "museum",
+        "subcategory": "Natural History Museum",
+        "location": {
+          "lat": 51.4967,
+          "lon": -0.1764,
+          "precision": "venue",
+          "city": "London",
+          "admin1": null,
+          "country": "GB",
+          "timezone": "Europe/London",
+          "city_lat": 51.5074,
+          "city_lon": -0.1278,
+          "neighborhood": null
+        },
+        "price_level": 0,
+        "setting": "indoor",
+        "rating": 9.4,
+        "good_for_ages": {
+          "min": 3,
+          "max": 99
+        },
+        "typical_visit_minutes": 180,
+        "description": "Free national museum with the dinosaur gallery and the blue whale hall.",
+        "tags": [
+          "dinosaurs",
+          "free",
+          "rainy day"
+        ],
+        "region": "EU"
+      },
+      {
+        "id": "fp_gb_science-museum",
+        "name": "Science Museum",
+        "category": "science_center",
+        "subcategory": "Science Museum",
+        "location": {
+          "lat": 51.4978,
+          "lon": -0.1745,
+          "precision": "venue",
+          "city": "London",
+          "admin1": null,
+          "country": "GB",
+          "timezone": "Europe/London",
+          "city_lat": 51.5074,
+          "city_lon": -0.1278,
+          "neighborhood": null
+        },
+        "price_level": 0,
+        "setting": "indoor",
+        "rating": 9.2,
+        "good_for_ages": {
+          "min": 3,
+          "max": 99
+        },
+        "typical_visit_minutes": 150,
+        "description": "Hands-on galleries, space rockets and the Wonderlab experiment floor.",
+        "tags": [
+          "hands-on",
+          "space",
+          "free entry"
+        ],
+        "region": "EU"
+      },
+      {
+        "id": "fp_gb_diana-memorial-playground",
+        "name": "Diana Memorial Playground",
+        "category": "playground",
+        "subcategory": "Adventure Playground",
+        "location": {
+          "lat": 51.5069,
+          "lon": -0.1795,
+          "precision": "venue",
+          "city": "London",
+          "admin1": null,
+          "country": "GB",
+          "timezone": "Europe/London",
+          "city_lat": 51.5074,
+          "city_lon": -0.1278,
+          "neighborhood": null
+        },
+        "price_level": 0,
+        "setting": "outdoor",
+        "rating": 9,
+        "good_for_ages": {
+          "min": 2,
+          "max": 12
+        },
+        "typical_visit_minutes": 90,
+        "description": "Pirate ship playground in Kensington Gardens, free and fenced.",
+        "tags": [
+          "playground",
+          "free",
+          "toddlers"
+        ],
+        "region": "EU"
+      },
+      {
+        "id": "fp_fr_cite-des-sciences-et-de-l-industrie",
+        "name": "Cite des Sciences et de l Industrie",
+        "category": "science_center",
+        "subcategory": "Science Centre",
+        "location": {
+          "lat": 48.8956,
+          "lon": 2.388,
+          "precision": "venue",
+          "city": "Paris",
+          "admin1": null,
+          "country": "FR",
+          "timezone": "Europe/Paris",
+          "city_lat": 48.8566,
+          "city_lon": 2.3522,
+          "neighborhood": null
+        },
+        "price_level": 2,
+        "setting": "indoor",
+        "rating": 9,
+        "good_for_ages": {
+          "min": 3,
+          "max": 99
+        },
+        "typical_visit_minutes": 180,
+        "description": "Europe's largest science museum, with a dedicated under-12 exploration zone.",
+        "tags": [
+          "hands-on",
+          "planetarium"
+        ],
+        "region": "EU"
+      },
+      {
+        "id": "fp_fr_jardin-d-acclimatation",
+        "name": "Jardin d'Acclimatation",
+        "category": "theme_park",
+        "subcategory": "Amusement Park",
+        "location": {
+          "lat": 48.8778,
+          "lon": 2.2637,
+          "precision": "venue",
+          "city": "Paris",
+          "admin1": null,
+          "country": "FR",
+          "timezone": "Europe/Paris",
+          "city_lat": 48.8566,
+          "city_lon": 2.3522,
+          "neighborhood": null
+        },
+        "price_level": 2,
+        "setting": "outdoor",
+        "rating": 8.6,
+        "good_for_ages": {
+          "min": 2,
+          "max": 12
+        },
+        "typical_visit_minutes": 240,
+        "description": "Gentle rides, animals and gardens at the edge of the Bois de Boulogne.",
+        "tags": [
+          "rides",
+          "gardens"
+        ],
+        "region": "EU"
+      },
+      {
+        "id": "fp_nl_nemo-science-museum",
+        "name": "NEMO Science Museum",
+        "category": "science_center",
+        "subcategory": "Science Centre",
+        "location": {
+          "lat": 52.374,
+          "lon": 4.9125,
+          "precision": "venue",
+          "city": "Amsterdam",
+          "admin1": null,
+          "country": "NL",
+          "timezone": "Europe/Amsterdam",
+          "city_lat": 52.3676,
+          "city_lon": 4.9041,
+          "neighborhood": null
+        },
+        "price_level": 2,
+        "setting": "indoor",
+        "rating": 9,
+        "good_for_ages": {
+          "min": 4,
+          "max": 99
+        },
+        "typical_visit_minutes": 180,
+        "description": "Five floors of experiments in a green copper ship, with a rooftop terrace.",
+        "tags": [
+          "hands-on",
+          "rooftop"
+        ],
+        "region": "EU"
+      },
+      {
+        "id": "fp_nl_artis-royal-zoo",
+        "name": "Artis Royal Zoo",
+        "category": "zoo",
+        "subcategory": "Zoo",
+        "location": {
+          "lat": 52.3667,
+          "lon": 4.9143,
+          "precision": "venue",
+          "city": "Amsterdam",
+          "admin1": null,
+          "country": "NL",
+          "timezone": "Europe/Amsterdam",
+          "city_lat": 52.3676,
+          "city_lon": 4.9041,
+          "neighborhood": null
+        },
+        "price_level": 3,
+        "setting": "outdoor",
+        "rating": 8.8,
+        "good_for_ages": {
+          "min": 1,
+          "max": 99
+        },
+        "typical_visit_minutes": 240,
+        "description": "Historic city-centre zoo with an aquarium, planetarium and butterfly house.",
+        "tags": [
+          "animals",
+          "aquarium"
+        ],
+        "region": "EU"
+      },
+      {
+        "id": "fp_de_miniatur-wunderland",
+        "name": "Miniatur Wunderland",
+        "category": "museum",
+        "subcategory": "Model Railway",
+        "location": {
+          "lat": 53.5439,
+          "lon": 9.9885,
+          "precision": "venue",
+          "city": "Hamburg",
+          "admin1": null,
+          "country": "DE",
+          "timezone": "Europe/Berlin",
+          "city_lat": 53.5511,
+          "city_lon": 9.9937,
+          "neighborhood": null
+        },
+        "price_level": 2,
+        "setting": "indoor",
+        "rating": 9.6,
+        "good_for_ages": {
+          "min": 3,
+          "max": 99
+        },
+        "typical_visit_minutes": 180,
+        "description": "The world's largest model railway, with an airport that runs on its own clock.",
+        "tags": [
+          "trains",
+          "rainy day"
+        ],
+        "region": "EU"
+      },
+      {
+        "id": "fp_de_deutsches-museum",
+        "name": "Deutsches Museum",
+        "category": "science_center",
+        "subcategory": "Science and Technology Museum",
+        "location": {
+          "lat": 48.1298,
+          "lon": 11.5832,
+          "precision": "venue",
+          "city": "Munich",
+          "admin1": null,
+          "country": "DE",
+          "timezone": "Europe/Berlin",
+          "city_lat": 48.1351,
+          "city_lon": 11.582,
+          "neighborhood": null
+        },
+        "price_level": 2,
+        "setting": "indoor",
+        "rating": 9,
+        "good_for_ages": {
+          "min": 5,
+          "max": 99
+        },
+        "typical_visit_minutes": 210,
+        "description": "Vast science and technology collection with a childrens kingdom floor.",
+        "tags": [
+          "machines",
+          "hands-on"
+        ],
+        "region": "EU"
+      },
+      {
+        "id": "fp_dk_tivoli-gardens",
+        "name": "Tivoli Gardens",
+        "category": "theme_park",
+        "subcategory": "Amusement Park",
+        "location": {
+          "lat": 55.6737,
+          "lon": 12.5681,
+          "precision": "venue",
+          "city": "Copenhagen",
+          "admin1": null,
+          "country": "DK",
+          "timezone": "Europe/Copenhagen",
+          "city_lat": 55.6761,
+          "city_lon": 12.5683,
+          "neighborhood": null
+        },
+        "price_level": 3,
+        "setting": "outdoor",
+        "rating": 9.2,
+        "good_for_ages": {
+          "min": 2,
+          "max": 99
+        },
+        "typical_visit_minutes": 300,
+        "description": "Nineteenth-century pleasure garden with wooden coasters and evening lights.",
+        "tags": [
+          "rides",
+          "gardens",
+          "evening"
+        ],
+        "region": "EU"
+      },
+      {
+        "id": "fp_dk_experimentarium",
+        "name": "Experimentarium",
+        "category": "science_center",
+        "subcategory": "Science Centre",
+        "location": {
+          "lat": 55.729,
+          "lon": 12.59,
+          "precision": "venue",
+          "city": "Copenhagen",
+          "admin1": null,
+          "country": "DK",
+          "timezone": "Europe/Copenhagen",
+          "city_lat": 55.6761,
+          "city_lon": 12.5683,
+          "neighborhood": null
+        },
+        "price_level": 2,
+        "setting": "indoor",
+        "rating": 8.8,
+        "good_for_ages": {
+          "min": 3,
+          "max": 99
+        },
+        "typical_visit_minutes": 180,
+        "description": "Hands-on science across sixteen exhibitions, including a bubble laboratory.",
+        "tags": [
+          "hands-on",
+          "bubbles"
+        ],
+        "region": "EU"
+      },
+      {
+        "id": "fp_se_junibacken",
+        "name": "Junibacken",
+        "category": "museum",
+        "subcategory": "Storybook Museum",
+        "location": {
+          "lat": 59.326,
+          "lon": 18.095,
+          "precision": "venue",
+          "city": "Stockholm",
+          "admin1": null,
+          "country": "SE",
+          "timezone": "Europe/Stockholm",
+          "city_lat": 59.3293,
+          "city_lon": 18.0686,
+          "neighborhood": null
+        },
+        "price_level": 2,
+        "setting": "indoor",
+        "rating": 8.6,
+        "good_for_ages": {
+          "min": 2,
+          "max": 10
+        },
+        "typical_visit_minutes": 150,
+        "description": "Story train through Astrid Lindgren fairy tales and a Pippi Longstocking house.",
+        "tags": [
+          "stories",
+          "toddlers"
+        ],
+        "region": "EU"
+      },
+      {
+        "id": "fp_se_skansen",
+        "name": "Skansen",
+        "category": "park",
+        "subcategory": "Open-Air Museum",
+        "location": {
+          "lat": 59.326,
+          "lon": 18.103,
+          "precision": "venue",
+          "city": "Stockholm",
+          "admin1": null,
+          "country": "SE",
+          "timezone": "Europe/Stockholm",
+          "city_lat": 59.3293,
+          "city_lon": 18.0686,
+          "neighborhood": null
+        },
+        "price_level": 2,
+        "setting": "outdoor",
+        "rating": 9,
+        "good_for_ages": {
+          "min": 1,
+          "max": 99
+        },
+        "typical_visit_minutes": 240,
+        "description": "Open-air museum and Nordic zoo on the Djurgarden island.",
+        "tags": [
+          "animals",
+          "history"
+        ],
+        "region": "EU"
+      },
+      {
+        "id": "fp_es_parc-guell",
+        "name": "Parc Guell",
+        "category": "park",
+        "subcategory": "Public Park",
+        "location": {
+          "lat": 41.4145,
+          "lon": 2.1527,
+          "precision": "venue",
+          "city": "Barcelona",
+          "admin1": null,
+          "country": "ES",
+          "timezone": "Europe/Madrid",
+          "city_lat": 41.3874,
+          "city_lon": 2.1686,
+          "neighborhood": null
+        },
+        "price_level": 1,
+        "setting": "outdoor",
+        "rating": 9,
+        "good_for_ages": {
+          "min": 0,
+          "max": 99
+        },
+        "typical_visit_minutes": 120,
+        "description": "Gaudi mosaics, terraces and shaded paths above the city.",
+        "tags": [
+          "gaudi",
+          "views"
+        ],
+        "region": "EU"
+      },
+      {
+        "id": "fp_es_cosmocaixa-barcelona",
+        "name": "CosmoCaixa Barcelona",
+        "category": "science_center",
+        "subcategory": "Science Museum",
+        "location": {
+          "lat": 41.4108,
+          "lon": 2.1213,
+          "precision": "venue",
+          "city": "Barcelona",
+          "admin1": null,
+          "country": "ES",
+          "timezone": "Europe/Madrid",
+          "city_lat": 41.3874,
+          "city_lon": 2.1686,
+          "neighborhood": null
+        },
+        "price_level": 1,
+        "setting": "indoor",
+        "rating": 8.8,
+        "good_for_ages": {
+          "min": 3,
+          "max": 99
+        },
+        "typical_visit_minutes": 180,
+        "description": "Science museum with a flooded Amazon rainforest under glass.",
+        "tags": [
+          "rainforest",
+          "hands-on"
+        ],
+        "region": "EU"
+      },
+      {
+        "id": "fp_es_parque-del-retiro",
+        "name": "Parque del Retiro",
+        "category": "park",
+        "subcategory": "Public Park",
+        "location": {
+          "lat": 40.4153,
+          "lon": -3.6844,
+          "precision": "venue",
+          "city": "Madrid",
+          "admin1": null,
+          "country": "ES",
+          "timezone": "Europe/Madrid",
+          "city_lat": 40.4168,
+          "city_lon": -3.7038,
+          "neighborhood": null
+        },
+        "price_level": 0,
+        "setting": "outdoor",
+        "rating": 9.2,
+        "good_for_ages": {
+          "min": 0,
+          "max": 99
+        },
+        "typical_visit_minutes": 120,
+        "description": "Rowing boats on the lake, puppet shows and the Crystal Palace.",
+        "tags": [
+          "boats",
+          "free"
+        ],
+        "region": "EU"
+      },
+      {
+        "id": "fp_it_explora-museo-dei-bambini",
+        "name": "Explora Museo dei Bambini",
+        "category": "museum",
+        "subcategory": "Childrens Museum",
+        "location": {
+          "lat": 41.913,
+          "lon": 12.476,
+          "precision": "venue",
+          "city": "Rome",
+          "admin1": null,
+          "country": "IT",
+          "timezone": "Europe/Rome",
+          "city_lat": 41.9028,
+          "city_lon": 12.4964,
+          "neighborhood": null
+        },
+        "price_level": 2,
+        "setting": "indoor",
+        "rating": 8.4,
+        "good_for_ages": {
+          "min": 1,
+          "max": 12
+        },
+        "typical_visit_minutes": 120,
+        "description": "Rome childrens museum with role-play areas booked in timed sessions.",
+        "tags": [
+          "role play",
+          "toddlers"
+        ],
+        "region": "EU"
+      },
+      {
+        "id": "fp_pt_oceanario-de-lisboa",
+        "name": "Oceanario de Lisboa",
+        "category": "aquarium",
+        "subcategory": "Aquarium",
+        "location": {
+          "lat": 38.7633,
+          "lon": -9.095,
+          "precision": "venue",
+          "city": "Lisbon",
+          "admin1": null,
+          "country": "PT",
+          "timezone": "Europe/Lisbon",
+          "city_lat": 38.7223,
+          "city_lon": -9.1393,
+          "neighborhood": null
+        },
+        "price_level": 3,
+        "setting": "indoor",
+        "rating": 9.4,
+        "good_for_ages": {
+          "min": 2,
+          "max": 99
+        },
+        "typical_visit_minutes": 150,
+        "description": "One central ocean tank surrounded by four habitats, with sea otters.",
+        "tags": [
+          "ocean",
+          "otters"
+        ],
+        "region": "EU"
+      },
+      {
+        "id": "fp_ie_dublin-zoo",
+        "name": "Dublin Zoo",
+        "category": "zoo",
+        "subcategory": "Zoo",
+        "location": {
+          "lat": 53.3556,
+          "lon": -6.3049,
+          "precision": "venue",
+          "city": "Dublin",
+          "admin1": null,
+          "country": "IE",
+          "timezone": "Europe/Dublin",
+          "city_lat": 53.3498,
+          "city_lon": -6.2603,
+          "neighborhood": null
+        },
+        "price_level": 3,
+        "setting": "outdoor",
+        "rating": 9,
+        "good_for_ages": {
+          "min": 1,
+          "max": 99
+        },
+        "typical_visit_minutes": 240,
+        "description": "Large zoo in Phoenix Park with an African savanna and a family farm.",
+        "tags": [
+          "animals",
+          "park"
+        ],
+        "region": "EU"
+      },
+      {
+        "id": "fp_ch_swiss-museum-of-transport",
+        "name": "Swiss Museum of Transport",
+        "category": "museum",
+        "subcategory": "Transport Museum",
+        "location": {
+          "lat": 47.0537,
+          "lon": 8.335,
+          "precision": "venue",
+          "city": "Lucerne",
+          "admin1": null,
+          "country": "CH",
+          "timezone": "Europe/Zurich",
+          "city_lat": 47.0502,
+          "city_lon": 8.3093,
+          "neighborhood": null
+        },
+        "price_level": 3,
+        "setting": "mixed",
+        "rating": 9.2,
+        "good_for_ages": {
+          "min": 3,
+          "max": 99
+        },
+        "typical_visit_minutes": 240,
+        "description": "Trains, planes, a planetarium and a chocolate ride in one campus.",
+        "tags": [
+          "trains",
+          "planetarium"
+        ],
+        "region": "EU"
+      },
+      {
+        "id": "fp_at_tiergarten-schonbrunn",
+        "name": "Tiergarten Schonbrunn",
+        "category": "zoo",
+        "subcategory": "Zoo",
+        "location": {
+          "lat": 48.1817,
+          "lon": 16.302,
+          "precision": "venue",
+          "city": "Vienna",
+          "admin1": null,
+          "country": "AT",
+          "timezone": "Europe/Vienna",
+          "city_lat": 48.2082,
+          "city_lon": 16.3738,
+          "neighborhood": null
+        },
+        "price_level": 3,
+        "setting": "outdoor",
+        "rating": 9.2,
+        "good_for_ages": {
+          "min": 1,
+          "max": 99
+        },
+        "typical_visit_minutes": 240,
+        "description": "The oldest zoo in the world, on the Schonbrunn palace grounds.",
+        "tags": [
+          "pandas",
+          "history"
+        ],
+        "region": "EU"
+      },
+      {
+        "id": "fp_cz_prague-zoo",
+        "name": "Prague Zoo",
+        "category": "zoo",
+        "subcategory": "Zoo",
+        "location": {
+          "lat": 50.117,
+          "lon": 14.406,
+          "precision": "venue",
+          "city": "Prague",
+          "admin1": null,
+          "country": "CZ",
+          "timezone": "Europe/Prague",
+          "city_lat": 50.0755,
+          "city_lon": 14.4378,
+          "neighborhood": null
+        },
+        "price_level": 2,
+        "setting": "outdoor",
+        "rating": 9.2,
+        "good_for_ages": {
+          "min": 1,
+          "max": 99
+        },
+        "typical_visit_minutes": 240,
+        "description": "Hillside zoo with a chairlift, a childrens zoo and Przewalski horses.",
+        "tags": [
+          "animals",
+          "chairlift"
+        ],
+        "region": "EU"
+      }
+    ]
+  }
+}

@@ -1,0 +1,208 @@
+{
+  "status": 200,
+  "headers": {
+    "content-type": "application/json"
+  },
+  "body": {
+    "page": {
+      "region": "ME",
+      "limit": 100,
+      "returned": 6,
+      "next_cursor": null
+    },
+    "places": [
+      {
+        "id": "fp_ae_dubai-aquarium-and-underwater-zoo",
+        "name": "Dubai Aquarium and Underwater Zoo",
+        "category": "aquarium",
+        "subcategory": "Aquarium",
+        "location": {
+          "lat": 25.1972,
+          "lon": 55.279,
+          "precision": "venue",
+          "city": "Dubai",
+          "admin1": null,
+          "country": "AE",
+          "timezone": "Asia/Dubai",
+          "city_lat": 25.2048,
+          "city_lon": 55.2708,
+          "neighborhood": null
+        },
+        "price_level": 3,
+        "setting": "indoor",
+        "rating": 8.8,
+        "good_for_ages": {
+          "min": 1,
+          "max": 99
+        },
+        "typical_visit_minutes": 120,
+        "description": "Ten-million-litre tank inside the Dubai Mall with a walk-through tunnel.",
+        "tags": [
+          "sharks",
+          "mall"
+        ],
+        "region": "ME"
+      },
+      {
+        "id": "fp_ae_children-city-dubai",
+        "name": "Children City Dubai",
+        "category": "science_center",
+        "subcategory": "Childrens Museum",
+        "location": {
+          "lat": 25.232,
+          "lon": 55.321,
+          "precision": "venue",
+          "city": "Dubai",
+          "admin1": null,
+          "country": "AE",
+          "timezone": "Asia/Dubai",
+          "city_lat": 25.2048,
+          "city_lon": 55.2708,
+          "neighborhood": null
+        },
+        "price_level": 1,
+        "setting": "indoor",
+        "rating": 8.2,
+        "good_for_ages": {
+          "min": 2,
+          "max": 15
+        },
+        "typical_visit_minutes": 150,
+        "description": "Edutainment centre in Creek Park with a planetarium and a body gallery.",
+        "tags": [
+          "hands-on",
+          "planetarium"
+        ],
+        "region": "ME"
+      },
+      {
+        "id": "fp_qa_national-museum-of-qatar",
+        "name": "National Museum of Qatar",
+        "category": "museum",
+        "subcategory": "National Museum",
+        "location": {
+          "lat": 25.295,
+          "lon": 51.539,
+          "precision": "venue",
+          "city": "Doha",
+          "admin1": null,
+          "country": "QA",
+          "timezone": "Asia/Qatar",
+          "city_lat": 25.2854,
+          "city_lon": 51.531,
+          "neighborhood": null
+        },
+        "price_level": 2,
+        "setting": "indoor",
+        "rating": 9,
+        "good_for_ages": {
+          "min": 4,
+          "max": 99
+        },
+        "typical_visit_minutes": 150,
+        "description": "Desert-rose building with immersive galleries and a family art studio.",
+        "tags": [
+          "architecture",
+          "immersive"
+        ],
+        "region": "ME"
+      },
+      {
+        "id": "fp_tr_istanbul-akvaryum",
+        "name": "Istanbul Akvaryum",
+        "category": "aquarium",
+        "subcategory": "Aquarium",
+        "location": {
+          "lat": 40.976,
+          "lon": 28.787,
+          "precision": "venue",
+          "city": "Istanbul",
+          "admin1": null,
+          "country": "TR",
+          "timezone": "Europe/Istanbul",
+          "city_lat": 41.0082,
+          "city_lon": 28.9784,
+          "neighborhood": null
+        },
+        "price_level": 3,
+        "setting": "indoor",
+        "rating": 8.6,
+        "good_for_ages": {
+          "min": 2,
+          "max": 99
+        },
+        "typical_visit_minutes": 180,
+        "description": "Sixteen themed zones from the Black Sea to a tropical rainforest.",
+        "tags": [
+          "ocean",
+          "rainforest"
+        ],
+        "region": "ME"
+      },
+      {
+        "id": "fp_tr_miniaturk",
+        "name": "Miniaturk",
+        "category": "park",
+        "subcategory": "Miniature Park",
+        "location": {
+          "lat": 41.058,
+          "lon": 28.947,
+          "precision": "venue",
+          "city": "Istanbul",
+          "admin1": null,
+          "country": "TR",
+          "timezone": "Europe/Istanbul",
+          "city_lat": 41.0082,
+          "city_lon": 28.9784,
+          "neighborhood": null
+        },
+        "price_level": 1,
+        "setting": "outdoor",
+        "rating": 8.4,
+        "good_for_ages": {
+          "min": 3,
+          "max": 99
+        },
+        "typical_visit_minutes": 120,
+        "description": "Turkey landmarks at 1:25 scale beside the Golden Horn.",
+        "tags": [
+          "models",
+          "outdoor"
+        ],
+        "region": "ME"
+      },
+      {
+        "id": "fp_il_bloomfield-science-museum",
+        "name": "Bloomfield Science Museum",
+        "category": "science_center",
+        "subcategory": "Science Museum",
+        "location": {
+          "lat": 31.776,
+          "lon": 35.201,
+          "precision": "venue",
+          "city": "Jerusalem",
+          "admin1": null,
+          "country": "IL",
+          "timezone": "Asia/Jerusalem",
+          "city_lat": 31.7683,
+          "city_lon": 35.2137,
+          "neighborhood": null
+        },
+        "price_level": 2,
+        "setting": "indoor",
+        "rating": 8.8,
+        "good_for_ages": {
+          "min": 4,
+          "max": 99
+        },
+        "typical_visit_minutes": 150,
+        "description": "Hands-on exhibits on the Givat Ram campus, strong on water and light.",
+        "tags": [
+          "hands-on",
+          "water"
+        ],
+        "region": "ME"
+      }
+    ]
+  }
+}

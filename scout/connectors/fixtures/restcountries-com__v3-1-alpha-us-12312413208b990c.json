@@ -1,0 +1,33 @@
+{
+  "status": 200,
+  "headers": {
+    "content-type": "application/json"
+  },
+  "body": [
+    {
+      "name": {
+        "common": "United States",
+        "official": "United States of America"
+      },
+      "cca2": "US",
+      "cca3": "USA",
+      "currencies": {
+        "USD": {
+          "name": "United States dollar",
+          "symbol": "$"
+        }
+      },
+      "capital": [
+        "Washington, D.C."
+      ],
+      "region": "Americas",
+      "subregion": "North America",
+      "capitalInfo": {
+        "latlng": [
+          38.89,
+          -77.05
+        ]
+      }
+    }
+  ]
+}
