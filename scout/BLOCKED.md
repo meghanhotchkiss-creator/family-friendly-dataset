@@ -139,17 +139,36 @@ need no commercial agreement, and would use the same spec format. Enterprise
 earns its keep for firehose realtime and whole-project snapshots, not for
 looking up a few thousand attractions.
 
-## 4. Kaggle datasets — blocked on tooling, credentials and licence review
+## 4. Kaggle datasets — two blockers left, one removed
 
-**Status:** not started, deliberately.
-**Blocked by:** `kaggle.com` unreachable, no Kaggle CLI, no API token.
+**Status:** the Kaggle CLI installs from PyPI, which the egress policy permits:
 
-`kaggle kernels pull ashishkumar111/travel` retrieves a *notebook*, not a
-licensed dataset. Kaggle content carries per-item licences that are frequently
-unstated, derivative, or scraped from sources whose terms prohibit
-redistribution. `registerSpec` refuses any source without a licence and
-attribution, so such a dataset cannot be registered here until someone has read
-its terms. That is the guard working, not an obstacle to route around.
+```bash
+pip install kaggle          # works here: Kaggle CLI 2.2.4
+```
+
+**Blocked by:** (1) no API token, (2) `kaggle.com` unreachable.
+
+```bash
+# 1. Kaggle -> Settings -> API -> Create New Token, save as:
+#      ~/.kaggle/kaggle.json      (chmod 600)
+# 2. allowlist kaggle.com in the egress policy
+kaggle datasets download -d <owner>/<dataset> -p data/upstream --unzip
+SCOUT_TRANSPORT=offline npm run sourcemesh -- ingest --source=<spec>
+```
+
+**`kernels pull` is the wrong verb for data.** It downloads a *notebook* --
+Python source -- not a dataset. `kaggle datasets download` is the one that
+retrieves data. A kernel like `ryanholbrook/exercise-the-sliding-window` is a
+lesson from Kaggle's Computer Vision course about convolution and pooling; it
+contains no travel data and nothing SourceMesh could ingest.
+
+**Licence review is mandatory, not optional.** Kaggle content carries per-item
+licences that are frequently unstated, derivative, or scraped from sources whose
+terms prohibit redistribution. `registerSpec` refuses any source without a
+licence and attribution, so a Kaggle dataset cannot be registered until someone
+has read its terms. That is the guard working, not an obstacle to route around.
+Name a dataset and its licence and the spec is a few minutes' work.
 
 ## 5. A real places aggregator — blocked on a commercial decision
 
