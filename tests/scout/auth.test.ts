@@ -10,6 +10,7 @@ import {
   authHeaders, isAuthConfigured, describeAuth, clearAuthCache, type AuthSpec,
 } from '../../scout/sourcemesh/auth.ts';
 import { loadSpecs } from '../../scout/sourcemesh/registry.ts';
+import { credentialReport, formatCredentials } from '../../scout/sourcemesh/credentials.ts';
 import type { Transport } from '../../scout/contracts/index.ts';
 
 function stub(responses: { status: number; body: string }[]): Transport & { calls: number } {
@@ -116,4 +117,49 @@ test('no shipped spec embeds a credential', () => {
       assert.match(describeAuth(spec.auth), /\$[A-Z_]+/, `${spec.id} should describe env vars`);
     }
   }
+});
+
+test('the credential report names variables and never prints values', () => {
+  process.env.WME_USERNAME = 'a-real-username';
+  process.env.WME_PASSWORD = 'a-real-password';
+  process.env.NPS_API_KEY = 'KGAT-style-secret-value';
+  try {
+    const report = credentialReport();
+    const rendered = formatCredentials(report);
+
+    // The whole point: a preflight that leaks the thing it is checking for
+    // would be worse than no preflight.
+    assert.doesNotMatch(rendered, /a-real-username/);
+    assert.doesNotMatch(rendered, /a-real-password/);
+    assert.doesNotMatch(rendered, /KGAT-style-secret-value/);
+
+    // It must still be useful: names, and whether they are set.
+    assert.match(rendered, /WME_USERNAME/);
+    assert.match(rendered, /NPS_API_KEY/);
+    const wme = report.find((r) => r.source === 'wikimedia-enterprise');
+    assert.equal(wme?.satisfied, true, 'both variables are set, so it is satisfied');
+    const nps = report.find((r) => r.source === 'nps');
+    assert.equal(nps?.satisfied, true);
+
+    for (const requirement of report) {
+      for (const value of [process.env.WME_PASSWORD!, process.env.NPS_API_KEY!]) {
+        assert.ok(!JSON.stringify(requirement).includes(value),
+          `${requirement.source} carries a credential value in its payload`);
+      }
+    }
+  } finally {
+    delete process.env.WME_USERNAME;
+    delete process.env.WME_PASSWORD;
+    delete process.env.NPS_API_KEY;
+  }
+});
+
+test('an unsatisfied requirement is reported without inventing one', () => {
+  delete process.env.WME_USERNAME;
+  delete process.env.WME_PASSWORD;
+  const report = credentialReport();
+  const wme = report.find((r) => r.source === 'wikimedia-enterprise');
+  assert.equal(wme?.satisfied, false);
+  assert.deepEqual(wme?.needs, ['WME_USERNAME', 'WME_PASSWORD']);
+  assert.ok(wme?.alsoNeeds?.includes('egress'), 'a credential alone is not enough here');
 });

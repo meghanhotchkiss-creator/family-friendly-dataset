@@ -18,6 +18,7 @@ import {
 } from '../sourcemesh/accounting.ts';
 import { quarantineRecords, quarantineSummary, recordAccounting, listQuarantine } from '../sourcemesh/quarantine.ts';
 import { statusReport } from '../sourcemesh/status.ts';
+import { credentialReport, formatCredentials } from '../sourcemesh/credentials.ts';
 import { resolveCities, mergeMatches, linkAirportsByGeonameId, MATCH_KM, NO_MATCH_KM } from '../sourcemesh/entity-resolution.ts';
 import { unwrap } from '../contracts/index.ts';
 
@@ -49,6 +50,8 @@ if (command === 'list') {
   }
   console.log('\nattribution required when publishing:');
   for (const line of attributionNotice(db)) console.log(`  ${line}`);
+} else if (command === 'credentials') {
+  console.log(formatCredentials(credentialReport(db)));
 } else if (command === 'health') {
   for (const spec of specs) {
     const health = await createSourceAdapter(db, spec!).healthCheck();
