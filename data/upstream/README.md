@@ -5,8 +5,8 @@ adapter parsers it would use on the network — same normalisation, same claims,
 same provenance. This exists so a closed egress policy is not a dead end.
 
 ```bash
-export SCOUT_TRANSPORT=offline
-npm run travel:import:airports
+npm run data:fetch      # fills this directory from permitted channels
+npm run data:seed       # migrate, ingest every spec offline, then validate
 ```
 
 Obtain the files through whatever channel your environment permits (an approved
@@ -17,7 +17,14 @@ get them.
 | Provider | File | Source |
 |---|---|---|
 | airports | `ourairports-data/airports.csv` | https://davidmegginson.github.io/ourairports-data/airports.csv |
-| geography | `v3.1/all` (JSON array) | https://restcountries.com/v3.1/all?fields=name,cca2,cca3,currencies,region,subregion,capital,capitalInfo |
+| admin regions | `ourairports-data/regions.csv` | https://davidmegginson.github.io/ourairports-data/regions.csv |
+| country roster | `ourairports-data/countries.csv` | https://davidmegginson.github.io/ourairports-data/countries.csv |
+| runways | `ourairports-data/runways.csv` | https://davidmegginson.github.io/ourairports-data/runways.csv |
+| frequencies | `ourairports-data/airport-frequencies.csv` | https://davidmegginson.github.io/ourairports-data/airport-frequencies.csv |
+| navaids | `ourairports-data/navaids.csv` | https://davidmegginson.github.io/ourairports-data/navaids.csv |
+| geography | `v3.1/all` (JSON array) | https://restcountries.com/v3.1/all |
+| points of reference | `optd_por_public.csv` | https://github.com/opentraveldata/opentraveldata |
+| cities | `geonames-cities15000.json` | https://download.geonames.org/export/dump/cities15000 |
 | weather | `v1/forecast` (JSON) | https://api.open-meteo.com/v1/forecast |
 | geocode | `search` (JSON array) | https://nominatim.openstreetmap.org/search |
 

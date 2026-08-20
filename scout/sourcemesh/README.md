@@ -10,14 +10,25 @@ the test suite holds the line on it.
 
 > If every new dataset still requires modifying importer code, it isn't the product yet.
 
-Three datasets, three record shapes, one adapter, zero importer code:
+Nine datasets, four record shapes, one adapter, zero importer code:
 
 | Source | Shape | Rows | Result |
 |---|---|---|---|
 | `restcountries` (world-countries, npm) | JSON array, nested `name.common` | 250 | 250 imported |
 | `geonames-cities15000` (geonamescache, PyPI) | JSON **map keyed by id**, array field | 34,006 | 34,006 imported |
-| `ourairports` (airportsdata, PyPI) | CSV, quoted commas | 28,291 | 28,291 imported |
-| `optd-por` (OpenTravelData, GitHub) | CSV, `^`-delimited, mixed entities | 20,939 | 9,874 airports selected |
+| `ourairports` (ourairports-data, GitHub) | CSV, quoted commas | 85,936 | 85,925 imported |
+| `ourairports-regions` | CSV | 3,987 | 3,985 imported |
+| `ourairports-runways` | CSV, joins on `ident` | 48,180 | 48,176 imported |
+| `ourairports-frequencies` | CSV, joins on `ident` | 30,339 | 30,336 imported |
+| `ourairports-navaids` | CSV, optional airport link | 11,008 | 11,008 imported |
+| `optd-por` (OpenTravelData, GitHub) | CSV, `^`-delimited, mixed entities | 20,939 | 9,380 airports selected |
+| `wikimedia-enterprise` | JSON, JWT login | — | skipped: no credentials |
+
+Adding the five OurAirports files after the first one took no adapter changes:
+they are JSON specs. The three capabilities they did need -- several `select`
+conditions ANDed together, a `1`/`0` boolean, and an id namespace so a local
+`ident` cannot collide with an IATA code -- are generic, and every source has
+them now.
 
 ```bash
 npm run sourcemesh -- list       # registered sources + required attribution
@@ -57,29 +68,51 @@ exact linkage — airports to cities by GeoNames id
 ## The anomaly demo
 
 The airport bug, reproduced as a spec (`specs/_demo-ourairports-naive.json`)
-that derives the region from the source's own `continent` column:
+that derives the region from the source's own `continent` column instead of
+resolving it through the countries table.
+
+The funnel is spotless:
 
 ```
-SOURCE ROWS      28291  ████████████████████████████
-PARSED           28291  ████████████████████████████
-MAPPED           28291  ████████████████████████████
-COUNTRY MATCHED  28291  ████████████████████████████
-REGION RESOLVED      0  ····························
-IMPORTED             0  ····························  <- anomaly
+SOURCE ROWS      85936  ████████████████████████████
+PARSED           85936  ████████████████████████████
+MAPPED           85936  ████████████████████████████
+COUNTRY MATCHED  85936  ████████████████████████████
+REGION RESOLVED  85936  ████████████████████████████
+IMPORTED         85936  ████████████████████████████
+BALANCED         all 85,936 source rows accounted for
+```
 
+The data is wrong anyway. `continent` and Scout's region flags are different
+vocabularies that happen to share five of their codes:
+
+| | Middle East | Central America / Caribbean | Antarctica |
+|---|---|---|---|
+| correct spec | 1,543 airports | 1,093 airports | folded into OC |
+| naive spec | **18** | **13** | `AN`, which is not a region at all |
+
+Only the Antarctic rows announce themselves, as 46 `PERSIST_FAILED` rows on the
+`regions(code)` foreign key. The 2,600 Middle Eastern and Caribbean airports are
+filed under Asia and North America with no error of any kind: a green funnel, a
+balanced ledger, and a travel graph that thinks Jordan is in Asia and Jamaica is
+in North America.
+
+That is the case for resolvers. The repair is a spec edit, not a code change:
+
+```
+    source.iso_country -> countries.iso2 -> countries.region_code
+```
+
+When the source's own column is genuinely empty rather than merely wrong, the
+diagnosis says so directly, extrapolating from a capped sample and reporting
+what it actually examined rather than quoting the cap as a population:
+
+```
 [CRITICAL] 100.0% of otherwise-valid records were rejected at "REGION RESOLVED"
-  (28,291 -> 0). Likely cause: continent is blank for 500 of 500 sampled
-  rejects (~28,291 of 28,291 rejected).
+  Likely cause: continent is blank for 500 of 500 sampled rejects.
   Suggested repair: Resolve the region from the existing countries table
   instead of the source's own column.
-    source.iso_country -> countries.iso2 -> countries.region_code
-    would recover ~28,291 rejected rows (500/500 of the examined sample)
 ```
-
-Applying that repair is a **spec edit**, not a code change — and recovers every
-row. The rejected-row sample is capped at 500, so the diagnosis reports what it
-actually examined alongside the extrapolation rather than quoting the cap as a
-population.
 
 ## No silent drops
 
@@ -88,20 +121,24 @@ checked against the source count. An unbalanced run is a defect regardless of
 how many rows it inserted -- the missing ones went somewhere nobody is looking.
 
 ```
-source_rows           28291
-parsed_rows           28291
-mapped_rows           28291
-validated_rows            0
-matched_rows          28291
-inserted_rows             0
+source_rows           85936
+parsed_rows           85936
+selected_out_rows         0
+mapped_rows           85936
+validated_rows        85925
+matched_rows          85936
+inserted_rows         85925
 updated_rows              0
 unchanged_rows            0
-quarantined_rows      28291
+quarantined_rows         11
 rejected_rows             0
 ———————————————————————————
-BALANCED           all 28,291 source rows accounted for
-quarantined  28291  MISSING_REQUIRED_FIELD
+BALANCED           all 85,936 source rows accounted for
+quarantined     11  MISSING_REQUIRED_FIELD
 ```
+
+Those eleven are airports in `XP` and `ZZ` — OurAirports' placeholders for "no
+country" — and they are refused rather than filed somewhere plausible.
 
 `parsed`, `mapped`, `validated` and `matched` are progress gauges, not
 destinations, so they are excluded from the sum on purpose.

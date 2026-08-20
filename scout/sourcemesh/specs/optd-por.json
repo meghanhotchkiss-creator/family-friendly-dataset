@@ -15,7 +15,7 @@
   },
   "updateFrequency": "daily",
   "identity": [
-    "geonameId"
+    "iata"
   ],
   "fields": {
     "icao": {
@@ -115,10 +115,18 @@
     "frequency": "daily",
     "strategy": "hash_diff"
   },
-  "select": {
-    "field": "fcode",
-    "startsWith": [
-      "AIR"
-    ]
-  }
+  "select": [
+    {
+      "field": "fcode",
+      "startsWith": [
+        "AIR"
+      ]
+    },
+    {
+      "field": "envelope_id",
+      "in": [
+        ""
+      ]
+    }
+  ]
 }

@@ -2,6 +2,12 @@
  * Migration runner. Applies scout/db/migrations/*.sql in filename order inside
  * a transaction each, recording a checksum so an edited migration is caught
  * rather than silently diverging.
+ *
+ * A migration whose first line is `-- no-transaction` runs outside one, because
+ * `PRAGMA foreign_keys` is ignored while a transaction is open -- and a table
+ * rebuild that needs it off for the swap otherwise produces a schema that looks
+ * right and is not. Such a migration is responsible for leaving the database
+ * consistent on its own.
  */
 
 import { readFileSync, readdirSync } from 'node:fs';
@@ -12,6 +18,8 @@ import { nowIso } from '../runtime/clock.ts';
 import type { Db } from './index.ts';
 
 const MIGRATIONS_DIR = join(dirname(fileURLToPath(import.meta.url)), 'migrations');
+
+const NO_TRANSACTION = /^\s*--\s*no-transaction\b/;
 
 export interface MigrationResult {
   applied: string[];
@@ -58,15 +66,23 @@ export function migrate(db: Db): MigrationResult {
       skipped.push(migration.name);
       continue;
     }
-    db.transaction(() => {
-      db.exec(migration.sql);
+    const record = (): void => {
       db.run(
         'INSERT INTO migrations (name, checksum, applied_at) VALUES (?, ?, ?)',
         migration.name,
         migration.checksum,
         nowIso(),
       );
-    });
+    };
+    if (NO_TRANSACTION.test(migration.sql)) {
+      db.exec(migration.sql);
+      record();
+    } else {
+      db.transaction(() => {
+        db.exec(migration.sql);
+        record();
+      });
+    }
     applied.push(migration.name);
   }
 

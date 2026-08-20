@@ -81,7 +81,7 @@ export interface MappedRecord {
  */
 export interface ValidationRejection {
   record: MappedRecord;
-  reasonCode: 'MISSING_REQUIRED_FIELD' | 'OUT_OF_RANGE';
+  reasonCode: 'MISSING_REQUIRED_FIELD' | 'OUT_OF_RANGE' | 'DUPLICATE_IDENTITY';
   details: string;
 }
 
@@ -106,7 +106,10 @@ function applyTransform(value: unknown, transform: FieldRule['transform']): unkn
     case 'trim': return String(value).trim();
     case 'number': { const n = Number(value); return Number.isFinite(n) ? n : null; }
     case 'integer': { const n = Number(value); return Number.isFinite(n) ? Math.trunc(n) : null; }
-    case 'boolean': return value === true || value === 'true' || value === 'yes' || value === 1;
+    // CSV has no booleans: OurAirports writes `yes`/`no` in one file and
+    // `1`/`0` in the next, and a string "1" is not the number 1.
+    case 'boolean':
+      return value === true || value === 1 || value === 'true' || value === 'yes' || value === '1';
     case 'first': return Array.isArray(value) ? (value[0] ?? null) : value;
     case 'join': return Array.isArray(value) ? value.join('; ') : value;
     default: return value;
@@ -320,10 +323,14 @@ export function createSourceAdapter(db: Db, spec: SourceSpec) {
       const startedAt = nowIso();
       const fetched = await body(options.transport);
       if (!fetched.ok) {
+        // A source nobody has credentials for has not failed -- it has not been
+        // attempted. Recording both as `failed` made a missing API key
+        // indistinguishable from a broken feed on every status board.
+        const status = fetched.error.kind === 'not_configured' ? 'skipped' : 'failed';
         db.run(
           `INSERT INTO ingestion_runs (run_id, source_id, started_at, finished_at, status, error)
            VALUES (?,?,?,?,?,?)`,
-          runId, spec.id, startedAt, nowIso(), 'failed', fetched.error.message,
+          runId, spec.id, startedAt, nowIso(), status, fetched.error.message,
         );
         return fetched;
       }
@@ -354,14 +361,16 @@ export function createSourceAdapter(db: Db, spec: SourceSpec) {
       // Rows this spec is not about are excluded up front, not rejected.
       const sourceRowCount = raw.length;
       if (spec.select) {
-        const sel = spec.select;
-        raw = raw.filter((record) => {
-          const value = String(readPath(record, sel.field) ?? '');
-          if (sel.in && !sel.in.includes(value)) return false;
-          if (sel.notIn && sel.notIn.includes(value)) return false;
-          if (sel.startsWith && !sel.startsWith.some((p) => value.startsWith(p))) return false;
-          return true;
-        });
+        const conditions = Array.isArray(spec.select) ? spec.select : [spec.select];
+        raw = raw.filter((record) =>
+          conditions.every((sel) => {
+            const value = String(readPath(record, sel.field) ?? '');
+            if (sel.in && !sel.in.includes(value)) return false;
+            if (sel.notIn && sel.notIn.includes(value)) return false;
+            if (sel.startsWith && !sel.startsWith.some((p) => value.startsWith(p))) return false;
+            return true;
+          }),
+        );
       }
 
       const profile = profileRecords(raw, spec.format);
@@ -371,6 +380,7 @@ export function createSourceAdapter(db: Db, spec: SourceSpec) {
       const required = spec.quality?.rejectIfMissing ?? [];
       const warnMissing = spec.quality?.warnIfMissing ?? [];
       const warnCounts = new Map<string, number>();
+      const seenIdentities = new Set<string>();
 
       let mappedCount = 0;
       let countryMatched = 0;
@@ -401,6 +411,25 @@ export function createSourceAdapter(db: Db, spec: SourceSpec) {
         if (mapsRegion && !isBlank(values.regionCode)) regionResolved += 1;
 
         const identity = spec.identity.map((f) => String(values[f] ?? '')).join('|');
+
+        // Two source rows claiming one identity is a silent drop in disguise:
+        // the sink is an upsert, so the second quietly overwrites the first and
+        // the funnel still reports both as imported. Surfacing it as a rejection
+        // is what makes "total duplicates" a real number rather than a zero
+        // nobody ever computed.
+        if (seenIdentities.has(identity)) {
+          if (rejects.length < REJECT_SAMPLE_CAP) {
+            rejects.push({ reason: 'duplicate identity', field: spec.identity[0] ?? null, record });
+          }
+          rejections.push({
+            record: { identity, values, raw: record },
+            reasonCode: 'DUPLICATE_IDENTITY',
+            details: `identity ${identity} was already claimed by an earlier row in this run`,
+          });
+          continue;
+        }
+        seenIdentities.add(identity);
+
         const missing = required.filter((f) => isBlank(values[f]));
         if (missing.length > 0) {
           // Diagnostic sample stays capped; the retained rejection does not.

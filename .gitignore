@@ -4,3 +4,7 @@ __pycache__/
 
 # Generated SQLite build of the seed data (rebuild with: make db)
 data/processed/*.db
+
+# SQLite sidecar files (WAL mode)
+data/processed/*.db-shm
+data/processed/*.db-wal

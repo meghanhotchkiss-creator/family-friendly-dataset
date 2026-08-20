@@ -17,12 +17,14 @@ npm run command-center      # operational status, derived from live state
 make seed && make test
 ```
 
-Scout runs on real open data: 250 countries, ~46,500 cities and 28,291
-airports across all 8 region flags, fetched from package registries and
-ingested through SourceMesh. See [`scout/BLOCKED.md`](scout/BLOCKED.md) for
-what is waiting on network egress or a commercial decision, and
-[`data/upstream/PROVENANCE.md`](data/upstream/README.md) for licences and the
-one derived field.
+Scout runs on real open data: 250 countries, 3,985 administrative regions,
+~82,000 cities and 85,925 airports across all 8 region flags — with runways,
+frequencies and navaids — fetched from package registries and public
+repositories, and ingested through SourceMesh. `npm run data:validate` prints
+the funnel and asserts the geography actually resolved. See
+[`scout/BLOCKED.md`](scout/BLOCKED.md) for what is waiting on network egress or
+a commercial decision, and
+[`data/upstream/PROVENANCE.md`](data/upstream/README.md) for licences.
 
 ---
 

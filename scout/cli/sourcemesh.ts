@@ -91,10 +91,21 @@ if (command === 'list') {
   for (const spec of specs) {
     const adapter = createSourceAdapter(db, spec!);
     const started = Date.now();
-    const result = unwrap(await adapter.ingest({
+    const attempt = await adapter.ingest({
       dryRun, force,
       limit: limitArg ? Number(limitArg) : undefined,
-    }));
+    });
+    // One unreachable source must not end the sweep. A sweep that stopped at
+    // the first source needing credentials left the four behind it looking
+    // NOT STARTED when they were simply never reached.
+    if (!attempt.ok) {
+      const skipped = attempt.error.kind === 'not_configured';
+      console.log(`\n=== ${spec!.id} === ${skipped ? 'skipped' : 'FAILED'}`);
+      console.log(`  ${attempt.error.message}`);
+      if (!skipped) failed += 1;
+      continue;
+    }
+    const result = attempt.value;
     console.log(`\n=== ${spec!.id} === ${result.status} in ${Date.now() - started}ms`);
     if (result.unchanged) {
       console.log('  unchanged since the last run; skipped');
@@ -139,12 +150,21 @@ if (command === 'list') {
       }
     }
 
-    const check = checkAccounting(acct);
-    if (!dryRun) recordAccounting(db, result.runId, acct, check.balanced);
-    console.log(formatAccounting(acct));
-    if (!check.balanced) {
-      console.log(`  [CRITICAL] accounting does not balance: ${check.explanation}`);
-      failed += 1;
+    if (dryRun) {
+      // A dry run writes nothing, so the persistence buckets are empty by
+      // design and the sum cannot balance. Reporting that as CRITICAL made
+      // every dry run look like a defective one.
+      console.log(formatAccounting(acct).split('\n').slice(0, -2).join('\n'));
+      console.log(`  ${'—'.repeat(27)}`);
+      console.log(`  ${'DRY RUN'.padEnd(18)} ${acct.validated_rows.toLocaleString()} rows would be written; nothing persisted`);
+    } else {
+      const check = checkAccounting(acct);
+      recordAccounting(db, result.runId, acct, check.balanced);
+      console.log(formatAccounting(acct));
+      if (!check.balanced) {
+        console.log(`  [CRITICAL] accounting does not balance: ${check.explanation}`);
+        failed += 1;
+      }
     }
     if (acct.quarantined_rows > 0) {
       for (const [code, n] of Object.entries(quarantineSummary(db, result.runId))) {

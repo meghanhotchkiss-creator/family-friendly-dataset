@@ -41,7 +41,9 @@ SCOUT_TRANSPORT=offline npm run travel:import:airports
 | Dataset | Package | Real records imported |
 |---|---|---|
 | Countries | `world-countries` (npm, ODbL) | **250 countries**, all 8 regions |
-| Airports | `airportsdata` (PyPI, MIT) | **7,884 IATA airports**, all 8 regions |
+| Airports | `ourairports-data` (GitHub, public domain) | **85,925 airports**, all 8 regions |
+| Admin regions | `ourairports-data` (GitHub, public domain) | **3,985 regions** (`iso_region` -> name) |
+| Runways, frequencies, navaids | `ourairports-data` (GitHub, public domain) | **48,180 / 30,339 / 11,008** |
 
 Verified against known values: LHR `51.4706,-0.46194`, NRT `35.7647,140.386`,
 SYD `-33.9461,151.177`, JNB `-26.13367,28.24233`, ORD `41.97694,-87.90815`.

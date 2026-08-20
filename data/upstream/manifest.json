@@ -1,6 +1,11 @@
 {
   "https://restcountries.com/v3.1/all": "countries.json",
+  "https://raw.githubusercontent.com/opentraveldata/opentraveldata/master/opentraveldata/optd_por_public.csv": "optd_por_public.csv",
   "https://download.geonames.org/export/dump/cities15000": "geonames-cities15000.json",
   "https://davidmegginson.github.io/ourairports-data/airports.csv": "ourairports-data/airports.csv",
-  "https://raw.githubusercontent.com/opentraveldata/opentraveldata/master/opentraveldata/optd_por_public.csv": "optd_por_public.csv"
+  "https://davidmegginson.github.io/ourairports-data/countries.csv": "ourairports-data/countries.csv",
+  "https://davidmegginson.github.io/ourairports-data/regions.csv": "ourairports-data/regions.csv",
+  "https://davidmegginson.github.io/ourairports-data/runways.csv": "ourairports-data/runways.csv",
+  "https://davidmegginson.github.io/ourairports-data/airport-frequencies.csv": "ourairports-data/airport-frequencies.csv",
+  "https://davidmegginson.github.io/ourairports-data/navaids.csv": "ourairports-data/navaids.csv"
 }

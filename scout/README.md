@@ -44,7 +44,7 @@ Every number the platform shows can be explained from its four components.
 npm install
 npm run bootstrap     # migrate + import + normalize + topics + user graph + truth
 npm run scout:demo    # the nine-step proof scenario
-npm test              # 143 tests
+npm test              # 189 tests
 npm run api:serve     # HTTP API on :8787
 ```
 
@@ -53,6 +53,10 @@ npm run api:serve     # HTTP API on :8787
 | Command | Does |
 |---|---|
 | `db:migrate` / `db:reset` / `db:status` | Schema, with checksum drift detection |
+| `data:fetch` / `data:fixtures` | Pull the upstream datasets; re-record the committed fixtures |
+| `data:ingest` / `data:seed` | Run every SourceMesh spec offline; migrate + ingest + validate |
+| `data:validate` | Geography funnel, and whether GB FR JP AU ZA US CA BR IN resolve |
+| `data:status` | BUILT / CONNECTED / SEEDED / TESTED per source |
 | `travel:import:{geography,airports,places,gtfs,all}` | Global import framework |
 | `travel:geocode` | Upgrade city-centroid coordinates to venue precision via OpenStreetMap (needs egress) |
 | `travel:normalize` | Dedupe, canonical hashes, derived touristiness/local favour, neighbourhood linking |
@@ -86,15 +90,20 @@ Two of them are already automated, because package registries are permitted
 where data hosts are not:
 
 ```bash
-python scripts/build_upstream.py     # world-countries (npm) + airportsdata (PyPI)
-SCOUT_TRANSPORT=offline npm run travel:import:geography
-SCOUT_TRANSPORT=offline npm run travel:import:airports
+npm run data:fetch      # world-countries (npm), ourairports-data + opentraveldata
+                        # (GitHub), geonamescache (PyPI) -> data/upstream/
+npm run data:seed       # migrate, ingest every spec offline, then validate
+npm run data:validate   # the funnel, and whether the geography resolved
+npm run data:status     # BUILT / CONNECTED / SEEDED / TESTED per source
+npm run data:fixtures   # re-record the committed test fixtures from the above
 ```
 
-That yields **250 real countries and 7,884 real IATA airports across all 8
-region flags**, replacing the 58/86 recorded fixtures. The data files
-themselves are gitignored — they carry their own licences — so a fresh clone
-runs on fixtures until you run the fetch.
+That yields **250 real countries and 85,925 real airports across all 8 region
+flags**, plus 3,985 administrative regions, 48,180 runways, 30,339 frequencies
+and 11,008 navaids. `npm run data:validate` reports the funnel and asserts that
+GB FR JP AU ZA US CA BR IN all resolve. The data files themselves are
+gitignored — they carry their own licences — so a fresh clone runs on the
+recorded fixtures until you run the fetch.
 
 To go live over the network:
 

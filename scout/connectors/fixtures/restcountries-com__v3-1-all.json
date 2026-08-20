@@ -1,0 +1,644 @@
+{
+  "status": 200,
+  "headers": {
+    "content-type": "application/json"
+  },
+  "body": [
+    {
+      "name": {
+        "common": "United Arab Emirates",
+        "official": "United Arab Emirates",
+        "native": {
+          "ara": {
+            "official": "\u0627\u0644\u0625\u0645\u0627\u0631\u0627\u062a \u0627\u0644\u0639\u0631\u0628\u064a\u0629 \u0627\u0644\u0645\u062a\u062d\u062f\u0629",
+            "common": "\u0627\u0644\u0625\u0645\u0627\u0631\u0627\u062a"
+          }
+        }
+      },
+      "cca2": "AE",
+      "cca3": "ARE",
+      "currencies": {
+        "AED": {
+          "name": "United Arab Emirates dirham",
+          "symbol": "\u062f.\u0625"
+        }
+      },
+      "region": "Asia",
+      "subregion": "Western Asia",
+      "capital": [
+        "Abu Dhabi"
+      ]
+    },
+    {
+      "name": {
+        "common": "Australia",
+        "official": "Commonwealth of Australia",
+        "native": {
+          "eng": {
+            "official": "Commonwealth of Australia",
+            "common": "Australia"
+          }
+        }
+      },
+      "cca2": "AU",
+      "cca3": "AUS",
+      "currencies": {
+        "AUD": {
+          "name": "Australian dollar",
+          "symbol": "$"
+        }
+      },
+      "region": "Oceania",
+      "subregion": "Australia and New Zealand",
+      "capital": [
+        "Canberra"
+      ]
+    },
+    {
+      "name": {
+        "common": "Brazil",
+        "official": "Federative Republic of Brazil",
+        "native": {
+          "por": {
+            "official": "Rep\u00fablica Federativa do Brasil",
+            "common": "Brasil"
+          }
+        }
+      },
+      "cca2": "BR",
+      "cca3": "BRA",
+      "currencies": {
+        "BRL": {
+          "name": "Brazilian real",
+          "symbol": "R$"
+        }
+      },
+      "region": "Americas",
+      "subregion": "South America",
+      "capital": [
+        "Bras\u00edlia"
+      ]
+    },
+    {
+      "name": {
+        "common": "Canada",
+        "official": "Canada",
+        "native": {
+          "eng": {
+            "official": "Canada",
+            "common": "Canada"
+          },
+          "fra": {
+            "official": "Canada",
+            "common": "Canada"
+          }
+        }
+      },
+      "cca2": "CA",
+      "cca3": "CAN",
+      "currencies": {
+        "CAD": {
+          "name": "Canadian dollar",
+          "symbol": "$"
+        }
+      },
+      "region": "Americas",
+      "subregion": "North America",
+      "capital": [
+        "Ottawa"
+      ]
+    },
+    {
+      "name": {
+        "common": "Costa Rica",
+        "official": "Republic of Costa Rica",
+        "native": {
+          "spa": {
+            "official": "Rep\u00fablica de Costa Rica",
+            "common": "Costa Rica"
+          }
+        }
+      },
+      "cca2": "CR",
+      "cca3": "CRI",
+      "currencies": {
+        "CRC": {
+          "name": "Costa Rican col\u00f3n",
+          "symbol": "\u20a1"
+        }
+      },
+      "region": "Americas",
+      "subregion": "Central America",
+      "capital": [
+        "San Jos\u00e9"
+      ]
+    },
+    {
+      "name": {
+        "common": "Germany",
+        "official": "Federal Republic of Germany",
+        "native": {
+          "deu": {
+            "official": "Bundesrepublik Deutschland",
+            "common": "Deutschland"
+          }
+        }
+      },
+      "cca2": "DE",
+      "cca3": "DEU",
+      "currencies": {
+        "EUR": {
+          "name": "Euro",
+          "symbol": "\u20ac"
+        }
+      },
+      "region": "Europe",
+      "subregion": "Western Europe",
+      "capital": [
+        "Berlin"
+      ]
+    },
+    {
+      "name": {
+        "common": "Spain",
+        "official": "Kingdom of Spain",
+        "native": {
+          "spa": {
+            "official": "Reino de Espa\u00f1a",
+            "common": "Espa\u00f1a"
+          }
+        }
+      },
+      "cca2": "ES",
+      "cca3": "ESP",
+      "currencies": {
+        "EUR": {
+          "name": "Euro",
+          "symbol": "\u20ac"
+        }
+      },
+      "region": "Europe",
+      "subregion": "Southern Europe",
+      "capital": [
+        "Madrid"
+      ]
+    },
+    {
+      "name": {
+        "common": "France",
+        "official": "French Republic",
+        "native": {
+          "fra": {
+            "official": "R\u00e9publique fran\u00e7aise",
+            "common": "France"
+          }
+        }
+      },
+      "cca2": "FR",
+      "cca3": "FRA",
+      "currencies": {
+        "EUR": {
+          "name": "Euro",
+          "symbol": "\u20ac"
+        }
+      },
+      "region": "Europe",
+      "subregion": "Western Europe",
+      "capital": [
+        "Paris"
+      ]
+    },
+    {
+      "name": {
+        "common": "United Kingdom",
+        "official": "United Kingdom of Great Britain and Northern Ireland",
+        "native": {
+          "eng": {
+            "official": "United Kingdom of Great Britain and Northern Ireland",
+            "common": "United Kingdom"
+          }
+        }
+      },
+      "cca2": "GB",
+      "cca3": "GBR",
+      "currencies": {
+        "GBP": {
+          "name": "British pound",
+          "symbol": "\u00a3"
+        }
+      },
+      "region": "Europe",
+      "subregion": "Northern Europe",
+      "capital": [
+        "London"
+      ]
+    },
+    {
+      "name": {
+        "common": "India",
+        "official": "Republic of India",
+        "native": {
+          "eng": {
+            "official": "Republic of India",
+            "common": "India"
+          },
+          "hin": {
+            "official": "\u092d\u093e\u0930\u0924 \u0917\u0923\u0930\u093e\u091c\u094d\u092f",
+            "common": "\u092d\u093e\u0930\u0924"
+          },
+          "tam": {
+            "official": "\u0b87\u0ba8\u0bcd\u0ba4\u0bbf\u0baf\u0b95\u0bcd \u0b95\u0bc1\u0b9f\u0bbf\u0baf\u0bb0\u0b9a\u0bc1",
+            "common": "\u0b87\u0ba8\u0bcd\u0ba4\u0bbf\u0baf\u0bbe"
+          }
+        }
+      },
+      "cca2": "IN",
+      "cca3": "IND",
+      "currencies": {
+        "INR": {
+          "name": "Indian rupee",
+          "symbol": "\u20b9"
+        }
+      },
+      "region": "Asia",
+      "subregion": "Southern Asia",
+      "capital": [
+        "New Delhi"
+      ]
+    },
+    {
+      "name": {
+        "common": "Italy",
+        "official": "Italian Republic",
+        "native": {
+          "ita": {
+            "official": "Repubblica italiana",
+            "common": "Italia"
+          }
+        }
+      },
+      "cca2": "IT",
+      "cca3": "ITA",
+      "currencies": {
+        "EUR": {
+          "name": "Euro",
+          "symbol": "\u20ac"
+        }
+      },
+      "region": "Europe",
+      "subregion": "Southern Europe",
+      "capital": [
+        "Rome"
+      ]
+    },
+    {
+      "name": {
+        "common": "Jamaica",
+        "official": "Jamaica",
+        "native": {
+          "eng": {
+            "official": "Jamaica",
+            "common": "Jamaica"
+          },
+          "jam": {
+            "official": "Jamaica",
+            "common": "Jamaica"
+          }
+        }
+      },
+      "cca2": "JM",
+      "cca3": "JAM",
+      "currencies": {
+        "JMD": {
+          "name": "Jamaican dollar",
+          "symbol": "$"
+        }
+      },
+      "region": "Americas",
+      "subregion": "Caribbean",
+      "capital": [
+        "Kingston"
+      ]
+    },
+    {
+      "name": {
+        "common": "Japan",
+        "official": "Japan",
+        "native": {
+          "jpn": {
+            "official": "\u65e5\u672c",
+            "common": "\u65e5\u672c"
+          }
+        }
+      },
+      "cca2": "JP",
+      "cca3": "JPN",
+      "currencies": {
+        "JPY": {
+          "name": "Japanese yen",
+          "symbol": "\u00a5"
+        }
+      },
+      "region": "Asia",
+      "subregion": "Eastern Asia",
+      "capital": [
+        "Tokyo"
+      ]
+    },
+    {
+      "name": {
+        "common": "Kenya",
+        "official": "Republic of Kenya",
+        "native": {
+          "eng": {
+            "official": "Republic of Kenya",
+            "common": "Kenya"
+          },
+          "swa": {
+            "official": "Republic of Kenya",
+            "common": "Kenya"
+          }
+        }
+      },
+      "cca2": "KE",
+      "cca3": "KEN",
+      "currencies": {
+        "KES": {
+          "name": "Kenyan shilling",
+          "symbol": "Sh"
+        }
+      },
+      "region": "Africa",
+      "subregion": "Eastern Africa",
+      "capital": [
+        "Nairobi"
+      ]
+    },
+    {
+      "name": {
+        "common": "South Korea",
+        "official": "Republic of Korea",
+        "native": {
+          "kor": {
+            "official": "\ub300\ud55c\ubbfc\uad6d",
+            "common": "\ud55c\uad6d"
+          }
+        }
+      },
+      "cca2": "KR",
+      "cca3": "KOR",
+      "currencies": {
+        "KRW": {
+          "name": "South Korean won",
+          "symbol": "\u20a9"
+        }
+      },
+      "region": "Asia",
+      "subregion": "Eastern Asia",
+      "capital": [
+        "Seoul"
+      ]
+    },
+    {
+      "name": {
+        "common": "Mexico",
+        "official": "United Mexican States",
+        "native": {
+          "spa": {
+            "official": "Estados Unidos Mexicanos",
+            "common": "M\u00e9xico"
+          }
+        }
+      },
+      "cca2": "MX",
+      "cca3": "MEX",
+      "currencies": {
+        "MXN": {
+          "name": "Mexican peso",
+          "symbol": "$"
+        }
+      },
+      "region": "Americas",
+      "subregion": "North America",
+      "capital": [
+        "Mexico City"
+      ]
+    },
+    {
+      "name": {
+        "common": "Netherlands",
+        "official": "Kingdom of the Netherlands",
+        "native": {
+          "nld": {
+            "official": "Koninkrijk der Nederlanden",
+            "common": "Nederland"
+          }
+        }
+      },
+      "cca2": "NL",
+      "cca3": "NLD",
+      "currencies": {
+        "EUR": {
+          "name": "Euro",
+          "symbol": "\u20ac"
+        }
+      },
+      "region": "Europe",
+      "subregion": "Western Europe",
+      "capital": [
+        "Amsterdam"
+      ]
+    },
+    {
+      "name": {
+        "common": "New Zealand",
+        "official": "New Zealand",
+        "native": {
+          "eng": {
+            "official": "New Zealand",
+            "common": "New Zealand"
+          },
+          "mri": {
+            "official": "Aotearoa",
+            "common": "Aotearoa"
+          },
+          "nzs": {
+            "official": "New Zealand",
+            "common": "New Zealand"
+          }
+        }
+      },
+      "cca2": "NZ",
+      "cca3": "NZL",
+      "currencies": {
+        "NZD": {
+          "name": "New Zealand dollar",
+          "symbol": "$"
+        }
+      },
+      "region": "Oceania",
+      "subregion": "Australia and New Zealand",
+      "capital": [
+        "Wellington"
+      ]
+    },
+    {
+      "name": {
+        "common": "Panama",
+        "official": "Republic of Panama",
+        "native": {
+          "spa": {
+            "official": "Rep\u00fablica de Panam\u00e1",
+            "common": "Panam\u00e1"
+          }
+        }
+      },
+      "cca2": "PA",
+      "cca3": "PAN",
+      "currencies": {
+        "PAB": {
+          "name": "Panamanian balboa",
+          "symbol": "B/."
+        },
+        "USD": {
+          "name": "United States dollar",
+          "symbol": "$"
+        }
+      },
+      "region": "Americas",
+      "subregion": "Central America",
+      "capital": [
+        "Panama City"
+      ]
+    },
+    {
+      "name": {
+        "common": "Singapore",
+        "official": "Republic of Singapore",
+        "native": {
+          "eng": {
+            "official": "Republic of Singapore",
+            "common": "Singapore"
+          },
+          "msa": {
+            "official": "Republik Singapura",
+            "common": "Singapura"
+          },
+          "tam": {
+            "official": "\u0b9a\u0bbf\u0b99\u0bcd\u0b95\u0baa\u0bcd\u0baa\u0bc2\u0bb0\u0bcd \u0b95\u0bc1\u0b9f\u0bbf\u0baf\u0bb0\u0b9a\u0bc1",
+            "common": "\u0b9a\u0bbf\u0b99\u0bcd\u0b95\u0baa\u0bcd\u0baa\u0bc2\u0bb0\u0bcd"
+          },
+          "zho": {
+            "official": "\u65b0\u52a0\u5761\u5171\u548c\u56fd",
+            "common": "\u65b0\u52a0\u5761"
+          }
+        }
+      },
+      "cca2": "SG",
+      "cca3": "SGP",
+      "currencies": {
+        "SGD": {
+          "name": "Singapore dollar",
+          "symbol": "$"
+        }
+      },
+      "region": "Asia",
+      "subregion": "South-Eastern Asia",
+      "capital": [
+        "Singapore"
+      ]
+    },
+    {
+      "name": {
+        "common": "United States",
+        "official": "United States of America",
+        "native": {
+          "eng": {
+            "official": "United States of America",
+            "common": "United States"
+          }
+        }
+      },
+      "cca2": "US",
+      "cca3": "USA",
+      "currencies": {
+        "USD": {
+          "name": "United States dollar",
+          "symbol": "$"
+        }
+      },
+      "region": "Americas",
+      "subregion": "North America",
+      "capital": [
+        "Washington D.C."
+      ]
+    },
+    {
+      "name": {
+        "common": "South Africa",
+        "official": "Republic of South Africa",
+        "native": {
+          "afr": {
+            "official": "Republiek van Suid-Afrika",
+            "common": "South Africa"
+          },
+          "eng": {
+            "official": "Republic of South Africa",
+            "common": "South Africa"
+          },
+          "nbl": {
+            "official": "IRiphabliki yeSewula Afrika",
+            "common": "Sewula Afrika"
+          },
+          "nso": {
+            "official": "Rephaboliki ya Afrika-Borwa ",
+            "common": "Afrika-Borwa"
+          },
+          "sot": {
+            "official": "Rephaboliki ya Afrika Borwa",
+            "common": "Afrika Borwa"
+          },
+          "ssw": {
+            "official": "IRiphabhulikhi yeNingizimu Afrika",
+            "common": "Ningizimu Afrika"
+          },
+          "tsn": {
+            "official": "Rephaboliki ya Aforika Borwa",
+            "common": "Aforika Borwa"
+          },
+          "tso": {
+            "official": "Riphabliki ra Afrika Dzonga",
+            "common": "Afrika Dzonga"
+          },
+          "ven": {
+            "official": "Riphabu\u1e3diki ya Afurika Tshipembe",
+            "common": "Afurika Tshipembe"
+          },
+          "xho": {
+            "official": "IRiphabliki yaseMzantsi Afrika",
+            "common": "Mzantsi Afrika"
+          },
+          "zul": {
+            "official": "IRiphabliki yaseNingizimu Afrika",
+            "common": "Ningizimu Afrika"
+          }
+        }
+      },
+      "cca2": "ZA",
+      "cca3": "ZAF",
+      "currencies": {
+        "ZAR": {
+          "name": "South African rand",
+          "symbol": "R"
+        }
+      },
+      "region": "Africa",
+      "subregion": "Southern Africa",
+      "capital": [
+        "Pretoria",
+        "Bloemfontein",
+        "Cape Town"
+      ]
+    }
+  ]
+}

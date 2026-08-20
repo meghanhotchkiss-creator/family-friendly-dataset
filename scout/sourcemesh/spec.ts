@@ -72,6 +72,16 @@ export interface SelectSpec {
   notIn?: string[];
 }
 
+/**
+ * One condition, or several ANDed together.
+ *
+ * One was not enough for a real feed: OpenTravelData needs both "this row is an
+ * airport" (fcode) and "this row is not a retired IATA assignment"
+ * (envelope_id), and without the second, 498 historical records competed with
+ * the current ones for the same code.
+ */
+export type SelectRule = SelectSpec | SelectSpec[];
+
 export interface QualitySpec {
   /** Canonical field names that must be present and non-empty. */
   rejectIfMissing?: string[];
@@ -95,7 +105,7 @@ export interface MonitorSpec {
 export interface SourceSpec {
   id: string;
   name: string;
-  entity: 'airport' | 'country' | 'city' | 'place';
+  entity: 'airport' | 'country' | 'city' | 'place' | 'admin_region' | 'runway' | 'frequency' | 'navaid';
   format: SourceFormat;
   locator: string;
   homepage?: string;
@@ -113,7 +123,7 @@ export interface SourceSpec {
   /** How to authenticate. Credentials are named, never embedded. */
   auth?: AuthSpec;
   /** Restrict the run to the rows this spec is about. */
-  select?: SelectSpec;
+  select?: SelectRule;
   /** Canonical field name -> how to obtain it. */
   fields: Record<string, FieldRule>;
   /** Stable per-record identity, referencing canonical field names. */

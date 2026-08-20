@@ -9,7 +9,10 @@
 import type { Db } from '../db/index.ts';
 import type { RegionCode, Result } from '../contracts/index.ts';
 import { ok, err, makeId } from '../contracts/index.ts';
-import { upsertCountry, upsertCity, upsertAirport, ensureRegions } from '../db/repo-core.ts';
+import {
+  upsertCountry, upsertCity, upsertAirport, ensureRegions,
+  upsertAdminRegion, upsertRunway, upsertFrequency, upsertNavaid,
+} from '../db/repo-core.ts';
 import { canonicalHash } from '../runtime/hash.ts';
 import type { MappedRecord } from './adapter.ts';
 import type { SourceSpec } from './spec.ts';
@@ -63,6 +66,25 @@ export function writeRecords(db: Db, spec: SourceSpec, records: MappedRecord[]):
     else result.updated += 1;
   };
 
+  /**
+   * Every id this run has already written, so a second record claiming one is
+   * caught instead of silently overwriting the first.
+   *
+   * This is the guard that was missing when 457 pairs of distinct airports
+   * collapsed onto one id: the upsert succeeded, the funnel counted both rows
+   * as imported, and the table was 457 rows shorter than the report claimed.
+   * Cities are exempt -- many airports legitimately share one.
+   */
+  const claimed = new Set<string>();
+  const claim = (record: MappedRecord, id: string): boolean => {
+    if (claimed.has(id)) {
+      reject(record, 'DUPLICATE_IDENTITY', `${id} was already written by an earlier record in this run`);
+      return false;
+    }
+    claimed.add(id);
+    return true;
+  };
+
   const str = (v: unknown): string | null => (v === null || v === undefined || v === '' ? null : String(v));
   const num = (v: unknown): number | null => {
     const n = Number(v);
@@ -93,9 +115,73 @@ export function writeRecords(db: Db, spec: SourceSpec, records: MappedRecord[]):
           return;
         }
         const id = makeId('country', iso2);
+        if (!claim(record, id)) return;
         const before = priorState(db, 'countries', 'id', id);
         upsertCountry(db, { iso2, iso3, name: String(v.name), regionCode, currency: str(v.currency) });
         settle(before, { hash: priorState(db, 'countries', 'id', id).hash });
+        return;
+      }
+
+      // These three describe an airport, not a place on the map: they carry no
+      // country of their own and are resolved by OurAirports `ident`. Handled
+      // before the country gate below, which would otherwise reject every one
+      // of them for a country code they were never going to have.
+      if (spec.entity === 'runway' || spec.entity === 'frequency' || spec.entity === 'navaid') {
+        const ident = str(v.airportIdent);
+        const airportId = ident
+          ? db.get<{ id: string }>('SELECT id FROM airports WHERE ident = ?', ident)?.id ?? null
+          : null;
+        const sourceId = str(v.sourceId);
+        if (!sourceId) {
+          reject(record, 'MISSING_REQUIRED_FIELD', `${spec.entity} needs the upstream row id`);
+          return;
+        }
+
+        if (spec.entity === 'navaid') {
+          // A navaid's associated airport is genuinely optional upstream, so an
+          // unmatched one is recorded with a null airport rather than dropped.
+          const id = makeId('navaid', sourceId);
+          if (!claim(record, id)) return;
+          const before = priorState(db, 'navaids', 'id', id);
+          upsertNavaid(db, {
+            sourceId, navaidIdent: String(v.navaidIdent ?? ''), name: String(v.name ?? ''),
+            navaidType: str(v.navaidType), frequencyKhz: num(v.frequencyKhz),
+            lat: num(v.lat), lon: num(v.lon), elevationFt: num(v.elevationFt),
+            countryIso2: iso2, usageType: str(v.usageType), power: str(v.power),
+            associatedAirport: ident, airportId,
+          });
+          settle(before, { hash: priorState(db, 'navaids', 'id', id).hash });
+          return;
+        }
+
+        // Runways and frequencies are meaningless without their airport.
+        if (!airportId) {
+          reject(record, 'NO_MATCHING_AIRPORT', `ident ${ident ?? '(none)'} is not in the airports table`);
+          return;
+        }
+        if (spec.entity === 'runway') {
+          const id = makeId('runway', sourceId);
+          if (!claim(record, id)) return;
+          const before = priorState(db, 'runways', 'id', id);
+          upsertRunway(db, {
+            sourceId, airportIdent: String(ident), airportId,
+            lengthFt: num(v.lengthFt), widthFt: num(v.widthFt), surface: str(v.surface),
+            lighted: v.lighted === null || v.lighted === undefined ? null : Boolean(v.lighted),
+            closed: v.closed === null || v.closed === undefined ? null : Boolean(v.closed),
+            leIdent: str(v.leIdent), heIdent: str(v.heIdent),
+          });
+          settle(before, { hash: priorState(db, 'runways', 'id', id).hash });
+          return;
+        }
+        const id = makeId('frequency', sourceId);
+        if (!claim(record, id)) return;
+        const before = priorState(db, 'airport_frequencies', 'id', id);
+        upsertFrequency(db, {
+          sourceId, airportIdent: String(ident), airportId,
+          frequencyType: str(v.frequencyType), description: str(v.description),
+          frequencyMhz: num(v.frequencyMhz),
+        });
+        settle(before, { hash: priorState(db, 'airport_frequencies', 'id', id).hash });
         return;
       }
 
@@ -104,6 +190,24 @@ export function writeRecords(db: Db, spec: SourceSpec, records: MappedRecord[]):
         : null;
       if (!countryId) {
         reject(record, 'NO_MATCHING_COUNTRY', `iso2 ${iso2 ?? '(none)'} is not in the countries table`);
+        return;
+      }
+
+      if (spec.entity === 'admin_region') {
+        const code = str(v.code);
+        if (!code || !v.name) {
+          reject(record, 'MISSING_REQUIRED_FIELD', 'admin region needs a code and a name');
+          return;
+        }
+        const id = makeId('admin_region', code);
+        if (!claim(record, id)) return;
+        const before = priorState(db, 'admin_regions', 'id', id);
+        upsertAdminRegion(db, {
+          code, localCode: str(v.localCode), name: String(v.name),
+          continent: str(v.continent), countryIso2: String(iso2), countryId,
+          wikipediaLink: str(v.wikipediaLink),
+        });
+        settle(before, { hash: priorState(db, 'admin_regions', 'id', id).hash });
         return;
       }
 
@@ -129,31 +233,64 @@ export function writeRecords(db: Db, spec: SourceSpec, records: MappedRecord[]):
           return;
         }
         const city = str(v.city);
+        // Two vocabularies for one idea. `admin1` is the readable region name
+        // from admin_regions ("England"), which is what an airport row should
+        // show. `admin1Code` is the ISO 3166-2 subdivision ("ENG"), which is
+        // what a city id is built from -- GeoNames keys cities on the code, so
+        // storing the name here forged a second London for every city both
+        // sources know about.
+        const admin1 = str(v.admin1);
+        const admin1Code = str(v.admin1Code);
         const cityId = city
           ? upsertCity(db, {
-              name: city, countryId, admin1: str(v.admin1),
+              name: city, countryId, admin1: admin1Code,
               lat: num(v.lat) ?? 0, lon: num(v.lon) ?? 0,
               population: null, timezone: null,
             })
           : null;
-        const iata = str(v.iata);
-        const icao = str(v.icao);
+        // Length-checked once, so the id and the stored columns agree. A
+        // two-letter value in an `iata_code` column is not an IATA code, and
+        // deriving the id from it while storing null put the same airport under
+        // two different ids depending on which source loaded it.
+        const rawIata = str(v.iata);
+        const rawIcao = str(v.icao);
+        const iata = rawIata && rawIata.length === 3 ? rawIata : null;
+        const icao = rawIcao && rawIcao.length === 4 ? rawIcao : null;
         // IATA first, matching repo-core.upsertAirport and the fixture
         // importer. Deriving it as icao-first gave the same physical airport
         // two ids depending on which source loaded it, which collided on the
         // UNIQUE iata index the moment both ran.
-        const airportId = makeId('airport', iata ?? icao ?? `${iso2}-${String(v.name)}`);
+        // `ident` is OurAirports' own key, unique across the file, and it is
+        // NAMESPACED here. Folding it into the same slug space as IATA and ICAO
+        // collapsed 54 pairs of genuinely different airports -- one airport's
+        // three-letter local ident is another's IATA code -- and the funnel
+        // still called all of them imported.
+        const ident = str(v.ident);
+        const airportId = iata
+          ? makeId('airport', iata)
+          : icao
+            ? makeId('airport', icao)
+            : ident
+              ? makeId('airport', 'ident', ident)
+              : makeId('airport', `${iso2}-${String(v.name)}`);
+        if (!claim(record, airportId)) return;
         const before = priorState(db, 'airports', 'id', airportId);
         upsertAirport(db, {
           id: airportId,
-          iata: iata && iata.length === 3 ? iata : null,
-          icao: icao && icao.length === 4 ? icao : null,
+          iata, icao,
           name: String(v.name), cityId, countryId, regionCode: region,
           lat: num(v.lat) ?? 0, lon: num(v.lon) ?? 0,
-          kind: v.scheduledService ? 'medium' : 'small',
+          kind: airportKind(str(v.airportType), Boolean(v.scheduledService)),
           geonameId: num(v.geonameId),
           cityGeonameId: num(v.cityGeonameId),
-        } as never);
+          ident, gpsCode: str(v.gpsCode), localCode: str(v.localCode),
+          isoRegion: str(v.isoRegion), admin1,
+          airportType: str(v.airportType), elevationFt: num(v.elevationFt),
+          scheduledService: v.scheduledService === null || v.scheduledService === undefined
+            ? null
+            : Boolean(v.scheduledService),
+          homeLink: str(v.homeLink), wikipediaLink: str(v.wikipediaLink),
+        });
         settle(before, { hash: priorState(db, 'airports', 'id', airportId).hash });
         return;
       }
@@ -170,6 +307,26 @@ export function writeRecords(db: Db, spec: SourceSpec, records: MappedRecord[]):
   }
 
   return ok(result);
+}
+
+/**
+ * OurAirports' seven-way `type` collapsed onto the three sizes the recommender
+ * uses. Previously `kind` was guessed from IATA presence alone, because the
+ * airportsdata wheel carried no size column and nothing could ever be `large`.
+ * Now it is read from the source, and IATA presence is only the fallback for a
+ * feed that still does not classify.
+ */
+export function airportKind(airportType: string | null, scheduledService: boolean): 'large' | 'medium' | 'small' {
+  switch (airportType) {
+    case 'large_airport': return 'large';
+    case 'medium_airport': return 'medium';
+    case 'small_airport':
+    case 'heliport':
+    case 'seaplane_base':
+    case 'balloonport':
+    case 'closed': return 'small';
+    default: return scheduledService ? 'medium' : 'small';
+  }
 }
 
 const SUBREGION_TO_FLAG: Readonly<Record<string, RegionCode>> = {

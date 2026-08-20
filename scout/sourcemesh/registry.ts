@@ -27,7 +27,10 @@ const SPEC_DIR = join(dirname(fileURLToPath(import.meta.url)), 'specs');
  * both other datasets.
  */
 const ENTITY_ORDER: Readonly<Record<string, number>> = {
-  country: 0, city: 1, airport: 2, place: 3,
+  country: 0, admin_region: 1, city: 2, airport: 3, place: 4,
+  // These three reference an airport by its OurAirports `ident`, so they can
+  // only resolve once airports.csv has landed.
+  runway: 5, frequency: 5, navaid: 5,
 };
 
 export function loadSpecs(dir: string = SPEC_DIR, opts: { includeDemo?: boolean } = {}): SourceSpec[] {

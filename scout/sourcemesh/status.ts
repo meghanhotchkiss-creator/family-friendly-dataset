@@ -51,6 +51,8 @@ export interface SourceStatus {
 
 const ENTITY_TABLE: Readonly<Record<string, string>> = {
   country: 'countries', city: 'cities', airport: 'airports', place: 'places',
+  admin_region: 'admin_regions', runway: 'runways',
+  frequency: 'airport_frequencies', navaid: 'navaids',
 };
 
 function testCoverage(): Set<string> {

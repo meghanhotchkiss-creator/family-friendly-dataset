@@ -1,30 +1,28 @@
 #!/usr/bin/env python3
-"""Fetch real upstream datasets from package registries into data/upstream/.
-
-Why registries: this environment's egress policy blocks data hosts
-(restcountries.com, ourairports, ...) but explicitly permits registry.npmjs.org
-and pypi.org. Both datasets below are published there, so this is a sanctioned
-channel -- not a way around the policy.
+"""Fetch real upstream datasets into data/upstream/.
 
     python scripts/build_upstream.py
     SCOUT_TRANSPORT=offline npm run travel:import:all
 
 Sources
 -------
-world-countries (npm)  the dataset restcountries.com serves; ODbL
-airportsdata (PyPI)    ~28k airports derived from OurAirports; MIT
+world-countries (npm)         the dataset restcountries.com serves; ODbL
+ourairports-data (GitHub)     the daily OurAirports dump, all six files; public domain
+geonamescache (PyPI)          GeoNames cities15000; CC BY 4.0
+opentraveldata (GitHub)       points of reference; CC BY 4.0
 
-Everything written here is real. The one derived field is the airport `type`,
-which airportsdata does not carry and Scout's schema requires; it is derived
-from IATA presence and is recorded as derived in PROVENANCE.md.
+This environment's egress policy blocks most data hosts but permits
+registry.npmjs.org, pypi.org and github.com, so each dataset is taken from
+whichever of those actually publishes it. That is a sanctioned channel, not a
+way around the policy; anything still unreachable is recorded in scout/BLOCKED.md
+rather than faked.
+
+Every file is stored as published. See PROVENANCE.md for the two deliberate
+omissions and why region flags are not taken from the OurAirports continent.
 """
-
 from __future__ import annotations
 
-import csv
-import io
 import json
-import shutil
 import subprocess
 import sys
 import tarfile
@@ -53,16 +51,6 @@ def fetch_world_countries(work: Path) -> tuple[list[dict], str]:
         return json.load(member), version
 
 
-def fetch_airportsdata(work: Path) -> tuple[list[dict], str]:
-    run([sys.executable, "-m", "pip", "download", "airportsdata", "--no-deps", "-d", "py"], work)
-    wheel = next((work / "py").glob("airportsdata-*.whl"))
-    version = wheel.name.split("-")[1]
-    with zipfile.ZipFile(wheel) as zf:
-        with zf.open("airportsdata/airports.csv") as fh:
-            rows = list(csv.DictReader(io.TextIOWrapper(fh, encoding="utf-8")))
-    return rows, version
-
-
 # REST Countries v3.1 field set the geography adapter requests. `capitalInfo`
 # is deliberately absent: world-countries carries only a COUNTRY centroid, and
 # passing that off as the capital's location is exactly the fake precision the
@@ -79,48 +67,32 @@ def to_restcountries(records: list[dict]) -> list[dict]:
     return out
 
 
-# OurAirports airports.csv column order, which the airports adapter parses.
-OURAIRPORTS_COLUMNS = [
-    "id", "ident", "type", "name", "latitude_deg", "longitude_deg", "elevation_ft",
-    "continent", "iso_country", "iso_region", "municipality", "scheduled_service",
-    "gps_code", "iata_code", "local_code", "home_link", "wikipedia_link", "keywords",
-]
+# The six files OurAirports publishes daily. `airports` is the spine; `regions`
+# is what turns an `iso_region` code such as `US-PA` into a name; the rest are
+# per-airport detail that nothing else in the open-data stack carries.
+OURAIRPORTS_FILES = (
+    "airports.csv",
+    "countries.csv",
+    "regions.csv",
+    "runways.csv",
+    "airport-frequencies.csv",
+    "navaids.csv",
+)
 
 
-def derive_type(row: dict) -> str:
-    """DERIVED, not sourced. airportsdata carries no size field.
+def fetch_ourairports(work: Path) -> tuple[dict[str, str], str]:
+    """The real OurAirports daily dump, from the public repo (public domain).
 
-    An IATA code means scheduled commercial service, which is the distinction
-    that actually matters to a traveller; everything else is a small field.
+    This replaces an earlier reconstruction from the `airportsdata` PyPI wheel,
+    which carried ~28k airports, no region codes, no runways, and needed the
+    `type` column to be DERIVED from IATA presence. Nothing here is derived.
     """
-    return "medium_airport" if row.get("iata") else "small_airport"
-
-
-def to_ourairports(rows: list[dict]) -> list[dict]:
-    out = []
-    for index, r in enumerate(rows, start=1):
-        lat, lon = r.get("lat"), r.get("lon")
-        if not lat or not lon:
-            continue
-        out.append({
-            "id": index,
-            "ident": r.get("icao") or r.get("lid") or "",
-            "type": derive_type(r),
-            "name": r.get("name") or "",
-            "latitude_deg": lat,
-            "longitude_deg": lon,
-            "elevation_ft": r.get("elevation") or "",
-            "continent": "",
-            "iso_country": r.get("country") or "",
-            "iso_region": f"{r.get('country','')}-{r.get('subd','')}" if r.get("subd") else "",
-            "municipality": r.get("city") or "",
-            "scheduled_service": "yes" if r.get("iata") else "no",
-            "gps_code": r.get("icao") or "",
-            "iata_code": r.get("iata") or "",
-            "local_code": r.get("lid") or "",
-            "home_link": "", "wikipedia_link": "", "keywords": "",
-        })
-    return out
+    run(["git", "clone", "--depth", "1",
+         "https://github.com/davidmegginson/ourairports-data.git", "oad"], work)
+    repo = work / "oad"
+    sha = subprocess.run(["git", "rev-parse", "--short", "HEAD"], cwd=repo,
+                         capture_output=True, text=True).stdout.strip()
+    return {name: (repo / name).read_text(encoding="utf-8") for name in OURAIRPORTS_FILES}, sha
 
 
 def fetch_geonames(work: Path) -> tuple[dict, str]:
@@ -154,8 +126,8 @@ def main() -> int:
         work = Path(tmp)
         print("fetching world-countries from registry.npmjs.org ...")
         raw_countries, countries_version = fetch_world_countries(work)
-        print("fetching airportsdata from pypi.org ...")
-        raw_airports, airports_version = fetch_airportsdata(work)
+        print("fetching ourairports-data from github.com ...")
+        ourairports, ourairports_sha = fetch_ourairports(work)
         print("fetching geonamescache from pypi.org ...")
         raw_cities, cities_version = fetch_geonames(work)
         print("fetching opentraveldata from github.com ...")
@@ -166,12 +138,10 @@ def main() -> int:
         json.dumps(countries, ensure_ascii=False), encoding="utf-8"
     )
 
-    airports = to_ourairports(raw_airports)
-    path = UPSTREAM / "ourairports-data" / "airports.csv"
-    with path.open("w", encoding="utf-8", newline="") as fh:
-        writer = csv.DictWriter(fh, fieldnames=OURAIRPORTS_COLUMNS, quoting=csv.QUOTE_ALL)
-        writer.writeheader()
-        writer.writerows(airports)
+    # Verbatim, byte for byte. The engine's whole claim is that a spec adapts to
+    # the feed, so the feed must not be pre-adapted to the engine.
+    for name, text in ourairports.items():
+        (UPSTREAM / "ourairports-data" / name).write_text(text, encoding="utf-8")
 
     # GeoNames ships a map keyed by geonameid; keep it verbatim so SourceMesh
     # has to cope with a third record shape rather than a pre-flattened list.
@@ -186,44 +156,61 @@ def main() -> int:
         "https://raw.githubusercontent.com/opentraveldata/opentraveldata/master/opentraveldata/optd_por_public.csv": "optd_por_public.csv",
         "https://download.geonames.org/export/dump/cities15000": "geonames-cities15000.json",
     }
+    for name in OURAIRPORTS_FILES:
+        manifest[f"https://davidmegginson.github.io/ourairports-data/{name}"] = f"ourairports-data/{name}"
     (UPSTREAM / "manifest.json").write_text(json.dumps(manifest, indent=2) + "\n", encoding="utf-8")
 
-    with_iata = sum(1 for a in airports if a["iata_code"])
+    def rows(name: str) -> int:
+        return max(0, ourairports[name].count(chr(10)) - 1)
+
+    oad_table = "\n".join(
+        f"| OurAirports `{name}` | ourairports-data (GitHub) | {ourairports_sha} | Public domain | {rows(name):,} |"
+        for name in OURAIRPORTS_FILES
+    )
+
     (UPSTREAM / "PROVENANCE.md").write_text(f"""# Upstream data provenance
 
 Generated by `scripts/build_upstream.py`. Do not edit by hand.
 
-Fetched from package registries because this environment's egress policy blocks
-data hosts but explicitly permits registry.npmjs.org and pypi.org.
-
 | Dataset | Package | Version | Licence | Records |
 |---|---|---|---|---|
 | Countries | `world-countries` (npm) | {countries_version} | ODbL | {len(countries)} |
-| Airports | `airportsdata` (PyPI) | {airports_version} | MIT | {len(airports)} |
+{oad_table}
 | Cities | `geonamescache` (PyPI) | {cities_version} | CC BY 4.0 | {len(raw_cities)} |
 | Points of reference | `opentraveldata` (GitHub) | {optd_sha} | CC BY 4.0 | {optd_csv.count(chr(10))} |
 
 ## Real vs derived
 
-Everything is as published **except**:
+The six OurAirports files are stored **byte for byte as published**. Nothing in
+them is derived, inferred or reconstructed.
 
-- **`type`** ({with_iata} `medium_airport`, {len(airports) - with_iata} `small_airport`) is
-  DERIVED, not sourced. airportsdata carries no size field and Scout's schema
-  requires one, so it is derived from IATA presence: an IATA code means
-  scheduled commercial service. No airport is claimed as `large_airport`,
-  because nothing in this dataset supports that claim.
-- **`capitalInfo`** is omitted. world-countries carries a country centroid, not
-  the capital's location, and passing one off as the other is the same fake
-  precision the platform refuses for places.
-- **`continent`** is left blank; the adapter derives the region flag from
-  `iso_country`.
+This is a change: airports previously came from the `airportsdata` PyPI wheel,
+which carried ~28k airports and no size column, so `type` had to be derived from
+IATA presence. That derivation is gone -- `type`, `iso_region`, `elevation_ft`
+and the runway/frequency/navaid detail are now all sourced.
 
-Field names and column order match each upstream API's real contract, so the
-adapters parse this exactly as they would parse a live response.
+Two things are still deliberately omitted rather than guessed:
+
+- **`capitalInfo`** is dropped from the country feed. world-countries carries a
+  country centroid, not the capital's location, and passing one off as the other
+  is the same fake precision the platform refuses for places.
+- **Region flags** (NA CA SA EU ME AF AS OC) are resolved from the
+  world-countries subregion, *not* from the OurAirports `continent` column. They
+  are different vocabularies: OurAirports has no Central America or Middle East
+  and does have Antarctica. Using its continent would silently file Jamaica
+  under North America and Jordan under Asia.
+
+## Country roster
+
+`ourairports-data/countries.csv` is vendored but is **not** the country
+authority: it carries no ISO-3 code and no currency, both of which the schema
+requires. It is used as an independent roster -- `npm run data:validate`
+reports any country it lists that the country table does not have.
 """, encoding="utf-8")
 
     print(f"\n  countries.json                 {len(countries)} countries")
-    print(f"  ourairports-data/airports.csv  {len(airports)} airports ({with_iata} with IATA)")
+    for name in OURAIRPORTS_FILES:
+        print(f"  ourairports-data/{name:<22} {rows(name):>7,} rows")
     print(f"  geonames-cities15000.json      {len(raw_cities)} cities")
     print(f"  optd_por_public.csv            {optd_csv.count(chr(10))} points of reference")
     print(f"  PROVENANCE.md                  written")
