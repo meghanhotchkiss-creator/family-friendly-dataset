@@ -1,0 +1,152 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+# A new push to a branch makes the previous run's answer obsolete, so cancel it
+# rather than paying for a result nobody will read.
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  python:
+    name: Python tests
+    timeout-minutes: 10
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+          cache-dependency-path: tests/requirements.txt
+
+      - run: pip install -r tests/requirements.txt
+
+      - name: Run pytest
+        run: python -m pytest tests/ -q
+
+  node:
+    name: TypeScript typecheck and tests
+    timeout-minutes: 15
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          # Matches the floor in package.json engines. The scout CLI runs
+          # TypeScript through node directly, which needs a recent runtime.
+          node-version: "22"
+          cache: npm
+
+      - run: npm ci
+
+      - run: npm run typecheck
+
+      - run: npm test
+
+  data:
+    name: Seed data and dataset freshness
+    timeout-minutes: 10
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      # The seed tooling is standard library only, so nothing is installed
+      # here. If that ever stops being true this step starts failing, which is
+      # the point.
+      - name: Validate seeds
+        run: python scripts/validate_seeds.py
+
+      - name: Rebuild every generated artefact
+        run: |
+          python scripts/build_dataset.py
+          python scripts/seed_db.py --sql
+
+      # The generated CSV, JSON and seed.sql are committed so a fresh checkout
+      # can run without building first. That only helps if they match the
+      # seeds. This fails when someone edits data/seeds/ and forgets to run
+      # `make seed`, which is otherwise invisible until the API serves stale
+      # rows.
+      - name: Check the committed files are not stale
+        run: |
+          if ! git diff --exit-code --stat -- data/processed db/seed.sql; then
+            echo
+            echo "::error::Generated files do not match data/seeds/. Run 'make seed' and commit the result."
+            exit 1
+          fi
+
+  docker:
+    name: API image builds and answers
+    timeout-minutes: 30
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      # Built from the repository root: the image needs data/ in its context,
+      # because the API resolves the dataset relative to api/server.py.
+      - name: Build the image
+        run: docker build -f api/Dockerfile -t family-api .
+
+      # Catches two failures that a unit test cannot see: an import the
+      # Dockerfile forgot to COPY, and a HEALTHCHECK aimed at a route that
+      # does not exist. Both shipped in this repository before CI existed.
+      - name: Start the container
+        run: |
+          docker run -d --name api -p 8000:8000 \
+            -e FAMILY_API_KEY=ci-test-key \
+            -e JWT_SECRET=ci-test-secret \
+            family-api
+
+      - name: Wait for /health
+        run: |
+          for attempt in $(seq 1 30); do
+            if curl -fsS http://localhost:8000/health; then
+              echo
+              echo "Container answered /health after ${attempt}s"
+              exit 0
+            fi
+            sleep 1
+          done
+          echo "::error::/health never answered. Container logs follow."
+          docker logs api
+          exit 1
+
+      # The HEALTHCHECK in the Dockerfile is only meaningful if Docker itself
+      # agrees. A container stuck in "starting" or reporting "unhealthy" would
+      # be drained by every orchestrator that reads this signal.
+      - name: Check Docker's own health verdict
+        run: |
+          for attempt in $(seq 1 60); do
+            status=$(docker inspect --format='{{.State.Health.Status}}' api)
+            if [ "$status" = "healthy" ]; then
+              echo "Docker reports: healthy"
+              exit 0
+            fi
+            if [ "$status" = "unhealthy" ]; then
+              echo "::error::Docker reports the container unhealthy."
+              docker inspect --format='{{json .State.Health}}' api
+              exit 1
+            fi
+            sleep 2
+          done
+          echo "::error::HEALTHCHECK never left '$status'."
+          docker inspect --format='{{json .State.Health}}' api
+          exit 1
+
+      - name: Stop the container
+        if: always()
+        run: docker rm -f api || true
