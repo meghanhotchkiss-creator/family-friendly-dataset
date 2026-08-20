@@ -157,6 +157,17 @@ def get_data(state: str, indoor: str, limit: int):
             df = df[df["indoor_or_outdoor"].astype(str).str.lower() == indoor.lower()]
         return df
 
+@app.get("/health")
+def health():
+    """Liveness probe for the container HEALTHCHECK and any load balancer.
+
+    Deliberately unauthenticated and free of I/O: a health check does not
+    carry an API key, and making it read the dataset would report the process
+    as dead whenever the data source was merely slow.
+    """
+    return {"status": "ok"}
+
+
 @app.get("/recommend")
 def recommend(state: str, indoor: str = None, limit: int = Query(10, ge=1, le=MAX_LIMIT), auth: bool = Depends(verify_api_key)):
     _validate_setting(indoor)
