@@ -2,24 +2,22 @@
 
 Fresh audit of the whole repository, 2026-08-20.
 
-> ## Read this first — the two branches each hold what the other is missing
+> ## Status: the merge is done on this branch
 >
-> Both branches have now been audited and their test suites run.
+> `claude/sfg-checklist-gaps-qy6ix5` now carries `main` **and** the Scout
+> platform, with `api/` resolved in favour of the hardened versions. Verified:
 >
-> | | `main` (`ebe709b`) | `claude/seed-data-setup-b7zaeu` (+26) |
-> |---|---|---|
-> | Security hardening | **Yes** | **No — reverted** |
-> | Routers mounted | No | **Yes** |
-> | Real data | No | **Yes** |
-> | Tests | 29 Python, pass | 209 TS, pass; **Python security tests absent** |
+>     pytest tests/ -q     # 55 passed
+>     npm test             # 209 passed
+>     npm run typecheck    # clean
 >
-> The branch forked from `702b82d`, one commit **before** `5eecd7d "Fix
-> credential exposure, SQL injection, and dataset loading"`. It therefore never
-> received those fixes, and it rewrites the same files. **Merging it as-is
-> republishes working credentials.** See P0-0.
+> **P0-0, P0-1, P0-2, P0-6, P1-2, P1-3, P1-7 and P2-4 are closed.** The API
+> serves 12 endpoints, up from 3. `node_modules` is out of the index. CI runs
+> both suites. No security fix was reverted: the leaderboard returns display
+> names, never keys, and the API refuses to start without real credentials.
 >
-> Neither branch is shippable alone, and a merge in either direction loses
-> something that matters. That is the central problem in this repository.
+> What is still open is below — chiefly the payment webhook (P0-4), client-side
+> credentials (P2-3), the beta form (P1-6), and the domain question.
 
 ---
 
@@ -48,7 +46,7 @@ Fresh audit of the whole repository, 2026-08-20.
 
 ## P0 — blocks anything shipping
 
-### P0-0. Merging the working branch would revert four security fixes
+### P0-0. Merging would have reverted four security fixes  [DONE]
 
 Verified by reading `api/` on `claude/seed-data-setup-b7zaeu` directly:
 
@@ -77,7 +75,7 @@ when the vulnerabilities come back.
       branch **first**, so the rebase has something that fails when it goes wrong.
 - [ ] Then re-run both suites: `pytest tests/ -q` and `npm test`.
 
-### P0-1. Half the API is written but never mounted  [fixed on the branch]
+### P0-1. Half the API is written but never mounted  [DONE]
 
 `api/server.py` never imports `points`, `payments`, or `ai_recommender`. The
 running app exposes exactly three routes:
@@ -104,7 +102,7 @@ feature is green in CI and absent in production.
 Note: PRs #19, #20, #24 and #25 each propose this same fix. Pick one, close the
 other three.
 
-### P0-2. The Docker image cannot run the app  [fixed on the branch]
+### P0-2. The Docker image cannot run the app  [DONE]
 
 `api/Dockerfile:5` copies `server.py` only. Not `auth_tiers.py`, `points.py`,
 `payments.py`, `ai_recommender.py`, or `embeddings.py`. The moment P0-1 lands,
@@ -177,7 +175,7 @@ duplicate proposals to fix a `main` that the branch has moved past.
       one. A live domain serving a broken placeholder is worse than a holding page.
 - [ ] Say what `scout-fox-go` and `scout-fox-pro` are, or delete them.
 
-### P0-6. `node_modules` is committed on the working branch
+### P0-6. `node_modules` is committed on the working branch  [DONE]
 
 `claude/seed-data-setup-b7zaeu` has **250 files under `node_modules/`** checked
 in, and its `.gitignore` does not exclude the directory. That is most of the
@@ -208,7 +206,7 @@ free-text query at all.
 - [ ] Surface `_match.backend` in responses so a lexical result is never mistaken
       for a semantic one.
 
-### P1-2. The dataset is re-read from disk on every request
+### P1-2. The dataset is re-read from disk on every request  [DONE]
 
 `api/server.py:59` calls `pd.read_csv(DATA_URL)` inside `load_dataset()`, which
 `get_data()` calls per request. With `FAMILY_DATASET_URL` set to an
@@ -219,7 +217,7 @@ network download per API call.
 - [ ] Add a `/health` endpoint (there is none; `/health` returns 404) that
       reports row count and dataset source.
 
-### P1-3. CSV and BigQuery backends disagree
+### P1-3. CSV and BigQuery backends disagree  [DONE]
 
 `api/server.py:137` compares `indoor_or_outdoor` case-insensitively.
 `api/server.py:127` compares it with `=` in SQL, which is case-sensitive. The
@@ -270,7 +268,7 @@ refuses to fake success. It just is not plugged into anything.
 - [ ] Remove `noindex` when you actually want signups.
 - [ ] Have somewhere for a signup to land — there is no user store.
 
-### P1-7. Non-ASCII API key returns 500, not 401
+### P1-7. Non-ASCII API key returns 500, not 401  [DONE]
 
 `api/server.py:69` and `api/auth_tiers.py:61` call `hmac.compare_digest` on
 `str`, which raises `TypeError: comparing strings with non-ASCII characters is
@@ -310,7 +308,7 @@ and stack traces at will.
       `https://family-api-xxxxxx.a.run.app`. Neither is a real value.
 - [ ] `mobile/App.js:9` points at `localhost`, so the app cannot work on a phone.
 
-### P2-4. No CI in this repository
+### P2-4. No CI in this repository  [DONE]
 
 There is no `.github/` directory. The 29 tests only run when someone runs them.
 `AutomationBot` is an 8KB text file of YAML and Python for an unrelated
@@ -424,30 +422,25 @@ What the Vercel API did establish:
 - [ ] If it is GitHub Pages from `main`, the live site is the broken placeholder
       described in P2-1, and none of the Scout work is reachable by anyone.
 
-## Suggested order
+## What is left, in order
 
-1. **P0-0** — the merge is the whole ballgame. Port the security tests onto the
-   branch, rebase onto `ebe709b`, resolve `api/` in favour of `main`. Do this
-   before anything else touches those files.
-2. **P0-6** — strip `node_modules` in the same pass, before it reaches `main`.
-3. **P0-5** + the deployment question — find out what `scoutfoxtravel.com` is
-   actually serving, then promote a real production deployment or take the
-   domain down.
-4. **P0-3** — merge the data work rather than restarting it; read
-   `scout/BLOCKED.md` before planning further data work.
-5. **P2-4 (CI)** — 238 tests across two suites now run only by hand. After a
-   merge this delicate, that is the thing that stops it silently coming apart.
-6. **P1-3, P1-7, P2-8** — correctness, CORS and health on whatever API survives.
-7. **P1-6 + P2-1 + P2-2** — do this before pointing anyone at the domain.
-8. **P0-4** — required before charging, not before beta.
-9. **P1-4, P1-5, P2-3** — bots and client credentials.
-10. **P2** — the rest.
+1. **The domain question** — find out whether `scoutfoxtravel.com` is served by
+   GitHub Pages from `main` or by Vercel. Nothing else about launch can be
+   planned until that is known. The Vercel project has no production deployment
+   and no custom domain attached.
+2. **P0-5** — promote a production deployment from this branch once it merges.
+3. **P1-6 + P2-1 + P2-2** — beta form, landing page, one domain. Do these before
+   pointing anyone at the site.
+4. **P2-3** — client-side credentials. Needs per-user auth; not a config change.
+5. **P0-4** — the Stripe webhook. Required before charging, not before beta.
+6. **P1-1** — give the recommender an HTTP endpoint.
+7. **P1-4, P1-5** — bots.
+8. **P2-5, P2-6, P2-7** — stale PRs, orphan files, remaining coverage gaps.
 
 ## The one-line summary
 
-The work is better than the repository makes it look: a real data platform on
-real open data, 209 passing tests, typechecking clean. It is sitting on a branch
-that forked one commit before the security fixes and would undo them on the way
-in — including a leaderboard that hands every caller every user's API key.
-Nothing is deployed to production, and the domain is probably not even pointed
-at any of it.
+The two halves are now one branch: the security hardening from `main` and the
+Scout platform's data, architecture and 209 tests, with the four fixes the
+merge would have undone kept intact and pinned by tests that fail without them.
+What remains is mostly outward-facing — a payment webhook, a beta form that
+collects, client auth, and finding out what the domain is actually serving.
