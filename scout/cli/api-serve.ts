@@ -16,6 +16,7 @@ import { recordSignal, buildUserGraph } from '../intelligence/user-graph.ts';
 import { listResolutions } from '../intelligence/truth-engine.ts';
 import { collectHealth, healthVerdict } from './radar-health.ts';
 import { getPlace } from '../db/repo-places.ts';
+import { attributionNotice, listRegistered } from '../sourcemesh/registry.ts';
 import { err, ok } from '../contracts/index.ts';
 import type { SignalKind, SignalContext } from '../contracts/index.ts';
 import { nowIso } from '../runtime/clock.ts';
@@ -113,6 +114,29 @@ const routes: Route[] = [
           provenance: listResolutions(db, id).map((r) => ({
             field: r.field, value: r.value, confidence: r.confidence.value,
             rationale: r.rationale, resolvedAt: r.resolvedAt,
+          })),
+          // Named, not inlined: the notice is the same for every response, and
+          // a consumer that republishes this owes it.
+          attribution: '/attribution',
+        }),
+      );
+    },
+  },
+  {
+    method: 'GET', path: '/attribution', description: 'the credit every consumer of this data owes, and to whom',
+    handler: () => {
+      // The licences are not decoration. ODbL and CC BY both require the notice
+      // to travel with the data, and until now it existed only in a CLI command
+      // nobody serving the API would ever run.
+      const notice = attributionNotice(db);
+      return replyFromResult(
+        ok({
+          required: notice.required,
+          notRedistributable: notice.notRedistributable,
+          sources: listRegistered(db).map((s) => ({
+            sourceId: s.sourceId, name: s.name, license: s.license,
+            attribution: s.attribution, shareAlike: s.shareAlike,
+            redistribution: s.redistribution, cacheDays: s.cacheDays,
           })),
         }),
       );

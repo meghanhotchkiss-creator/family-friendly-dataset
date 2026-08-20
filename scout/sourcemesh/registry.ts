@@ -14,7 +14,7 @@ import type { Result } from '../contracts/index.ts';
 import { ok, err } from '../contracts/index.ts';
 import { canonicalHash } from '../runtime/hash.ts';
 import { nowIso } from '../runtime/clock.ts';
-import { validateSpec, type SourceSpec } from './spec.ts';
+import { validateSpec, redistributionOf, type Redistribution, type SourceSpec } from './spec.ts';
 
 const SPEC_DIR = join(dirname(fileURLToPath(import.meta.url)), 'specs');
 
@@ -52,17 +52,25 @@ export function registerSpec(db: Db, spec: SourceSpec): Result<string> {
   if (!spec.license?.name || !spec.license?.attribution) {
     return err('invalid_input', `${spec.id}: refusing to register a source without licence and attribution`);
   }
+  const redistribution = redistributionOf(spec.license);
+  if (redistribution === 'restricted' && typeof spec.license.cacheDays !== 'number') {
+    return err('invalid_input',
+      `${spec.id}: a restricted source must state cacheDays before it can be registered`);
+  }
   db.run(
     `INSERT INTO source_registry (source_id, name, source_type, entity, license, attribution,
-       commercial_use_allowed, share_alike, homepage, locator, update_frequency, trust_tier, spec_hash, enabled)
-     VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,1)
+       commercial_use_allowed, share_alike, redistribution, cache_days,
+       homepage, locator, update_frequency, trust_tier, spec_hash, enabled)
+     VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,1)
      ON CONFLICT(source_id) DO UPDATE SET
        name = excluded.name, license = excluded.license, attribution = excluded.attribution,
        commercial_use_allowed = excluded.commercial_use_allowed, share_alike = excluded.share_alike,
+       redistribution = excluded.redistribution, cache_days = excluded.cache_days,
        locator = excluded.locator, update_frequency = excluded.update_frequency,
        trust_tier = excluded.trust_tier, spec_hash = excluded.spec_hash`,
     spec.id, spec.name, spec.format, spec.entity, spec.license.name, spec.license.attribution,
     spec.license.commercialUse ? 1 : 0, spec.license.shareAlike ? 1 : 0,
+    redistribution, spec.license.cacheDays ?? null,
     spec.homepage ?? null, spec.locator, spec.updateFrequency ?? null, spec.trustTier,
     canonicalHash(spec),
   );
@@ -82,6 +90,7 @@ export function registerAll(db: Db, dir: string = SPEC_DIR): Result<number> {
 export interface RegisteredSource {
   sourceId: string; name: string; license: string; attribution: string;
   commercialUse: boolean; shareAlike: boolean; trustTier: string;
+  redistribution: Redistribution; cacheDays: number | null;
   lastChecked: string | null; lastSuccessfulIngestion: string | null;
 }
 
@@ -94,16 +103,40 @@ export function listRegistered(db: Db): RegisteredSource[] {
       commercialUse: Number(r.commercial_use_allowed) === 1,
       shareAlike: Number(r.share_alike) === 1,
       trustTier: String(r.trust_tier),
+      redistribution: (r.redistribution as Redistribution) ?? 'attributed',
+      cacheDays: r.cache_days === null || r.cache_days === undefined ? null : Number(r.cache_days),
       lastChecked: (r.last_checked as string) ?? null,
       lastSuccessfulIngestion: (r.last_successful_ingestion as string) ?? null,
     }));
 }
 
-/** Attribution lines that must accompany any published output. */
-export function attributionNotice(db: Db): string[] {
-  return listRegistered(db).map(
-    (s) => `${s.name} — ${s.attribution} (${s.license}${s.shareAlike ? ', share-alike' : ''})`,
-  );
+export interface AttributionNotice {
+  /** Lines that must accompany any published output. */
+  required: string[];
+  /**
+   * Sources whose values must NOT be redistributed at all. Listed separately
+   * because the remedy is different: an attribution line does not make a
+   * restricted source publishable, and printing one next to the others implies
+   * it does.
+   */
+  notRedistributable: string[];
+}
+
+function line(s: RegisteredSource): string {
+  return `${s.name} — ${s.attribution} (${s.license}${s.shareAlike ? ', share-alike' : ''})`;
+}
+
+export function attributionNotice(db: Db): AttributionNotice {
+  const sources = listRegistered(db);
+  return {
+    required: sources
+      .filter((s) => s.redistribution !== 'restricted')
+      .map(line),
+    notRedistributable: sources
+      .filter((s) => s.redistribution === 'restricted')
+      .map((s) => `${line(s)} — display-time only` +
+        (s.cacheDays === null ? '' : `, cache at most ${s.cacheDays} day${s.cacheDays === 1 ? '' : 's'}`)),
+  };
 }
 
 export function markChecked(db: Db, sourceId: string): void {

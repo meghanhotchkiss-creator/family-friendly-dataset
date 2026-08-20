@@ -91,7 +91,10 @@ const TOOL_CREDENTIALS: Omit<CredentialRequirement, 'satisfied'>[] = [
     what: 'Google Places API key',
     needs: ['GOOGLE_PLACES_API_KEY'],
     unlocks: 'place details, opening hours, ratings — the fields no open dataset carries',
-    alsoNeeds: 'egress to places.googleapis.com; Places terms restrict caching and redistribution',
+    alsoNeeds:
+      'egress to places.googleapis.com. A spec for it must declare ' +
+      "redistribution: 'restricted' with cacheDays, and the sink will then refuse to " +
+      'persist it into the shared graph — query it at display time instead.',
   },
   {
     source: 'osm-nominatim',

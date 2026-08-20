@@ -11,7 +11,8 @@
     "name": "CC BY 4.0",
     "attribution": "OpenTravelData (opentraveldata/opentraveldata), CC BY 4.0",
     "commercialUse": true,
-    "url": "https://creativecommons.org/licenses/by/4.0/"
+    "url": "https://creativecommons.org/licenses/by/4.0/",
+    "redistribution": "attributed"
   },
   "updateFrequency": "daily",
   "identity": [

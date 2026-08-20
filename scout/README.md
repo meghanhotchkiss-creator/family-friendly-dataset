@@ -44,7 +44,7 @@ Every number the platform shows can be explained from its four components.
 npm install
 npm run bootstrap     # migrate + import + normalize + topics + user graph + truth
 npm run scout:demo    # the nine-step proof scenario
-npm test              # 194 tests
+npm test              # 204 tests
 npm run api:serve     # HTTP API on :8787
 ```
 
@@ -58,6 +58,7 @@ npm run api:serve     # HTTP API on :8787
 | `data:validate` | Geography funnel, and whether GB FR JP AU ZA US CA BR IN resolve |
 | `data:status` | BUILT / CONNECTED / SEEDED / TESTED per source |
 | `sourcemesh -- credentials` | What Scout needs from you, and which capabilities are actually available |
+| `GET /attribution` | The credit consumers of this data owe, and what must not be republished |
 | `travel:import:{geography,airports,places,gtfs,all}` | Global import framework |
 | `travel:geocode` | Upgrade city-centroid coordinates to venue precision via OpenStreetMap (needs egress) |
 | `travel:normalize` | Dedupe, canonical hashes, derived touristiness/local favour, neighbourhood linking |

@@ -48,8 +48,13 @@ if (command === 'list') {
     console.log(`  ${s.sourceId.padEnd(24)} ${s.license.padEnd(10)} ${s.trustTier.padEnd(13)} ` +
       `last ingest: ${s.lastSuccessfulIngestion ?? 'never'}`);
   }
+  const notice = attributionNotice(db);
   console.log('\nattribution required when publishing:');
-  for (const line of attributionNotice(db)) console.log(`  ${line}`);
+  for (const line of notice.required) console.log(`  ${line}`);
+  if (notice.notRedistributable.length > 0) {
+    console.log('\nNOT redistributable — these must never reach the shared graph:');
+    for (const line of notice.notRedistributable) console.log(`  ${line}`);
+  }
 } else if (command === 'credentials') {
   console.log(formatCredentials(credentialReport(db)));
 } else if (command === 'health') {
@@ -91,6 +96,7 @@ if (command === 'list') {
   for (const spec of specs) {
     const adapter = createSourceAdapter(db, spec!);
     const started = Date.now();
+    let writeMs = 0;
     const attempt = await adapter.ingest({
       dryRun, force,
       limit: limitArg ? Number(limitArg) : undefined,
@@ -137,7 +143,9 @@ if (command === 'list') {
     }
 
     if (!dryRun && result.records.length > 0) {
+      const writeStarted = Date.now();
       const written = writeRecords(db, spec!, result.records);
+      writeMs = Date.now() - writeStarted;
       if (written.ok) {
         acct.inserted_rows = written.value.inserted;
         acct.updated_rows = written.value.updated;
@@ -170,6 +178,11 @@ if (command === 'list') {
       for (const [code, n] of Object.entries(quarantineSummary(db, result.runId))) {
         console.log(`  quarantined ${String(n).padStart(6)}  ${code}: ${REASON_TEXT[code as ReasonCode] ?? ''}`);
       }
+    }
+    if (writeMs > 0) {
+      const perSecond = Math.round((result.records.length / writeMs) * 1000);
+      console.log(`  wrote ${result.records.length.toLocaleString()} records in ${writeMs}ms ` +
+        `(${perSecond.toLocaleString()}/s)`);
     }
     for (const warning of result.warnings) console.log(`  warn: ${warning}`);
     for (const anomaly of result.anomalies) {

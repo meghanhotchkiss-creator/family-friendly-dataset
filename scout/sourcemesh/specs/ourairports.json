@@ -10,7 +10,8 @@
     "name": "Public domain (Unlicense)",
     "attribution": "OurAirports (ourairports.com), via davidmegginson/ourairports-data",
     "commercialUse": true,
-    "url": "https://github.com/davidmegginson/ourairports-data/blob/main/LICENSE"
+    "url": "https://github.com/davidmegginson/ourairports-data/blob/main/LICENSE",
+    "redistribution": "open"
   },
   "updateFrequency": "daily",
   "identity": [

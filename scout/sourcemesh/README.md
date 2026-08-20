@@ -114,6 +114,53 @@ what it actually examined rather than quoting the cap as a population:
   instead of the source's own column.
 ```
 
+## Licences with teeth
+
+A recorded licence name is not a constraint. `commercialUse` answers "may we
+build a business on this"; it was being read as "may we store it and serve it
+onward", and those come apart badly. The Google Places terms permit commercial
+use and forbid retaining most fields — on the old model that source looked
+identical to a public-domain one.
+
+Everything in the shared graph IS redistributed, because the API serves it. So
+a spec declares what may be done with its values, and the sink enforces it:
+
+| `redistribution` | Meaning |
+|---|---|
+| `open` | store and serve onward freely |
+| `attributed` | store and serve onward **with** the attribution notice |
+| `restricted` | display-time only — the sink refuses to persist it at all |
+
+A `restricted` source must also state `cacheDays`; a retention rule nobody
+wrote down cannot be honoured. Records from one are returned as
+`REDISTRIBUTION_FORBIDDEN` rejections — retained in full, like every other
+rejection, so the refusal is auditable rather than silent. An unstated licence
+defaults to `attributed`, the conservative reading: a source whose terms nobody
+recorded is never treated as public domain.
+
+`GET /attribution` serves the notice. It used to exist only in a CLI command
+that nobody running the API would ever invoke, which is the same as not having
+it — ODbL and CC BY both require the credit to travel with the data.
+
+## Speed
+
+The OurAirports load went from 60.7s to 4.3s for 85,925 records (1,416/s ->
+20,194/s) without changing a single count. Both causes were in the plumbing,
+not the logic:
+
+- **Every query was re-prepared on each call.** One ingest issued roughly
+  430,000 `prepare` calls for about forty distinct statements, so SQLite
+  re-parsed and re-planned each one. Statements are cached now.
+- **Every record was its own top-level `COMMIT`**, and in WAL mode a commit is
+  an fsync. The run paid for 85,925 flushes to disk to write 85,925 rows. The
+  run is one transaction now and each record is a savepoint inside it —
+  measured at 68ms of savepoint overhead across the whole set, against the
+  ~50s the flushing cost.
+
+Per-record isolation is the reason the savepoints stay, and a test holds that
+line: a row that violates a foreign key still lands as `PERSIST_FAILED` while
+the rows either side of it are written.
+
 ## No silent drops
 
 Every source row lands in exactly one terminal bucket, and the buckets are

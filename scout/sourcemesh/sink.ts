@@ -15,7 +15,7 @@ import {
 } from '../db/repo-core.ts';
 import { canonicalHash } from '../runtime/hash.ts';
 import type { MappedRecord } from './adapter.ts';
-import type { SourceSpec } from './spec.ts';
+import { redistributionOf, type SourceSpec } from './spec.ts';
 import type { ReasonCode } from './accounting.ts';
 
 export interface SinkRejection {
@@ -55,14 +55,42 @@ export function writeRecords(db: Db, spec: SourceSpec, records: MappedRecord[]):
   ensureRegions(db);
   const result: SinkResult = { inserted: 0, updated: 0, unchanged: 0, rejections: [], reasons: {} };
 
+  // Everything in these tables is served by the API, so writing here IS
+  // redistribution. A source whose terms forbid that is refused at the door
+  // rather than trusted to be handled carefully downstream -- Google Places
+  // permits commercial use and forbids retention, and on the old licence model
+  // that was indistinguishable from public domain.
+  if (redistributionOf(spec.license) === 'restricted') {
+    for (const record of records) {
+      result.rejections.push({
+        record,
+        reasonCode: 'REDISTRIBUTION_FORBIDDEN',
+        details:
+          `${spec.id} is licensed ${spec.license.name}, which does not permit redistributing its ` +
+          `values; the shared graph is served onward. Query it at display time instead.`,
+      });
+      result.reasons.REDISTRIBUTION_FORBIDDEN = (result.reasons.REDISTRIBUTION_FORBIDDEN ?? 0) + 1;
+    }
+    return ok(result);
+  }
+
   const reject = (record: MappedRecord, reasonCode: ReasonCode, details: string): void => {
     result.rejections.push({ record, reasonCode, details });
     note(result.reasons, reasonCode);
   };
 
-  const settle = (before: { exists: boolean; hash: string | null }, after: { hash: string | null }): void => {
-    if (!before.exists) result.inserted += 1;
-    else if (before.hash === after.hash) result.unchanged += 1;
+  /**
+   * Classify the write, reading the row back only when that can change the
+   * answer.
+   *
+   * A record with no prior row is an insert, whatever it looks like afterwards.
+   * Re-reading and hashing it to confirm that cost a full table lookup and a
+   * SHA-256 per record -- 85,925 of each on a first load, where every single
+   * one was an insert.
+   */
+  const settle = (before: { exists: boolean; hash: string | null }, afterHash: () => string | null): void => {
+    if (!before.exists) { result.inserted += 1; return; }
+    if (before.hash === afterHash()) result.unchanged += 1;
     else result.updated += 1;
   };
 
@@ -91,9 +119,16 @@ export function writeRecords(db: Db, spec: SourceSpec, records: MappedRecord[]):
     return Number.isFinite(n) ? n : null;
   };
 
-  // Each record is written in its own savepoint: one bad row must not roll
-  // back a 28,000-row run, and a database constraint is a rejection reason like
-  // any other rather than a crash.
+  // The whole run is ONE transaction, and each record is a savepoint inside it.
+  //
+  // The per-record isolation is the point -- one bad row must not roll back a
+  // 85,000-row run, and a database constraint is a rejection reason like any
+  // other rather than a crash. But without an outer transaction every record
+  // was its own COMMIT, and every COMMIT in WAL mode is an fsync: the run paid
+  // for 85,925 flushes to disk to write 85,925 rows. Savepoints cost nothing by
+  // comparison (68ms across the same set), so the isolation survives and the
+  // flushing does not.
+  db.transaction(() => {
   for (const record of records) {
     try {
       db.transaction(() => {
@@ -118,7 +153,7 @@ export function writeRecords(db: Db, spec: SourceSpec, records: MappedRecord[]):
         if (!claim(record, id)) return;
         const before = priorState(db, 'countries', 'id', id);
         upsertCountry(db, { iso2, iso3, name: String(v.name), regionCode, currency: str(v.currency) });
-        settle(before, { hash: priorState(db, 'countries', 'id', id).hash });
+        settle(before, () => priorState(db, 'countries', 'id', id).hash);
         return;
       }
 
@@ -150,7 +185,7 @@ export function writeRecords(db: Db, spec: SourceSpec, records: MappedRecord[]):
             countryIso2: iso2, usageType: str(v.usageType), power: str(v.power),
             associatedAirport: ident, airportId,
           });
-          settle(before, { hash: priorState(db, 'navaids', 'id', id).hash });
+          settle(before, () => priorState(db, 'navaids', 'id', id).hash);
           return;
         }
 
@@ -170,7 +205,7 @@ export function writeRecords(db: Db, spec: SourceSpec, records: MappedRecord[]):
             closed: v.closed === null || v.closed === undefined ? null : Boolean(v.closed),
             leIdent: str(v.leIdent), heIdent: str(v.heIdent),
           });
-          settle(before, { hash: priorState(db, 'runways', 'id', id).hash });
+          settle(before, () => priorState(db, 'runways', 'id', id).hash);
           return;
         }
         const id = makeId('frequency', sourceId);
@@ -181,7 +216,7 @@ export function writeRecords(db: Db, spec: SourceSpec, records: MappedRecord[]):
           frequencyType: str(v.frequencyType), description: str(v.description),
           frequencyMhz: num(v.frequencyMhz),
         });
-        settle(before, { hash: priorState(db, 'airport_frequencies', 'id', id).hash });
+        settle(before, () => priorState(db, 'airport_frequencies', 'id', id).hash);
         return;
       }
 
@@ -207,7 +242,7 @@ export function writeRecords(db: Db, spec: SourceSpec, records: MappedRecord[]):
           continent: str(v.continent), countryIso2: String(iso2), countryId,
           wikipediaLink: str(v.wikipediaLink),
         });
-        settle(before, { hash: priorState(db, 'admin_regions', 'id', id).hash });
+        settle(before, () => priorState(db, 'admin_regions', 'id', id).hash);
         return;
       }
 
@@ -222,7 +257,7 @@ export function writeRecords(db: Db, spec: SourceSpec, records: MappedRecord[]):
           population: num(v.population), timezone: str(v.timezone),
           geonameId: num(v.geonameId),
         } as never);
-        settle(before, { hash: priorState(db, 'cities', 'id', cityId).hash });
+        settle(before, () => priorState(db, 'cities', 'id', cityId).hash);
         return;
       }
 
@@ -291,7 +326,7 @@ export function writeRecords(db: Db, spec: SourceSpec, records: MappedRecord[]):
             : Boolean(v.scheduledService),
           homeLink: str(v.homeLink), wikipediaLink: str(v.wikipediaLink),
         });
-        settle(before, { hash: priorState(db, 'airports', 'id', airportId).hash });
+        settle(before, () => priorState(db, 'airports', 'id', airportId).hash);
         return;
       }
 
@@ -305,6 +340,7 @@ export function writeRecords(db: Db, spec: SourceSpec, records: MappedRecord[]):
       );
     }
   }
+  });
 
   return ok(result);
 }

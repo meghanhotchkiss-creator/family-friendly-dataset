@@ -10,21 +10,48 @@
     "name": "Public domain (Unlicense)",
     "attribution": "OurAirports (ourairports.com), via davidmegginson/ourairports-data",
     "commercialUse": true,
-    "url": "https://github.com/davidmegginson/ourairports-data/blob/main/LICENSE"
+    "url": "https://github.com/davidmegginson/ourairports-data/blob/main/LICENSE",
+    "redistribution": "open"
   },
   "updateFrequency": "daily",
-  "identity": ["sourceId"],
+  "identity": [
+    "sourceId"
+  ],
   "fields": {
-    "sourceId": { "field": "id", "transform": "trim" },
-    "airportIdent": { "field": "airport_ident", "transform": "upper" },
-    "frequencyType": { "field": "type", "transform": "upper" },
-    "description": { "field": "description", "transform": "trim" },
-    "frequencyMhz": { "field": "frequency_mhz", "transform": "number" }
+    "sourceId": {
+      "field": "id",
+      "transform": "trim"
+    },
+    "airportIdent": {
+      "field": "airport_ident",
+      "transform": "upper"
+    },
+    "frequencyType": {
+      "field": "type",
+      "transform": "upper"
+    },
+    "description": {
+      "field": "description",
+      "transform": "trim"
+    },
+    "frequencyMhz": {
+      "field": "frequency_mhz",
+      "transform": "number"
+    }
   },
   "quality": {
-    "rejectIfMissing": ["sourceId", "airportIdent", "frequencyMhz"],
-    "warnIfMissing": ["description"],
+    "rejectIfMissing": [
+      "sourceId",
+      "airportIdent",
+      "frequencyMhz"
+    ],
+    "warnIfMissing": [
+      "description"
+    ],
     "minImportRatio": 0.95
   },
-  "monitor": { "frequency": "weekly", "strategy": "hash_diff" }
+  "monitor": {
+    "frequency": "weekly",
+    "strategy": "hash_diff"
+  }
 }

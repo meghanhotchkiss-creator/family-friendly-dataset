@@ -10,22 +10,53 @@
     "name": "Public domain (Unlicense)",
     "attribution": "OurAirports (ourairports.com), via davidmegginson/ourairports-data",
     "commercialUse": true,
-    "url": "https://github.com/davidmegginson/ourairports-data/blob/main/LICENSE"
+    "url": "https://github.com/davidmegginson/ourairports-data/blob/main/LICENSE",
+    "redistribution": "open"
   },
   "updateFrequency": "monthly",
-  "identity": ["code"],
+  "identity": [
+    "code"
+  ],
   "fields": {
-    "code": { "field": "code", "transform": "upper" },
-    "localCode": { "field": "local_code", "transform": "trim" },
-    "name": { "field": "name", "transform": "trim" },
-    "continent": { "field": "continent", "transform": "upper" },
-    "countryIso2": { "field": "iso_country", "transform": "upper" },
-    "wikipediaLink": { "field": "wikipedia_link", "transform": "trim" }
+    "code": {
+      "field": "code",
+      "transform": "upper"
+    },
+    "localCode": {
+      "field": "local_code",
+      "transform": "trim"
+    },
+    "name": {
+      "field": "name",
+      "transform": "trim"
+    },
+    "continent": {
+      "field": "continent",
+      "transform": "upper"
+    },
+    "countryIso2": {
+      "field": "iso_country",
+      "transform": "upper"
+    },
+    "wikipediaLink": {
+      "field": "wikipedia_link",
+      "transform": "trim"
+    }
   },
   "quality": {
-    "rejectIfMissing": ["code", "name", "countryIso2"],
-    "warnIfMissing": ["localCode", "wikipediaLink"],
+    "rejectIfMissing": [
+      "code",
+      "name",
+      "countryIso2"
+    ],
+    "warnIfMissing": [
+      "localCode",
+      "wikipediaLink"
+    ],
     "minImportRatio": 0.95
   },
-  "monitor": { "frequency": "weekly", "strategy": "hash_diff" }
+  "monitor": {
+    "frequency": "weekly",
+    "strategy": "hash_diff"
+  }
 }

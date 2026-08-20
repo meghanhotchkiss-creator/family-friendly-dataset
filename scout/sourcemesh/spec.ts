@@ -47,12 +47,41 @@ export interface ResolverStep {
   const?: string | number | boolean | null;
 }
 
+/**
+ * What may be done with values from this source.
+ *
+ * `commercialUse` was not enough. It answers "may we build a business on it",
+ * not "may we STORE it and serve it onward", and those come apart badly: the
+ * Google Places terms permit commercial use and forbid retaining most fields
+ * or redistributing them. A source like that must not land in the shared
+ * travel graph, because everything in that graph is served by the API.
+ */
+export const REDISTRIBUTION = ['open', 'attributed', 'restricted'] as const;
+export type Redistribution = (typeof REDISTRIBUTION)[number];
+
 export interface LicenseSpec {
   name: string;
   attribution: string;
   commercialUse: boolean;
   shareAlike?: boolean;
+  /**
+   * `open`        store and serve onward freely (public domain).
+   * `attributed`  store and serve onward WITH the attribution notice.
+   * `restricted`  display-time only: the sink refuses to persist it into the
+   *               shared graph, because the graph is redistributed.
+   *
+   * Defaults to `attributed`, the conservative reading: a source whose terms
+   * nobody recorded is treated as needing attribution, never as public domain.
+   */
+  redistribution?: Redistribution;
+  /** Days a value may be cached, where the terms impose a limit. */
+  cacheDays?: number | null;
   url?: string;
+}
+
+/** The conservative default for a spec that does not say. */
+export function redistributionOf(license: LicenseSpec): Redistribution {
+  return license.redistribution ?? 'attributed';
 }
 
 /**
@@ -154,6 +183,20 @@ export function validateSpec(spec: unknown): SourceSpec {
     // Licence details are mandatory: a source whose terms are unrecorded must
     // not be ingestible at all.
     throw new SpecError(`${String(s.id)}: license needs name, attribution and commercialUse`);
+  }
+  if (license.redistribution !== undefined &&
+      !REDISTRIBUTION.includes(license.redistribution as Redistribution)) {
+    throw new SpecError(
+      `${String(s.id)}: unknown redistribution ${String(license.redistribution)} ` +
+      `(expected ${REDISTRIBUTION.join(', ')})`,
+    );
+  }
+  if (license.redistribution === 'restricted' && typeof license.cacheDays !== 'number') {
+    // "Restricted" with no stated retention is a constraint nobody can honour.
+    // Naming the number is what makes it enforceable later.
+    throw new SpecError(
+      `${String(s.id)}: a restricted source must state cacheDays — how long a value may be kept`,
+    );
   }
   const fields = s.fields as Record<string, unknown>;
   if (Object.keys(fields).length === 0) throw new SpecError('spec maps no fields');

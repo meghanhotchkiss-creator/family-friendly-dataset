@@ -40,6 +40,15 @@ function toParams(params: unknown[]): unknown[] {
   });
 }
 
+/**
+ * How many distinct SQL texts to keep prepared.
+ *
+ * The statements in this codebase are literals, so the real working set is a
+ * few dozen. The cap exists so that a caller who ever interpolates a value
+ * into SQL degrades to the old behaviour instead of leaking memory forever.
+ */
+const STATEMENT_CACHE_LIMIT = 256;
+
 export function openDb(path: string = process.env.SCOUT_DB_PATH ?? DEFAULT_DB_PATH): Db {
   if (path !== ':memory:') mkdirSync(dirname(path), { recursive: true });
   const raw = new DatabaseSync(path);
@@ -49,20 +58,42 @@ export function openDb(path: string = process.env.SCOUT_DB_PATH ?? DEFAULT_DB_PA
 
   let depth = 0;
 
+  /**
+   * Prepared statements, reused across calls.
+   *
+   * Every query used to be re-parsed and re-planned on each call. That is
+   * invisible on a handful of rows and dominant on a real one: ingesting the
+   * OurAirports file issued roughly 430,000 prepares for about forty distinct
+   * statements, and the parsing cost more than the writing.
+   */
+  const statements = new Map<string, ReturnType<DatabaseSync['prepare']>>();
+  const prepare = (sql: string): ReturnType<DatabaseSync['prepare']> => {
+    const cached = statements.get(sql);
+    if (cached) return cached;
+    const statement = raw.prepare(sql);
+    // A DDL change can invalidate a cached statement, so `exec` clears the
+    // cache rather than letting a stale plan survive a migration.
+    if (statements.size >= STATEMENT_CACHE_LIMIT) statements.clear();
+    statements.set(sql, statement);
+    return statement;
+  };
+
   return {
     path,
     raw,
     exec(sql) {
+      // Schema may have changed underneath every cached plan.
+      statements.clear();
       raw.exec(sql);
     },
     all<T>(sql: string, ...params: unknown[]) {
-      return raw.prepare(sql).all(...(toParams(params) as never[])) as T[];
+      return prepare(sql).all(...(toParams(params) as never[])) as T[];
     },
     get<T>(sql: string, ...params: unknown[]) {
-      return raw.prepare(sql).get(...(toParams(params) as never[])) as T | undefined;
+      return prepare(sql).get(...(toParams(params) as never[])) as T | undefined;
     },
     run(sql, ...params) {
-      const r = raw.prepare(sql).run(...(toParams(params) as never[]));
+      const r = prepare(sql).run(...(toParams(params) as never[]));
       return { changes: Number(r.changes), lastInsertRowid: Number(r.lastInsertRowid) };
     },
     transaction<T>(fn: () => T): T {
@@ -83,6 +114,7 @@ export function openDb(path: string = process.env.SCOUT_DB_PATH ?? DEFAULT_DB_PA
       }
     },
     close() {
+      statements.clear();
       raw.close();
     },
   };

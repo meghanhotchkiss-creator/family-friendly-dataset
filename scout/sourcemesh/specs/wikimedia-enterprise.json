@@ -11,7 +11,8 @@
     "attribution": "Wikimedia Enterprise / Wikipedia contributors, CC BY-SA 4.0",
     "commercialUse": true,
     "shareAlike": true,
-    "url": "https://creativecommons.org/licenses/by-sa/4.0/"
+    "url": "https://creativecommons.org/licenses/by-sa/4.0/",
+    "redistribution": "attributed"
   },
   "updateFrequency": "daily",
   "auth": {
@@ -24,26 +25,74 @@
     "header": "authorization",
     "scheme": "Bearer"
   },
-  "identity": ["externalId"],
+  "identity": [
+    "externalId"
+  ],
   "fields": {
-    "externalId": { "field": "identifier", "transform": "integer" },
-    "name": { "field": "name", "transform": "trim" },
-    "description": { "anyOf": ["abstract", "description"], "transform": "trim" },
-    "url": { "field": "url" },
-    "lat": { "field": "coordinates.latitude", "transform": "number" },
-    "lon": { "field": "coordinates.longitude", "transform": "number" },
-    "wikidataId": { "field": "main_entity.identifier", "transform": "upper" },
-    "language": { "field": "in_language.identifier", "transform": "lower" },
-    "revisionAt": { "field": "date_modified" }
+    "externalId": {
+      "field": "identifier",
+      "transform": "integer"
+    },
+    "name": {
+      "field": "name",
+      "transform": "trim"
+    },
+    "description": {
+      "anyOf": [
+        "abstract",
+        "description"
+      ],
+      "transform": "trim"
+    },
+    "url": {
+      "field": "url"
+    },
+    "lat": {
+      "field": "coordinates.latitude",
+      "transform": "number"
+    },
+    "lon": {
+      "field": "coordinates.longitude",
+      "transform": "number"
+    },
+    "wikidataId": {
+      "field": "main_entity.identifier",
+      "transform": "upper"
+    },
+    "language": {
+      "field": "in_language.identifier",
+      "transform": "lower"
+    },
+    "revisionAt": {
+      "field": "date_modified"
+    }
   },
   "quality": {
-    "rejectIfMissing": ["externalId", "name"],
-    "warnIfMissing": ["lat", "lon", "wikidataId"],
+    "rejectIfMissing": [
+      "externalId",
+      "name"
+    ],
+    "warnIfMissing": [
+      "lat",
+      "lon",
+      "wikidataId"
+    ],
     "ranges": [
-      { "field": "lat", "min": -90, "max": 90 },
-      { "field": "lon", "min": -180, "max": 180 }
+      {
+        "field": "lat",
+        "min": -90,
+        "max": 90
+      },
+      {
+        "field": "lon",
+        "min": -180,
+        "max": 180
+      }
     ],
     "minImportRatio": 0.5
   },
-  "monitor": { "frequency": "daily", "strategy": "hash_diff" }
+  "monitor": {
+    "frequency": "daily",
+    "strategy": "hash_diff"
+  }
 }

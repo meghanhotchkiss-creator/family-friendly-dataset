@@ -15,6 +15,7 @@ export const REASON_CODES = [
   'DUPLICATE_IDENTITY',
   'UNPARSEABLE_RECORD',
   'UNSUPPORTED_ENTITY',
+  'REDISTRIBUTION_FORBIDDEN',
   'PERSIST_FAILED',
 ] as const;
 export type ReasonCode = (typeof REASON_CODES)[number];
@@ -29,6 +30,7 @@ export const REASON_TEXT: Readonly<Record<ReasonCode, string>> = {
   DUPLICATE_IDENTITY: 'another record in this run claims the same identity',
   UNPARSEABLE_RECORD: 'the record could not be read in the declared format',
   UNSUPPORTED_ENTITY: 'no sink is implemented for this entity type',
+  REDISTRIBUTION_FORBIDDEN: "the source's licence forbids redistributing its values, and the shared graph is served onward",
   PERSIST_FAILED: 'the record mapped cleanly but the write failed',
 };
 
