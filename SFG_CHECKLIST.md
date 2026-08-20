@@ -2,39 +2,24 @@
 
 Fresh audit of the whole repository, 2026-08-20.
 
-> ## Scope correction — read this first
+> ## Read this first — the two branches each hold what the other is missing
 >
-> This audit was run against **`main` (`ebe709b`)**. That was the wrong place to
-> judge the project from, and the first version of this document drew a
-> conclusion from it that is false.
+> Both branches have now been audited and their test suites run.
 >
-> Active development is **26 commits ahead on `claude/seed-data-setup-b7zaeu`**,
-> unmerged. That branch adds a TypeScript "Scout platform" — SourceMesh
-> ingestion, travel/user/topic graphs, truth layer, radar, sentinel, rewards, a
-> recommendation API and 16 test suites — and it runs on **real open data**
-> (250 countries, 3,985 admin regions, ~82,000 cities, 85,925 airports).
+> | | `main` (`ebe709b`) | `claude/seed-data-setup-b7zaeu` (+26) |
+> |---|---|---|
+> | Security hardening | **Yes** | **No — reverted** |
+> | Routers mounted | No | **Yes** |
+> | Real data | No | **Yes** |
+> | Tests | 29 Python, pass | 209 TS, pass; **Python security tests absent** |
 >
-> Everything below is accurate **about `main`**, which is what is merged and
-> what the Python service actually runs. It is not a fair description of the
-> project as a whole. Findings superseded by that branch are marked
-> **[superseded]**.
-
-Every claim below was checked by running the code, not by reading it. Where a
-line number is cited, that line was the evidence. Where something is called
-broken, the failure was reproduced.
-
-## How this was checked
-
-    python3 -m venv .venv
-    .venv/bin/pip install fastapi pandas python-jose pytest httpx numpy
-    .venv/bin/python -m pytest tests/ -q            # 29 passed
-    FAMILY_API_KEY=k JWT_SECRET=s \
-      FAMILY_DATASET_URL=data/seed/family_friendly_seed.csv \
-      .venv/bin/python -c "import sys; sys.path.insert(0,'api'); import server; \
-        [print(r.path) for r in server.app.routes]"
-
-The route dump is the single most important result in this audit and is quoted
-in P0-1.
+> The branch forked from `702b82d`, one commit **before** `5eecd7d "Fix
+> credential exposure, SQL injection, and dataset loading"`. It therefore never
+> received those fixes, and it rewrites the same files. **Merging it as-is
+> republishes working credentials.** See P0-0.
+>
+> Neither branch is shippable alone, and a merge in either direction loses
+> something that matters. That is the central problem in this repository.
 
 ---
 
@@ -63,7 +48,36 @@ in P0-1.
 
 ## P0 — blocks anything shipping
 
-### P0-1. Half the API is written but never mounted
+### P0-0. Merging the working branch would revert four security fixes
+
+Verified by reading `api/` on `claude/seed-data-setup-b7zaeu` directly:
+
+| Fixed on `main` | On the branch |
+| --- | --- |
+| `FAMILY_API_KEY` required, no default | `os.getenv("FAMILY_API_KEY", "supersecretkey")` |
+| `JWT_SECRET` required, no default | `os.getenv("JWT_SECRET", "jwtsecret")` — anyone can forge a token |
+| `hmac.compare_digest` | `if api_key != API_KEY` — timing leak |
+| Demo keys off unless `ALLOW_DEMO_KEYS=true` | `{**FALLBACK_USER_TIERS, ...}` — `demo_business_key` always live |
+| Leaderboard returns a salted hash | `"api_key": key` — **hands every caller every user's raw key** |
+| Dataset path kept server-side | `detail=f"Dataset not found at {DATA_URL}"` — path disclosed to callers |
+
+SQL parameterisation is the one fix the branch does have; the BigQuery path uses
+`ScalarQueryParameter` correctly.
+
+The 399 lines of regression tests that pin these behaviours
+(`tests/test_security.py`, `tests/test_recommender.py`) do not exist on the
+branch — not deleted, simply never inherited. So nothing on that branch fails
+when the vulnerabilities come back.
+
+- [ ] Do not fast-forward or squash-merge this branch onto `main`.
+- [ ] Rebase the branch onto `ebe709b` and resolve `api/` in favour of `main`'s
+      hardened versions, keeping the branch's architectural wins (P0-1, P1-2,
+      P2-8, all fixed there).
+- [ ] Port `tests/test_security.py` and `tests/test_recommender.py` onto the
+      branch **first**, so the rebase has something that fails when it goes wrong.
+- [ ] Then re-run both suites: `pytest tests/ -q` and `npm test`.
+
+### P0-1. Half the API is written but never mounted  [fixed on the branch]
 
 `api/server.py` never imports `points`, `payments`, or `ai_recommender`. The
 running app exposes exactly three routes:
@@ -90,7 +104,7 @@ feature is green in CI and absent in production.
 Note: PRs #19, #20, #24 and #25 each propose this same fix. Pick one, close the
 other three.
 
-### P0-2. The Docker image cannot run the app
+### P0-2. The Docker image cannot run the app  [fixed on the branch]
 
 `api/Dockerfile:5` copies `server.py` only. Not `auth_tiers.py`, `points.py`,
 `payments.py`, `ai_recommender.py`, or `embeddings.py`. The moment P0-1 lands,
@@ -354,25 +368,86 @@ Not covered:
 
 ---
 
+## The Scout platform, audited
+
+Run on `claude/seed-data-setup-b7zaeu` at `3b257eb`:
+
+    npm test        # 209 tests, 209 pass, 0 fail (8.2s)
+    npm run typecheck   # tsc --noEmit, clean
+
+~16,800 lines of TypeScript across `scout/` and ~5,600 lines of tests, with
+**zero runtime dependencies** — TypeScript and `@types/node` are the only
+devDependencies. Covered areas: SourceMesh ingestion, connectors, entity
+resolution, geocoding, geography, licensing, offline transport, radar,
+reliability, rewards, seeding, SQL shape, travel foundation, auth, and an
+integration suite.
+
+This is the strongest work in the repository, and it is worth saying so plainly:
+it passes its own tests, typechecks clean, is honest about what it cannot reach
+(`scout/BLOCKED.md`), and records licences and provenance for the data it
+ingests.
+
+What it still lacks:
+
+- [ ] No CI — no `.github/` on this branch either, so 209 tests run only by hand.
+- [ ] No CORS on the Python API, so browser clients are still blocked (P2-8).
+- [ ] `mobile/App.js` and all three widgets still hardcode credentials (P2-3).
+- [ ] `node_modules/` committed and un-ignored (P0-6).
+- [ ] The Python security tests are absent (P0-0).
+
+## Why the live site could not be checked
+
+`scoutfoxtravel.com` is unreachable from this environment, and it is worth
+recording precisely why, because it is not a permissions problem:
+
+- The session's egress proxy answers **403 to CONNECT** for that host. That is
+  this account's network allowlist, not the site rejecting anything. The proxy's
+  own documentation says policy denials are to be reported, not routed around.
+- Account access and network access are different things. The Vercel API is
+  reachable through its authenticated connector, and everything below came from
+  it. Rendering an arbitrary web page is not.
+
+What the Vercel API did establish:
+
+- The `scout-fox-travel` project has **`live: false`** and no production
+  deployment — all 20 recent deployments are previews (`target: null`).
+- Its attached domains are only `*.vercel.app`. **`scoutfoxtravel.com` is not
+  attached to this project at all.** Since the repo carries a `CNAME` and
+  `docs/.nojekyll` — both GitHub Pages conventions — the domain is most likely
+  served by GitHub Pages from `main`, entirely separately from Vercel.
+- SSO protection is `all_except_custom_domains`, so every `*.vercel.app` URL
+  requires a Vercel login and cannot be read unauthenticated.
+
+- [ ] Confirm where `scoutfoxtravel.com` actually points. Two deploy mechanisms
+      (GitHub Pages via `CNAME`, Vercel via `vercel.json`) are configured in one
+      repo and only one of them can be serving the domain.
+- [ ] If it is GitHub Pages from `main`, the live site is the broken placeholder
+      described in P2-1, and none of the Scout work is reachable by anyone.
+
 ## Suggested order
 
-1. **P0-5 + P0-6** — resolve the branch situation first. Every other estimate is
-   wrong until you know whether `main` or the Scout branch is the real trunk.
-   Strip `node_modules` before merging, not after.
-2. **P0-3** — merge the data work rather than restarting it, and read
-   `scout/BLOCKED.md` before planning anything further.
-3. **P0-1 + P0-2 + P2-8 (CORS, health)** — if the Python bundle survives the
-   merge decision, this makes its built features reachable and its image runnable.
-4. **P1-2, P1-3, P1-7** — correctness and cost on the path that already works.
-5. **P1-6 + P2-1 + P2-2** — do this before pointing anyone at the domain.
-6. **P0-4** — required before charging, not before beta.
-7. **P1-4, P1-5** — bots, once the API is stable.
-8. **P2** — cleanup, on a slow afternoon.
+1. **P0-0** — the merge is the whole ballgame. Port the security tests onto the
+   branch, rebase onto `ebe709b`, resolve `api/` in favour of `main`. Do this
+   before anything else touches those files.
+2. **P0-6** — strip `node_modules` in the same pass, before it reaches `main`.
+3. **P0-5** + the deployment question — find out what `scoutfoxtravel.com` is
+   actually serving, then promote a real production deployment or take the
+   domain down.
+4. **P0-3** — merge the data work rather than restarting it; read
+   `scout/BLOCKED.md` before planning further data work.
+5. **P2-4 (CI)** — 238 tests across two suites now run only by hand. After a
+   merge this delicate, that is the thing that stops it silently coming apart.
+6. **P1-3, P1-7, P2-8** — correctness, CORS and health on whatever API survives.
+7. **P1-6 + P2-1 + P2-2** — do this before pointing anyone at the domain.
+8. **P0-4** — required before charging, not before beta.
+9. **P1-4, P1-5, P2-3** — bots and client credentials.
+10. **P2** — the rest.
 
 ## The one-line summary
 
-The project is further along than `main` suggests — a real data platform on
-real open data exists on an unmerged branch. The problem is not that it has not
-been built. The problem is that it is not on the trunk, it is not deployed to
-production, and the merged branch everyone reads from is a stale service whose
-best modules are unreachable.
+The work is better than the repository makes it look: a real data platform on
+real open data, 209 passing tests, typechecking clean. It is sitting on a branch
+that forked one commit before the security fixes and would undo them on the way
+in — including a leaderboard that hands every caller every user's API key.
+Nothing is deployed to production, and the domain is probably not even pointed
+at any of it.
