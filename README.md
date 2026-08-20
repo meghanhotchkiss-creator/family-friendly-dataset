@@ -64,6 +64,8 @@ explorer says so on every unverified card.
 | `GET /recommend?state=&indoor=&limit=` | `X-API-Key` | Activities in a state |
 | `GET /search?q=&limit=` | `X-API-Key` | Free-text search over names |
 | `GET /meta` | `X-API-Key` | Row count, states, types — clients build filters from this |
+| `GET /weather?place=` | `X-API-Key` | Live conditions plus an indoor/outdoor verdict. Needs `OPENWEATHER_API_KEY` |
+| `GET /recommend_today?state=` | `X-API-Key` | Recommendations reordered by today's weather. Degrades to unfiltered when weather is unavailable |
 | `GET /recommend_jwt` | Bearer JWT | Same as `/recommend`. **No `/token` endpoint issues these yet** |
 | `GET /recommend_firebase` | Firebase ID token | Requires `FIREBASE_PROJECT_ID` |
 | `/points/*` | `X-API-Key` | Balance, history, redeem, leaderboard, bookings |

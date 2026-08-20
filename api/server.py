@@ -167,6 +167,72 @@ def search(q: str, limit: int = Query(10, ge=1, le=50), auth: bool = Depends(ver
         }
 
 
+@app.get("/weather")
+def weather(place: str, auth: bool = Depends(verify_api_key)):
+    """Current conditions and an indoor/outdoor verdict for a place.
+
+    `place` is an OpenWeather query: "Austin,TX,US", "London,uk".
+    Returns 503 rather than a guess when the provider is unconfigured or
+    unreachable — a fabricated forecast is worse than no forecast.
+    """
+    from live import WEATHER
+    from live.base import LiveProviderError, ProviderUnavailable
+
+    try:
+        return WEATHER.outdoor_verdict(place)
+    except ProviderUnavailable as exc:
+        raise HTTPException(status_code=503, detail=str(exc)) from exc
+    except LiveProviderError as exc:
+        raise HTTPException(status_code=502, detail=str(exc)) from exc
+
+
+@app.get("/recommend_today")
+def recommend_today(
+    state: str,
+    place: str = None,
+    limit: int = Query(10, ge=1, le=50),
+    auth: bool = Depends(verify_api_key),
+):
+    """Recommendations filtered by what the weather is actually doing.
+
+    This is the reason the dataset carries indoor_or_outdoor at all: on a wet
+    afternoon a family wants the museum list, not the park list.
+
+    When weather is unavailable the endpoint still answers — unfiltered, and
+    saying so in `weather_used`. Losing the forecast should degrade the
+    ranking, not break the page.
+    """
+    from live import WEATHER
+    from live.base import LiveProviderError
+
+    verdict = None
+    note = None
+
+    query = place or state
+    try:
+        verdict = WEATHER.outdoor_verdict(query)
+    except LiveProviderError as exc:
+        note = str(exc)
+
+    preferred = verdict["recommend"] if verdict else None
+    df = get_data(state, None, limit)
+
+    if preferred and "indoor_or_outdoor" in df.columns:
+        # "both" suits either kind of day, so it is never filtered out.
+        matching = df[df["indoor_or_outdoor"].isin([preferred, "both"])]
+        other = df[~df["indoor_or_outdoor"].isin([preferred, "both"])]
+        df = pd.concat([matching, other])
+
+    return {
+        "state": state,
+        "weather_used": verdict is not None,
+        "weather": verdict,
+        "note": note,
+        "recommended_for": preferred,
+        "results": df.head(limit).to_dict(orient="records"),
+    }
+
+
 def get_data(state: str, indoor: str, limit: int):
     if USE_BIGQUERY:
         query = f"""

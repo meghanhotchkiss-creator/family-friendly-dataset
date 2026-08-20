@@ -62,7 +62,7 @@ Every variable the codebase reads. **Status is about the credential, not the cod
 | S15 | `NPS_API_KEY` | NPS | ⚪ Not created | Free key, first content source |
 | S16 | `GOOGLE_PLACES_API_KEY` | Google | ⚪ Not created | Billed — restrict by referrer and set a quota cap |
 | S17 | `YELP_API_KEY` | Yelp | ⚪ Not created | — |
-| S18 | `OPENWEATHER_API_KEY` | OpenWeather | ⚪ Not created | — |
+| S18 | `OPENWEATHER_API_KEY` | OpenWeather | 🔴 **Issued, then exposed** | Free-tier key issued 19 Aug 2026 and pasted into a chat transcript. Set it in the deployment environment, and regenerate it from the OpenWeather account page — see the rotation note below |
 | S19 | `EVENTBRITE_TOKEN` | Eventbrite | ⚪ Not created | — |
 | S20 | `AFFILIATE_REF` | Affiliate partner | ⚪ Not created | No programme joined |
 | S21 | GCP service account | Google Cloud | ⚪ Not created | Needed for BigQuery and Cloud Run |
@@ -77,7 +77,15 @@ Nothing has been rotated. Fill a row in every time a credential is replaced.
 
 | Date | Credential | Reason | Rotated by | Old value invalidated? |
 | --- | --- | --- | --- | --- |
-| _(none yet)_ | | | | |
+| _pending_ | `OPENWEATHER_API_KEY` | Key was pasted into a chat transcript rather than entered into a secret store | — | **No — still to do** |
+
+**OpenWeather, 19 Aug 2026.** A free-tier key was issued and shared in
+conversation. It was never committed to this repository — verified against the
+working tree and the full history — but a credential that has travelled through
+a chat log should be treated as disclosed. Regenerate it on the OpenWeather
+account page and set the new value only in the deployment environment. The
+free tier carries no billing exposure, so this is housekeeping rather than an
+incident; do it before the tier is ever upgraded.
 
 **Rotate S1, S2, and S3 first.** They are live in a public repository. Rotation means: generate a new value, set it in the deployment environment, confirm the service works, then make sure the old value no longer authenticates anywhere. Deleting the line from the code is not rotation — the value stays in git history forever.
 
