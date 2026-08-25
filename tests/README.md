@@ -1,7 +1,12 @@
 # Tests
 
-Regression tests for the security fixes. Each test corresponds to a defect that
-was demonstrated as exploitable against the previous implementation.
+- `test_security.py` — regression tests for the security fixes. Each test
+  corresponds to a defect that was demonstrated as exploitable against the
+  previous implementation.
+- `test_recommender.py` — constraints, embedding backends, and offline
+  operation of the semantic search pipeline.
+- `test_dataset_source.py` — how `api/dataset.py` resolves the dataset
+  location, and that the server and the recommender both follow it.
 
 ## Running
 

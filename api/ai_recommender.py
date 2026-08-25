@@ -10,16 +10,19 @@ The embedding backend is pluggable (see embeddings.py). The default is a real
 semantic model; an offline lexical fallback exists so the pipeline can be run
 and tested without downloading model weights. Results report which backend
 produced them, because the two are not equivalent in quality.
+
+The dataset location is not fixed either: it comes from ``dataset.py``, which
+resolves FAMILY_DATASET_URL (a local path or an http(s) URL) at load time and
+falls back to a path inside the checkout. Because it is read at load time
+rather than at import, repointing the variable takes effect on the next
+search -- the index is rebuilt when the location changes.
 """
 
-from pathlib import Path
+from collections import namedtuple
 from threading import Lock
-import os
 
+from dataset import DatasetUnavailable, dataset_source, read_dataset
 from embeddings import EmbeddingBackendUnavailable, build_index, get_embedder
-
-DEFAULT_DATASET_PATH = Path(__file__).resolve().parents[1] / "data" / "processed" / "family_friendly_dataset.csv"
-DATASET_URL = os.getenv("FAMILY_DATASET_URL", str(DEFAULT_DATASET_PATH))
 
 # Columns this module needs. `name` is what gets embedded.
 REQUIRED_COLUMNS = ("name",)
@@ -29,12 +32,12 @@ REQUIRED_COLUMNS = ("name",)
 # "children's museum" is reachable from more queries than a bare name.
 DESCRIPTIVE_COLUMNS = ("category", "indoor_or_outdoor", "city", "state", "description")
 
+# Everything derived from one dataset load. `source` is kept alongside the
+# index so a cached build can be checked against the current configuration.
+_State = namedtuple("_State", "embedder df index source")
+
 _lock = Lock()
 _state = None
-
-
-class DatasetUnavailable(RuntimeError):
-    """Raised when the activity dataset cannot be loaded."""
 
 
 def _embeddable_text(row):
@@ -47,24 +50,9 @@ def _embeddable_text(row):
     return " ".join(parts)
 
 
-def _build():
-    """Load the dataset, embed it, and build the vector index."""
-    import pandas as pd
-
-    source = DATASET_URL
-    is_remote = source.startswith(("http://", "https://"))
-
-    if not is_remote and not Path(source).exists():
-        raise DatasetUnavailable(
-            f"Activity dataset not found at {source}. "
-            "Set FAMILY_DATASET_URL to a readable CSV or place the file at that "
-            "path. See data/README.md for the expected columns."
-        )
-
-    try:
-        df = pd.read_csv(source)
-    except Exception as exc:
-        raise DatasetUnavailable(f"Could not read the activity dataset: {exc}") from exc
+def _build(source):
+    """Load the dataset at ``source``, embed it, and build the vector index."""
+    df = read_dataset(source)
 
     missing = [column for column in REQUIRED_COLUMNS if column not in df.columns]
     if missing:
@@ -80,16 +68,28 @@ def _build():
     texts = [_embeddable_text(row) for _, row in df.iterrows()]
     embeddings = embedder.encode(texts, convert_to_numpy=True)
     index = build_index(embeddings)
-    return embedder, df, index
+    return _State(embedder, df, index, source)
 
 
 def _get_state():
+    """Return cached state, rebuilding when the configured source changes.
+
+    The source is re-read from the environment on every call rather than
+    captured once, so pointing FAMILY_DATASET_URL somewhere else takes effect
+    without restarting the process. Embedding is expensive, so the rebuild is
+    triggered only when the location actually differs from the cached one.
+    """
     global _state
-    if _state is None:
-        with _lock:
-            if _state is None:
-                _state = _build()
-    return _state
+    source = dataset_source()
+
+    cached = _state
+    if cached is not None and cached.source == source:
+        return cached
+
+    with _lock:
+        if _state is None or _state.source != source:
+            _state = _build(source)
+        return _state
 
 
 def reset():
@@ -101,12 +101,14 @@ def reset():
 
 def backend_info():
     """Describe the active backend without running a search."""
-    embedder, df, _ = _get_state()
+    embedder, df, _, source = _get_state()
     return {
         "backend": embedder.name,
         "semantic": embedder.semantic,
         "activities_indexed": len(df),
-        "dataset": DATASET_URL,
+        # The source the indexed rows actually came from, not whatever the
+        # environment happens to say right now.
+        "dataset": source,
     }
 
 
@@ -179,7 +181,7 @@ def semantic_search(query, top_k=5, constraints=None):
     tell a semantic match from a lexical one, because the fallback backend does
     not understand meaning.
     """
-    embedder, df, index = _get_state()
+    embedder, df, index, _ = _get_state()
 
     if constraints:
         eligible = apply_constraints(df, constraints).reset_index(drop=True)

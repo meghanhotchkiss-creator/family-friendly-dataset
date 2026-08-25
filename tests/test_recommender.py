@@ -13,10 +13,14 @@ SEED = str(Path(__file__).resolve().parents[1] / "data" / "seed" / "family_frien
 
 @pytest.fixture
 def brain(monkeypatch):
+    """The recommender pointed at seed data through the environment alone.
+
+    Nothing here reaches into the module to overwrite a cached path: if
+    setting FAMILY_DATASET_URL is not sufficient on its own, these tests fail.
+    """
     monkeypatch.setenv("FAMILY_DATASET_URL", SEED)
     monkeypatch.setenv("EMBEDDING_BACKEND", "hashing")
     import ai_recommender
-    ai_recommender.DATASET_URL = SEED
     ai_recommender.reset()
     yield ai_recommender
     ai_recommender.reset()
@@ -107,8 +111,6 @@ def test_unknown_price_is_not_treated_as_free(brain, tmp_path, monkeypatch):
         encoding="utf-8",
     )
     monkeypatch.setenv("FAMILY_DATASET_URL", str(csv))
-    brain.DATASET_URL = str(csv)
-    brain.reset()
     names = [r["name"] for r in brain.semantic_search("park", top_k=10,
                                                       constraints={"max_price": 5})]
     assert "Priced Park" in names
@@ -119,7 +121,33 @@ def test_unknown_price_is_not_treated_as_free(brain, tmp_path, monkeypatch):
 
 def test_missing_dataset_reports_the_path_it_tried(brain, monkeypatch):
     monkeypatch.setenv("FAMILY_DATASET_URL", "/nope/missing.csv")
-    brain.DATASET_URL = "/nope/missing.csv"
-    brain.reset()
     with pytest.raises(brain.DatasetUnavailable, match="/nope/missing.csv"):
         brain.semantic_search("anything")
+
+
+def test_dataset_source_is_read_when_searching_not_when_importing(brain, monkeypatch, tmp_path):
+    """Repointing the variable takes effect without reaching into the module."""
+    brain.semantic_search("park", top_k=1)
+    assert brain.backend_info()["dataset"] == SEED
+
+    other = tmp_path / "elsewhere.csv"
+    other.write_text(
+        "name,state,indoor_or_outdoor\nOnly Row Here,FL,indoor\n", encoding="utf-8"
+    )
+    monkeypatch.setenv("FAMILY_DATASET_URL", str(other))
+
+    assert brain.backend_info()["dataset"] == str(other)
+    assert [r["name"] for r in brain.semantic_search("anything", top_k=5)] == ["Only Row Here"]
+
+
+def test_unchanged_source_reuses_the_built_index(brain, monkeypatch):
+    """Re-reading the environment must not mean re-embedding on every search."""
+    brain.semantic_search("park", top_k=1)
+
+    calls = []
+    original = brain._build
+    monkeypatch.setattr(brain, "_build", lambda source: calls.append(source) or original(source))
+
+    brain.semantic_search("museum", top_k=1)
+    brain.semantic_search("playground", top_k=1)
+    assert calls == []
